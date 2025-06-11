@@ -1,0 +1,7 @@
+^LICENSE\.md$
+^data-raw$
+^source_data$
+^cran-comments\.md$
+^.lintr$
+^.*\.Rproj$
+^\.Rproj\.user$
