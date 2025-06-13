@@ -89,6 +89,7 @@
 #' @name adae
 #' @examples
 #' \dontrun{
-#' data("adae")
+#'  data("adae")
 #' }
 "adae"
+
