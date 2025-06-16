@@ -39,6 +39,11 @@ gen_adae <- function(seed = 123) {
       AEACN == "DOSE REDUCED" ~ "Dose Reduced",
       AEACN == "DRUG INTERRUPTED" ~ "Drug Interrupted"
     ),
+    AESEV = dplyr::case_when(
+      AESEV == "MILD" ~ "Mild",
+      AESEV == "MODERATE" ~ "Moderate",
+      AESEV == "SEVERE" ~ "Severe"
+    ),
     DOSEDY = as.numeric(37),
     DOSEU = as.factor("mg"),
     DOSEON = as.numeric(10),
