@@ -151,7 +151,14 @@ gen_adsl <- function(seed = 123) {
     paste0(gen$RANDDT, " 11:59"),
     format = "%Y-%m-%d %H:%M"
   )
-  gen$EOTSTT <- as.factor(gen$EOSSTT)
+  # Randomly assign "CONTINUING" to some subjects for EOTSTT
+  set.seed(seed + 1) # Use a different seed to ensure reproducibility but different from other random assignments
+  gen$EOTSTT <- as.factor(dplyr::case_when(
+    # Randomly select approximately 20% of subjects to have "CONTINUING" status
+    sample(c(TRUE, FALSE), nrow(gen), replace = TRUE, prob = c(0.2, 0.8)) ~ "ONGOING",
+    # For the rest, use the original EOSSTT value
+    .default = as.character(gen$EOSSTT)
+  ))
   gen$DCTREAS <- as.factor(dplyr::case_when(
     gen$EOTSTT == "DISCONTINUED" ~ "Other",
     .default = NA
