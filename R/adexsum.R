@@ -39,3 +39,4 @@
 #' data("adexsum")
 #' }
 "adexsum"
+

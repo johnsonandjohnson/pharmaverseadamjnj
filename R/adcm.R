@@ -76,3 +76,4 @@
 #' data("adcm")
 #' }
 "adcm"
+

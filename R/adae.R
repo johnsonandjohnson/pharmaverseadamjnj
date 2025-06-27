@@ -3,7 +3,7 @@
 #' @description adae modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 1191 rows and 80 variables:
+#' @format A data frame with 1191 rows and 79 variables:
 #' \describe{
 #'  \item{DOMAIN}{Domain Abbreviation}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -83,7 +83,6 @@
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{AGEGR1}{Pooled Age Group 1}
 #'  \item{TRTEDY}{Treatment Relative End Day}
-#'  \item{months}{Treatment Relative End Day}
 #'  \item{ACAT1}{Analysis Category 1}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adaefmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
@@ -91,7 +90,7 @@
 #' @name adae
 #' @examples
 #' \dontrun{
-#'  data("adae")
+#' data("adae")
 #' }
 "adae"
 

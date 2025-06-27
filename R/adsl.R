@@ -117,7 +117,7 @@
 #' @name adsl
 #' @examples
 #' \dontrun{
-#'  data("adsl")
+#' data("adsl")
 #' }
 "adsl"
 
