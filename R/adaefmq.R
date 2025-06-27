@@ -1,9 +1,10 @@
 #' @title adaefmq
 #'
 #' @description adae modified from pharmaverseadam to include FDA Medical Query information
-#' @source data from adae from pharmaverseadam and, FDA_FMW_Consolidated_List.rds and FDA_FMQ_References.rds
+#' @source data from adae from pharmaverseadam and,
+                FDA_FMW_Consolidated_List.rds and FDA_FMQ_References.rds
 #'
-#' @format A data frame with 1979 rows and 81 variables:
+#' @format A data frame with 1979 rows and 82 variables:
 #' \describe{
 #'  \item{DOMAIN}{Domain Abbreviation}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -68,7 +69,6 @@
 #'  \item{CQ02NAM}{Customized Query 02 Name}
 #'  \item{CQ03NAM}{Customized Query 03 Name}
 #'  \item{AESMIE}{Other Medically Important Serious Event}
-#'  \item{ACAT1}{Analysis Category 1}
 #'  \item{AESER_DECODE}{Serious Event}
 #'  \item{AEREL_DECODE}{Causality}
 #'  \item{AEOUT_DECODE}{Outcome of Adverse Event}
@@ -83,6 +83,8 @@
 #'  \item{RACE_DECODE}{Race}
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{AGEGR1}{Pooled Age Group 1}
+#'  \item{TRTEDY}{Treatment Relative End Day}
+#'  \item{ACAT1}{Analysis Category 1}
 #'  \item{FMQNAM}{FMQNAM}
 #'  \item{FMQSOC}{FMQSOC}
 #'  \item{FMQCLASS}{FMQCLASS}
@@ -95,3 +97,4 @@
 #' data("adaefmq")
 #' }
 "adaefmq"
+

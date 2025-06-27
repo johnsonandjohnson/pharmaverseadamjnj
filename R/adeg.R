@@ -84,3 +84,4 @@
 #' data("adeg")
 #' }
 "adeg"
+
