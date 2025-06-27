@@ -5,7 +5,7 @@
 \alias{adaefmq}
 \title{adaefmq}
 \format{
-A data frame with 1979 rows and 81 variables:
+A data frame with 1979 rows and 83 variables:
 \describe{
 \item{DOMAIN}{Domain Abbreviation}
 \item{USUBJID}{Unique Subject Identifier}
@@ -70,12 +70,11 @@ A data frame with 1979 rows and 81 variables:
 \item{CQ02NAM}{Customized Query 02 Name}
 \item{CQ03NAM}{Customized Query 03 Name}
 \item{AESMIE}{Other Medically Important Serious Event}
-\item{ACAT1}{Analysis Category 1}
 \item{AESER_DECODE}{Serious Event}
 \item{AEREL_DECODE}{Causality}
 \item{AEOUT_DECODE}{Outcome of Adverse Event}
-\item{AOCCFL}{1st Occurance within Subject Flag}
-\item{AOCCPFL}{1st Occurance within Preferred Term Flag}
+\item{AOCCFL}{1st Occurence within Subject Flag}
+\item{AOCCPFL}{1st Occurence within Preferred Term Flag}
 \item{AOCCSFL}{1st Occurrence of SOC Flag}
 \item{TRT01A}{Actual Treatment for Period 01}
 \item{SAFFL}{Safety Population Flag}
@@ -85,6 +84,9 @@ A data frame with 1979 rows and 81 variables:
 \item{RACE_DECODE}{Race}
 \item{STUDYID}{Study Identifier}
 \item{AGEGR1}{Pooled Age Group 1}
+\item{TRTEDY}{Treatment Relative End Day}
+\item{TRT01P}{Planned Treatment for Period 01}
+\item{ACAT1}{Analysis Category 1}
 \item{FMQNAM}{FMQNAM}
 \item{FMQSOC}{FMQSOC}
 \item{FMQCLASS}{FMQCLASS}

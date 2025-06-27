@@ -6,7 +6,7 @@ Authors@R:
       person(given = "David",
             family = "Munoz Tord",
             role = c("aut", "cre"),
-            email = "dtord@its.jnj.com"),
+            email = "david.munoztord@mailbox.org"),
       person(given = "Nicholas",
            family = "Masel",
            role = "aut",
@@ -30,7 +30,7 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
-Language: 'en-US'
+Language: en-US
 Depends:
     R (>= 3.5),
     pharmaverseadam 

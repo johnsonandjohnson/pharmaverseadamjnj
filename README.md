@@ -15,16 +15,17 @@ Generate ADaM datasets aligned with Johnson & Johnson's Clinical and Statistical
 ## Implemented Datasets
 
 Currently supports the following ADaM domains:
-- ADSL (Subject Level Analysis Dataset)
-- ADAE (Adverse Events Analysis Dataset)
-- ADCM (Concomitant Medications Analysis Dataset)
-- ADEG (ECG Analysis Dataset)
-- ADEX (Exposure Analysis Dataset)
-- ADESUM (Exposure Analysis Summary Dataset) 
-- ADLB (Laboratory Test Results Analysis Dataset)
-- ADVS (Vital Signs Analysis Dataset)
-- ADTTESAF (Time-to-Event Safety Analysis Dataset)
-- ADAEFMQ (Adverse Events Analysis Dataset FDA Medical Query)
+
+* ADSL (Subject Level Analysis Dataset)
+* ADAE (Adverse Events Analysis Dataset)
+* ADCM (Concomitant Medications Analysis Dataset)
+* ADEG (ECG Analysis Dataset)
+* ADEX (Exposure Analysis Dataset)
+* ADESUM (Exposure Analysis Summary Dataset) 
+* ADLB (Laboratory Test Results Analysis Dataset)
+* ADVS (Vital Signs Analysis Dataset)
+* ADTTESAF (Time-to-Event Safety Analysis Dataset)
+* ADAEFMQ (Adverse Events Analysis Dataset FDA Medical Query)
 
 ## Installation
 
