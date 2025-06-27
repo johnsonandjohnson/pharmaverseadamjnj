@@ -5,3 +5,6 @@
 ^.lintr$
 ^.*\.Rproj$
 ^\.Rproj\.user$
+^docs$
+^\.lintr$
+^\.idea

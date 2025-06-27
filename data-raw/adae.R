@@ -118,7 +118,8 @@ gen_adae <- function(seed = 123) {
     "RACE_DECODE",
     "STUDYID",
     "AGEGR1",
-    "TRTEDY"
+    "TRTEDY",
+    "TRT01P"
   )
 
   # Select only the key and the 'to_keep' variables from ADSL
@@ -159,8 +160,8 @@ gen_adae <- function(seed = 123) {
     DOSEON = "Treatment Dose at Record Start",
     AEREL_DECODE = "Causality",
     AEOUT_DECODE = "Outcome of Adverse Event",
-    AOCCFL = "1st Occurance within Subject Flag",
-    AOCCPFL = "1st Occurance within Preferred Term Flag",
+    AOCCFL = "1st Occurence within Subject Flag",
+    AOCCPFL = "1st Occurence within Preferred Term Flag",
     AOCCSFL = "1st Occurrence of SOC Flag",
     CQ01NAM = "Customized Query 01 Name",
     CQ02NAM = "Customized Query 02 Name",

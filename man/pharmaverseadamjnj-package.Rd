@@ -9,7 +9,7 @@
 A set of Analysis Data Model (ADaM) datasets constructed by modifying the ADaM datasets in the 'pharmaverseadam' package to meet J&J Innovative Medicine's standard data structure for Clinical and Statistical Programming.
 }
 \author{
-\strong{Maintainer}: David Munoz Tord \email{dtord@its.jnj.com}
+\strong{Maintainer}: David Munoz Tord \email{david.munoztord@mailbox.org}
 
 Authors:
 \itemize{

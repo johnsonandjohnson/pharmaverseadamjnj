@@ -22,7 +22,7 @@ gen_adeg <- function(seed = 123) {
 
   gen <- dplyr::filter(
     raw,
-    (PARAMCD != "EGINTP" & !is.na(PARAMCD)) &
+    ( !is.na(PARAMCD)) &
       AVISIT != "Week 26" &
       (!is.na(AVISIT) & is.na(ATPT))
   )
@@ -36,7 +36,8 @@ gen_adeg <- function(seed = 123) {
       PARAMCD == "QT" ~ "QTC",
       PARAMCD == "QTCBR" ~ "QTCBAG",
       PARAMCD == "QTCFR" ~ "QTCFAG",
-      PARAMCD == "RR" ~ "RRAG"
+      PARAMCD == "RR" ~ "RRAG",
+      PARAMCD == "EGINTP" ~ "INTP"
     )),
     PARAM = as.factor(dplyr::case_when(
       PARAMCD == "EGHRMN" ~ "ECG Mean Heart Rate (beats/min)",
@@ -45,7 +46,8 @@ gen_adeg <- function(seed = 123) {
       PARAMCD == "QTC" ~ "QT Interval, Corrected (msec)",
       PARAMCD == "QTCBAG" ~ "QTcB Interval, Aggregate (msec)",
       PARAMCD == "QTCFAG" ~ "QTcF Interval, Aggregate (msec)",
-      PARAMCD == "RRAG" ~ "RR Interval, Aggregate (msec)"
+      PARAMCD == "RRAG" ~ "RR Interval, Aggregate (msec)",
+      PARAMCD == "INTP" ~ "Interpretation"
     )),
     AVISIT = forcats::fct_reorder(
       as.factor(dplyr::case_when(
@@ -130,7 +132,13 @@ gen_adeg <- function(seed = 123) {
     CRIT2FL = dplyr::case_when(
       PARAMCD == "EGHRMN" & AVAL > 100 ~ "Y",
       PARAMCD == "PRAG" & AVAL > 200 ~ "Y"
-    )
+    ),
+    EGCLSIG = as.factor(dplyr::case_when(
+      AVAL > 500 & (PARAMCD == "QTC" | PARAMCD == "QTCBAG" | PARAMCD == "QTCFAG") ~ "Y",
+      AVAL > 100 & PARAMCD == "EGHRMN" ~ "Y",
+      AVAL > 200 & PARAMCD == "PRAG" ~ "Y",
+      .default = "N"
+    ))
   )
 
   gen <- dplyr::select(gen, -BASE, -BNRIND)
@@ -236,6 +244,7 @@ gen_adeg <- function(seed = 123) {
     CRIT1FL = "Criterion 1 Evaluation Result Flag",
     CRIT2 = "Analysis Criterion 2",
     CRIT2FL = "Criterion 2 Evaluation Result Flag",
+    EGCLSIG = "ECG Clinical Significance",
 
     # Categorization variable
     BASECAT1 = "Baseline Category 1"

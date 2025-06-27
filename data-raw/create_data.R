@@ -10,7 +10,7 @@ data_scripts <- list.files(
   full.names = TRUE
 )
 
-
+data_scripts = data_scripts[2]
 # Filter out helper and create_data scripts
 data_scripts <- data_scripts[
   !grepl("(helpers\\.R|create_data\\.R)", data_scripts)
@@ -55,8 +55,7 @@ run_script <- function(script_path) {
               roxygen2_data(
                 dataset_name,
                 custom_description = "adae modified from pharmaverseadam to include FDA Medical Query information",
-                custom_source = "data from adae from pharmaverseadam and,
-                FDA_FMW_Consolidated_List.rds and FDA_FMQ_References.rds"
+                custom_source = "data from adae from pharmaverseadam and, FDA_FMW_Consolidated_List.rds and FDA_FMQ_References.rds"
               )
             } else if (dataset_name == "adttesaf") {
               roxygen2_data(

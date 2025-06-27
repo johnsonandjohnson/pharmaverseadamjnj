@@ -232,7 +232,18 @@ roxygen2_data <- function(
 
   # Use custom source if provided, otherwise use default
   if (!is.null(custom_source)) {
-    src <- paste0("#' @source ", custom_source)
+    # Handle multi-line source strings by ensuring each line starts with "#' "
+    source_lines <- unlist(strsplit(custom_source, "\n"))
+    source_lines <- trimws(source_lines)  # Remove leading/trailing whitespace
+
+    # First line gets the @source tag
+    src <- paste0("#' @source ", source_lines[1])
+
+    # Additional lines get the roxygen2 comment prefix
+    if (length(source_lines) > 1) {
+      additional_lines <- paste0("#' ", source_lines[-1])
+      src <- c(src, additional_lines)
+    }
   } else {
     src <- "#' @source data from pharmaverseadam."
   }
