@@ -10,7 +10,7 @@ data_scripts <- list.files(
   full.names = TRUE
 )
 
-data_scripts = data_scripts[2]
+
 # Filter out helper and create_data scripts
 data_scripts <- data_scripts[
   !grepl("(helpers\\.R|create_data\\.R)", data_scripts)

@@ -141,6 +141,28 @@ gen_adeg <- function(seed = 123) {
     ))
   )
 
+  # For INTP parameter, randomly populate AVALC with "NORMAL" and "ABNORMAL"
+  # and set EGCLSIG accordingly
+  intp_rows <- which(gen$PARAMCD == "INTP")
+  # Randomly assign NORMAL or ABNORMAL to AVALC for INTP rows
+  gen$AVALC[intp_rows] <- sample(c("NORMAL", "ABNORMAL"), length(intp_rows), replace = TRUE, prob = c(0.5, 0.5))
+
+  # Set EGCLSIG based on AVALC
+  normal_rows <- intp_rows[gen$AVALC[intp_rows] == "NORMAL"]
+  abnormal_rows <- intp_rows[gen$AVALC[intp_rows] == "ABNORMAL"]
+
+  # Set EGCLSIG to NA for NORMAL rows
+  gen$EGCLSIG[normal_rows] <- NA
+
+  # Randomly assign Y or N to EGCLSIG for ABNORMAL rows
+  gen$EGCLSIG[abnormal_rows] <- sample(c("Y", "N"), length(abnormal_rows), replace = TRUE, prob = c(0.5, 0.5))
+
+  # Convert EGCLSIG back to factor
+  gen <- dplyr::mutate(
+    gen,
+    EGCLSIG = as.factor(EGCLSIG)
+  )
+
   gen <- dplyr::select(gen, -BASE, -BNRIND)
 
   gen <- admiral::derive_var_base(
