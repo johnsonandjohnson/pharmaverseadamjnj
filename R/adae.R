@@ -94,4 +94,3 @@
 #' data("adae")
 #' }
 "adae"
-

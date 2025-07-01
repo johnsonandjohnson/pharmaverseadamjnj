@@ -133,17 +133,17 @@ gen_adae <- function(seed = 123) {
 
   gen <- dplyr::left_join(gen, adsl_subset, by = "USUBJID")
   gen <- mutate(gen,
-      months = (TRTEDY + 30) / 30.4375,
-      ACAT1 = case_when(
-        months <= 3 ~ "Within 3 months",
-        months > 3 & months <= 6 ~ "4 to 6 months",
-        months > 6 & months <= 9 ~ "7 to 9 months",
-        months > 9 & months <= 12 ~ "10 to 12 months",
-        months > 12 ~ "Beyond 13 months",
-        .default = NA_character_
-      ),
-      ACAT1 = factor(ACAT1, levels = c("Within 3 months", "4 to 6 months", "7 to 9 months", "10 to 12 months", "Beyond 13 months"))
-    )
+    months = (TRTEDY + 30) / 30.4375,
+    ACAT1 = case_when(
+      months <= 3 ~ "Within 3 months",
+      months > 3 & months <= 6 ~ "4 to 6 months",
+      months > 6 & months <= 9 ~ "7 to 9 months",
+      months > 9 & months <= 12 ~ "10 to 12 months",
+      months > 12 ~ "Beyond 13 months",
+      .default = NA_character_
+    ),
+    ACAT1 = factor(ACAT1, levels = c("Within 3 months", "4 to 6 months", "7 to 9 months", "10 to 12 months", "Beyond 13 months"))
+  )
   gen <- select(gen, -months)
 
   # Add labels

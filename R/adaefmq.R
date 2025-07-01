@@ -97,4 +97,3 @@
 #' data("adaefmq")
 #' }
 "adaefmq"
-

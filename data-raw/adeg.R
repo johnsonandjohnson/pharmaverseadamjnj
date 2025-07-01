@@ -22,7 +22,7 @@ gen_adeg <- function(seed = 123) {
 
   gen <- dplyr::filter(
     raw,
-    ( !is.na(PARAMCD)) &
+    (!is.na(PARAMCD)) &
       AVISIT != "Week 26" &
       (!is.na(AVISIT) & is.na(ATPT))
   )

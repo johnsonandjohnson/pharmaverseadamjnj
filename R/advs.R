@@ -92,4 +92,3 @@
 #' data("advs")
 #' }
 "advs"
-
