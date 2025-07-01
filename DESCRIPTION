@@ -34,4 +34,3 @@ Language: en-US
 Depends:
     R (>= 3.5),
     pharmaverseadam 
-

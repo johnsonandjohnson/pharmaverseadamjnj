@@ -20,10 +20,10 @@ gen_advs <- function(seed = 123) {
   gen <- raw |>
     dplyr::filter(
       (PARAMCD == "SYSBP" |
-         PARAMCD == "DIABP" |
-         PARAMCD == "PULSE" |
-         PARAMCD == "TEMP" |
-         PARAMCD == "WEIGHT") &
+        PARAMCD == "DIABP" |
+        PARAMCD == "PULSE" |
+        PARAMCD == "TEMP" |
+        PARAMCD == "WEIGHT") &
         DTYPE == "AVERAGE" &
         !is.na(AVISIT)
     ) |>

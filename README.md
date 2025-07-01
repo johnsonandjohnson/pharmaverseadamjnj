@@ -1,6 +1,22 @@
 # pharmaverseadamjnj
 
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- start badges -->
+[![Check 🛠](https://github.com/johnsonandjohnson/pharmaverseadammjnj/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/johnsonandjohnson/pharmaverseadammjnj/actions/workflows/R-CMD-check.yaml)
+[![Docs 📚](https://github.com/johnsonandjohnson/pharmaverseadammjnj/actions/workflows/pkgdown.yaml/badge.svg)](https://johnsonandjohnson.github.io/pharmaverseadammjnj/)
+
+![GitHub forks](https://img.shields.io/github/forks/johnsonandjohnson/pharmaverseadammjnj?style=social)
+![GitHub repo stars](https://img.shields.io/github/stars/johnsonandjohnson/pharmaverseadammjnj?style=social)
+
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/johnsonandjohnson/pharmaverseadammjnj)
+![GitHub contributors](https://img.shields.io/github/contributors/johnsonandjohnson/pharmaverseadammjnj)
+![GitHub last commit](https://img.shields.io/github/last-commit/johnsonandjohnson/pharmaverseadammjnj)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/johnsonandjohnson/pharmaverseadammjnj)
+![GitHub repo size](https://img.shields.io/github/repo-size/johnsonandjohnson/pharmaverseadammjnj)
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
+[![Current Version](https://img.shields.io/github/r-package/v/johnsonandjohnson/pharmaverseadammjnj/main?color=purple&label=package%20version)](https://github.com/johnsonandjohnson/pharmaverseadammjnj/tree/main)
+[![Open Issues](https://img.shields.io/github/issues-raw/johnsonandjohnson/pharmaverseadammjnj?color=red&label=open%20issues)](https://github.com/johnsonandjohnson/pharmaverseadammjnj/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
+<!-- [![Coverage](https://github.com/johnsonandjohnson/pharmaverseadammjnj/actions/workflows/coverage.yaml/badge.svg)](https://github.com/johnsonandjohnson/pharmaverseadammjnj/actions/workflows/coverage.yaml) -->
+<!-- end badges -->
 
 Generate ADaM datasets aligned with Johnson & Johnson's Clinical and Statistical Programming standards.
 

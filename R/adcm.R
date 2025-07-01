@@ -77,4 +77,3 @@
 #' data("adcm")
 #' }
 "adcm"
-
