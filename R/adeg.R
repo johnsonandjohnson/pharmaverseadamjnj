@@ -81,7 +81,5 @@
 #' @keywords datasets adeg
 #' @name adeg
 #' @examples
-#' \dontrun{
 #' data("adeg")
-#' }
 "adeg"

@@ -5,3 +5,4 @@
 * This is a new release.
 * Fixed broken links
 * Change from directed to undirected quotations
+* Remove unnecessary \dontrun{}
