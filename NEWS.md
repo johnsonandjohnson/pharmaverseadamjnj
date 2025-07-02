@@ -5,7 +5,7 @@
 
 * First release of the pharmaverseadamjnj package
 * Provides ADaM datasets that comply with J&J Innovative Medicine standards
-* Built on top of the `pharmaverseadam` package
+* Built on top of the 'pharmaverseadam' package
 * Implements data conversion from pharmaverse format to J&J standards format
 * Provides reproducible and consistent test data
 
