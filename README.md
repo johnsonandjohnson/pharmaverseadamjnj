@@ -24,7 +24,7 @@ Generate ADaM datasets aligned with Johnson & Johnson's Clinical and Statistical
 ## Features
 
 - Generates ADaM datasets that comply with J&J standards
-- Built on top of the `pharmaverseadam` package
+- Built on top of the 'pharmaverseadam' package
 - Implements data conversion from pharmaverse format to J&J standards format
 - Provides reproducible and consistent test data
 
