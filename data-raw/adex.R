@@ -151,19 +151,6 @@ gen_adex <- function(seed = 123) {
       SEX == "M" ~ "Male"
     )),
     COUNTRY = as.factor("United States of America"),
-    RACE = as.factor(dplyr::case_when(
-      RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
-        "American Indian or Alaska Native",
-      RACE == "ASIAN" ~ "Asian",
-      RACE == "BLACK OR AFRICAN AMERICAN" ~ "Black or African American",
-      RACE == "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" ~
-        "Native Hawaiian or other Pacific Islander",
-      RACE == "WHITE" ~ "White",
-      RACE == "MULTIPLE" ~ "Multiple",
-      RACE == "NOT REPORTED" ~ "Not reported",
-      RACE == "UNKNOWN" ~ "Unknown",
-      RACE == "OTHER" ~ "Other",
-    )),
     RACE_DECODE = as.factor(dplyr::case_when(
       RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
         "American Indian or Alaska Native",
@@ -301,7 +288,18 @@ gen_adex <- function(seed = 123) {
     ATVINF = ADOSE,
     ATVINFU = ADOSU,
     AINFRAT = ADOSE,
-    AINFRAU = ADOSU
+    AINFRAU = ADOSU,
+    # Add random hour times to ASTDTM
+    ASTDTM = {
+      # Extract the date part from ASTDTM
+      date_parts <- sub(" UTC", "", ASTDTM)
+      # Generate random hours (0-23) for each row
+      random_hours <- sample(0:23, dplyr::n(), replace = TRUE)
+      # Format the random hours as time strings (HH:00:00)
+      random_times <- sprintf("%02d:00:00", random_hours)
+      # Combine date with random time and UTC timezone
+      paste(date_parts, random_times, "UTC")
+    }
   )
 
   # Additional labels for all relevant variables
