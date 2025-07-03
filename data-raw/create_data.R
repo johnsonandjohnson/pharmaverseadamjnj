@@ -9,7 +9,6 @@ data_scripts <- list.files(
   pattern = "\\.R$",
   full.names = TRUE
 )
-data_scripts <- data_scripts[5]
 
 # Filter out helper and create_data scripts
 data_scripts <- data_scripts[
