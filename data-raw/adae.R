@@ -142,7 +142,11 @@ gen_adae <- function(seed = 123) {
       months > 12 ~ "Beyond 13 months",
       .default = NA_character_
     ),
-    ACAT1 = factor(ACAT1, levels = c("Within 3 months", "4 to 6 months", "7 to 9 months", "10 to 12 months", "Beyond 13 months"))
+    ACAT1 = factor(ACAT1, levels = c(
+      "Within 3 months", "4 to 6 months",
+      "7 to 9 months", "10 to 12 months",
+      "Beyond 13 months"
+    ))
   )
   gen <- select(gen, -months)
 

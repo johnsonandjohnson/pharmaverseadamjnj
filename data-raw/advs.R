@@ -18,6 +18,7 @@ gen_advs <- function(seed = 123) {
   raw <- pharmaverseadam::advs
 
   gen <- raw |>
+    # nolint start
     dplyr::filter(
       (PARAMCD == "SYSBP" |
         PARAMCD == "DIABP" |
@@ -27,6 +28,7 @@ gen_advs <- function(seed = 123) {
         DTYPE == "AVERAGE" &
         !is.na(AVISIT)
     ) |>
+    # nolint end
     dplyr::mutate(
       AVALC = NA
     )
