@@ -162,7 +162,5 @@
 #' @keywords datasets adlb
 #' @name adlb
 #' @examples
-#' \dontrun{
 #' data("adlb")
-#' }
 "adlb"

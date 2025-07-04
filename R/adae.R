@@ -71,8 +71,8 @@
 #'  \item{AESER_DECODE}{Serious Event}
 #'  \item{AEREL_DECODE}{Causality}
 #'  \item{AEOUT_DECODE}{Outcome of Adverse Event}
-#'  \item{AOCCFL}{1st Occurence within Subject Flag}
-#'  \item{AOCCPFL}{1st Occurence within Preferred Term Flag}
+#'  \item{AOCCFL}{1st Occurrence within Subject Flag}
+#'  \item{AOCCPFL}{1st Occurrence within Preferred Term Flag}
 #'  \item{AOCCSFL}{1st Occurrence of SOC Flag}
 #'  \item{TRT01A}{Actual Treatment for Period 01}
 #'  \item{SAFFL}{Safety Population Flag}
@@ -90,7 +90,5 @@
 #' @keywords datasets adae
 #' @name adae
 #' @examples
-#' \dontrun{
 #' data("adae")
-#' }
 "adae"

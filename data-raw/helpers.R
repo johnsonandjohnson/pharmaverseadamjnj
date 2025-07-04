@@ -32,6 +32,7 @@ restore_labels <- function(
   labels_df <- formatters::var_labels(df, fill = TRUE)
   labels_orig_df <- formatters::var_labels(orig_df, fill = TRUE)
 
+
   # Ensure labels are character strings
   labels_df <- lapply(labels_df, as.character)
   labels_orig_df <- lapply(labels_orig_df, as.character)
@@ -294,9 +295,7 @@ roxygen2_data <- function(
   examp <-
     c(
       "#' @examples",
-      "#' \\dontrun{",
       paste0("#' data(\"", df_name, "\")"),
-      "#' }",
       paste0("\"", df_name, "\"")
     )
 
@@ -312,8 +311,7 @@ roxygen2_data <- function(
       seealso,
       key,
       atname,
-      examp,
-      ""
+      examp
     )
 
   writeLines(description, file.path("R", paste0(df_name, ".R")))

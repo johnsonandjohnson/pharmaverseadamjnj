@@ -73,8 +73,8 @@ A data frame with 1191 rows and 80 variables:
 \item{AESER_DECODE}{Serious Event}
 \item{AEREL_DECODE}{Causality}
 \item{AEOUT_DECODE}{Outcome of Adverse Event}
-\item{AOCCFL}{1st Occurence within Subject Flag}
-\item{AOCCPFL}{1st Occurence within Preferred Term Flag}
+\item{AOCCFL}{1st Occurrence within Subject Flag}
+\item{AOCCPFL}{1st Occurrence within Preferred Term Flag}
 \item{AOCCSFL}{1st Occurrence of SOC Flag}
 \item{TRT01A}{Actual Treatment for Period 01}
 \item{SAFFL}{Safety Population Flag}
@@ -99,9 +99,7 @@ adae
 adae modified from pharmaverseadam
 }
 \examples{
-\dontrun{
 data("adae")
-}
 }
 \seealso{
 \code{\link{adae}} \code{\link{adaefmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint

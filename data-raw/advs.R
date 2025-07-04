@@ -18,6 +18,7 @@ gen_advs <- function(seed = 123) {
   raw <- pharmaverseadam::advs
 
   gen <- raw |>
+    # nolint start
     dplyr::filter(
       (PARAMCD == "SYSBP" |
         PARAMCD == "DIABP" |
@@ -27,6 +28,7 @@ gen_advs <- function(seed = 123) {
         DTYPE == "AVERAGE" &
         !is.na(AVISIT)
     ) |>
+    # nolint end
     dplyr::mutate(
       AVALC = NA
     )
@@ -398,7 +400,7 @@ gen_advs <- function(seed = 123) {
         AVISIT == "End Of Treatment" ~ 22
       ),
       AVISIT = dplyr::case_when(
-        AVISIT == "Cycle 08" ~ "Cycle 23",
+        AVISIT == "Cycle 08" ~ "Cycle 22",
         AVISIT == "Cycle 09" ~ "Cycle 25",
         AVISIT == "End Of Treatment" ~ "Cycle 29"
       ),

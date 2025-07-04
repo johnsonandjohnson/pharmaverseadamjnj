@@ -1,7 +1,7 @@
 # pharmaverseadamjnj
 
 <!-- start badges -->
-[![Check 🛠](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/R-CMD-check.yaml)
+[![Check 🛠](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/check.yaml/badge.svg)](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/check.yaml)
 [![Docs 📚](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/pkgdown.yaml/badge.svg)](https://johnsonandjohnson.github.io/pharmaverseadamjnj/)
 
 ![GitHub forks](https://img.shields.io/github/forks/johnsonandjohnson/pharmaverseadamjnj?style=social)
@@ -24,7 +24,7 @@ Generate ADaM datasets aligned with Johnson & Johnson's Clinical and Statistical
 ## Features
 
 - Generates ADaM datasets that comply with J&J standards
-- Built on top of the `pharmaverseadam` package
+- Built on top of the 'pharmaverseadam' package
 - Implements data conversion from pharmaverse format to J&J standards format
 - Provides reproducible and consistent test data
 

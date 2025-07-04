@@ -151,19 +151,6 @@ gen_adex <- function(seed = 123) {
       SEX == "M" ~ "Male"
     )),
     COUNTRY = as.factor("United States of America"),
-    RACE = as.factor(dplyr::case_when(
-      RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
-        "American Indian or Alaska Native",
-      RACE == "ASIAN" ~ "Asian",
-      RACE == "BLACK OR AFRICAN AMERICAN" ~ "Black or African American",
-      RACE == "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" ~
-        "Native Hawaiian or other Pacific Islander",
-      RACE == "WHITE" ~ "White",
-      RACE == "MULTIPLE" ~ "Multiple",
-      RACE == "NOT REPORTED" ~ "Not reported",
-      RACE == "UNKNOWN" ~ "Unknown",
-      RACE == "OTHER" ~ "Other",
-    )),
     RACE_DECODE = as.factor(dplyr::case_when(
       RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
         "American Indian or Alaska Native",
@@ -191,14 +178,14 @@ gen_adex <- function(seed = 123) {
       TRUE ~ "Other" # default case if needed
     )),
     AREASOC = as.factor(case_when(
-      is.na(EXADJ) ~ "",
+      is.na(EXADJ) ~ NA_character_,
       EXADJ == "ADVERSE EVENT" ~ "Adverse Event",
       EXADJ == "MEDICATION ERROR" ~ "Other",
-      TRUE ~ "" # default case
+      TRUE ~ NA_character_ # default case
     )),
     AREASOO = as.factor(case_when(
       AREASOC == "Other" ~ "Other reason",
-      TRUE ~ "" # default case
+      TRUE ~ NA_character_ # default case
     )),
     AADJ = AREASOC,
     AADJPOTH = dplyr::case_when(
@@ -209,7 +196,7 @@ gen_adex <- function(seed = 123) {
     AACTDU = as.factor(sample(
       c(
         "INFUSION INTERRUPTED",
-        "",
+        NA_character_,
         "INFUSION RATE INCREASED",
         "INFUSION CONTINUED AT SAME RATE",
         "INFUSION ABORTED",
@@ -221,23 +208,23 @@ gen_adex <- function(seed = 123) {
     AACTDU1 = as.factor(case_when(
       AACTDU == "FULL DOSE ADMINISTERED WITHOUT INTERRUPTION OR RATE CHANGE" ~
         "FULL DOSE ADMINISTERED WITHOUT INTERRUPTION OR RATE CHANGE",
-      TRUE ~ "" # default case
+      TRUE ~ NA_character_ # default case
     )),
     AACTDU2 = case_when(
       AACTDU == "INFUSION ABORTED" ~ "INFUSION ABORTED",
-      TRUE ~ "" # default case
+      TRUE ~ NA_character_ # default case
     ),
     AACTDU3 = case_when(
       AACTDU == "INFUSION INTERRUPTED" ~ "INFUSION INTERRUPTED",
-      TRUE ~ "" # default case
+      TRUE ~ NA_character_ # default case
     ),
     AACTDU4 = case_when(
       AACTDU == "INFUSION RATE DECREASED" ~ "INFUSION RATE DECREASED",
-      TRUE ~ "" # default case
+      TRUE ~ NA_character_ # default case
     ),
     AACTDU5 = case_when(
       AACTDU == "INFUSION RATE INCREASED" ~ "INFUSION RATE INCREASED",
-      TRUE ~ "" # default case
+      TRUE ~ NA_character_ # default case
     ),
     AADJOTH = ifelse(
       AREASOC == "Other",
@@ -280,7 +267,7 @@ gen_adex <- function(seed = 123) {
     AACTPR = as.factor(sample(
       c(
         "INFUSION RATE DECREASED COMPARED TO PRIOR INFUSION",
-        "",
+        NA_character_,
         "INFUSION SKIPPED (AND NOT MADE UP)",
         "DOSE RE-ESCALATED",
         "INFUSION DELAYED WITHIN THE CYCLE",
@@ -301,7 +288,18 @@ gen_adex <- function(seed = 123) {
     ATVINF = ADOSE,
     ATVINFU = ADOSU,
     AINFRAT = ADOSE,
-    AINFRAU = ADOSU
+    AINFRAU = ADOSU,
+    # Add random hour times to ASTDTM
+    ASTDTM = {
+      # Extract the date part from ASTDTM
+      date_parts <- sub(" UTC", "", ASTDTM)
+      # Generate random hours (0-23) for each row
+      random_hours <- sample(0:23, dplyr::n(), replace = TRUE)
+      # Format the random hours as time strings (HH:00:00)
+      random_times <- sprintf("%02d:00:00", random_hours)
+      # Combine date with random time and UTC timezone
+      paste(date_parts, random_times, "UTC")
+    }
   )
 
   # Additional labels for all relevant variables

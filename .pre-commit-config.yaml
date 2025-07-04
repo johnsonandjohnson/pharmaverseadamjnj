@@ -9,9 +9,6 @@ repos:
     -   id: roxygenize
         additional_dependencies:
         - pharmaverseadam
-    # codemeta must be above use-tidy-description when both are used
-    # -   id: codemeta-description-updated
-    -   id: use-tidy-description
 #    -   id: spell-check
 #        exclude: >
 #          (?x)^(
@@ -56,8 +53,8 @@ repos:
         args: ['--maxkb=200']
     -   id: file-contents-sorter
         files: '^\.Rbuildignore$'
-    -   id: end-of-file-fixer
-        exclude: '\.Rd'
+#    -   id: end-of-file-fixer
+#        exclude: '\.Rd'
 -   repo: https://github.com/pre-commit-ci/pre-commit-ci-config
     rev: v1.6.1
     hooks:

@@ -142,7 +142,11 @@ gen_adae <- function(seed = 123) {
       months > 12 ~ "Beyond 13 months",
       .default = NA_character_
     ),
-    ACAT1 = factor(ACAT1, levels = c("Within 3 months", "4 to 6 months", "7 to 9 months", "10 to 12 months", "Beyond 13 months"))
+    ACAT1 = factor(ACAT1, levels = c(
+      "Within 3 months", "4 to 6 months",
+      "7 to 9 months", "10 to 12 months",
+      "Beyond 13 months"
+    ))
   )
   gen <- select(gen, -months)
 
@@ -160,8 +164,8 @@ gen_adae <- function(seed = 123) {
     DOSEON = "Treatment Dose at Record Start",
     AEREL_DECODE = "Causality",
     AEOUT_DECODE = "Outcome of Adverse Event",
-    AOCCFL = "1st Occurence within Subject Flag",
-    AOCCPFL = "1st Occurence within Preferred Term Flag",
+    AOCCFL = "1st Occurrence within Subject Flag",
+    AOCCPFL = "1st Occurrence within Preferred Term Flag",
     AOCCSFL = "1st Occurrence of SOC Flag",
     CQ01NAM = "Customized Query 01 Name",
     CQ02NAM = "Customized Query 02 Name",

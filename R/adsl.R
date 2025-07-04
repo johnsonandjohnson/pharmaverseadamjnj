@@ -116,8 +116,5 @@
 #' @keywords datasets adsl
 #' @name adsl
 #' @examples
-#' \dontrun{
 #' data("adsl")
-#' }
 "adsl"
-

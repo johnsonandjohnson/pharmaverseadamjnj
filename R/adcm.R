@@ -73,7 +73,5 @@
 #' @keywords datasets adcm
 #' @name adcm
 #' @examples
-#' \dontrun{
 #' data("adcm")
-#' }
 "adcm"
