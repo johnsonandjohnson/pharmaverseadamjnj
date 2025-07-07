@@ -91,7 +91,8 @@ A data frame with 1979 rows and 81 variables:
 }
 }
 \source{
-data from adae from pharmaverseadam and, FDA_FMW_Consolidated_List.rds and FDA_FMQ_References.rds
+data from adae from pharmaverseadam and,
+FDA_FMW_Consolidated_List.rds and FDA_FMQ_References.rds
 }
 \usage{
 adaefmq
@@ -100,7 +101,9 @@ adaefmq
 adae modified from pharmaverseadam to include FDA Medical Query information
 }
 \examples{
- data("adaefmq")
+\dontrun{
+ head(data("adaefmq"))
+}
 }
 \seealso{
 \code{\link{adae}} \code{\link{adaefmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint

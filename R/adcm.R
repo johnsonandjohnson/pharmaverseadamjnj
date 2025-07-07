@@ -72,5 +72,7 @@
 #' @keywords datasets adcm
 #' @name adcm
 #' @examples
-#'  data("adcm")
+#' \dontrun{
+#'  head(data("adcm"))
+#' }
 "adcm"

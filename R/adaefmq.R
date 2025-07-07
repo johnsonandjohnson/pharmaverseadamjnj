@@ -1,7 +1,8 @@
 #' @title adaefmq
 #'
 #' @description adae modified from pharmaverseadam to include FDA Medical Query information
-#' @source data from adae from pharmaverseadam and, FDA_FMW_Consolidated_List.rds and FDA_FMQ_References.rds
+#' @source data from adae from pharmaverseadam and,
+#' FDA_FMW_Consolidated_List.rds and FDA_FMQ_References.rds
 #'
 #' @format A data frame with 1979 rows and 81 variables:
 #' \describe{
@@ -91,5 +92,7 @@
 #' @keywords datasets adaefmq
 #' @name adaefmq
 #' @examples
-#'  data("adaefmq")
+#' \dontrun{
+#'  head(data("adaefmq"))
+#' }
 "adaefmq"

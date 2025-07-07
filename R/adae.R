@@ -88,5 +88,7 @@
 #' @keywords datasets adae
 #' @name adae
 #' @examples
-#'  data("adae")
+#' \dontrun{
+#'  head(data("adae"))
+#' }
 "adae"

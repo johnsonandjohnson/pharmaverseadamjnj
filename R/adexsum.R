@@ -35,5 +35,7 @@
 #' @keywords datasets adexsum
 #' @name adexsum
 #' @examples
-#'  data("adexsum")
+#' \dontrun{
+#'  head(data("adexsum"))
+#' }
 "adexsum"

@@ -162,5 +162,7 @@
 #' @keywords datasets adlb
 #' @name adlb
 #' @examples
-#'  data("adlb")
+#' \dontrun{
+#'  head(data("adlb"))
+#' }
 "adlb"
