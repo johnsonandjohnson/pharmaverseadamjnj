@@ -91,7 +91,5 @@
 #' @keywords datasets adaefmq
 #' @name adaefmq
 #' @examples
-#' \dontrun{
-#' data("adaefmq")
-#' }
+#'  data("adaefmq")
 "adaefmq"

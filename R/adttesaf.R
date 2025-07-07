@@ -19,7 +19,5 @@
 #' @keywords datasets adttesaf
 #' @name adttesaf
 #' @examples
-#' \dontrun{
-#' data("adttesaf")
-#' }
+#'  data("adttesaf")
 "adttesaf"

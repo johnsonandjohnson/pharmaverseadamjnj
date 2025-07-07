@@ -285,9 +285,7 @@ roxygen2_data <- function(
   examp <-
     c(
       "#' @examples",
-      "#' \\dontrun{",
       paste0("#'  data(\"", df_name, "\")"),
-      "#' }",
       paste0("\"", df_name, "\"")
     )
 
@@ -303,8 +301,7 @@ roxygen2_data <- function(
       seealso,
       key,
       atname,
-      examp,
-      ""
+      examp
     )
 
   writeLines(description, file.path("R", paste0(df_name, ".R")))

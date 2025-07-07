@@ -47,9 +47,9 @@
 #'  \item{DTHDTF}{Date of Death Imputation Flag}
 #'  \item{DTHADY}{Relative Day of Death}
 #'  \item{LDDTHELD}{Elapsed Days from Last Dose to Death}
-#'  \item{DTHCAUS}{DTHCAUS}
-#'  \item{DTHDOM}{DTHDOM}
-#'  \item{DTHCGR1}{DTHCGR1}
+#'  \item{DTHCAUS}{Cause of Death}
+#'  \item{DTHDOM}{Domain for Date of Death Collection}
+#'  \item{DTHCGR1}{Cause of Death Reason 1}
 #'  \item{LSTALVDT}{Date Last Known Alive}
 #'  \item{SAFFL}{Safety Population Flag}
 #'  \item{RACEGR1}{Pooled Race Group 1}
@@ -116,7 +116,5 @@
 #' @keywords datasets adsl
 #' @name adsl
 #' @examples
-#' \dontrun{
-#' data("adsl")
-#' }
+#'  data("adsl")
 "adsl"
