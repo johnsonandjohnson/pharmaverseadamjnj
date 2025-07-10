@@ -28,9 +28,7 @@ adttesaf
 adtte_onc modified from pharmaverseadam
 }
 \examples{
-\dontrun{
  head(data("adttesaf"))
-}
 }
 \seealso{
 \code{\link{adae}} \code{\link{adaefmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint

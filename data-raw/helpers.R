@@ -285,9 +285,7 @@ roxygen2_data <- function(
   examp <-
     c(
       "#' @examples",
-      "#' \\dontrun{",
       paste0("#'  head(data(\"", df_name, "\"))"),
-      "#' }",
       paste0("\"", df_name, "\"")
     )
 

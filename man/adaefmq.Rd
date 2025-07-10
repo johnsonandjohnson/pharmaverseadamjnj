@@ -101,9 +101,7 @@ adaefmq
 adae modified from pharmaverseadam to include FDA Medical Query information
 }
 \examples{
-\dontrun{
  head(data("adaefmq"))
-}
 }
 \seealso{
 \code{\link{adae}} \code{\link{adaefmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint

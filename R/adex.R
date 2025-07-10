@@ -82,12 +82,12 @@
 #'  \item{FRVDT}{Final Retrievel Visit Date}
 #'  \item{RANDDT}{Date of Randomization}
 #'  \item{DTHDT}{Date of Death}
-#'  \item{DTHDTF}{Date of Death Imputation Flag}
+#'  \item{DTHDTF}{DTHDTF}
 #'  \item{DTHADY}{Relative Day of Death}
 #'  \item{LDDTHELD}{Elapsed Days from Last Dose to Death}
-#'  \item{DTHCAUS}{Cause of Death}
-#'  \item{DTHDOM}{Domain for Date of Death Collection}
-#'  \item{DTHCGR1}{Cause of Death Reason 1}
+#'  \item{DTHCAUS}{DTHCAUS}
+#'  \item{DTHDOM}{DTHDOM}
+#'  \item{DTHCGR1}{DTHCGR1}
 #'  \item{LSTALVDT}{Date Last Known Alive}
 #'  \item{SAFFL}{Safety Population Flag}
 #'  \item{RACEGR1}{Pooled Race Group 1}
@@ -138,7 +138,5 @@
 #' @keywords datasets adex
 #' @name adex
 #' @examples
-#' \dontrun{
 #'  head(data("adex"))
-#' }
 "adex"
