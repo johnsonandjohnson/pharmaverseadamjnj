@@ -5,7 +5,7 @@
 \alias{adae}
 \title{adae}
 \format{
-A data frame with 1191 rows and 78 variables:
+A data frame with 1191 rows and 79 variables:
 \describe{
 \item{DOMAIN}{Domain Abbreviation}
 \item{USUBJID}{Unique Subject Identifier}
@@ -70,10 +70,11 @@ A data frame with 1191 rows and 78 variables:
 \item{CQ02NAM}{Customized Query 02 Name}
 \item{CQ03NAM}{Customized Query 03 Name}
 \item{AESMIE}{Other Medically Important Serious Event}
-\item{ACAT1}{Analysis Category 1}
 \item{AESER_DECODE}{Serious Event}
 \item{AEREL_DECODE}{Causality}
 \item{AEOUT_DECODE}{Outcome of Adverse Event}
+\item{ACAT1}{Analysis Category 1}
+\item{TRTEDY}{Treatment Relative End Day}
 \item{AOCCFL}{1st Occurance within Subject Flag}
 \item{AOCCPFL}{1st Occurance within Preferred Term Flag}
 \item{AOCCSFL}{1st Occurrence of SOC Flag}

@@ -73,11 +73,18 @@ gen_adae <- function(seed = 123) {
       AESER == "N" ~ "No",
       .default = NA
     ),
+    AEREL = as.factor(dplyr::case_when(
+      AEREL == "PROBABLE" ~ "PROBABLE",
+      AEREL == "REMOTE" ~ "RELATED",
+      AEREL == "POSSIBLE" ~ "POSSIBLE",
+      AEREL == "NONE" ~ "NOT RELATED",
+      is.na(AEREL) ~ NA_character_
+    )),
     AEREL_DECODE = as.factor(dplyr::case_when(
       AEREL == "PROBABLE" ~ "Probable",
-      AEREL == "REMOTE" ~ "Remote",
+      AEREL == "RELATED" ~ "Related",
       AEREL == "POSSIBLE" ~ "Possible",
-      AEREL == "NONE" ~ "None",
+      AEREL == "NOT RELATED" ~ "Not Related",
       is.na(AEREL) ~ "Not applicable"
     )),
     AEOUT_DECODE = as.factor(dplyr::case_when(
