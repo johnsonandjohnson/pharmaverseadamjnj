@@ -43,7 +43,10 @@ gen_adae <- function(seed = 123) {
         "NOT APPLICABLE",
         "DRUG WITHDRAWN",
         "DOSE REDUCED",
-        "DRUG INTERRUPTED"
+        "DRUG INTERRUPTED",
+        "DOSE RATE REDUCED",
+        "DOSE INCREASED",
+        "UNKNOWN"
       ),
       dplyr::n(),
       replace = TRUE
@@ -53,7 +56,11 @@ gen_adae <- function(seed = 123) {
       AEACN == "NOT APPLICABLE" ~ "Not Applicable",
       AEACN == "DRUG WITHDRAWN" ~ "Drug Withdrawn",
       AEACN == "DOSE REDUCED" ~ "Dose Reduced",
-      AEACN == "DRUG INTERRUPTED" ~ "Drug Interrupted"
+      AEACN == "DOSE RATE REDUCED" ~ "Dose Rate Reduced",
+      AEACN == "DRUG INTERRUPTED" ~ "Drug Interrupted",
+      AEACN == "DOSE INCREASED" ~ "Dose Increased",
+      AEACN == "UNKNOWN" ~ "Unknown",
+      AEACN == "NOT APPLICABLE" ~ "Not Applicable"
     ),
     DOSEDY = as.numeric(37),
     DOSEU = as.factor("mg"),
