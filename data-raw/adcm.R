@@ -86,7 +86,7 @@ gen_adcm <- function(seed = 123) {
   shared <- setdiff(intersect(names(gen), names(adsl)), "USUBJID")
 
   # Variables to keep exclusively from ADSL
-  to_keep_from_adsl <- c("TRT01A", "SAFFL", "TRTSDT")
+  to_keep_from_adsl <- c("TRT01A", "SAFFL", "TRTSDT", "STUDYID")
 
   # Select only the key and the 'to_keep' variables from ADSL
   adsl_subset <- adsl %>%
