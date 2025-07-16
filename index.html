@@ -66,27 +66,16 @@
 <div class="section level2">
 <h2 id="implemented-datasets">Implemented Datasets<a class="anchor" aria-label="anchor" href="#implemented-datasets"></a>
 </h2>
-<p>Currently supports the following ADaM domains:</p>
-<ul>
-<li>ADSL (Subject Level Analysis Dataset)</li>
-<li>ADAE (Adverse Events Analysis Dataset)</li>
-<li>ADCM (Concomitant Medications Analysis Dataset)</li>
-<li>ADEG (ECG Analysis Dataset)</li>
-<li>ADEX (Exposure Analysis Dataset)</li>
-<li>ADESUM (Exposure Analysis Summary Dataset)</li>
-<li>ADLB (Laboratory Test Results Analysis Dataset)</li>
-<li>ADVS (Vital Signs Analysis Dataset)</li>
-<li>ADTTESAF (Time-to-Event Safety Analysis Dataset)</li>
-<li>ADAEFMQ (Adverse Events Analysis Dataset FDA Medical Query)</li>
-</ul>
+<p>Currently supports the following ADaM domains: - ADSL (Subject Level Analysis Dataset) - ADAE (Adverse Events Analysis Dataset) - ADCM (Concomitant Medications Analysis Dataset) - ADEG (ECG Analysis Dataset) - ADEX (Exposure Analysis Dataset) - ADESUM (Exposure Analysis Summary Dataset) - ADLB (Laboratory Test Results Analysis Dataset) - ADVS (Vital Signs Analysis Dataset) - ADTTESAF (Time-to-Event Safety Analysis Dataset) - ADAEFMQ (Adverse Events Analysis Dataset FDA Medical Query)</p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
 <p>You can install the development version from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># install.packages("devtools")</span></span>
-<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"johnsonandjohnson/pharmaverseadamjnj"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"pharmaverseadamjnj"</span><span class="op">)</span> <span class="co">#CRAN Release</span></span>
+<span><span class="co">#install.packages("devtools") #or for the rolling dev release</span></span>
+<span><span class="co">#devtools::install_github("johnsonandjohnson/pharmaverseadamjnj", ref = "dev")</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
@@ -107,7 +96,14 @@
 <p>Test datasets have been sourced from the <a href="https://github.com/pharmaverse/pharmaverseadam" class="external-link">pharmaverseadam</a> package, which utilized the data from the <a href="https://github.com/pharmaverse/pharmaversesdtm" class="external-link">pharmaversesdtm</a> package and the <a href="https://github.com/cdisc-org/sdtm-adam-pilot-project" class="external-link">CDISC pilot project</a>.</p>
 </div>
 </div>
-  </main><aside class="col-md-3"><div class="license">
+  </main><aside class="col-md-3"><div class="links">
+<h2 data-toc-skip>Links</h2>
+<ul class="list-unstyled">
+<li><a href="https://cloud.r-project.org/package=pharmaverseadamjnj" class="external-link">View on CRAN</a></li>
+</ul>
+</div>
+
+<div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
