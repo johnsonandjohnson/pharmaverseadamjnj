@@ -121,7 +121,7 @@
 #'  \item{AACTDU5}{Act Takn Dur Infus-Infusion Rate Incrsed}
 #'  \item{AADJOTH}{Other Anal Reason for Dose Adjustment}
 #'  \item{ACAT2}{Analysis Category 2}
-#'  \item{AACTPR}{Action Taken Prior to Infudion Start}
+#'  \item{AACTPR}{Action Taken Prior to Infusion Start}
 #'  \item{AACTPR_DECODE}{Action Taken Prior to Infusion Start}
 #'  \item{ASCHDOSE}{Analysis Scheduled Dose}
 #'  \item{ASCHDOSU}{Analysis Scheduled Dose Units}

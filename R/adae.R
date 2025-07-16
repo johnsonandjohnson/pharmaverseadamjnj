@@ -73,8 +73,8 @@
 #'  \item{AEOUT_DECODE}{Outcome of Adverse Event}
 #'  \item{ACAT1}{Analysis Category 1}
 #'  \item{TRTEDY}{Treatment Relative End Day}
-#'  \item{AOCCFL}{1st Occurance within Subject Flag}
-#'  \item{AOCCPFL}{1st Occurance within Preferred Term Flag}
+#'  \item{AOCCFL}{1st Occurence within Subject Flag}
+#'  \item{AOCCPFL}{1st Occurence within Preferred Term Flag}
 #'  \item{AOCCSFL}{1st Occurrence of SOC Flag}
 #'  \item{TRT01A}{Actual Treatment for Period 01}
 #'  \item{SAFFL}{Safety Population Flag}
