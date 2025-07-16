@@ -14,7 +14,7 @@ Generate ADaM datasets aligned with Johnson & Johnson's Clinical and Statistical
 
 ## Implemented Datasets
 
-Currently supports the following ADaM domains:
+Curently supports the following ADaM domains:
 - ADSL (Subject Level Analysis Dataset)
 - ADAE (Adverse Events Analysis Dataset)
 - ADCM (Concomitant Medications Analysis Dataset)
@@ -31,8 +31,9 @@ Currently supports the following ADaM domains:
 You can install the development version from GitHub:
 
 ```r
-# install.packages("devtools")
-devtools::install_github("johnsonandjohnson/pharmaverseadamjnj")
+install.packages("pharmaverseadamjnj") #CRAN Release
+#install.packages("devtools") #or for the rolling dev release
+#devtools::install_github("johnsonandjohnson/pharmaverseadamjnj", ref = "dev")
 ```
 
 ## Usage
