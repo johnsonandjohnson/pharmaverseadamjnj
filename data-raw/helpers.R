@@ -19,11 +19,12 @@
 #' @importFrom formatters var_labels
 #' @noRd
 restore_labels <- function(
-    df,
-    orig_df,
-    additional_labels = list(),
-    source_dfs = NULL,
-    verbose = TRUE) {
+  df,
+  orig_df,
+  additional_labels = list(),
+  source_dfs = NULL,
+  verbose = TRUE
+) {
   env_verbose <- as.logical(Sys.getenv("GEN_VERBOSE", unset = TRUE))
   # Use function parameter if explicitly provided, otherwise use environment variable
   verbose <- if (missing(verbose)) env_verbose else verbose
@@ -31,7 +32,6 @@ restore_labels <- function(
   # Get current labels from df and orig_df
   labels_df <- formatters::var_labels(df, fill = TRUE)
   labels_orig_df <- formatters::var_labels(orig_df, fill = TRUE)
-
 
   # Ensure labels are character strings
   labels_df <- lapply(labels_df, as.character)
@@ -210,9 +210,10 @@ df_na <- function(df, char_as_factor = TRUE, verbose = TRUE) {
 #' @return Nothing, writes documentation file to R/ directory
 #' @noRd
 roxygen2_data <- function(
-    df_name,
-    custom_description = NULL,
-    custom_source = NULL) {
+  df_name,
+  custom_description = NULL,
+  custom_source = NULL
+) {
   # Get the dataset from the parent environment
   df <- get(df_name, envir = parent.frame())
 
@@ -231,18 +232,7 @@ roxygen2_data <- function(
 
   # Use custom source if provided, otherwise use default
   if (!is.null(custom_source)) {
-    # Handle multi-line source strings by ensuring each line starts with "#' "
-    source_lines <- unlist(strsplit(custom_source, "\n"))
-    source_lines <- trimws(source_lines) # Remove leading/trailing whitespace
-
-    # First line gets the @source tag
-    src <- paste0("#' @source ", source_lines[1])
-
-    # Additional lines get the roxygen2 comment prefix
-    if (length(source_lines) > 1) {
-      additional_lines <- paste0("#' ", source_lines[-1])
-      src <- c(src, additional_lines)
-    }
+    src <- paste0("#' @source ", custom_source)
   } else {
     src <- "#' @source data from pharmaverseadam."
   }
@@ -295,7 +285,7 @@ roxygen2_data <- function(
   examp <-
     c(
       "#' @examples",
-      paste0("#' data(\"", df_name, "\")"),
+      paste0("#'  head(data(\"", df_name, "\"))"),
       paste0("\"", df_name, "\"")
     )
 

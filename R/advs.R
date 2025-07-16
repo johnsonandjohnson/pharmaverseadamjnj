@@ -88,5 +88,5 @@
 #' @keywords datasets advs
 #' @name advs
 #' @examples
-#' data("advs")
+#'  head(data("advs"))
 "advs"

@@ -5,7 +5,7 @@
 \alias{adaefmq}
 \title{adaefmq}
 \format{
-A data frame with 1979 rows and 83 variables:
+A data frame with 1979 rows and 81 variables:
 \describe{
 \item{DOMAIN}{Domain Abbreviation}
 \item{USUBJID}{Unique Subject Identifier}
@@ -70,6 +70,7 @@ A data frame with 1979 rows and 83 variables:
 \item{CQ02NAM}{Customized Query 02 Name}
 \item{CQ03NAM}{Customized Query 03 Name}
 \item{AESMIE}{Other Medically Important Serious Event}
+\item{ACAT1}{Analysis Category 1}
 \item{AESER_DECODE}{Serious Event}
 \item{AEREL_DECODE}{Causality}
 \item{AEOUT_DECODE}{Outcome of Adverse Event}
@@ -84,16 +85,14 @@ A data frame with 1979 rows and 83 variables:
 \item{RACE_DECODE}{Race}
 \item{STUDYID}{Study Identifier}
 \item{AGEGR1}{Pooled Age Group 1}
-\item{TRTEDY}{Treatment Relative End Day}
-\item{TRT01P}{Planned Treatment for Period 01}
-\item{ACAT1}{Analysis Category 1}
 \item{FMQNAM}{FMQNAM}
 \item{FMQSOC}{FMQSOC}
 \item{FMQCLASS}{FMQCLASS}
 }
 }
 \source{
-data from adae from pharmaverseadam and, FDA_FMW_Consolidated_List.rds and FDA_FMQ_References.rds
+data from adae from pharmaverseadam and,
+FDA_FMW_Consolidated_List.rds and FDA_FMQ_References.rds
 }
 \usage{
 adaefmq
@@ -102,7 +101,7 @@ adaefmq
 adae modified from pharmaverseadam to include FDA Medical Query information
 }
 \examples{
-data("adaefmq")
+ head(data("adaefmq"))
 }
 \seealso{
 \code{\link{adae}} \code{\link{adaefmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint

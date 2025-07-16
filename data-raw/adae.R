@@ -17,6 +17,22 @@ gen_adae <- function(seed = 123) {
   # Get source data
   raw <- pharmaverseadam::adae
 
+  # Source ADSL to get treatment duration information
+  source(file.path("data-raw", "adsl.R"))
+
+  # Create a mapping of USUBJID to their appropriate ACAT1 category based on TRTEDY
+  subject_acat1_map <- adsl %>%
+    dplyr::mutate(
+      ACAT1 = dplyr::case_when(
+        TRTEDY <= 90 ~ "Within 3 months",
+        TRTEDY > 90 & TRTEDY <= 180 ~ "4 to 6 months",
+        TRTEDY > 180 & TRTEDY <= 270 ~ "7 to 9 months",
+        TRTEDY > 270 & TRTEDY <= 365 ~ "10 to 12 months",
+        TRTEDY > 365 ~ "Beyond 13 months"
+      )
+    ) %>%
+    dplyr::select(USUBJID, ACAT1, TRTEDY)
+
   gen <- dplyr::mutate(
     raw,
     AETOXGR = as.factor(sample(seq(0, 5), dplyr::n(), replace = TRUE)),
@@ -27,7 +43,10 @@ gen_adae <- function(seed = 123) {
         "NOT APPLICABLE",
         "DRUG WITHDRAWN",
         "DOSE REDUCED",
-        "DRUG INTERRUPTED"
+        "DRUG INTERRUPTED",
+        "DOSE RATE REDUCED",
+        "DOSE INCREASED",
+        "UNKNOWN"
       ),
       dplyr::n(),
       replace = TRUE
@@ -37,7 +56,11 @@ gen_adae <- function(seed = 123) {
       AEACN == "NOT APPLICABLE" ~ "Not Applicable",
       AEACN == "DRUG WITHDRAWN" ~ "Drug Withdrawn",
       AEACN == "DOSE REDUCED" ~ "Dose Reduced",
-      AEACN == "DRUG INTERRUPTED" ~ "Drug Interrupted"
+      AEACN == "DOSE RATE REDUCED" ~ "Dose Rate Reduced",
+      AEACN == "DRUG INTERRUPTED" ~ "Drug Interrupted",
+      AEACN == "DOSE INCREASED" ~ "Dose Increased",
+      AEACN == "UNKNOWN" ~ "Unknown",
+      AEACN == "NOT APPLICABLE" ~ "Not Applicable"
     ),
     AESEV = dplyr::case_when(
       AESEV == "MILD" ~ "Mild",
@@ -71,9 +94,9 @@ gen_adae <- function(seed = 123) {
     )),
     AEREL_DECODE = as.factor(dplyr::case_when(
       AEREL == "PROBABLE" ~ "Probable",
-      AEREL == "REMOTE" ~ "Remote",
+      AEREL == "RELATED" ~ "Related",
       AEREL == "POSSIBLE" ~ "Possible",
-      AEREL == "NONE" ~ "None",
+      AEREL == "NOT RELATED" ~ "Not Related",
       is.na(AEREL) ~ "Not applicable"
     )),
     AEOUT_DECODE = as.factor(dplyr::case_when(
@@ -83,7 +106,14 @@ gen_adae <- function(seed = 123) {
       TRUE ~ "Other"
     )),
     AEBODSYS = forcats::fct_relabel(AEBODSYS, stringr::str_to_sentence) # Convert AEBODSYS levels to sentence
-  ) %>%
+  )
+
+  # Join with subject_acat1_map to assign ACAT1 based on subject's treatment duration
+  gen <- dplyr::left_join(gen, subject_acat1_map, by = "USUBJID")
+  gen$ACAT1 <- as.factor(gen$ACAT1)
+
+  # Apply derivations
+  gen <- gen %>%
     derive_var_extreme_flag(
       new_var = AOCCFL,
       by_vars = exprs(STUDYID, USUBJID),
@@ -103,10 +133,8 @@ gen_adae <- function(seed = 123) {
       mode = "first"
     )
 
-  source(file.path("data-raw", "adsl.R"))
-
   # Drop any variables shared by gen and ADSL (except key)
-  shared <- setdiff(intersect(names(gen), names(adsl)), "USUBJID")
+  shared <- setdiff(intersect(names(gen), names(adsl)), c("USUBJID", "TRTEDY"))
 
   # Variables to keep exclusively from ADSL
   to_keep_from_adsl <- c(

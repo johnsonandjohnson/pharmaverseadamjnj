@@ -631,6 +631,12 @@ gen_adlb <- function(seed = 123) {
     additional_labels = additional_labels
   )
 
+  # Ensure uniqueness of records per subject/parameter/visit
+  gen <- gen %>%
+    group_by(USUBJID, PARAMCD, AVISIT) %>%
+    slice(1) %>%
+    ungroup()
+
   return(gen)
 }
 

@@ -19,5 +19,5 @@
 #' @keywords datasets adttesaf
 #' @name adttesaf
 #' @examples
-#' data("adttesaf")
+#'  head(data("adttesaf"))
 "adttesaf"

@@ -3,6 +3,4 @@
 0 errors | 0 warnings | 0 note
 
 * This is a new release.
-* Fixed broken links
-* Change from directed to undirected quotations
-* Remove unnecessary \dontrun{}
+* Removed dontruns (sorry there was commit issue on the previous susbmission)

@@ -2,6 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
-.idea/*
-docs
-*.Rproj
+.idea
+docs/
