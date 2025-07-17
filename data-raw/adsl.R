@@ -19,7 +19,34 @@ gen_adsl <- function(seed = 123) {
   # Get source data
   raw <- pharmaverseadam::adsl
 
-  gen <- raw
+  gen <- dplyr::mutate(
+    raw,
+    RACE = as.factor(sample(
+      c(
+        "AMERICAN INDIAN OR ALASKA NATIVE",
+        "ASIAN",
+        "BLACK OR AFRICAN AMERICAN",
+        "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER",
+        "WHITE",
+        "MULTIPLE",
+        "NOT REPORTED",
+        "UNKNOWN",
+        "OTHER"
+      ),
+      dplyr::n(),
+      replace = TRUE
+    )),
+    ETHNIC = as.factor(sample(
+      c(
+        "HISPANIC OR LATINO",
+        "NOT HISPANIC OR LATINO",
+        "UNKNOWN",
+        "NOT REPORTED"
+      ),
+      dplyr::n(),
+      replace = TRUE
+    ))
+  )
   gen$TRT01P <- forcats::fct_recode(
     gen$TRT01P,
     "Apalutamide" = "Xanomeline High Dose",
@@ -120,8 +147,8 @@ gen_adsl <- function(seed = 123) {
   )
   gen$SEX <- as.factor(gen$SEX)
   gen$RACE <- as.factor(gen$RACE)
-  gen$ETHNIC <- as.factor(gen$ETHNIC)
   gen$COUNTRY_DECODE <- as.factor("United States of America")
+
   gen$RACE_DECODE <- as.factor(dplyr::case_when(
     gen$RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
       "American Indian or Alaska Native",

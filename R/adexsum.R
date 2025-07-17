@@ -35,5 +35,5 @@
 #' @keywords datasets adexsum
 #' @name adexsum
 #' @examples
-#'  head(data("adexsum"))
+#' head(data("adexsum"))
 "adexsum"

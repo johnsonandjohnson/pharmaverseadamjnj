@@ -92,5 +92,5 @@
 #' @keywords datasets adaefmq
 #' @name adaefmq
 #' @examples
-#'  head(data("adaefmq"))
+#' head(data("adaefmq"))
 "adaefmq"

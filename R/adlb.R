@@ -162,5 +162,5 @@
 #' @keywords datasets adlb
 #' @name adlb
 #' @examples
-#'  head(data("adlb"))
+#' head(data("adlb"))
 "adlb"
