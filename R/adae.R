@@ -72,7 +72,6 @@
 #'  \item{AEREL_DECODE}{Causality}
 #'  \item{AEOUT_DECODE}{Outcome of Adverse Event}
 #'  \item{ACAT1}{Analysis Category 1}
-#'  \item{TRTEDY}{Treatment Relative End Day}
 #'  \item{AOCCFL}{1st Occurrence within Subject Flag}
 #'  \item{AOCCPFL}{1st Occurrence within Preferred Term Flag}
 #'  \item{AOCCSFL}{1st Occurrence of SOC Flag}
@@ -84,11 +83,12 @@
 #'  \item{RACE_DECODE}{Race}
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{AGEGR1}{Pooled Age Group 1}
+#'  \item{TRTEDY}{Treatment Relative End Day}
 #'  \item{TRT01P}{Planned Treatment for Period 01}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adae
 #' @name adae
 #' @examples
-#'  head(data("adae"))
+#' head(data("adae"))
 "adae"

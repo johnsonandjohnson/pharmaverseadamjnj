@@ -120,9 +120,27 @@ gen_adaeocmq <- function() {
     rename(
       OCMQNAM = OCMQ, # Rename the columns created by pivot_longer
       OCMQSOC = SOCOCMQ,
-      OCMQCLASS = SCOPE
+      OCMQCLSS = SCOPE
     ) %>%
     select(-OCMQ_NUM) # Remove the helper column containing the number suffix
+
+
+  # Additional labels for new variables not in the source dataset
+  additional_labels <- list(
+    OCMQNAM = "Custom Medical Query Name",
+    OCMQSOC = "Custom Medical Query System Organ Class",
+    OCMQCLSS = "Custom Medical Query Scope"
+  )
+
+  # Handle NA values and convert characters to factors
+  gen <- df_na(gen, char_as_factor = TRUE)
+
+  # Restore labels
+  gen <- restore_labels(
+    df = gen,
+    orig_df = gen,
+    additional_labels = additional_labels
+  )
 
   return(gen)
 }

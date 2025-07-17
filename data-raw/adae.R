@@ -31,7 +31,7 @@ gen_adae <- function(seed = 123) {
         TRTEDY > 365 ~ "Beyond 13 months"
       )
     ) %>%
-    dplyr::select(USUBJID, ACAT1, TRTEDY)
+    dplyr::select(USUBJID, ACAT1)
 
   gen <- dplyr::mutate(
     raw,
@@ -146,6 +146,7 @@ gen_adae <- function(seed = 123) {
     "RACE_DECODE",
     "STUDYID",
     "AGEGR1",
+    "TRTEDY",
     "TRT01P"
   )
 

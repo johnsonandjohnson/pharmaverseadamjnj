@@ -74,7 +74,6 @@ A data frame with 1975 rows and 83 variables:
 \item{AEREL_DECODE}{Causality}
 \item{AEOUT_DECODE}{Outcome of Adverse Event}
 \item{ACAT1}{Analysis Category 1}
-\item{TRTEDY}{Treatment Relative End Day}
 \item{AOCCFL}{1st Occurrence within Subject Flag}
 \item{AOCCPFL}{1st Occurrence within Preferred Term Flag}
 \item{AOCCSFL}{1st Occurrence of SOC Flag}
@@ -86,10 +85,11 @@ A data frame with 1975 rows and 83 variables:
 \item{RACE_DECODE}{Race}
 \item{STUDYID}{Study Identifier}
 \item{AGEGR1}{Pooled Age Group 1}
+\item{TRTEDY}{Treatment Relative End Day}
 \item{TRT01P}{Planned Treatment for Period 01}
-\item{OCMQNAM}{OCMQNAM}
-\item{OCMQSOC}{OCMQSOC}
-\item{OCMQCLASS}{OCMQCLASS}
+\item{OCMQNAM}{Custom Medical Query Name}
+\item{OCMQSOC}{Custom Medical Query System Organ Class}
+\item{OCMQCLSS}{Custom Medical Query Scope}
 }
 }
 \source{
