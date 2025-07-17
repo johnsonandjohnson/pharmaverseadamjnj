@@ -146,7 +146,6 @@ gen_adae <- function(seed = 123) {
     "RACE_DECODE",
     "STUDYID",
     "AGEGR1",
-    "TRTEDY",
     "TRT01P"
   )
 

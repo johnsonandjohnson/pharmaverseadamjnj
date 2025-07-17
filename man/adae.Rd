@@ -5,7 +5,7 @@
 \alias{adae}
 \title{adae}
 \format{
-A data frame with 1191 rows and 79 variables:
+A data frame with 1191 rows and 80 variables:
 \describe{
 \item{DOMAIN}{Domain Abbreviation}
 \item{USUBJID}{Unique Subject Identifier}
@@ -86,6 +86,7 @@ A data frame with 1191 rows and 79 variables:
 \item{RACE_DECODE}{Race}
 \item{STUDYID}{Study Identifier}
 \item{AGEGR1}{Pooled Age Group 1}
+\item{TRT01P}{Planned Treatment for Period 01}
 }
 }
 \source{
@@ -98,10 +99,10 @@ adae
 adae modified from pharmaverseadam
 }
 \examples{
- head(data("adae"))
+head(data("adae"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaefmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adaefmq}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 }
 \keyword{adae}
 \keyword{datasets}
