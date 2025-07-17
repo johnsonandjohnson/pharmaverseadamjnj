@@ -77,9 +77,9 @@
 #'  \item{SEX}{Sex}
 #'  \item{RACE_DECODE}{Race}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaefmq}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adeg
 #' @name adeg
 #' @examples
-#' head(data("adeg"))
+#'  head(data("adeg"))
 "adeg"

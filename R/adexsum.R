@@ -31,9 +31,9 @@
 #'  \item{SAFFL}{Safety Population Flag}
 #'  \item{STUDYID}{Study Identifier}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaefmq}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adexsum
 #' @name adexsum
 #' @examples
-#' head(data("adexsum"))
+#'  head(data("adexsum"))
 "adexsum"

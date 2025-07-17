@@ -33,44 +33,6 @@ gen_advs <- function(seed = 123) {
       AVALC = NA
     )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   # Create SYSBPO, DIABPO, and PULSEO Parameters
   gen_ortho <- gen |>
     dplyr::filter(

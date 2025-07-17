@@ -89,9 +89,9 @@
 #'  \item{OCMQSOC}{OCMQSOC}
 #'  \item{OCMQCLASS}{OCMQCLASS}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaefmq}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adaeocmq
 #' @name adaeocmq
 #' @examples
-#' head(data("adaeocmq"))
+#'  head(data("adaeocmq"))
 "adaeocmq"

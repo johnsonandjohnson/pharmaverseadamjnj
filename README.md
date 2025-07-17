@@ -1,8 +1,9 @@
 # pharmaverseadamjnj
 
 <!-- start badges -->
-[![Check 🛠](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/check.yaml/badge.svg)](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/check.yaml)
+[![Check 🛠](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/inspect.yaml/badge.svg)](https://johnsonandjohnson.github.io/pharmaverseadamjnj/main/unit-test-report/)
 [![Docs 📚](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/pkgdown.yaml/badge.svg)](https://johnsonandjohnson.github.io/pharmaverseadamjnj/)
+<!-- [![Code Coverage 📔](https://raw.githubusercontent.com/johnsonandjohnson/pharmaverseadamjnj/_xml_coverage_reports/data/main/badge.svg)](https://johnsonandjohnson.github.io/pharmaverseadamjnj//main/coverage-report/)-->
 
 ![GitHub forks](https://img.shields.io/github/forks/johnsonandjohnson/pharmaverseadamjnj?style=social)
 ![GitHub repo stars](https://img.shields.io/github/stars/johnsonandjohnson/pharmaverseadamjnj?style=social)
@@ -15,7 +16,6 @@
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Current Version](https://img.shields.io/github/r-package/v/johnsonandjohnson/pharmaverseadamjnj/main?color=purple&label=package%20version)](https://github.com/johnsonandjohnson/pharmaverseadamjnj/tree/main)
 [![Open Issues](https://img.shields.io/github/issues-raw/johnsonandjohnson/pharmaverseadamjnj?color=red&label=open%20issues)](https://github.com/johnsonandjohnson/pharmaverseadamjnj/issues?q=is%3Aissue+is%3Aopen+sort%3Aupdated-desc)
-<!-- [![Coverage](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/coverage.yaml/badge.svg)](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/coverage.yaml) -->
 <!-- end badges -->
 
 Generate ADaM datasets aligned with Johnson & Johnson's Clinical and Statistical Programming standards.

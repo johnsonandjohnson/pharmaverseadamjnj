@@ -99,7 +99,7 @@ data from adae from pharmaverseadam and, FDA_OCMQ_Consolidated_List.rds and FDA_
 adaeocmq
 }
 \description{
-adae modified from pharmaverseadam to include Office of New Drugs (OND) Custom Medical Queries information
+adae modified from pharmaverseadam to include Office of New Drugs (OND) Custom Medical Queries
 }
 \examples{
 head(data("adaeocmq"))
