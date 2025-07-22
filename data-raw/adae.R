@@ -201,7 +201,8 @@ gen_adae <- function(seed = 123) {
     AECONTRT = "Concomitant or Additional Trtmnt Given",
     AENDTF_DECODE = "Analysis End Date Imputation Flag",
     AESMIE = "Other Medically Important Serious Event",
-    AESMIE_DECODE = "Other Medically Important Serious Event"
+    AESMIE_DECODE = "Other Medically Important Serious Event",
+    TRDISCFL = "Treatment Discontinued Flag"
   )
 
   # Handle NA values and convert characters to factors
@@ -213,6 +214,38 @@ gen_adae <- function(seed = 123) {
     orig_df = raw,
     additional_labels = additional_labels
   )
+
+  # Update specific records as per requirements
+
+  # First record: USUBJID = 01-701-1015, AESEQ = 3
+  gen <- gen %>%
+    mutate(
+      AETERM = ifelse(USUBJID == "01-701-1015" & AESEQ == 3, "ABNORMAL UTERINE BLEEDING", AETERM),
+      AELLT = ifelse(USUBJID == "01-701-1015" & AESEQ == 3, "DYSFUNCTIONAL UTERINE BLEEDING", AELLT),
+      AEDECOD = ifelse(USUBJID == "01-701-1015" & AESEQ == 3, "ABNORMAL UTERINE BLEEDING", AEDECOD),
+      AEHLT = ifelse(USUBJID == "01-701-1015" & AESEQ == 3, "MENSTRUATION AND UTERINE BLEEDING NEC", AEHLT),
+      AEHLGT = ifelse(USUBJID == "01-701-1015" & AESEQ == 3, "MENSTRUAL CYCLE AND UTERINE BLEEDING DISORDERS", AEHLGT),
+      AEBODSYS = ifelse(USUBJID == "01-701-1015" & AESEQ == 3, "REPRODUCTIVE SYSTEM AND BREAST DISORDERS", AEBODSYS),
+      AESOC = ifelse(USUBJID == "01-701-1015" & AESEQ == 3, "REPRODUCTIVE SYSTEM AND BREAST DISORDERS", AESOC)
+    )
+
+  # Second record: USUBJID = 01-701-1023, AESEQ = 3
+  gen <- gen %>%
+    mutate(
+      AETERM = ifelse(USUBJID == "01-701-1023" & AESEQ == 3, "ERECTILE DYSFUNCTION", AETERM),
+      AELLT = ifelse(USUBJID == "01-701-1023" & AESEQ == 3, "ERECTILE DISTURBANCE", AELLT),
+      AEDECOD = ifelse(USUBJID == "01-701-1023" & AESEQ == 3, "ERECTILE DYSFUNCTION", AEDECOD),
+      AEHLT = ifelse(USUBJID == "01-701-1023" & AESEQ == 3, "ERECTION AND EJACULATION CONDITIONS AND DISORDERS", AEHLT),
+      AEHLGT = ifelse(USUBJID == "01-701-1023" & AESEQ == 3, "SEXUAL FUNCTION AND FERTILITY DISORDERS", AEHLGT),
+      AEBODSYS = ifelse(USUBJID == "01-701-1023" & AESEQ == 3, "REPRODUCTIVE SYSTEM AND BREAST DISORDERS", AEBODSYS),
+      AESOC = ifelse(USUBJID == "01-701-1023" & AESEQ == 3, "REPRODUCTIVE SYSTEM AND BREAST DISORDERS", AESOC)
+    )
+
+  # Add TRDISCFL variable: "Y" if AEACN = "DRUG WITHDRAWN", null otherwise
+  gen <- gen %>%
+    mutate(
+      TRDISCFL = ifelse(AEACN == "DRUG WITHDRAWN", "Y", NA_character_)
+    )
 
   return(gen)
 }

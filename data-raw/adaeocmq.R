@@ -1,7 +1,6 @@
 # Generate ADAEOCMQ dataset
 
 # Load necessary libraries
-library(readxl)
 library(dplyr)
 library(tidyr)
 library(stringr)
@@ -116,20 +115,31 @@ gen_adaeocmq <- function() {
       names_pattern = "^(OCMQ|SOCOCMQ|SCOPE)(\\d+)$", # Define how to split the column names
       values_drop_na = FALSE # Keep rows even if some values (SOCOCMQ, SCOPE) are NA initially
     ) %>%
-    filter(!is.na(OCMQ)) %>% # Keep only rows where the original OCMQ value was not NA
+    filter(!is.na(OCMQ)) %>%
     rename(
       OCMQNAM = OCMQ, # Rename the columns created by pivot_longer
       OCMQSOC = SOCOCMQ,
       OCMQCLSS = SCOPE
     ) %>%
-    select(-OCMQ_NUM) # Remove the helper column containing the number suffix
+    select(-OCMQ_NUM)
 
+  # Add gender-specific flags
+  gen <- gen %>%
+    mutate(
+      GENSPMFL = ifelse(OCMQNAM %in% c("Erectile dysfunction", "Gynecomastia"), "Y", NA_character_),
+      GENSPFFL = ifelse(OCMQNAM %in% c(
+        "Abnormal uterine bleeding", "Amenorrhea", "Bacterial vaginosis",
+        "Decreased menstrual bleeding", "Excessive menstrual bleeding"
+      ), "Y", NA_character_)
+    )
 
   # Additional labels for new variables not in the source dataset
   additional_labels <- list(
-    OCMQNAM = "Custom Medical Query Name",
-    OCMQSOC = "Custom Medical Query System Organ Class",
-    OCMQCLSS = "Custom Medical Query Scope"
+    OCMQNAM  = "Custom Medical Query Name",
+    OCMQSOC  = "Custom Medical Query System Organ Class",
+    OCMQCLSS = "Custom Medical Query Scope",
+    GENSPMFL = "Gender Specific OCMQ Male Flag",
+    GENSPFFL = "Gender Specific OCMQ Female Flag"
   )
 
   # Handle NA values and convert characters to factors

@@ -3,24 +3,24 @@
 #' @description adae modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 1191 rows and 80 variables:
+#' @format A data frame with 1191 rows and 81 variables:
 #' \describe{
 #'  \item{DOMAIN}{Domain Abbreviation}
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{AESEQ}{Sequence Number}
 #'  \item{AESPID}{Sponsor-Defined Identifier}
-#'  \item{AETERM}{Reported Term for the Adverse Event}
-#'  \item{AELLT}{Lowest Level Term}
+#'  \item{AETERM}{AETERM}
+#'  \item{AELLT}{AELLT}
 #'  \item{AELLTCD}{Lowest Level Term Code}
-#'  \item{AEDECOD}{Dictionary-Derived Term}
+#'  \item{AEDECOD}{AEDECOD}
 #'  \item{AEPTCD}{Preferred Term Code}
-#'  \item{AEHLT}{High Level Term}
+#'  \item{AEHLT}{AEHLT}
 #'  \item{AEHLTCD}{High Level Term Code}
-#'  \item{AEHLGT}{High Level Group Term}
+#'  \item{AEHLGT}{AEHLGT}
 #'  \item{AEHLGTCD}{High Level Group Term Code}
-#'  \item{AEBODSYS}{Body System or Organ Class}
+#'  \item{AEBODSYS}{AEBODSYS}
 #'  \item{AEBDSYCD}{Body System or Organ Class Code}
-#'  \item{AESOC}{Primary System Organ Class}
+#'  \item{AESOC}{AESOC}
 #'  \item{AESOCCD}{Primary System Organ Class Code}
 #'  \item{AESEV}{Severity/Intensity}
 #'  \item{AESER}{Serious Event}
@@ -85,6 +85,7 @@
 #'  \item{AGEGR1}{Pooled Age Group 1}
 #'  \item{TRTEDY}{Treatment Relative End Day}
 #'  \item{TRT01P}{Planned Treatment for Period 01}
+#'  \item{TRDISCFL}{TRDISCFL}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adae

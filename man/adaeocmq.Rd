@@ -5,24 +5,24 @@
 \alias{adaeocmq}
 \title{adaeocmq}
 \format{
-A data frame with 1975 rows and 83 variables:
+A data frame with 4 rows and 86 variables:
 \describe{
 \item{DOMAIN}{Domain Abbreviation}
 \item{USUBJID}{Unique Subject Identifier}
 \item{AESEQ}{Sequence Number}
 \item{AESPID}{Sponsor-Defined Identifier}
-\item{AETERM}{Reported Term for the Adverse Event}
-\item{AELLT}{Lowest Level Term}
+\item{AETERM}{AETERM}
+\item{AELLT}{AELLT}
 \item{AELLTCD}{Lowest Level Term Code}
 \item{AEDECOD}{AEDECOD}
 \item{AEPTCD}{Preferred Term Code}
-\item{AEHLT}{High Level Term}
+\item{AEHLT}{AEHLT}
 \item{AEHLTCD}{High Level Term Code}
-\item{AEHLGT}{High Level Group Term}
+\item{AEHLGT}{AEHLGT}
 \item{AEHLGTCD}{High Level Group Term Code}
-\item{AEBODSYS}{Body System or Organ Class}
+\item{AEBODSYS}{AEBODSYS}
 \item{AEBDSYCD}{Body System or Organ Class Code}
-\item{AESOC}{Primary System Organ Class}
+\item{AESOC}{AESOC}
 \item{AESOCCD}{Primary System Organ Class Code}
 \item{AESEV}{Severity/Intensity}
 \item{AESER}{Serious Event}
@@ -87,9 +87,12 @@ A data frame with 1975 rows and 83 variables:
 \item{AGEGR1}{Pooled Age Group 1}
 \item{TRTEDY}{Treatment Relative End Day}
 \item{TRT01P}{Planned Treatment for Period 01}
+\item{TRDISCFL}{TRDISCFL}
 \item{OCMQNAM}{Custom Medical Query Name}
 \item{OCMQSOC}{Custom Medical Query System Organ Class}
 \item{OCMQCLSS}{Custom Medical Query Scope}
+\item{GENSPMFL}{Gender Specific OCMQ Male Flag}
+\item{GENSPFFL}{Gender Specific OCMQ Female Flag}
 }
 }
 \source{
