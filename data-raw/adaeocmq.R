@@ -126,10 +126,10 @@ gen_adaeocmq <- function() {
   # Add gender-specific flags
   gen <- gen %>%
     mutate(
-      GENSPMFL = ifelse(OCMQNAM %in% c("Erectile dysfunction", "Gynecomastia"), "Y", NA_character_),
+      GENSPMFL = ifelse(OCMQNAM %in% c("Erectile Dysfunction", "Gynecomastia"), "Y", NA_character_),
       GENSPFFL = ifelse(OCMQNAM %in% c(
-        "Abnormal uterine bleeding", "Amenorrhea", "Bacterial vaginosis",
-        "Decreased menstrual bleeding", "Excessive menstrual bleeding"
+        "Abnormal Uterine Bleeding", "Amenorrhea", "Bacterial Vaginosis",
+        "Decreased Menstrual Bleeding", "Excessive Menstrual Bleeding"
       ), "Y", NA_character_)
     )
 
