@@ -3,24 +3,24 @@
 #' @description adae modified from pharmaverseadam to include Office of New Drugs (OND) Custom Medical Queries
 #' @source data from adae from pharmaverseadam and, FDA_OCMQ_Consolidated_List.rds and FDA_OCMQ_References.rds
 #'
-#' @format A data frame with 4 rows and 86 variables:
+#' @format A data frame with 10719 rows and 86 variables:
 #' \describe{
 #'  \item{DOMAIN}{Domain Abbreviation}
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{AESEQ}{Sequence Number}
 #'  \item{AESPID}{Sponsor-Defined Identifier}
-#'  \item{AETERM}{AETERM}
-#'  \item{AELLT}{AELLT}
+#'  \item{AETERM}{Reported Term for the Adverse Event}
+#'  \item{AELLT}{Lowest Level Term}
 #'  \item{AELLTCD}{Lowest Level Term Code}
 #'  \item{AEDECOD}{AEDECOD}
 #'  \item{AEPTCD}{Preferred Term Code}
-#'  \item{AEHLT}{AEHLT}
+#'  \item{AEHLT}{High Level Term}
 #'  \item{AEHLTCD}{High Level Term Code}
-#'  \item{AEHLGT}{AEHLGT}
+#'  \item{AEHLGT}{High Level Group Term}
 #'  \item{AEHLGTCD}{High Level Group Term Code}
-#'  \item{AEBODSYS}{AEBODSYS}
+#'  \item{AEBODSYS}{Body System or Organ Class}
 #'  \item{AEBDSYCD}{Body System or Organ Class Code}
-#'  \item{AESOC}{AESOC}
+#'  \item{AESOC}{Primary System Organ Class}
 #'  \item{AESOCCD}{Primary System Organ Class Code}
 #'  \item{AESEV}{Severity/Intensity}
 #'  \item{AESER}{Serious Event}
@@ -57,6 +57,7 @@
 #'  \item{TRTEMFL}{Treatment Emergent Analysis Flag}
 #'  \item{ASEVN}{Analysis Severity/Intensity (N)}
 #'  \item{AOCCIFL}{1st Max Sev./Int. Occurrence Flag}
+#'  \item{TRDISCFL}{Treatment Discontinued Flag}
 #'  \item{AETOXGR}{Standard Toxicity Grade}
 #'  \item{AETOXGRN}{Standard Toxicity Grade (N)}
 #'  \item{AEACN_DECODE}{Action Taken with Study Treatment}
@@ -85,7 +86,6 @@
 #'  \item{AGEGR1}{Pooled Age Group 1}
 #'  \item{TRTEDY}{Treatment Relative End Day}
 #'  \item{TRT01P}{Planned Treatment for Period 01}
-#'  \item{TRDISCFL}{TRDISCFL}
 #'  \item{OCMQNAM}{Custom Medical Query Name}
 #'  \item{OCMQSOC}{Custom Medical Query System Organ Class}
 #'  \item{OCMQCLSS}{Custom Medical Query Scope}
