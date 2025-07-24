@@ -21,10 +21,12 @@ gen_adaeocmq <- function() {
   # Step 2: Sort data
   consolidated_list01 <- consolidated_list %>%
     select(OCMQ, Term, Final_Classification = `Final Classification`) %>%
+    mutate(Term = stringr::str_to_sentence(Term)) %>%
     arrange(OCMQ, Term)
 
   ocmq_references01 <- ocmq_references %>%
     rename(OCMQ = `OCMQ NAME`, SOC = `ORGAN SYSTEM`) %>%
+    mutate(SOC = stringr::str_to_sentence(SOC)) %>%
     arrange(OCMQ)
 
   # Step 3: Merge datasets
@@ -115,7 +117,7 @@ gen_adaeocmq <- function() {
       names_pattern = "^(OCMQ|SOCOCMQ|SCOPE)(\\d+)$", # Define how to split the column names
       values_drop_na = FALSE # Keep rows even if some values (SOCOCMQ, SCOPE) are NA initially
     ) %>%
-    filter(!is.na(OCMQ)) %>%
+    #filter(!is.na(OCMQ)) %>%
     rename(
       OCMQNAM = OCMQ, # Rename the columns created by pivot_longer
       OCMQSOC = SOCOCMQ,
