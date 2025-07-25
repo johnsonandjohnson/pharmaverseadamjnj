@@ -60,11 +60,7 @@ gen_adae <- function(seed = 123) {
       AEBODSYS = ifelse(USUBJID == "01-701-1023" & AESEQ == 3, "REPRODUCTIVE SYSTEM AND BREAST DISORDERS", AEBODSYS),
       AESOC = ifelse(USUBJID == "01-701-1023" & AESEQ == 3, "REPRODUCTIVE SYSTEM AND BREAST DISORDERS", AESOC)
     )
-  # Add TRDISCFL variable: "Y" if AEACN = "DRUG WITHDRAWN", null otherwise
-  gen <- gen %>%
-    mutate(
-      TRDISCFL = ifelse(AEACN == "DRUG WITHDRAWN", "Y", NA_character_)
-    )
+
   gen <- dplyr::mutate(
     gen,
     AETOXGR = as.factor(sample(seq(0, 5), dplyr::n(), replace = TRUE)),
@@ -209,6 +205,12 @@ gen_adae <- function(seed = 123) {
     ))
   )
   gen <- select(gen, -months)
+
+  # Add TRDISCFL variable: "Y" if AEACN = "DRUG WITHDRAWN", null otherwise
+  gen <- gen %>%
+    mutate(
+      TRDISCFL = ifelse(AEACN == "DRUG WITHDRAWN", "Y", NA_character_)
+    )
 
   # Add labels
   additional_labels <- list(

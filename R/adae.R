@@ -57,7 +57,6 @@
 #'  \item{TRTEMFL}{Treatment Emergent Analysis Flag}
 #'  \item{ASEVN}{Analysis Severity/Intensity (N)}
 #'  \item{AOCCIFL}{1st Max Sev./Int. Occurrence Flag}
-#'  \item{TRDISCFL}{Treatment Discontinued Flag}
 #'  \item{AETOXGR}{Standard Toxicity Grade}
 #'  \item{AETOXGRN}{Standard Toxicity Grade (N)}
 #'  \item{AEACN_DECODE}{Action Taken with Study Treatment}
@@ -86,6 +85,7 @@
 #'  \item{AGEGR1}{Pooled Age Group 1}
 #'  \item{TRTEDY}{Treatment Relative End Day}
 #'  \item{TRT01P}{Planned Treatment for Period 01}
+#'  \item{TRDISCFL}{Treatment Discontinued Flag}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adae

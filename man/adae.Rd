@@ -59,7 +59,6 @@ A data frame with 1191 rows and 81 variables:
 \item{TRTEMFL}{Treatment Emergent Analysis Flag}
 \item{ASEVN}{Analysis Severity/Intensity (N)}
 \item{AOCCIFL}{1st Max Sev./Int. Occurrence Flag}
-\item{TRDISCFL}{Treatment Discontinued Flag}
 \item{AETOXGR}{Standard Toxicity Grade}
 \item{AETOXGRN}{Standard Toxicity Grade (N)}
 \item{AEACN_DECODE}{Action Taken with Study Treatment}
@@ -88,6 +87,7 @@ A data frame with 1191 rows and 81 variables:
 \item{AGEGR1}{Pooled Age Group 1}
 \item{TRTEDY}{Treatment Relative End Day}
 \item{TRT01P}{Planned Treatment for Period 01}
+\item{TRDISCFL}{Treatment Discontinued Flag}
 }
 }
 \source{
