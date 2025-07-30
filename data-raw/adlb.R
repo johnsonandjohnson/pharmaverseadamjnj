@@ -484,6 +484,8 @@ gen_adlb <- function(seed = 123) {
       replace = TRUE,
       prob = c(0.618, 0.2, 0.1, 0.05, 0.005, 0.067)
     )),
+    # Add LBCLSIG variable with values "N" and "Y"
+    LBCLSIG = as.factor(sample(c("N", "Y"), size = n(), replace = TRUE, prob = c(0.7, 0.3))),
     TR01SDT = sample(
       seq(
         min(as.Date(TRTSDT), na.rm = TRUE),
@@ -573,6 +575,7 @@ gen_adlb <- function(seed = 123) {
     ANL14FL = "Analysis Flag 14",
     ANL15FL = "Analysis Flag 15",
     ANL16FL = "Analysis Flag 16",
+    LBCLSIG = "Clinically Significant",
     APOBLFL = "Post-Baseline Record Flag",
     LBSTNRHQ = "Reference Limit Higher",
     LBSTNRLQ = "Reference Limit Lower",
