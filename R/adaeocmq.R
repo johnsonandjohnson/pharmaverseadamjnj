@@ -3,7 +3,7 @@
 #' @description adae modified from pharmaverseadam to include Office of New Drugs (OND) Custom Medical Queries
 #' @source data from adae from pharmaverseadam and, FDA_OCMQ_Consolidated_List.rds and FDA_OCMQ_References.rds
 #'
-#' @format A data frame with 1974 rows and 86 variables:
+#' @format A data frame with 1972 rows and 86 variables:
 #' \describe{
 #'  \item{DOMAIN}{Domain Abbreviation}
 #'  \item{USUBJID}{Unique Subject Identifier}

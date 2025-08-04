@@ -5,7 +5,7 @@
 \alias{adaeocmq}
 \title{adaeocmq}
 \format{
-A data frame with 1974 rows and 86 variables:
+A data frame with 1972 rows and 86 variables:
 \describe{
 \item{DOMAIN}{Domain Abbreviation}
 \item{USUBJID}{Unique Subject Identifier}
