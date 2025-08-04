@@ -70,7 +70,8 @@ gen_adae <- function(seed = 123) {
       AEHLT = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1, "FEMALE GONADAL FUNCTION DISORDERS", AEHLT),
       AEHLGT = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1, "ENDOCRINE DISORDERS OF GONADAL FUNCTION", AEHLGT),
       AEBODSYS = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1, "ENDOCRINE DISORDERS", AEBODSYS),
-      AESOC = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1, "ENDOCRINE DISORDERS", AESOC)
+      AESOC = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1, "ENDOCRINE DISORDERS", AESOC),
+      TRTEMFL = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1, "Y", TRTEMFL)
     )
 
   # d.  First records Placebo and Treatment for Male Broad
