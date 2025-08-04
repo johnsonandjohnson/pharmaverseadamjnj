@@ -117,7 +117,7 @@ gen_adaeocmq <- function() {
       names_pattern = "^(OCMQ|SOCOCMQ|SCOPE)(\\d+)$", # Define how to split the column names
       values_drop_na = FALSE # Keep rows even if some values (SOCOCMQ, SCOPE) are NA initially
     ) %>%
-    # filter(!is.na(OCMQ)) %>%
+    filter(!is.na(OCMQ)) %>%
     rename(
       OCMQNAM = OCMQ, # Rename the columns created by pivot_longer
       OCMQSOC = SOCOCMQ,

@@ -5,7 +5,7 @@
 \alias{adlb}
 \title{adlb}
 \format{
-A data frame with 83640 rows and 152 variables:
+A data frame with 83640 rows and 153 variables:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{DOMAIN}{Domain Abbreviation}
@@ -146,6 +146,7 @@ A data frame with 83640 rows and 152 variables:
 \item{ATOXGRN}{Analysis Toxicity Grade (Numeric)}
 \item{ADTM}{Analysis Date/Time}
 \item{ATPT}{Analysis Timepoint}
+\item{LBCLSIG}{Clinically Significant}
 \item{TR01SDT}{Start Date of Treatment for Period 01}
 \item{TR01EDT}{End Date of Treatment for Period 01}
 \item{ANL03FL}{Analysis Record Flag 03 - Protocol Visit}

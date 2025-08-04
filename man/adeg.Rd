@@ -68,7 +68,7 @@ A data frame with 13536 rows and 71 variables:
 \item{CRIT1FL}{Criterion 1 Evaluation Result Flag}
 \item{CRIT2}{Analysis Criterion 2}
 \item{CRIT2FL}{Criterion 2 Evaluation Result Flag}
-\item{EGCLSIG}{ECG Clinical Significance}
+\item{EGCLSIG}{Clinically Significant}
 \item{BASE}{Baseline Value}
 \item{BNRIND}{Baseline Reference Range Indicator}
 \item{BASECAT1}{Baseline Category 1}
