@@ -242,8 +242,11 @@ gen_adsl <- function(seed = 123) {
     gen$SAFFL == "Y" ~ "Y",
     .default = "N"
   ))
+  # Set RANDFL to "Y" for most subjects with SAFFL="Y", but also for a few with SAFFL="N"
   gen$RANDFL <- as.factor(dplyr::case_when(
     gen$SAFFL == "Y" ~ "Y",
+    # Add a few subjects who were randomized but never treated
+    sample(c(TRUE, FALSE), nrow(gen), replace = TRUE, prob = c(0.05, 0.95)) ~ "Y",
     .default = "N"
   ))
   gen$ITTFL <- as.factor(dplyr::case_when(
