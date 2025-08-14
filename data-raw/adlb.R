@@ -18,6 +18,9 @@ gen_adlb <- function(seed = 123) {
   raw <- pharmaverseadam::adlb
   gen <- dplyr::select(raw, -AGEGR1)
 
+  gen$TRT01P <- as.factor(gen$TRT01P)
+  gen$TRT01A <- as.factor(gen$TRT01A)
+
   gen <- dplyr::mutate(
     gen,
     # We'll adjust AVAL and ANRHI for ALKPH to ensure ratio > 3 when calculated on-the-fly
@@ -32,53 +35,23 @@ gen_adlb <- function(seed = 123) {
       ANRHI
     ),
     # Treatment and arm variables
-    TRT01P = forcats::fct_recode(
-      TRT01P,
-      "Apalutamide" = "Xanomeline High Dose",
-      "Apalutamide Subgroup" = "Xanomeline Low Dose"
-    ),
-    ARMCD = as.factor(dplyr::case_when(
-      ARMCD == "Xan_Hi" ~ "Apa",
-      ARMCD == "Xan_Lo" ~ "Apa_Sub",
-      .default = ARMCD
-    )),
-    ARM = as.factor(dplyr::case_when(
-      ARM == "Xanomeline High Dose" ~ "Apalutamide",
-      ARM == "Xanomeline Low Dose" ~ "Apalutamide Subgroup",
-      .default = ARM
-    )),
-    ACTARMCD = as.factor(dplyr::case_when(
-      ACTARMCD == "Xan_Hi" ~ "Apa",
-      ACTARMCD == "Xan_Lo" ~ "Apa_Sub",
-      .default = ACTARMCD
-    )),
-    ACTARM = as.factor(dplyr::case_when(
-      ACTARM == "Xanomeline High Dose" ~ "Apalutamide",
-      ACTARM == "Xanomeline Low Dose" ~ "Apalutamide Subgroup",
-      .default = ACTARM
-    )),
     TRT01P = droplevels(dplyr::case_when(
       TRT01P == "Screen Failure" ~ NA,
       .default = TRT01P
     )),
     TRT01PN = dplyr::case_when(
-      TRT01P == "Apalutamide" ~ 1,
-      TRT01P == "Apalutamide Subgroup" ~ 2,
+      TRT01P == "Xanomeline High Dose" ~ 1,
+      TRT01P == "Xanomeline Low Dose" ~ 2,
       TRT01P == "Placebo" ~ 3
     ),
     TRT01P = forcats::fct_reorder(TRT01P, TRT01PN, .na_rm = TRUE),
-    TRT01A = forcats::fct_recode(
-      TRT01A,
-      "Apalutamide" = "Xanomeline High Dose",
-      "Apalutamide Subgroup" = "Xanomeline Low Dose"
-    ),
     TRT01A = droplevels(dplyr::case_when(
       TRT01A == "Screen Failure" ~ NA,
       .default = TRT01A
     )),
     TRT01AN = dplyr::case_when(
-      TRT01A == "Apalutamide" ~ 1,
-      TRT01A == "Apalutamide Subgroup" ~ 2,
+      TRT01A == "Xanomeline High Dose" ~ 1,
+      TRT01A == "Xanomeline Low Dose" ~ 2,
       TRT01A == "Placebo" ~ 3
     ),
 
