@@ -47,8 +47,7 @@ You can install the development version from GitHub:
 
 ```r
 install.packages("pharmaverseadamjnj") #CRAN Release
-#install.packages("devtools") #or for the rolling dev release
-#devtools::install_github("johnsonandjohnson/pharmaverseadamjnj", ref = "dev")
+#devtools::install_github("johnsonandjohnson/pharmaverseadamjnj", ref = "dev") #or for the rolling dev release
 ```
 
 ## Usage
