@@ -14,13 +14,13 @@ gen_adpc <- function(seed = 123) {
 
   # Get source data
   raw <- pharmaverseadam::adpc
-  
+
   gen <- dplyr::mutate(
     raw,
     CRIT1 = dplyr::if_else(grepl("<", PCSTRESC), "<LLOQ", NA),
     CRIT1FL = dplyr::if_else(grepl("<", PCSTRESC), "Y", "N")
   )
-  
+
   # Handle NA values and convert characters to factors
   gen <- df_na(gen, char_as_factor = TRUE)
 
