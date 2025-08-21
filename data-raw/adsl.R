@@ -47,53 +47,25 @@ gen_adsl <- function(seed = 123) {
       replace = TRUE
     ))
   )
-  gen$TRT01P <- forcats::fct_recode(
-    gen$TRT01P,
-    "Apalutamide" = "Xanomeline High Dose",
-    "Apalutamide Subgroup" = "Xanomeline Low Dose"
-  )
-  gen$ARMCD <- as.factor(dplyr::case_when(
-    gen$ARMCD == "Xan_Hi" ~ "Apa",
-    gen$ARMCD == "Xan_Lo" ~ "Apa_Sub",
-    .default = gen$ARMCD
-  ))
-  gen$ARM <- as.factor(dplyr::case_when(
-    gen$ARM == "Xanomeline High Dose" ~ "Apalutamide",
-    gen$ARM == "Xanomeline Low Dose" ~ "Apalutamide Subgroup",
-    .default = gen$ARM
-  ))
-  gen$ACTARMCD <- as.factor(dplyr::case_when(
-    gen$ACTARMCD == "Xan_Hi" ~ "Apa",
-    gen$ACTARMCD == "Xan_Lo" ~ "Apa_Sub",
-    .default = gen$ACTARMCD
-  ))
-  gen$ACTARM <- as.factor(dplyr::case_when(
-    gen$ACTARM == "Xanomeline High Dose" ~ "Apalutamide",
-    gen$ACTARM == "Xanomeline Low Dose" ~ "Apalutamide Subgroup",
-    .default = gen$ACTARM
-  ))
-  gen$TRT01P <- droplevels(dplyr::case_when(
+  gen$TRT01P <- as.factor(gen$TRT01P)
+  gen$TRT01P <- droplevels(as.factor(dplyr::case_when(
     gen$TRT01P == "Screen Failure" ~ NA,
     .default = gen$TRT01P
-  ))
+  )))
   gen$TRT01PN <- dplyr::case_when(
-    gen$TRT01P == "Apalutamide" ~ 1,
-    gen$TRT01P == "Apalutamide Subgroup" ~ 2,
+    gen$TRT01P == "Xanomeline High Dose" ~ 1,
+    gen$TRT01P == "Xanomeline Low Dose" ~ 2,
     gen$TRT01P == "Placebo" ~ 3
   )
   gen$TRT01P <- forcats::fct_reorder(gen$TRT01P, gen$TRT01PN, .na_rm = TRUE)
-  gen$TRT01A <- forcats::fct_recode(
-    gen$TRT01A,
-    "Apalutamide" = "Xanomeline High Dose",
-    "Apalutamide Subgroup" = "Xanomeline Low Dose"
-  )
-  gen$TRT01A <- droplevels(dplyr::case_when(
+  gen$TRT01A <- as.factor(gen$TRT01A)
+  gen$TRT01A <- droplevels(as.factor(dplyr::case_when(
     gen$TRT01A == "Screen Failure" ~ NA,
     .default = gen$TRT01A
-  ))
+  )))
   gen$TRT01AN <- dplyr::case_when(
-    gen$TRT01A == "Apalutamide" ~ 1,
-    gen$TRT01A == "Apalutamide Subgroup" ~ 2,
+    gen$TRT01A == "Xanomeline High Dose" ~ 1,
+    gen$TRT01A == "Xanomeline Low Dose" ~ 2,
     gen$TRT01A == "Placebo" ~ 3
   )
   gen$TRT01A <- forcats::fct_reorder(gen$TRT01A, gen$TRT01AN, .na_rm = TRUE)

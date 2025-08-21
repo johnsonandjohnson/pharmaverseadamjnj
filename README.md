@@ -1,7 +1,6 @@
 # pharmaverseadamjnj
 
-<!-- start badges -->
-[![Check 🛠](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/inspect.yaml/badge.svg)](https://johnsonandjohnson.github.io/junco/unit-test-report-non-cran//)
+[![Check 🛠](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/inspect.yaml/badge.svg)](https://johnsonandjohnson.github.io/pharmaverseadamjnj/main/unit-test-report-non-cran/)
 [![Docs 📚](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/pkgdown.yaml/badge.svg)](https://johnsonandjohnson.github.io/pharmaverseadamjnj/)
 <!-- [![Code Coverage 📔](https://raw.githubusercontent.com/johnsonandjohnson/pharmaverseadamjnj/_xml_coverage_reports/data/main/badge.svg)](https://johnsonandjohnson.github.io/pharmaverseadamjnj//main/coverage-report/)-->
 
@@ -47,8 +46,7 @@ You can install the development version from GitHub:
 
 ```r
 install.packages("pharmaverseadamjnj") #CRAN Release
-#install.packages("devtools") #or for the rolling dev release
-#devtools::install_github("johnsonandjohnson/pharmaverseadamjnj", ref = "dev")
+#devtools::install_github("johnsonandjohnson/pharmaverseadamjnj", ref = "dev") #or for the rolling dev release
 ```
 
 ## Usage
