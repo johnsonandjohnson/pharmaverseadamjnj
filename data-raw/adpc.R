@@ -3,7 +3,6 @@
 # Load necessary libraries
 library(dplyr)
 library(pharmaverseadam)
-library(forcats)
 
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
