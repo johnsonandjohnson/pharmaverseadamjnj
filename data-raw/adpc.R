@@ -16,6 +16,7 @@ gen_adpc <- function(seed = 123) {
   raw <- pharmaverseadam::adpc
   
   gen <- dplyr::mutate(
+    raw,
     CRIT1 = dplyr::if_else(grepl("<", PCSTRESC), "<LLOQ", NA),
     CRIT1FL = dplyr::if_else(grepl("<", PCSTRESC), "Y", "N")
   )
