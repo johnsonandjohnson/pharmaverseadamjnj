@@ -303,6 +303,11 @@ gen_adsl <- function(seed = 123) {
 
   # remove NA TRTEDY
   gen <- dplyr::filter(gen, !is.na(TRTEDY))
+  
+  gen <- dplyr::mutate(
+    gen,
+    PKFL = dplyr::if_else(USUBJID %in% pharmaverseadam::adpc$USUBJID, "Y", "N")
+  )
 
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
