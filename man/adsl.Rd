@@ -113,7 +113,7 @@ A data frame with 306 rows and 107 variables:
 \item{DTHTERM}{Reported Cause of Death}
 \item{LDSTODTH}{Days from Last Dose to Death}
 \item{DTHDY}{Study Day of Death}
-\item{PKFL}{PKFL}
+\item{PKFL}{Pharmacokinetic Population Flag}
 }
 }
 \source{
@@ -126,7 +126,7 @@ adsl
 adsl modified from pharmaverseadam
 }
 \examples{
-head(data("adsl"))
+ head(data("adsl"))
 }
 \seealso{
 \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint

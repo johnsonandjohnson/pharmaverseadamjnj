@@ -132,12 +132,12 @@
 #'  \item{DTH30FL}{Under 30  Group}
 #'  \item{DTHA30FL}{Over 30  Group}
 #'  \item{DTHB30FL}{Over 30 plus 30 days Group}
-#'  \item{CRIT1}{CRIT1}
-#'  \item{CRIT1FL}{CRIT1FL}
+#'  \item{CRIT1}{Concentrations Below the Lowest Quantification Level Criterion}
+#'  \item{CRIT1FL}{Concentrations Below the Lowest Quantification Level Flag}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adpc
 #' @name adpc
 #' @examples
-#' head(data("adpc"))
+#'  head(data("adpc"))
 "adpc"
