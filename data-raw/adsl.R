@@ -365,7 +365,8 @@ gen_adsl <- function(seed = 123) {
     LTVISIT = "Last Treatment Visit",
     DTHDY = "Study Day of Death",
     RESCRNFL = "Re-screened Flag",
-    ITTFL = "Intent-To-Treat Population Flag"
+    ITTFL = "Intent-To-Treat Population Flag",
+    PKFL = "Pharmacokinetic Population Flag"
   )
 
   # Handle NA values and convert characters to factors

@@ -20,6 +20,12 @@ gen_adpc <- function(seed = 123) {
     CRIT1 = dplyr::if_else(grepl("<", PCSTRESC), "<LLOQ", NA),
     CRIT1FL = dplyr::if_else(grepl("<", PCSTRESC), "Y", "N")
   )
+  
+  # Define additional labels for new variables not in source dataset
+  additional_labels <- list(
+    CRIT1 = "Concentrations Below the Lowest Quantification Level Criterion",
+    CRIT1FL = "Concentrations Below the Lowest Quantification Level Flag"
+  )
 
   # Handle NA values and convert characters to factors
   gen <- df_na(gen, char_as_factor = TRUE)
@@ -27,7 +33,8 @@ gen_adpc <- function(seed = 123) {
   # Restore labels
   gen <- restore_labels(
     df = gen,
-    orig_df = raw
+    orig_df = raw,
+    additional_labels = additional_labels
   )
 
   return(gen)
