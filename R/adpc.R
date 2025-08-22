@@ -139,5 +139,5 @@
 #' @keywords datasets adpc
 #' @name adpc
 #' @examples
-#'  head(data("adpc"))
+#' head(data("adpc"))
 "adpc"
