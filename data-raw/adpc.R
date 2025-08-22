@@ -20,7 +20,7 @@ gen_adpc <- function(seed = 123) {
     CRIT1 = dplyr::if_else(grepl("<", PCSTRESC), "<LLOQ", NA),
     CRIT1FL = dplyr::if_else(grepl("<", PCSTRESC), "Y", "N")
   )
-  
+
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
     CRIT1 = "Concentrations Below the Lowest Quantification Level Criterion",
