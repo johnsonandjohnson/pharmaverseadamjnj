@@ -6,6 +6,12 @@ library(dplyr)
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
 
+# For `HYPSCAT` derivation. Downloaded from:
+# https://www.fda.gov/drugs/development-resources/
+# office-new-drugs-custom-medical-queries-ocmqs
+terms <- file.path("data-raw", "OCMQs_v3.0.xlsm") |>
+  readxl::read_excel(sheet = "Hypersensitivity")
+
 # Generate ADAGOCMQ dataset
 gen_adagocmq <- function(seed = 123) {
   # Set seed for reproducibility
