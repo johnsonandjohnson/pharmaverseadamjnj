@@ -4,6 +4,7 @@
 ## New features and improvements
 
 * ADSL update to have all factor levels of RACE and ETHNIC
+* Fixed ADCM to properly handle uncoded terms
 
 ## Changes
 

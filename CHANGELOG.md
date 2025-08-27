@@ -12,7 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Updated source file OCMQs to reflect FDA changes to FMQ
--Renamed adaefmq to adaeocmq
+- Renamed adaefmq to adaeocmq
+- Fixed ADCM to properly handle uncoded terms
 
 ## [0.0.1] - 2024-07-02
 
