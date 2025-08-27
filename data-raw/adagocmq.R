@@ -47,7 +47,13 @@ gen_adagocmq <- function(seed = 123) {
       .default = ATERMN
     )) |>
     derive_combined_atermn(c(121, 131), 13) |>
-    derive_combined_atermn(c(122, 131), 14)
+    derive_combined_atermn(c(122, 131), 14) |>
+    
+    # Hyperglycemia
+    dplyr::mutate(ATERMN = dplyr::case_when(
+      OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow" ~ 21,
+      .default = ATERMN
+    ))
   
 
   # Define additional labels for new variables not in source dataset
