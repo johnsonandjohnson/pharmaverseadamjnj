@@ -6,20 +6,6 @@ library(dplyr)
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
 
-# For `HYPSCAT` derivation. Downloaded from:
-# https://www.fda.gov/drugs/development-resources/
-# office-new-drugs-custom-medical-queries-ocmqs
-terms <-
-  file.path("data-raw", "OCMQs_v3.0.xlsm") |>
-  readxl::read_excel(sheet = "Hypersensitivity") |>
-  
-  # For ease of operation
-  dplyr::mutate(
-    AEDECOD = toupper(Term),
-    HYPSCAT = substr(`Algorithmic Category`, 1, 1)
-  ) |>
-  dplyr::select(AEDECOD, HYPSCAT)
-
 # Generate ADAGOCMQ dataset
 gen_adagocmq <- function(seed = 123) {
   # Set seed for reproducibility
@@ -28,10 +14,22 @@ gen_adagocmq <- function(seed = 123) {
   # Get source data
   raw <- adaeocmq
   
-  # Main logic
-  gen <- raw |> 
-    # Derive `HYPSCAT`
-    dplyr::left_join(terms)
+  # Derive `HYPSCAT` ----------------------------------------------------------
+  
+  # For `HYPSCAT` derivation. Downloaded from:
+  # https://www.fda.gov/drugs/development-resources/
+  # office-new-drugs-custom-medical-queries-ocmqs
+  terms <-
+    file.path("data-raw", "OCMQs_v3.0.xlsm") |>
+    readxl::read_excel(sheet = "Hypersensitivity") |>
+    dplyr::mutate(
+      AEDECOD = toupper(Term),
+      HYPSCAT = substr(`Algorithmic Category`, 1, 1)
+    ) |>
+    dplyr::select(AEDECOD, HYPSCAT)
+  
+  # Derive `HYPSCAT`
+  gen <- dplyr::left_join(raw, terms)
   
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
