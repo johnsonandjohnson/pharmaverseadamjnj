@@ -31,6 +31,25 @@ gen_adagocmq <- function(seed = 123) {
   # Derive `HYPSCAT`
   gen <- dplyr::left_join(raw, terms)
   
+  
+  # Derive `ATERMN` -----------------------------------------------------------
+  
+  gen <- gen |>
+    # Hypersensitivity
+    dplyr::mutate(ATERMN = dplyr::case_when(
+      OCMQNAM == "Hypersensitivity" & HYPSCAT == "A" ~ 11,
+      OCMQNAM == "Hypersensitivity" & HYPSCAT == "B" ~ 121,
+      OCMQNAM == "Hypersensitivity" & HYPSCAT == "C" ~ 122
+    )) |>
+    derive_combined_atermn(c(121, 122), 12) |>
+    dplyr::mutate(ATERMN = dplyr::case_when(
+      OCMQNAM == "Hypersensitivity" & HYPSCAT == "D" ~ 131,
+      .default = ATERMN
+    )) |>
+    derive_combined_atermn(c(121, 131), 13) |>
+    derive_combined_atermn(c(122, 131), 14)
+  
+
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
     HYPSCAT = "Hypersensitivity Category"
