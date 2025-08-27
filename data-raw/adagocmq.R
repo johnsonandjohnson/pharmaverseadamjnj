@@ -49,5 +49,56 @@ gen_adagocmq <- function(seed = 123) {
   return(gen)
 }
 
+
+#' Derive Records Combining `ATERMN` Levels
+#' 
+#' For example, if one subject has one record with ATERMN = 121 and another
+#' record with ATERMN = 122, and the start date of two those records is within
+#' 7 days, then set ATERMN = 12, create a record. If there are multiple
+#' combinations satisfy the above criteria, create one record for each
+#' combination.
+#' 
+#' @param df A data frame.
+#' @param levels A numeric vector of two `ATERMN` levels.
+#' @param level A single numeric that will be assigned to the derived records.
+#' 
+#' @return The input data frame with the derived records appended.
+#' 
+#' @noRd
+#' 
+#' @examples
+#' df <- dplyr::tibble(
+#'   USUBJID = c('a', 'a', 'a'),
+#'   ASTDT = as.Date(c("2020-11-01", "2020-11-02", "2020-11-03")),
+#'   ATERMN = c(121, 122, 121)
+#' )
+#' 
+#' derive_combined_atermn(df, c(121, 122), 12)
+derive_combined_atermn <- function(df, levels, level) {
+  ids <- unique(df[["USUBJID"]])
+  
+  for (id in ids) {
+    subject <- df |>
+      dplyr::filter(USUBJID == id) |>
+      dplyr::filter(ATERMN %in% levels)
+    
+    if (!all(levels %in% subject[["ATERMN"]])) next
+    
+    for (i in seq_len(NROW(subject))) {
+      current <- subject[i, ]
+      
+      records_within_7 <- subject[-(1:i), ] |>
+        dplyr::filter(abs(ASTDT - current[["ASTDT"]]) <= 7) |>
+        dplyr::filter(ATERMN != current[["ATERMN"]]) |>
+        dplyr::mutate(ATERMN = level)
+      
+      df <- dplyr::bind_rows(df, records_within_7)
+    }
+  }
+  
+  df
+}
+
+
 # Generate the dataset
 adagocmq <- gen_adagocmq()
