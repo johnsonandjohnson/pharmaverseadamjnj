@@ -206,21 +206,39 @@ gen_adsl <- function(seed = 123) {
     !is.na(gen$SCRFDT) ~ "Failure to meet eligibility criteria",
     .default = NA
   ))
+
+
   gen$SAFFL <- dplyr::case_when(
     is.na(gen$SAFFL) ~ "N",
+    # Randomly set SAFFL="N" for 10% of subjects with non-NA TRT01P
+    !is.na(gen$TRT01P) & sample(c(TRUE, FALSE), nrow(gen), replace = TRUE, prob = c(0.3, 0.7)) ~ "N",
     .default = gen$SAFFL
   )
   gen$ENRLFL <- as.factor(dplyr::case_when(
     gen$SAFFL == "Y" ~ "Y",
     .default = "N"
   ))
-  # Set RANDFL to "Y" for most subjects with SAFFL="Y", but also for a few with SAFFL="N"
-  gen$RANDFL <- as.factor(dplyr::case_when(
-    gen$SAFFL == "Y" ~ "Y",
-    # Add a few subjects who were randomized but never treated
-    sample(c(TRUE, FALSE), nrow(gen), replace = TRUE, prob = c(0.05, 0.95)) ~ "Y",
-    .default = "N"
-  ))
+  # Set RANDFL to "Y" for most subjects with SAFFL="Y", but also for a few with SAFFL="N" and non-NA TRT01P
+  # First, set RANDFL to "Y" for all subjects with SAFFL="Y"
+  gen$RANDFL <- ifelse(gen$SAFFL == "Y", "Y", "N")
+
+  # Then, identify subjects with SAFFL="N" and non-NA TRT01P
+  eligible_subjects <- which(gen$SAFFL == "N" & !is.na(gen$TRT01P))
+
+  # If there are eligible subjects, randomly select 5% of them to have RANDFL="Y"
+  if (length(eligible_subjects) > 0) {
+    # Calculate how many subjects to select (5% of eligible subjects)
+    n_select <- max(1, round(length(eligible_subjects) * 0.05))
+
+    # Randomly select subjects
+    selected_subjects <- sample(eligible_subjects, n_select)
+
+    # Set RANDFL to "Y" for selected subjects
+    gen$RANDFL[selected_subjects] <- "Y"
+  }
+
+  # Convert to factor
+  gen$RANDFL <- as.factor(gen$RANDFL)
   gen$ITTFL <- as.factor(dplyr::case_when(
     gen$SAFFL == "Y" ~ "Y",
     .default = "N"
