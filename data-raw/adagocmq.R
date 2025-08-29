@@ -65,14 +65,16 @@ derive_combined_atermn <- function(df, levels, level) {
 
 
 # Generate ADAGOCMQ dataset
-gen_adagocmq <- function(seed = 123) {
-  # Set seed for reproducibility
-  set.seed(seed)
+gen_adagocmq <- function() {
+  # Define additional labels for new variables not in source dataset
+  additional_labels <- list(
+    HYPSCAT = "Hypersensitivity Category"
+  )
   
+  # Create records related to ADAEOCMQ ----------------------------------------
+
   # Get source data
-  raw <- adaeocmq
-  
-  # Derive `HYPSCAT` ----------------------------------------------------------
+  raw_adaeocmq <- adaeocmq
   
   # For `HYPSCAT` derivation. Downloaded from:
   # https://www.fda.gov/drugs/development-resources/
@@ -86,14 +88,11 @@ gen_adagocmq <- function(seed = 123) {
     ) |>
     dplyr::select(AEDECOD, HYPSCAT)
   
-  # Derive `HYPSCAT`
-  gen <- dplyr::left_join(raw, terms)
-  
-  
-  # Derive `ATERMN` -----------------------------------------------------------
-  
-  gen <- gen |>
-    # Hypersensitivity
+  gen_adaeocmq <- raw_adaeocmq |>
+    # Derive `HYPSCAT`
+    dplyr::left_join(terms) |>
+    
+    # Derive `ATERMN`
     dplyr::mutate(ATERMN = dplyr::case_when(
       OCMQNAM == "Hypersensitivity" & HYPSCAT == "A" ~ 11,
       OCMQNAM == "Hypersensitivity" & HYPSCAT == "B" ~ 121,
@@ -106,17 +105,12 @@ gen_adagocmq <- function(seed = 123) {
     )) |>
     derive_combined_atermn(c(121, 131), 13) |>
     derive_combined_atermn(c(122, 131), 14) |>
-    
-    # Hyperglycemia
     dplyr::mutate(ATERMN = dplyr::case_when(
       OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow" ~ 21,
       .default = ATERMN
-    ))
-
-  
-  # Derive `ATERM` ------------------------------------------------------------
-  
-  gen <- gen |>
+    )) |>
+    
+    # Derive `ATERM`
     dplyr::mutate(ATERM = dplyr::case_when(
       ATERMN == 11 ~ "Any hypersensitivity OCMQ narrow term",
       ATERMN == 121 ~ "Respiratory",
@@ -126,23 +120,12 @@ gen_adagocmq <- function(seed = 123) {
       ATERMN == 13 ~ "Respiratory + Systemic Reaction",
       ATERMN == 14 ~ "Skin + Systemic Reaction",
       ATERMN == 21 ~ "Any Hyperglycemia OCMQ Narrow Term"
-    ))
-
-  
-  # Define additional labels for new variables not in source dataset
-  additional_labels <- list(
-    HYPSCAT = "Hypersensitivity Category"
-  )
-  
-  # Handle NA values and convert characters to factors
-  gen <- df_na(gen, char_as_factor = TRUE)
-  
-  # Restore labels
-  gen <- restore_labels(
-    df = gen,
-    orig_df = raw,
-    additional_labels = additional_labels
-  )
+    )) |>
+    
+    # Handle NA values and convert characters to factors
+    df_na(char_as_factor = TRUE) |>
+    # Restore labels
+    restore_labels(raw_adaeocmq, additional_labels)
   
   return(gen)
 }
