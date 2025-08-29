@@ -98,19 +98,15 @@ gen_adagocmq <- function() {
     dplyr::mutate(ATERMN = dplyr::case_when(
       OCMQNAM == "Hypersensitivity" & HYPSCAT == "A" ~ 11,
       OCMQNAM == "Hypersensitivity" & HYPSCAT == "B" ~ 121,
-      OCMQNAM == "Hypersensitivity" & HYPSCAT == "C" ~ 122
-    )) |>
-    derive_combined_atermn(c(121, 122), 12) |>
-    dplyr::mutate(ATERMN = dplyr::case_when(
+      OCMQNAM == "Hypersensitivity" & HYPSCAT == "C" ~ 122,
       OCMQNAM == "Hypersensitivity" & HYPSCAT == "D" ~ 131,
-      .default = ATERMN
+      OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow" ~ 21
     )) |>
+    
+    # Create new records based on `ATERMN`
+    derive_combined_atermn(c(121, 122), 12) |>
     derive_combined_atermn(c(121, 131), 13) |>
     derive_combined_atermn(c(122, 131), 14) |>
-    dplyr::mutate(ATERMN = dplyr::case_when(
-      OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow" ~ 21,
-      .default = ATERMN
-    )) |>
     
     # Derive `ATERM`
     dplyr::mutate(ATERM = dplyr::case_when(
