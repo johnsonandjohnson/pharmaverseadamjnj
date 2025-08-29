@@ -95,6 +95,7 @@ gen_adagocmq <- function(seed = 123) {
 #' df <- dplyr::tibble(
 #'   USUBJID = c('a', 'a', 'a'),
 #'   ASTDT = as.Date(c("2020-11-01", "2020-11-02", "2020-11-03")),
+#'   OCMQNAM = rep("Hypersensitivity", 3),
 #'   ATERMN = c(121, 122, 121)
 #' )
 #' 
@@ -115,7 +116,13 @@ derive_combined_atermn <- function(df, levels, level) {
       records_within_7 <- subject[-(1:i), ] |>
         dplyr::filter(abs(ASTDT - current[["ASTDT"]]) <= 7) |>
         dplyr::filter(ATERMN != current[["ATERMN"]]) |>
-        dplyr::mutate(ATERMN = level)
+        dplyr::mutate(ATERMN = level) |>
+        
+        # Clear some variables to prevent derived records being processed again
+        dplyr::mutate(dplyr::across(
+          dplyr::any_of(c("OCMQNAM", "HYPSCAT")),
+          \(x) NA_character_
+        ))
       
       df <- dplyr::bind_rows(df, records_within_7)
     }
