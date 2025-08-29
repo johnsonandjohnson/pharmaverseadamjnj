@@ -48,13 +48,7 @@ derive_combined_atermn <- function(df, levels, level) {
       records_within_7 <- subject[-(1:i), ] |>
         dplyr::filter(abs(ASTDT - current[["ASTDT"]]) <= 7) |>
         dplyr::filter(ATERMN != current[["ATERMN"]]) |>
-        dplyr::mutate(ATERMN = level) |>
-        
-        # Clear some variables to prevent derived records being processed again
-        dplyr::mutate(dplyr::across(
-          dplyr::any_of(c("OCMQNAM", "HYPSCAT")),
-          \(x) NA_character_
-        ))
+        dplyr::mutate(ATERMN = level)
       
       df <- dplyr::bind_rows(df, records_within_7)
     }
