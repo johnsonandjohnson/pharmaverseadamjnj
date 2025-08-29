@@ -112,8 +112,23 @@ gen_adagocmq <- function(seed = 123) {
       OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow" ~ 21,
       .default = ATERMN
     ))
-  
 
+  
+  # Derive `ATERM` ------------------------------------------------------------
+  
+  gen <- gen |>
+    dplyr::mutate(ATERM = dplyr::case_when(
+      ATERMN == 11 ~ "Any hypersensitivity OCMQ narrow term",
+      ATERMN == 121 ~ "Respiratory",
+      ATERMN == 122 ~ "Skin Reaction",
+      ATERMN == 12 ~ "Respiratory + Skin Reaction",
+      ATERMN == 131 ~ "Systemic Reaction",
+      ATERMN == 13 ~ "Respiratory + Systemic Reaction",
+      ATERMN == 14 ~ "Skin + Systemic Reaction",
+      ATERMN == 21 ~ "Any Hyperglycemia OCMQ Narrow Term"
+    ))
+
+  
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
     HYPSCAT = "Hypersensitivity Category"
