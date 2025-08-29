@@ -68,7 +68,9 @@ derive_combined_atermn <- function(df, levels, level) {
 gen_adagocmq <- function() {
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
-    HYPSCAT = "Hypersensitivity Category"
+    HYPSCAT = "Hypersensitivity Category",
+    ATERMN = "Analysis Term",
+    ATERM = "Analysis Term (N)"
   )
   
   # Create records related to ADAEOCMQ ----------------------------------------
