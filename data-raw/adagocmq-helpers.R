@@ -11,7 +11,10 @@
 
 
 #' @rdname derive_atermn
+#' 
 #' @param A single character that specifies the criterion.
+#' @return The derived records.
+#' 
 #' @examples
 #' df <- dplyr::tibble(
 #'   OCMQNAM = rep("Hypersensitivity", 2),
