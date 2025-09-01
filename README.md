@@ -1,6 +1,6 @@
 # pharmaverseadamjnj
 
-[![Check 🛠](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/inspect.yaml/badge.svg)](https://johnsonandjohnson.github.io/pharmaverseadamjnj/main/unit-test-report-non-cran/)
+[![Check 🛠](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/inspect.yaml/badge.svg)](https://github.com/johnsonandjohnson/pharmaversesdtmjnj/actions/workflows/inspect.yaml)
 [![Docs 📚](https://github.com/johnsonandjohnson/pharmaverseadamjnj/actions/workflows/pkgdown.yaml/badge.svg)](https://johnsonandjohnson.github.io/pharmaverseadamjnj/)
 <!-- [![Code Coverage 📔](https://raw.githubusercontent.com/johnsonandjohnson/pharmaverseadamjnj/_xml_coverage_reports/data/main/badge.svg)](https://johnsonandjohnson.github.io/pharmaverseadamjnj//main/coverage-report/)-->
 
