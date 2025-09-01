@@ -92,7 +92,7 @@
 #'  \item{GENSPMFL}{Gender Specific OCMQ Male Flag}
 #'  \item{GENSPFFL}{Gender Specific OCMQ Female Flag}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adaeocmq
 #' @name adaeocmq
 #' @examples
