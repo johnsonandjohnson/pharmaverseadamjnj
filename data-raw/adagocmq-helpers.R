@@ -1,11 +1,29 @@
 #' Derive New Records Based on `ATERMN` Levels
 #' 
 #' @param df A data frame which can be ADAEOCMQ or ADLB.
+#' @param level A single numeric that will be assigned to the derived records.
+#' 
 #' @return The input data frame with the derived records appended.
 #' 
 #' @noRd
 #' 
 #' @name derive_atermn
+
+
+#' @rdname derive_atermn
+#' @param A single character that specifies the criterion.
+#' @examples
+#' df <- dplyr::tibble(
+#'   OCMQNAM = rep("Hypersensitivity", 2),
+#'   HYPSCAT = c("A", "B")
+#' )
+#' 
+#' derive_atermn(df, 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "A"', 11)
+derive_atermn <- function(df, rule, level) {
+  df |>
+    dplyr::filter(eval(parse(text = rule))) |>
+    dplyr::mutate(ATERMN = level)
+}
 
 
 #' @rdname derive_atermn
@@ -17,7 +35,6 @@
 #' combination.
 #' 
 #' @param levels A numeric vector of two `ATERMN` levels.
-#' @param level A single numeric that will be assigned to the derived records.
 #' 
 #' @examples
 #' df <- dplyr::tibble(
