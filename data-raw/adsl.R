@@ -304,6 +304,11 @@ gen_adsl <- function(seed = 123) {
   # remove NA TRTEDY
   gen <- dplyr::filter(gen, !is.na(TRTEDY))
 
+  gen <- dplyr::mutate(
+    gen,
+    PKFL = dplyr::if_else(USUBJID %in% pharmaverseadam::adpc$USUBJID, "Y", "N")
+  )
+
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
     TRT01PN = "Planned Treatment for Period 01 (N)",
@@ -360,7 +365,8 @@ gen_adsl <- function(seed = 123) {
     LTVISIT = "Last Treatment Visit",
     DTHDY = "Study Day of Death",
     RESCRNFL = "Re-screened Flag",
-    ITTFL = "Intent-To-Treat Population Flag"
+    ITTFL = "Intent-To-Treat Population Flag",
+    PKFL = "Pharmacokinetic Population Flag"
   )
 
   # Handle NA values and convert characters to factors
