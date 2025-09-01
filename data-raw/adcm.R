@@ -18,11 +18,50 @@ gen_adcm <- function(seed = 123) {
   raw <- pharmaverseadam::adcm
 
   gen <- raw
-  gen$CMLVL1 <- as.factor(gen$CMCLAS)
-  gen$CMLVL2 <- as.factor(gen$CMCLAS)
-  gen$CMLVL3 <- as.factor(gen$CMCLAS)
-  gen$CMLVL4 <- as.factor(gen$CMCLAS)
-  gen$CMBASPRF <- as.factor(gen$CMDECOD)
+
+  # Initialize variables if they don't exist
+  if (!"CMLVL1" %in% names(gen)) gen$CMLVL1 <- gen$CMCLAS
+  if (!"CMLVL2" %in% names(gen)) gen$CMLVL2 <- gen$CMCLAS
+  if (!"CMLVL3" %in% names(gen)) gen$CMLVL3 <- gen$CMCLAS
+  if (!"CMLVL4" %in% names(gen)) gen$CMLVL4 <- gen$CMCLAS
+  if (!"CMDECOD" %in% names(gen)) gen$CMDECOD <- gen$CMTRT
+  if (!"CMBASPRF" %in% names(gen)) gen$CMBASPRF <- gen$CMDECOD
+
+  # Handle uncoded terms
+  gen <- gen %>%
+    mutate(
+      CMLVL1 = case_when(
+        CMLVL1 == "UNCODED" ~ "Uncoded",
+        TRUE ~ CMLVL1
+      ),
+      CMLVL2 = case_when(
+        CMLVL2 == "UNCODED" ~ "Uncoded",
+        TRUE ~ CMLVL2
+      ),
+      CMLVL3 = case_when(
+        CMLVL3 == "UNCODED" ~ "Uncoded",
+        TRUE ~ CMLVL3
+      ),
+      CMLVL4 = case_when(
+        CMLVL4 == "UNCODED" ~ "Uncoded",
+        TRUE ~ CMLVL4
+      ),
+      CMDECOD = case_when(
+        CMDECOD == "UNCODED" ~ paste0("Uncoded: ", CMTRT),
+        TRUE ~ CMDECOD
+      ),
+      CMBASPRF = case_when(
+        CMBASPRF == "UNCODED" ~ paste0("Uncoded: ", CMTRT),
+        TRUE ~ CMBASPRF
+      )
+    )
+
+  gen$CMLVL1 <- as.factor(gen$CMLVL1)
+  gen$CMLVL2 <- as.factor(gen$CMLVL2)
+  gen$CMLVL3 <- as.factor(gen$CMLVL3)
+  gen$CMLVL4 <- as.factor(gen$CMLVL4)
+  gen$CMDECOD <- as.factor(gen$CMDECOD)
+  gen$CMBASPRF <- as.factor(gen$CMBASPRF)
   gen$CMPRESP <- as.factor("Y")
   gen$CMOCCUR <- as.factor("Y")
   gen$CMINDCSP <- as.factor(gen$CMINDC)
@@ -31,6 +70,9 @@ gen_adcm <- function(seed = 123) {
     !is.na(gen$CMENRTPT) ~ "AFTER",
     .default = NA
   ))
+
+
+
   gen$PREFL <- as.factor(dplyr::case_when(
     gen$ASTDT < gen$TRTSDT ~ "Y",
     .default = NA

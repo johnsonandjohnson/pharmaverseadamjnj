@@ -450,7 +450,7 @@ gen_adlb <- function(seed = 123) {
     LBSTNRLQ = as.factor(sample(c(NA, "<"), dplyr::n(), replace = TRUE)),
     ATOXGRN = as.numeric(ATOXGR),
     ADTM = format(paste(ADT, "00:00"), format = "%Y-%m-%d %H:%M"),
-    ATPT = strftime(ADTM, format = "%H:%M"),
+    ATPT = "BEFORE TREATMENT",
     ATOXGRL = as.factor(sample(
       c(0, 1, 2, 3, 4, NaN),
       size = n(),
