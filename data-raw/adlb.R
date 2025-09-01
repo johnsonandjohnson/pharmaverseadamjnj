@@ -507,7 +507,7 @@ gen_adlb <- function(seed = 123) {
       replace = TRUE
     ),
     LBSPEC = dplyr::case_when(
-      PARAMCD == "GLUC" ~ "PLASMAN"
+      PARAMCD == "GLUC" ~ "PLASMA"
     ),
     LBFAST = dplyr::case_when(
       PARAMCD == "GLUC" ~ "Y"
