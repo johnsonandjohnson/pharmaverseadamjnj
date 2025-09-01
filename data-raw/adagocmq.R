@@ -83,7 +83,8 @@ gen_adagocmq <- function() {
       PARAMCD == "GLUC" & LBSPEC == "PLASMA" & LBFAST == "Y" &
         grepl("mg/dL", PARAM) & AVAL >= 126 ~ 22,
       PARAMCD == "GLUC" & grepl("mmol/L", PARAM) & AVAL > 9.99 ~ 231,
-      PARAMCD == "GLUC" & grepl("mg/dL", PARAM) & AVAL > 180 ~ 231
+      PARAMCD == "GLUC" & grepl("mg/dL", PARAM) & AVAL > 180 ~ 231,
+      PARAMCD == "HBA1C" & AVAL >= 6.5 & ADT >= TRTSDT ~ 25
     )) |>
     
     # Derive new records based on `ATERMN`
