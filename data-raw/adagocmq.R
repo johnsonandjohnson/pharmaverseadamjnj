@@ -59,6 +59,33 @@ derive_combined_atermn <- function(df, levels, level) {
 }
 
 
+#' @examples
+#' df <- dplyr::tibble(
+#'   USUBJID = c("a", "a", "b", "b"),
+#'   ATERMN = c(231, 231, 231, NA)
+#' )
+#' 
+#' derive_atermn_23(df)
+derive_atermn_23 <- function(df) {
+  ids <- unique(df[["USUBJID"]])
+  
+  for (id in ids) {
+    subject <- df |>
+      dplyr::filter(USUBJID == id) |>
+      dplyr::filter(ATERMN == 231)
+    
+    if (NROW(subject) <= 1) next
+    
+    record_23 <- subject[1, ] |>
+      dplyr::mutate(ATERMN = 23)
+    
+    df <- dplyr::bind_rows(df, record_23)
+  }
+  
+  df
+}
+
+
 # Generate ADAGOCMQ dataset
 gen_adagocmq <- function() {
   # Define additional labels for new variables not in source dataset
@@ -119,6 +146,27 @@ gen_adagocmq <- function() {
     df_na(char_as_factor = TRUE) |>
     # Restore labels
     restore_labels(raw_adaeocmq, additional_labels)
+  
+  
+  # Create records related to ADLB --------------------------------------------
+  
+  # Get source data
+  raw_adlb <- adlb
+  
+  gen_adlb <- raw_adlb |>
+    # Derive `ATERMN`
+    dplyr::mutate(ATERMN = dplyr::case_when(
+      PARAMCD == "GLUC" & LBSPEC == "PLASMA" & LBFAST == "Y" &
+        grepl("mmol/L", PARAM) & AVAL >= 6.993 ~ 22,
+      PARAMCD == "GLUC" & LBSPEC == "PLASMA" & LBFAST == "Y" &
+        grepl("mg/dL", PARAM) & AVAL >= 126 ~ 22,
+      PARAMCD == "GLUC" & grepl("mmol/L", PARAM) & AVAL > 9.99 ~ 231,
+      PARAMCD == "GLUC" & grepl("mg/dL", PARAM) & AVAL > 180 ~ 231
+    )) |>
+    
+    # Create new records based on `ATERMN`
+    derive_atermn_23()
+  
   
   return(gen)
 }
