@@ -505,6 +505,12 @@ gen_adlb <- function(seed = 123) {
       ),
       length(TRTEDT),
       replace = TRUE
+    ),
+    LBSPEC = dplyr::case_when(
+      PARAMCD == "GLUC" ~ "PLASMAN"
+    ),
+    LBFAST = dplyr::case_when(
+      PARAMCD == "GLUC" ~ "Y"
     )
   )
 
@@ -623,7 +629,9 @@ gen_adlb <- function(seed = 123) {
     TRT01SDT = "Start Date of Planned Treatment for Period 01",
     TRT01EDT = "End Date of Planned Treatment for Period 01",
     TR01SDT = "Start Date of Treatment for Period 01",
-    TR01EDT = "End Date of Treatment for Period 01"
+    TR01EDT = "End Date of Treatment for Period 01",
+    LBSPEC = "Specimen Type",
+    LBFAST = "Fasting Status"
   )
 
   # Handle NA values and convert characters to factors
