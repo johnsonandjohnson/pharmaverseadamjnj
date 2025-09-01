@@ -31,8 +31,8 @@ source(file.path("data-raw", "helpers.R"))
 #'   ATERMN = c(121, 122, 121)
 #' )
 #' 
-#' derive_combined_atermn(df, c(121, 122), 12)
-derive_combined_atermn <- function(df, levels, level) {
+#' derive_atermn_1x(df, c(121, 122), 12)
+derive_atermn_1x <- function(df, levels, level) {
   ids <- unique(df[["USUBJID"]])
   
   for (id in ids) {
@@ -126,9 +126,9 @@ gen_adagocmq <- function() {
     )) |>
     
     # Derive new records based on `ATERMN`
-    derive_combined_atermn(c(121, 122), 12) |>
-    derive_combined_atermn(c(121, 131), 13) |>
-    derive_combined_atermn(c(122, 131), 14) |>
+    derive_atermn_1x(c(121, 122), 12) |>
+    derive_atermn_1x(c(121, 131), 13) |>
+    derive_atermn_1x(c(122, 131), 14) |>
     
     # Derive `ATERM`
     dplyr::mutate(ATERM = dplyr::case_when(
