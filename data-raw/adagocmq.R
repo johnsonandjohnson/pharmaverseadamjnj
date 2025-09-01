@@ -125,7 +125,7 @@ gen_adagocmq <- function() {
       OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow" ~ 21
     )) |>
     
-    # Create new records based on `ATERMN`
+    # Derive new records based on `ATERMN`
     derive_combined_atermn(c(121, 122), 12) |>
     derive_combined_atermn(c(121, 131), 13) |>
     derive_combined_atermn(c(122, 131), 14) |>
@@ -164,7 +164,7 @@ gen_adagocmq <- function() {
       PARAMCD == "GLUC" & grepl("mg/dL", PARAM) & AVAL > 180 ~ 231
     )) |>
     
-    # Create new records based on `ATERMN`
+    # Derive new records based on `ATERMN`
     derive_atermn_23()
   
   
