@@ -128,6 +128,27 @@ gen_adagocmq <- function() {
       raw_adlb,
       rule = 'PARAMCD == "HBA1C" & AVAL >= 6.5 & ADT >= TRTSDT',
       level = 25
+    ),
+    derive_atermn(
+      raw_adlb,
+      rule = 'PARAMCD == "HBA1C" & AVAL >= 5.7 & CHG >= 0.3',
+      level = 26
+    ),
+    derive_atermn(
+      raw_adlb,
+      rule = paste(
+        'PARAMCD == "GLUC" & LBSPEC == "PLASMA" & LBFAST == "Y" &',
+        'grepl("mmol/L", PARAM) & CHG >= 1.11 & AVAL > 5.55'
+      ),
+      level = 27
+    ),
+    derive_atermn(
+      raw_adlb,
+      rule = paste(
+        'PARAMCD == "GLUC" & LBSPEC == "PLASMA" & LBFAST == "Y" &',
+        'grepl("mg/dL", PARAM) & CHG >= 20 & AVAL > 100'
+      ),
+      level = 27
     )
   )
   
