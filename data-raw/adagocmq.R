@@ -96,18 +96,42 @@ gen_adagocmq <- function() {
   # Get source data
   raw_adlb <- adlb
   
-  gen_adlb <- raw_adlb |>
-    # Derive `ATERMN`
-    dplyr::mutate(ATERMN = dplyr::case_when(
-      PARAMCD == "GLUC" & LBSPEC == "PLASMA" & LBFAST == "Y" &
-        grepl("mmol/L", PARAM) & AVAL >= 6.993 ~ 22,
-      PARAMCD == "GLUC" & LBSPEC == "PLASMA" & LBFAST == "Y" &
-        grepl("mg/dL", PARAM) & AVAL >= 126 ~ 22,
-      PARAMCD == "GLUC" & grepl("mmol/L", PARAM) & AVAL > 9.99 ~ 231,
-      PARAMCD == "GLUC" & grepl("mg/dL", PARAM) & AVAL > 180 ~ 231,
-      PARAMCD == "HBA1C" & AVAL >= 6.5 & ADT >= TRTSDT ~ 25
-    )) |>
-    
+  # Derive `ATERMN`
+  records_adlb <- dplyr::bind_rows(
+    derive_atermn(
+      raw_adlb,
+      rule = paste(
+        'PARAMCD == "GLUC" & LBSPEC == "PLASMA" & LBFAST == "Y" &',
+        'grepl("mmol/L", PARAM) & AVAL >= 6.993'
+      ),
+      level = 22
+    ),
+    derive_atermn(
+      raw_adlb,
+      rule = paste(
+        'PARAMCD == "GLUC" & LBSPEC == "PLASMA" & LBFAST == "Y" &',
+        'grepl("mg/dL", PARAM) & AVAL >= 126'
+      ),
+      level = 22
+    ),
+    derive_atermn(
+      raw_adlb,
+      rule = 'PARAMCD == "GLUC" & grepl("mmol/L", PARAM) & AVAL > 9.99',
+      level = 231
+    ),
+    derive_atermn(
+      raw_adlb,
+      rule = 'PARAMCD == "GLUC" & grepl("mg/dL", PARAM) & AVAL > 180',
+      level = 231
+    ),
+    derive_atermn(
+      raw_adlb,
+      rule = 'PARAMCD == "HBA1C" & AVAL >= 6.5 & ADT >= TRTSDT',
+      level = 25
+    )
+  )
+  
+  records_adlb <- records_adlb |>
     # Derive new records based on `ATERMN`
     derive_atermn_23()
   
