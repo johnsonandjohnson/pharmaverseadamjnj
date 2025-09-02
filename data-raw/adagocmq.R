@@ -46,7 +46,20 @@ gen_adagocmq <- function() {
     derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "C"', 122),
     derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "D"', 131),
     derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow"', 21),
-    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow"', 31)
+    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow"', 31),
+    
+    # Derive `ATERMN = 331`
+    raw_adaeocmq |>
+      dplyr::filter(OCMQNAM == "Hypoglycemia" & OCMQCLSS == "Broad") |>
+      dplyr::filter(AEDECOD %in% toupper(c(
+        "Accident", "Anxiety", "Asthenia", "Cold sweat", "Coma",
+        "Confusional state", "Fall", "Fatigue", "Hunger", "Hyperhidrosis",
+        "Irritability", "Loss of consciousness", "Palpitations",
+        "Road traffic accident", "Seizure", "Tremor", "Dysarthria",
+        "Balance disorder", "Coordination abnormal", "Headache",
+        "Vision blurred", "Visual impairment"
+      ))) |>
+      dplyr::mutate(ATERMN = 331)
     # nolint end
   ) |>
     
