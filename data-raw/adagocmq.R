@@ -40,34 +40,15 @@ gen_adagocmq <- function() {
   
   # Derive `ATERMN`
   records_adaeocmq <- dplyr::bind_rows(
-    derive_atermn(
-      raw_adaeocmq,
-      rule = 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "A"',
-      level = 11
-    ),
-    derive_atermn(
-      raw_adaeocmq,
-      rule = 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "B"',
-      level = 121
-    ),
-    derive_atermn(
-      raw_adaeocmq,
-      rule = 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "C"',
-      level = 122
-    ),
-    derive_atermn(
-      raw_adaeocmq,
-      rule = 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "D"',
-      level = 131
-    ),
-    derive_atermn(
-      raw_adaeocmq,
-      rule = 'OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow"',
-      level = 21
-    )
-  )
-  
-  records_adaeocmq <- records_adaeocmq |>
+    # nolint start
+    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "A"', 11),
+    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "B"', 121),
+    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "C"', 122),
+    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "D"', 131),
+    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow"', 21)
+    # nolint end
+  ) |>
+    
     # Derive new records based on `ATERMN`
     derive_atermn_1x(c(121, 122), 12) |>
     derive_atermn_1x(c(121, 131), 13) |>
