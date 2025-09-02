@@ -12,25 +12,6 @@
 
 #' @rdname derive_atermn
 #' 
-#' @param A single character that specifies the criterion.
-#' @return The derived records.
-#' 
-#' @examples
-#' df <- dplyr::tibble(
-#'   OCMQNAM = rep("Hypersensitivity", 2),
-#'   HYPSCAT = c("A", "B")
-#' )
-#' 
-#' derive_atermn(df, 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "A"', 11)
-derive_atermn <- function(df, rule, level) {
-  df |>
-    dplyr::filter(eval(parse(text = rule))) |>
-    dplyr::mutate(ATERMN = level)
-}
-
-
-#' @rdname derive_atermn
-#' 
 #' For example, if one subject has one record with ATERMN = 121 and another
 #' record with ATERMN = 122, and the start date of two those records is within
 #' 7 days, then set ATERMN = 12, create a record. If there are multiple
