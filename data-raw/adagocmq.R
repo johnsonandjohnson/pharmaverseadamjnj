@@ -45,7 +45,8 @@ gen_adagocmq <- function() {
     derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "B"', 121),
     derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "C"', 122),
     derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "D"', 131),
-    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow"', 21)
+    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow"', 21),
+    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow"', 31)
     # nolint end
   ) |>
     
@@ -130,6 +131,22 @@ gen_adagocmq <- function() {
         'grepl("mg/dL", PARAM) & CHG >= 20 & AVAL > 100'
       ),
       level = 27
+    ),
+    derive_atermn(
+      raw_adlb,
+      rule = paste(
+        'PARAMCD == "GLUC" & LBSPEC == "PLASMA" &',
+        'grepl("mmol/L", PARAM) & AVAL < 3.0'
+      ),
+      level = 32
+    ),
+    derive_atermn(
+      raw_adlb,
+      rule = paste(
+        'PARAMCD == "GLUC" & LBSPEC == "PLASMA" &',
+        'grepl("mg/dL", PARAM) & AVAL < 54'
+      ),
+      level = 32
     )
   )
   
