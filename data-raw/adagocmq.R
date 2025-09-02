@@ -40,15 +40,30 @@ gen_adagocmq <- function() {
   
   # Derive `ATERMN`
   records_adaeocmq <- dplyr::bind_rows(
-    # nolint start
-    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "A"', 11),
-    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "B"', 121),
-    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "C"', 122),
-    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hypersensitivity" & HYPSCAT == "D"', 131),
-    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow"', 21),
-    derive_atermn(raw_adaeocmq, 'OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow"', 31),
+    raw_adaeocmq |>
+      dplyr::filter(OCMQNAM == "Hypersensitivity" & HYPSCAT == "A") |>
+      dplyr::mutate(ATERMN = 11),
     
-    # Derive `ATERMN = 331`
+    raw_adaeocmq |>
+      dplyr::filter(OCMQNAM == "Hypersensitivity" & HYPSCAT == "B") |>
+      dplyr::mutate(ATERMN = 121),
+    
+    raw_adaeocmq |>
+      dplyr::filter(OCMQNAM == "Hypersensitivity" & HYPSCAT == "C") |>
+      dplyr::mutate(ATERMN = 122),
+    
+    raw_adaeocmq |>
+      dplyr::filter(OCMQNAM == "Hypersensitivity" & HYPSCAT == "D") |>
+      dplyr::mutate(ATERMN = 131),
+    
+    raw_adaeocmq |>
+      dplyr::filter(OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow") |>
+      dplyr::mutate(ATERMN = 21),
+    
+    raw_adaeocmq |>
+      dplyr::filter(OCMQNAM == "Hypoglycemia" & OCMQCLSS == "Narrow") |>
+      dplyr::mutate(ATERMN = 31),
+    
     raw_adaeocmq |>
       dplyr::filter(OCMQNAM == "Hypoglycemia" & OCMQCLSS == "Broad") |>
       dplyr::filter(AEDECOD %in% toupper(c(
@@ -60,7 +75,6 @@ gen_adagocmq <- function() {
         "Vision blurred", "Visual impairment"
       ))) |>
       dplyr::mutate(ATERMN = 331)
-    # nolint end
   ) |>
     
     # Derive new records based on `ATERMN`
