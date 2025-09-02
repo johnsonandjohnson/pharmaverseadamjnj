@@ -105,3 +105,64 @@ derive_atermn_23 <- function(df) {
   
   df
 }
+
+
+#' @rdname derive_atermn
+derive_atermn_24 <- function(df) {
+  # Some variables should include or exclude some keywords
+  cmindc_include <- paste(c(
+    "diab",
+    "mellitus",
+    "hyperglyc",
+    "glucose",
+    "dibet",
+    "dieb"
+  ), collapse = "|")
+  
+  cmindc_exclude <- paste(c(
+    "prophyla",
+    "prevent",
+    "insipidus",
+    "hyperglycerid",
+    "low blood glucose",
+    "low glucose",
+    "low blood sugar",
+    "low sugar",
+    "low afternoon blood glucose",
+    "low morning blood glucose"
+  ), collapse = "|")
+  
+  cmclas_include <- paste(c(
+    "gliptin",
+    "glutide",
+    "diabet",
+    "glitaz",
+    "glucose lowering",
+    "glucosidas",
+    "dipeptidyl",
+    "sulfonyl",
+    "DPP",
+    "guanide",
+    "GLP",
+    "glucagon-like",
+    "metform",
+    "gliflozin",
+    "insulin",
+    "sodium-glucose",
+    "SGLT",
+    "thiazolid"
+  ), collapse = "|")
+  
+  cmclas_exclude <- "sex hormone"
+  
+  # Derive `ATERMN`
+  df |>
+    dplyr::filter(
+      ASTDT >= TRTSDT &
+        grepl(cmindc_include, CMINDC, ignore.case = TRUE) &
+        !grepl(cmindc_exclude, CMINDC, ignore.case = TRUE) &
+        grepl(cmclas_include, CMCLAS, ignore.case = TRUE) &
+        !grepl(cmclas_exclude, CMCLAS, ignore.case = TRUE)
+    ) |>
+    dplyr::mutate(ATERMN = 24)
+}
