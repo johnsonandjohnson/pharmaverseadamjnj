@@ -135,9 +135,40 @@ gen_adagocmq <- function() {
   
   # Create records related to ADCM --------------------------------------------
   
-  # Derive `ATERMN`
+  # Derive `ATERMN = 24`
   records_adcm <- raw_adcm |>
-    derive_atermn_24()
+    dplyr::filter(ASTDT >= TRTSDT) |>
+    dplyr::filter(grepl(
+      paste(
+        "diab", "mellitus", "hyperglyc", "glucose", "dibet", "dieb",
+        sep = "|"
+      ),
+      CMINDC,
+      ignore.case = TRUE
+    )) |>
+    dplyr::filter(!grepl(
+      paste(
+        "prophyla", "prevent", "insipidus", "hyperglycerid",
+        "low blood glucose", "low glucose", "low blood sugar", "low sugar",
+        "low afternoon blood glucose", "low morning blood glucose",
+        sep = "|"
+      ),
+      CMINDC,
+      ignore.case = TRUE
+    )) |>
+    dplyr::filter(grepl(
+      paste(
+        "gliptin", "glutide", "diabet", "glitaz", "glucose lowering",
+        "glucosidas", "dipeptidyl", "sulfonyl", "DPP", "guanide", "GLP",
+        "glucagon-like", "metform", "gliflozin", "insulin", "sodium-glucose",
+        "SGLT", "thiazolid",
+        sep = "|"
+      ),
+      CMCLAS,
+      ignore.case = TRUE
+    )) |>
+    dplyr::filter(!grepl("sex hormone", CMCLAS, ignore.case = TRUE)) |>
+    dplyr::mutate(ATERMN = 24)
   
   
   # Combine records -----------------------------------------------------------
