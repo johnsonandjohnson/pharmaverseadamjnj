@@ -10,6 +10,11 @@ source(file.path("data-raw", "adagocmq-helpers.R"))
 
 # Generate ADAGOCMQ dataset
 gen_adagocmq <- function() {
+  # Get source data
+  raw_adaeocmq <- adaeocmq
+  raw_adlb <- adlb
+  raw_adcm <- adcm
+  
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
     HYPSCAT = "Hypersensitivity Category",
@@ -17,11 +22,9 @@ gen_adagocmq <- function() {
     ATERM = "Analysis Term (N)"
   )
   
+  
   # Create records related to ADAEOCMQ ----------------------------------------
 
-  # Get source data
-  raw_adaeocmq <- adaeocmq
-  
   # For `HYPSCAT` derivation. Downloaded from:
   # https://www.fda.gov/drugs/development-resources/
   # office-new-drugs-custom-medical-queries-ocmqs
@@ -75,36 +78,11 @@ gen_adagocmq <- function() {
         "Vision blurred", "Visual impairment"
       ))) |>
       dplyr::mutate(ATERMN = 331)
-  ) |>
-    
-    # Derive new records based on `ATERMN`
-    derive_atermn_1x(c(121, 122), 12) |>
-    derive_atermn_1x(c(121, 131), 13) |>
-    derive_atermn_1x(c(122, 131), 14) |>
-    
-    # Derive `ATERM`
-    dplyr::mutate(ATERM = dplyr::case_when(
-      ATERMN == 11 ~ "Any hypersensitivity OCMQ narrow term",
-      ATERMN == 121 ~ "Respiratory",
-      ATERMN == 122 ~ "Skin Reaction",
-      ATERMN == 12 ~ "Respiratory + Skin Reaction",
-      ATERMN == 131 ~ "Systemic Reaction",
-      ATERMN == 13 ~ "Respiratory + Systemic Reaction",
-      ATERMN == 14 ~ "Skin + Systemic Reaction",
-      ATERMN == 21 ~ "Any Hyperglycemia OCMQ Narrow Term"
-    )) |>
-    
-    # Handle NA values and convert characters to factors
-    df_na(char_as_factor = TRUE) |>
-    # Restore labels
-    restore_labels(raw_adaeocmq, additional_labels)
+  )
   
   
   # Create records related to ADLB --------------------------------------------
-  
-  # Get source data
-  raw_adlb <- adlb
-  
+
   # Derive `ATERMN`
   records_adlb <- dplyr::bind_rows(
     raw_adlb |>
@@ -152,21 +130,36 @@ gen_adagocmq <- function() {
       dplyr::filter(PARAMCD == "GLUC" & LBSPEC == "PLASMA") |>
       dplyr::filter(grepl("mg/dL", PARAM) & AVAL < 54) |>
       dplyr::mutate(ATERMN = 32)
-  ) |>
-    
-    # Derive new records based on `ATERMN`
-    derive_atermn_23()
+  )
   
   
   # Create records related to ADCM --------------------------------------------
-  
-  # Get source data
-  raw_adcm <- adcm
   
   # Derive `ATERMN`
   records_adcm <- raw_adcm |>
     derive_atermn_24()
   
+  
+  # Combine records -----------------------------------------------------------
+  
+  gen <- dplyr::bind_rows(records_adaeocmq, records_adlb, records_adcm) |>
+    # Derive new records based on `ATERMN`
+    derive_atermn_1x(c(121, 122), 12) |>
+    derive_atermn_1x(c(121, 131), 13) |>
+    derive_atermn_1x(c(122, 131), 14) |>
+    derive_atermn_23() |>
+    
+    # Derive `ATERM`
+    dplyr::mutate(ATERM = dplyr::case_when(
+      ATERMN == 11 ~ "Any hypersensitivity OCMQ narrow term",
+      ATERMN == 121 ~ "Respiratory",
+      ATERMN == 122 ~ "Skin Reaction",
+      ATERMN == 12 ~ "Respiratory + Skin Reaction",
+      ATERMN == 131 ~ "Systemic Reaction",
+      ATERMN == 13 ~ "Respiratory + Systemic Reaction",
+      ATERMN == 14 ~ "Skin + Systemic Reaction",
+      ATERMN == 21 ~ "Any Hyperglycemia OCMQ Narrow Term"
+    ))
   
   return(gen)
 }
