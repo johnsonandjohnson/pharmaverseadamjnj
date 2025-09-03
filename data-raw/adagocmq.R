@@ -143,7 +143,12 @@ gen_adagocmq <- function() {
     raw_adlb |>
       dplyr::filter(PARAMCD == "GLUC" & LBSPEC == "PLASMA") |>
       dplyr::filter(grepl("mg/dL", PARAM) & AVAL < 70) |>
-      dplyr::mutate(ATERMN = 332)
+      dplyr::mutate(ATERMN = 332),
+    
+    raw_adlb |>
+      dplyr::filter(PARAMCD == "MGB" & PARCAT1 == "URINALYSIS") |>
+      dplyr::filter(AVAL > ANRHI) |>
+      dplyr::mutate(ATERMN = 42)
   )
   
   
