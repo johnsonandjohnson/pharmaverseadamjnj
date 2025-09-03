@@ -148,7 +148,9 @@ gen_adagocmq <- function() {
     raw_adlb |>
       dplyr::filter(PARAMCD == "MGB" & PARCAT1 == "URINALYSIS") |>
       dplyr::filter(AVAL > ANRHI) |>
-      dplyr::mutate(ATERMN = 42)
+      dplyr::mutate(ATERMN = 42),
+    
+    derive_atermn_43(raw_adlb)
   )
   
   
