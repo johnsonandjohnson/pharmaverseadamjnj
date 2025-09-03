@@ -81,7 +81,19 @@ gen_adagocmq <- function() {
     
     raw_adaeocmq |>
       dplyr::filter(OCMQNAM == "Muscle Injury" & OCMQCLSS == "Narrow") |>
-      dplyr::mutate(ATERMN = 41)
+      dplyr::mutate(ATERMN = 41),
+    
+    raw_adaeocmq |>
+      dplyr::filter(AEDECOD == "Myalgia") |>
+      dplyr::mutate(ATERMN = 441),
+    
+    raw_adaeocmq |>
+      dplyr::filter(AEDECOD == "Muscular Weakness") |>
+      dplyr::mutate(ATERMN = 442),
+    
+    raw_adaeocmq |>
+      dplyr::filter(AEDECOD %in% c("Myoglobin Urine Present", "Chromaturia")) |>
+      dplyr::mutate(ATERMN = 443)
   )
   
   
