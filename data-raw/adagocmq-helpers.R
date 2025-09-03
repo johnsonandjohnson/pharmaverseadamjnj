@@ -88,3 +88,42 @@ derive_atermn_23 <- function(df) {
   
   df
 }
+
+
+#' @rdname derive_atermn
+#' 
+#' If a participant has more than 1 record with ATERMN = 331 and more than 1
+#' record with ATERMN = 332, then set ATERMN = 34, create a record. if there
+#' are multiple combinations satisfy the above criteria, ONLY keep one
+#' combination.
+#' 
+#' @examples
+#' df <- dplyr::tibble(
+#'   USUBJID = c(rep("a", 4), rep("b", 3)),
+#'   ATERMN = c(331, 331, 332, 332, 331, 331, 332)
+#' )
+#' 
+#' derive_atermn_34(df)
+derive_atermn_34 <- function(df) {
+  ids <- unique(df[["USUBJID"]])
+  
+  for (id in ids) {
+    subject <- df |>
+      dplyr::filter(USUBJID == id) |>
+      dplyr::filter(ATERMN %in% c(331, 332)) |>
+      dplyr::group_by(USUBJID, ATERMN) |>
+      dplyr::mutate(n = dplyr::n())
+    
+    if (any(subject[["n"]] <= 1)) next
+    
+    record_34 <- subject |>
+      dplyr::ungroup() |>
+      dplyr::mutate(n = NULL) |>
+      dplyr::slice(1) |>
+      dplyr::mutate(ATERMN = 34)
+    
+    df <- dplyr::bind_rows(df, record_34)
+  }
+  
+  df
+}
