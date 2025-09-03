@@ -189,6 +189,7 @@ gen_adagocmq <- function() {
     derive_atermn_1x(c(121, 131), 13) |>
     derive_atermn_1x(c(122, 131), 14) |>
     derive_atermn_23() |>
+    derive_atermn_1x(c(331, 332), 33) |>
     
     # Derive `ATERM`
     dplyr::mutate(ATERM = dplyr::case_when(

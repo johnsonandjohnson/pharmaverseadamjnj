@@ -18,6 +18,8 @@
 #' combinations satisfy the above criteria, create one record for each
 #' combination.
 #' 
+#' Also applies to ATERMN = 33.
+#' 
 #' @param levels A numeric vector of two `ATERMN` levels.
 #' 
 #' @examples
