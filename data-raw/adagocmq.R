@@ -77,7 +77,11 @@ gen_adagocmq <- function() {
         "Balance disorder", "Coordination abnormal", "Headache",
         "Vision blurred", "Visual impairment"
       ))) |>
-      dplyr::mutate(ATERMN = 331)
+      dplyr::mutate(ATERMN = 331),
+    
+    raw_adaeocmq |>
+      dplyr::filter(OCMQNAM == "Muscle Injury" & OCMQCLSS == "Narrow") |>
+      dplyr::mutate(ATERMN = 41)
   )
   
   
