@@ -164,3 +164,61 @@ derive_atermn_43 <- function(df) {
   
   records
 }
+
+
+#' @rdname derive_atermn
+#' 
+#' If a participant has:
+#' 
+#' 1. one record from ATERMN = 441 and
+#' 2. one record from ATERMN = 442 and
+#' 3. one record from ATERMN = 443 and
+#' 4. ASTDT for item 1,2, 3 are within 7 days of each other,
+#' 
+#' then set ATERMN = 44, create a record. If there are multiple combinations
+#' satisfy the above criteria, create a record for each combination.
+#' 
+#' @examples
+#' df <- dplyr::tibble(
+#'   USUBJID = c(rep("a", 5), "b"),
+#'   ASTDT = as.Date(c("2020-11-01", rep("2020-11-02", 5))),
+#'   ATERMN = c(441, rep(442, 2), rep(443, 3))
+#' )
+#' 
+#' derive_atermn_44(df)
+derive_atermn_44 <- function(df) {
+  levels <- c(441, 442, 443)
+  ids <- unique(df[["USUBJID"]])
+  
+  for (id in ids) {
+    subject <- df |>
+      dplyr::filter(USUBJID == id) |>
+      dplyr::filter(ATERMN %in% levels)
+    
+    if (!all(levels %in% subject[["ATERMN"]])) next
+    
+    for (i in seq_len(NROW(subject))) {
+      current <- subject[i, ]
+      current_level <- current[["ATERMN"]]
+      current_date <- current[["ASTDT"]]
+      
+      records_within_7 <- subject[-(1:i), ] |>
+        dplyr::filter(abs(ASTDT - current_date) <= 7) |>
+        dplyr::filter(ATERMN != current_level)
+      
+      rest_levels <- setdiff(levels, current_level)
+      
+      n_combinations <- sum(records_within_7[["ATERMN"]] == rest_levels[1]) *
+        sum(records_within_7[["ATERMN"]] == rest_levels[2])
+      
+      records_within_7 <- records_within_7 |>
+        dplyr::mutate(ATERMN = 44) |>
+        dplyr::mutate(ASTDT = min(ASTDT, current_date)) |>
+        dplyr::slice(rep(1, n_combinations))
+      
+      df <- dplyr::bind_rows(df, records_within_7)
+    }
+  }
+  
+  df
+}
