@@ -80,7 +80,9 @@ derive_atermn_23 <- function(df) {
     
     if (NROW(subject) <= 1) next
     
-    record_23 <- subject[1, ] |>
+    record_23 <- subject |>
+      dplyr::mutate(ASTDT = min(ASTDT)) |>
+      dplyr::slice(1) |>
       dplyr::mutate(ATERMN = 23)
     
     df <- dplyr::bind_rows(df, record_23)
