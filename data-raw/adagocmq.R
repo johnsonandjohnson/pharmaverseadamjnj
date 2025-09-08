@@ -165,7 +165,8 @@ gen_adagocmq <- function() {
     derive_atermn_43(raw_adlb)
   ) |>
     
-    dplyr::mutate(ASTDT = ADT)
+    dplyr::mutate(ASTDT = ADT) |>
+    dplyr::mutate(ASTDY = ADY)
   
   
   # Create records related to ADCM --------------------------------------------
