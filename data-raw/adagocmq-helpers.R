@@ -120,6 +120,7 @@ derive_atermn_34 <- function(df) {
     
     record_34 <- subject |>
       dplyr::ungroup() |>
+      dplyr::mutate(ASTDT = min(ASTDT)) |>
       dplyr::mutate(n = NULL) |>
       dplyr::slice(1) |>
       dplyr::mutate(ATERMN = 34)
