@@ -94,7 +94,9 @@ gen_adagocmq <- function() {
     raw_adaeocmq |>
       dplyr::filter(AEDECOD %in% c("Myoglobin Urine Present", "Chromaturia")) |>
       dplyr::mutate(ATERMN = 443)
-  )
+  ) |>
+    
+    dplyr::select(USUBJID, ASTDT, ASTDY, ATERMN, HYPSCAT, AEDECOD)
   
   
   # Create records related to ADLB --------------------------------------------
@@ -166,7 +168,8 @@ gen_adagocmq <- function() {
   ) |>
     
     dplyr::mutate(ASTDT = ADT) |>
-    dplyr::mutate(ASTDY = ADY)
+    dplyr::mutate(ASTDY = ADY) |>
+    dplyr::select(USUBJID, ASTDT, ASTDY, ATERMN, PARAM)
   
   
   # Create records related to ADCM --------------------------------------------
@@ -204,7 +207,9 @@ gen_adagocmq <- function() {
       ignore.case = TRUE
     )) |>
     dplyr::filter(!grepl("sex hormone", CMCLAS, ignore.case = TRUE)) |>
-    dplyr::mutate(ATERMN = 24)
+    dplyr::mutate(ATERMN = 24) |>
+    
+    dplyr::select(USUBJID, ASTDT, ASTDY, ATERMN)
   
   
   # Combine records -----------------------------------------------------------
