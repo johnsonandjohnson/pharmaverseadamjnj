@@ -157,43 +157,6 @@ derive_atermn_34 <- function(df) {
 
 #' @rdname derive_atermn
 #' 
-#' if CPK Value >5 x ULN [(ADLB.PARAMCD = 'CK' and ADLB.AVAL> 5*ADLB.ANRHI
-#' and ADLB.BASE<=ADLB.ANRHI) and within 3 days, there is no record with
-#' (ADLB.PARAM = 'CPK-MB/CPK' and ADLB.AVAL >0.05)], then set ATERMN = 43,
-#' create a record
-create_atermn_43 <- function(df) {
-  ids <- unique(df[["USUBJID"]])
-  records <- df[0, ]
-  
-  for (id in ids) {
-    subject <- df |>
-      dplyr::filter(USUBJID == id) |>
-      dplyr::filter(PARAMCD == "CK" & AVAL > 5 * ANRHI & BASE <= ANRHI)
-    
-    if (NROW(subject) == 0) next
-    
-    dates_within_3 <- subject[["ADT"]]
-    dates_within_3 <- c(dates_within_3 + 3, dates_within_3 - 3)
-    
-    records_within_3 <- df |>
-      dplyr::filter(USUBJID == id) |>
-      dplyr::filter(PARAM == "CPK-MB/CPK" & AVAL > 0.05) |>
-      dplyr::filter(ADT %in% dates_within_3)
-    
-    if (NROW(records_within_3) > 0) next
-    
-    record <- subject[1, ] |>
-      dplyr::mutate(ATERMN = 43)
-    
-    records <- dplyr::bind_rows(records, record)
-  }
-  
-  records
-}
-
-
-#' @rdname derive_atermn
-#' 
 #' If a participant has:
 #' 
 #' 1. one record from ATERMN = 441 and
@@ -253,4 +216,43 @@ derive_atermn_44 <- function(df) {
   }
   
   df
+}
+
+
+#' Create New Records Based on Rule "ATERMN = 43"
+#' 
+#' If CPK Value > 5 * ULN [(ADLB.PARAMCD = 'CK' and ADLB.AVAL > 5 * ADLB.ANRHI
+#' and ADLB.BASE <= ADLB.ANRHI) and within 3 days, there is no record with
+#' (ADLB.PARAM = 'CPK-MB/CPK' and ADLB.AVAL > 0.05)], then set ATERMN = 43,
+#' create a record.
+#' 
+#' @noRd
+create_atermn_43 <- function(df) {
+  ids <- unique(df[["USUBJID"]])
+  records <- df[0, ]
+  
+  for (id in ids) {
+    subject <- df |>
+      dplyr::filter(USUBJID == id) |>
+      dplyr::filter(PARAMCD == "CK" & AVAL > 5 * ANRHI & BASE <= ANRHI)
+    
+    if (NROW(subject) == 0) next
+    
+    dates_within_3 <- subject[["ADT"]]
+    dates_within_3 <- c(dates_within_3 + 3, dates_within_3 - 3)
+    
+    records_within_3 <- df |>
+      dplyr::filter(USUBJID == id) |>
+      dplyr::filter(PARAM == "CPK-MB/CPK" & AVAL > 0.05) |>
+      dplyr::filter(ADT %in% dates_within_3)
+    
+    if (NROW(records_within_3) > 0) next
+    
+    record <- subject[1, ] |>
+      dplyr::mutate(ATERMN = 43)
+    
+    records <- dplyr::bind_rows(records, record)
+  }
+  
+  records
 }
