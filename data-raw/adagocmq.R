@@ -313,7 +313,38 @@ gen_adagocmq <- function() {
     # Derive `ANL01FL`
     dplyr::mutate(ANL01FL = dplyr::if_else(nchar(ATERMN) == 2, "Y", NA)) |>
     
-    dplyr::left_join(variables_adsl)
+    # Copy and select variables
+    dplyr::left_join(variables_adsl) |>
+    dplyr::select(
+      STUDYID,
+      USUBJID,
+      # DIABETFL,
+      ASTDT,
+      ASTDY,
+      TRT01P,
+      TRT01PN,
+      TRT01A,
+      TRT01AN,
+      ACAT1,
+      ACAT1N,
+      ATERM,
+      ATERMN,
+      HYPSCAT,
+      # SRCVALUE,
+      # SRCVAR,
+      # SRCDOM,
+      # SRCSEQ,
+      ANL01FL,
+      AGE,
+      AGEU,
+      SEX,
+      RACE,
+      COUNTRY,
+      RANDFL,
+      SAFFL,
+      SITEID,
+      SUBJID
+    )
   
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
