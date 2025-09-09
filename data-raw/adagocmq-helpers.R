@@ -101,8 +101,9 @@ derive_atermn_23 <- function(df) {
 #' 
 #' @examples
 #' df <- dplyr::tibble(
-#'   USUBJID = c(rep("a", 4), rep("b", 3)),
-#'   ATERMN = c(331, 331, 332, 332, 331, 331, 332)
+#'   USUBJID = c(rep("a", 4), rep("b", 3), rep("c", 2)),
+#'   ATERMN = c(331, 331, 332, 332, 331, 331, 332, 331, 331),
+#'   ASTDT = as.Date(c("2023-09-02", rep("2023-09-01", 8)))
 #' )
 #' 
 #' derive_atermn_34(df)
@@ -112,8 +113,12 @@ derive_atermn_34 <- function(df) {
   for (id in ids) {
     subject <- df |>
       dplyr::filter(USUBJID == id) |>
-      dplyr::filter(ATERMN %in% c(331, 332)) |>
-      dplyr::group_by(USUBJID, ATERMN) |>
+      dplyr::filter(ATERMN %in% c(331, 332))
+    
+    if (!all(c(331, 332) %in% subject[["ATERMN"]])) next
+    
+    subject <- subject |>
+      dplyr::group_by(ATERMN) |>
       dplyr::mutate(n = dplyr::n())
     
     if (any(subject[["n"]] <= 1)) next
