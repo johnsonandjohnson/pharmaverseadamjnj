@@ -273,6 +273,15 @@ gen_adagocmq <- function() {
       ATERMN == 442 ~ AEDECOD,
       ATERMN == 443 ~ "Myoglobin Urine Present or Chromaturia",
       ATERMN == 44 ~ "Myalgia + Weakness + Chromaturia"
+    )) |>
+    
+    # Derive `ACAT1N` and `ACAT1`
+    dplyr::mutate(ACAT1N = substr(ATERMN, 1, 1)) |>
+    dplyr::mutate(ACAT1 = dplyr::case_when(
+      ACAT1N == 1 ~ "Hypersensitivity",
+      ACAT1N == 2 ~ "Hyperglycemia",
+      ACAT1N == 3 ~ "Hypoglycemia",
+      ACAT1N == 4 ~ "Rhabdomyolysis"
     ))
   
   # Define additional labels for new variables not in source dataset
