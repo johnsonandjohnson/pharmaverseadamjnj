@@ -1,16 +1,4 @@
-#' Derive New Records Based on `ATERMN` Levels
-#' 
-#' @param df A data frame which can be ADAEOCMQ or ADLB.
-#' @param level A single numeric that will be assigned to the derived records.
-#' 
-#' @return The input data frame with the derived records appended.
-#' 
-#' @noRd
-#' 
-#' @name derive_atermn
-
-
-#' @rdname derive_atermn
+#' Derive New Records Based on Rule "ATERMN = 1x"
 #' 
 #' For example, if one subject has one record with ATERMN = 121 and another
 #' record with ATERMN = 122, and the start date of two those records is within
@@ -18,10 +6,15 @@
 #' combinations satisfy the above criteria, create one record for each
 #' combination.
 #' 
-#' Also applies to ATERMN = 33.
+#' Also applies to rule "ATERMN = 33".
 #' 
+#' @param df A data frame.
+#' @param level A single numeric that will be assigned to the derived records.
 #' @param levels A numeric vector of two `ATERMN` levels.
 #' 
+#' @return The input data frame with the derived records appended.
+#' 
+#' @noRd
 #' @examples
 #' df <- dplyr::tibble(
 #'   USUBJID = c('a', 'a', 'a'),
@@ -64,11 +57,12 @@ derive_atermn_1x <- function(df, levels, level) {
 }
 
 
-#' @rdname derive_atermn
+#' Derive New Records Based on Rule "ATERMN = 23"
 #' 
 #' If a subject has more than one records with ATERMN = 231, then set
 #' ATERMN = 23, create a record. 
 #' 
+#' @noRd
 #' @examples
 #' df <- dplyr::tibble(
 #'   USUBJID = c("a", "a", "b", "b"),
@@ -104,13 +98,14 @@ derive_atermn_23 <- function(df) {
 }
 
 
-#' @rdname derive_atermn
+#' Derive New Records Based on Rule "ATERMN = 34"
 #' 
 #' If a participant has more than 1 record with ATERMN = 331 and more than 1
 #' record with ATERMN = 332, then set ATERMN = 34, create a record. if there
 #' are multiple combinations satisfy the above criteria, ONLY keep one
 #' combination.
 #' 
+#' @noRd
 #' @examples
 #' df <- dplyr::tibble(
 #'   USUBJID = c(rep("a", 4), rep("b", 3), rep("c", 2)),
@@ -155,7 +150,7 @@ derive_atermn_34 <- function(df) {
 }
 
 
-#' @rdname derive_atermn
+#' Derive New Records Based on Rule "ATERMN = 44"
 #' 
 #' If a participant has:
 #' 
@@ -167,6 +162,7 @@ derive_atermn_34 <- function(df) {
 #' then set ATERMN = 44, create a record. If there are multiple combinations
 #' satisfy the above criteria, create a record for each combination.
 #' 
+#' @noRd
 #' @examples
 #' df <- dplyr::tibble(
 #'   USUBJID = c(rep("a", 5), "b"),
