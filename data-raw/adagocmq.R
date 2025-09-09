@@ -236,6 +236,22 @@ gen_adagocmq <- function() {
   
   # Combine records -----------------------------------------------------------
   
+  # Define additional labels for new variables not in source dataset
+  additional_labels <- list(
+    ASTDT = "Analysis Start Date",
+    ASTDY = "Analysis Start Relative Day",
+    ACAT1 = "Analysis Category 1",
+    ACAT1N = "Analysis Category 1 (N)",
+    ATERM = "Analysis Term (N)",
+    ATERMN = "Analysis Term",
+    HYPSCAT = "Hypersensitivity Category",
+    SRCVALUE = "Source Value",
+    SRCVAR = "Source Variable",
+    SRCDOM = "Source Data",
+    SRCSEQ = "Source Sequence Number",
+    ANL01FL = "Analysis Flag 01"
+  )
+  
   gen <- dplyr::bind_rows(records_adaeocmq, records_adlb, records_adcm) |>
     # Derive new records based on `ATERMN`
     derive_atermn_1x(c(121, 122), 12) |>
@@ -344,14 +360,13 @@ gen_adagocmq <- function() {
       SAFFL,
       SITEID,
       SUBJID
-    )
-  
-  # Define additional labels for new variables not in source dataset
-  additional_labels <- list(
-    HYPSCAT = "Hypersensitivity Category",
-    ATERMN = "Analysis Term",
-    ATERM = "Analysis Term (N)"
-  )
+    ) |>
+    
+    # Handle NA values and convert characters to factors
+    df_na(char_as_factor = TRUE) |>
+    
+    # Restore labels
+    restore_labels(raw_adsl, additional_labels)
   
   return(gen)
 }
