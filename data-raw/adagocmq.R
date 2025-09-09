@@ -10,6 +10,19 @@ source(file.path("data-raw", "adagocmq-helpers.R"))
 
 # Generate ADAGOCMQ dataset
 gen_adagocmq <- function() {
+  # Variables to keep for created records
+  records_variables <- c(
+    "USUBJID",
+    "ASTDT",
+    "ASTDY",
+    "ATERMN",
+    "SRCVALUE",
+    "SRCVAR",
+    "SRCDOM",
+    "SRCSEQ"
+  )
+  
+  
   # Create records related to ADAEOCMQ ----------------------------------------
 
   # Get source data
@@ -88,7 +101,14 @@ gen_adagocmq <- function() {
       dplyr::mutate(ATERMN = 443)
   ) |>
     
-    dplyr::select(USUBJID, ASTDT, ASTDY, ATERMN, HYPSCAT, AEDECOD)
+    dplyr::mutate(
+      SRCVALUE = AEDECOD,
+      SRCVAR = "AEDECOD",
+      SRCDOM = "ADAEOCMQ",
+      SRCSEQ = AESEQ
+    ) |>
+    
+    dplyr::select(dplyr::all_of(c(records_variables, "HYPSCAT", "AEDECOD")))
   
   
   # Create records related to ADLB --------------------------------------------
@@ -162,9 +182,17 @@ gen_adagocmq <- function() {
     derive_atermn_43(raw_adlb)
   ) |>
     
-    dplyr::mutate(ASTDT = ADT) |>
-    dplyr::mutate(ASTDY = ADY) |>
-    dplyr::select(USUBJID, ASTDT, ASTDY, ATERMN, PARAM)
+    dplyr::mutate(
+      ASTDT = ADT,
+      ASTDY = ADY,
+      
+      SRCVALUE = as.character(AVAL),
+      SRCVAR = "AVAL",
+      SRCDOM = "ADLB",
+      SRCSEQ = ASEQ
+    ) |>
+
+    dplyr::select(dplyr::all_of(c(records_variables, "PARAM")))
   
   
   # Create records related to ADCM --------------------------------------------
@@ -207,7 +235,14 @@ gen_adagocmq <- function() {
     dplyr::filter(!grepl("sex hormone", CMCLAS, ignore.case = TRUE)) |>
     dplyr::mutate(ATERMN = 24) |>
     
-    dplyr::select(USUBJID, ASTDT, ASTDY, ATERMN)
+    dplyr::mutate(
+      SRCVALUE = CMDECOD,
+      SRCVAR = "CMDECOD",
+      SRCDOM = "ADCM",
+      SRCSEQ = CMSEQ
+    ) |>
+    
+    dplyr::select(dplyr::all_of(records_variables))
   
   
   # Copy variables from ADSL --------------------------------------------------
@@ -348,10 +383,10 @@ gen_adagocmq <- function() {
       ATERM,
       ATERMN,
       HYPSCAT,
-      # SRCVALUE,
-      # SRCVAR,
-      # SRCDOM,
-      # SRCSEQ,
+      SRCVALUE,
+      SRCVAR,
+      SRCDOM,
+      SRCSEQ,
       ANL01FL,
       AGE,
       AGEU,
