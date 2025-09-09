@@ -310,6 +310,9 @@ gen_adagocmq <- function() {
       ACAT1N == 4 ~ "Rhabdomyolysis"
     )) |>
     
+    # Derive `ANL01FL`
+    dplyr::mutate(ANL01FL = dplyr::if_else(nchar(ATERMN) == 2, "Y", NA)) |>
+    
     dplyr::left_join(variables_adsl)
   
   # Define additional labels for new variables not in source dataset
