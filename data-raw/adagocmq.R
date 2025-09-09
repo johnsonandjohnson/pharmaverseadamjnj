@@ -179,7 +179,7 @@ gen_adagocmq <- function() {
       dplyr::filter(AVAL > ANRHI) |>
       dplyr::mutate(ATERMN = 42),
     
-    derive_atermn_43(raw_adlb)
+    create_atermn_43(raw_adlb)
   ) |>
     
     dplyr::mutate(

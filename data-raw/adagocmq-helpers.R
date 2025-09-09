@@ -143,7 +143,7 @@ derive_atermn_34 <- function(df) {
 #' and ADLB.BASE<=ADLB.ANRHI) and within 3 days, there is no record with
 #' (ADLB.PARAM = 'CPK-MB/CPK' and ADLB.AVAL >0.05)], then set ATERMN = 43,
 #' create a record
-derive_atermn_43 <- function(df) {
+create_atermn_43 <- function(df) {
   ids <- unique(df[["USUBJID"]])
   records <- df[0, ]
   
