@@ -32,7 +32,7 @@ gen_adagocmq <- function() {
   # https://www.fda.gov/drugs/development-resources/
   # office-new-drugs-custom-medical-queries-ocmqs
   terms <-
-    file.path("data-raw", "OCMQs_v3.0.xlsm") |>
+    file.path("source_data", "OCMQs_v3.0.xlsm") |>
     readxl::read_excel(sheet = "Hypersensitivity") |>
     dplyr::mutate(
       AEDECOD = toupper(Term),
