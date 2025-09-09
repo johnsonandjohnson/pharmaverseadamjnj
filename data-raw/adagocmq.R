@@ -10,21 +10,11 @@ source(file.path("data-raw", "adagocmq-helpers.R"))
 
 # Generate ADAGOCMQ dataset
 gen_adagocmq <- function() {
-  # Get source data
-  raw_adaeocmq <- adaeocmq
-  raw_adlb <- adlb
-  raw_adcm <- adcm
-  
-  # Define additional labels for new variables not in source dataset
-  additional_labels <- list(
-    HYPSCAT = "Hypersensitivity Category",
-    ATERMN = "Analysis Term",
-    ATERM = "Analysis Term (N)"
-  )
-  
-  
   # Create records related to ADAEOCMQ ----------------------------------------
 
+  # Get source data
+  raw_adaeocmq <- adaeocmq
+  
   # For `HYPSCAT` derivation. Downloaded from:
   # https://www.fda.gov/drugs/development-resources/
   # office-new-drugs-custom-medical-queries-ocmqs
@@ -101,6 +91,9 @@ gen_adagocmq <- function() {
   
   # Create records related to ADLB --------------------------------------------
 
+  # Get source data
+  raw_adlb <- adlb
+  
   # Derive `ATERMN`
   records_adlb <- dplyr::bind_rows(
     raw_adlb |>
@@ -173,6 +166,9 @@ gen_adagocmq <- function() {
   
   
   # Create records related to ADCM --------------------------------------------
+  
+  # Get source data
+  raw_adcm <- adcm
   
   # Derive `ATERMN = 24`
   records_adcm <- raw_adcm |>
@@ -278,6 +274,13 @@ gen_adagocmq <- function() {
       ATERMN == 443 ~ "Myoglobin Urine Present or Chromaturia",
       ATERMN == 44 ~ "Myalgia + Weakness + Chromaturia"
     ))
+  
+  # Define additional labels for new variables not in source dataset
+  additional_labels <- list(
+    HYPSCAT = "Hypersensitivity Category",
+    ATERMN = "Analysis Term",
+    ATERM = "Analysis Term (N)"
+  )
   
   return(gen)
 }
