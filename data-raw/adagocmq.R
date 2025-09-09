@@ -208,6 +208,32 @@ gen_adagocmq <- function() {
     dplyr::select(USUBJID, ASTDT, ASTDY, ATERMN)
   
   
+  # Copy variables from ADSL --------------------------------------------------
+  
+  # Get source data
+  raw_adsl <- adsl
+  
+  variables_adsl <- raw_adsl |>
+    dplyr::select(
+      STUDYID,
+      USUBJID,
+      # DIABETFL,
+      TRT01P,
+      TRT01PN,
+      TRT01A,
+      TRT01AN,
+      AGE,
+      AGEU,
+      SEX,
+      RACE,
+      COUNTRY,
+      RANDFL,
+      SAFFL,
+      SITEID,
+      SUBJID
+    )
+  
+  
   # Combine records -----------------------------------------------------------
   
   gen <- dplyr::bind_rows(records_adaeocmq, records_adlb, records_adcm) |>
@@ -282,7 +308,9 @@ gen_adagocmq <- function() {
       ACAT1N == 2 ~ "Hyperglycemia",
       ACAT1N == 3 ~ "Hypoglycemia",
       ACAT1N == 4 ~ "Rhabdomyolysis"
-    ))
+    )) |>
+    
+    dplyr::left_join(variables_adsl)
   
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
