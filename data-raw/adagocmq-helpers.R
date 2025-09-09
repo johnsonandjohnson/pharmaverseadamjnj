@@ -48,7 +48,13 @@ derive_atermn_1x <- function(df, levels, level) {
         dplyr::filter(abs(ASTDT - current[["ASTDT"]]) <= 7) |>
         dplyr::filter(ATERMN != current[["ATERMN"]]) |>
         dplyr::mutate(ATERMN = level) |>
-        dplyr::mutate(ASTDT = min(ASTDT, current[["ASTDT"]]))
+        dplyr::mutate(ASTDT = min(ASTDT, current[["ASTDT"]])) |>
+        dplyr::mutate(
+          SRCVALUE = NA,
+          SRCVAR = NA,
+          SRCDOM = NA,
+          SRCSEQ = NA
+        )
       
       df <- dplyr::bind_rows(df, records_within_7)
     }
@@ -83,7 +89,13 @@ derive_atermn_23 <- function(df) {
     record_23 <- subject |>
       dplyr::mutate(ASTDT = min(ASTDT)) |>
       dplyr::slice(1) |>
-      dplyr::mutate(ATERMN = 23)
+      dplyr::mutate(ATERMN = 23) |>
+      dplyr::mutate(
+        SRCVALUE = NA,
+        SRCVAR = NA,
+        SRCDOM = NA,
+        SRCSEQ = NA
+      )
     
     df <- dplyr::bind_rows(df, record_23)
   }
@@ -128,7 +140,13 @@ derive_atermn_34 <- function(df) {
       dplyr::mutate(ASTDT = min(ASTDT)) |>
       dplyr::mutate(n = NULL) |>
       dplyr::slice(1) |>
-      dplyr::mutate(ATERMN = 34)
+      dplyr::mutate(ATERMN = 34) |>
+      dplyr::mutate(
+        SRCVALUE = NA,
+        SRCVAR = NA,
+        SRCDOM = NA,
+        SRCSEQ = NA
+      )
     
     df <- dplyr::bind_rows(df, record_34)
   }
@@ -222,7 +240,13 @@ derive_atermn_44 <- function(df) {
       records_within_7 <- records_within_7 |>
         dplyr::mutate(ATERMN = 44) |>
         dplyr::mutate(ASTDT = min(ASTDT, current_date)) |>
-        dplyr::slice(rep(1, n_combinations))
+        dplyr::slice(rep(1, n_combinations)) |>
+        dplyr::mutate(
+          SRCVALUE = NA,
+          SRCVAR = NA,
+          SRCDOM = NA,
+          SRCSEQ = NA
+        )
       
       df <- dplyr::bind_rows(df, records_within_7)
     }
