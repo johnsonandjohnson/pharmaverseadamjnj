@@ -74,15 +74,17 @@ gen_adagocmq <- function() {
       dplyr::mutate(ATERMN = 41),
     
     raw_adaeocmq |>
-      dplyr::filter(AEDECOD == "Myalgia") |>
+      dplyr::filter(AEDECOD == toupper("Myalgia")) |>
       dplyr::mutate(ATERMN = 441),
     
     raw_adaeocmq |>
-      dplyr::filter(AEDECOD == "Muscular Weakness") |>
+      dplyr::filter(AEDECOD == toupper("Muscular Weakness")) |>
       dplyr::mutate(ATERMN = 442),
     
     raw_adaeocmq |>
-      dplyr::filter(AEDECOD %in% c("Myoglobin Urine Present", "Chromaturia")) |>
+      dplyr::filter(
+        AEDECOD %in% toupper(c("Myoglobin Urine Present", "Chromaturia"))
+      ) |>
       dplyr::mutate(ATERMN = 443)
   ) |>
     
