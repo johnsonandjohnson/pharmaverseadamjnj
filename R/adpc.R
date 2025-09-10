@@ -135,9 +135,9 @@
 #'  \item{CRIT1}{Concentrations Below the Lowest Quantification Level Criterion}
 #'  \item{CRIT1FL}{Concentrations Below the Lowest Quantification Level Flag}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adpc
 #' @name adpc
 #' @examples
-#' head(data("adpc"))
+#'  head(data("adpc"))
 "adpc"

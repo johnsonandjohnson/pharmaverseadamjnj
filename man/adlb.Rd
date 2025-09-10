@@ -5,7 +5,7 @@
 \alias{adlb}
 \title{adlb}
 \format{
-A data frame with 83640 rows and 153 variables:
+A data frame with 83640 rows and 155 variables:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{DOMAIN}{Domain Abbreviation}
@@ -149,6 +149,8 @@ A data frame with 83640 rows and 153 variables:
 \item{LBCLSIG}{Clinically Significant}
 \item{TR01SDT}{Start Date of Treatment for Period 01}
 \item{TR01EDT}{End Date of Treatment for Period 01}
+\item{LBSPEC}{Specimen Type}
+\item{LBFAST}{Fasting Status}
 \item{ANL03FL}{Analysis Record Flag 03 - Protocol Visit}
 \item{ANL04FL}{Analysis Flag 04}
 \item{ANL05FL}{Analysis Flag 05}
@@ -175,7 +177,7 @@ adlb modified from pharmaverseadam
  head(data("adlb"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 }
 \keyword{adlb}
 \keyword{datasets}

@@ -113,9 +113,9 @@
 #'  \item{DTHDY}{Study Day of Death}
 #'  \item{PKFL}{Pharmacokinetic Population Flag}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adsl
 #' @name adsl
 #' @examples
-#' head(data("adsl"))
+#'  head(data("adsl"))
 "adsl"
