@@ -5,10 +5,25 @@ library(dplyr)
 
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
+# Source utility functions for creating new records based on complex rules
 source(file.path("data-raw", "adagocmq-helpers.R"))
 
 
-# Generate ADAGOCMQ dataset
+#' Generate ADAGOCMQ Dataset
+#' 
+#' The code below has five parts:
+#' 
+#' 1. Create new records related to ADAEOCMQ.
+#' 2. Create new records related to ADLB.
+#' 3. Create new records related to ADCM.
+#' 4. Copy variables from ADSL.
+#' 5. Combine data and derive variables.
+#' 
+#' The creation of new records is driven by the derivation of variable `ATERMN`.
+#' The file adagocmq-helpers.R contains utility functions for deriving `ATERMN`
+#' based on complex rules.
+#' 
+#' @noRd
 gen_adagocmq <- function() {
   # Variables to keep for created records
   records_variables <- c(
@@ -21,7 +36,6 @@ gen_adagocmq <- function() {
     "SRCDOM",
     "SRCSEQ"
   )
-  
   
   # Create records related to ADAEOCMQ ----------------------------------------
 
