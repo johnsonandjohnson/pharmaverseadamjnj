@@ -8,6 +8,12 @@ source(file.path("data-raw", "helpers.R"))
 # Source utility functions for creating new records based on complex rules
 source(file.path("data-raw", "adagocmq-helpers.R"))
 
+# Source related datasets
+source(file.path("data-raw", "adaeocmq.R"))
+source(file.path("data-raw", "adlb.R"))
+source(file.path("data-raw", "adcm.R"))
+source(file.path("data-raw", "adsl.R"))
+
 
 #' Generate ADAGOCMQ Dataset
 #' 
