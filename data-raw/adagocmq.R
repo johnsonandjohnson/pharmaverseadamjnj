@@ -16,19 +16,19 @@ source(file.path("data-raw", "adsl.R"))
 
 
 #' Generate ADAGOCMQ Dataset
-#' 
+#'
 #' The code below has five parts:
-#' 
+#'
 #' 1. Create new records related to ADAEOCMQ.
 #' 2. Create new records related to ADLB.
 #' 3. Create new records related to ADCM.
 #' 4. Copy variables from ADSL.
 #' 5. Combine data and derive variables.
-#' 
+#'
 #' The creation of new records is driven by the derivation of variable `ATERMN`.
 #' The file adagocmq-helpers.R contains utility functions for deriving `ATERMN`
 #' based on complex rules.
-#' 
+#'
 #' @noRd
 gen_adagocmq <- function() {
   # Variables to keep for created records
@@ -42,12 +42,12 @@ gen_adagocmq <- function() {
     "SRCDOM",
     "SRCSEQ"
   )
-  
+
   # Create records related to ADAEOCMQ ----------------------------------------
 
   # Get source data
   raw_adaeocmq <- adaeocmq
-  
+
   # For `HYPSCAT` derivation. Downloaded from:
   # https://www.fda.gov/drugs/development-resources/
   # office-new-drugs-custom-medical-queries-ocmqs
@@ -59,37 +59,31 @@ gen_adagocmq <- function() {
       HYPSCAT = substr(`Algorithmic Category`, 1, 1)
     ) |>
     dplyr::select(AEDECOD, HYPSCAT)
-  
+
   # Derive `HYPSCAT`
   raw_adaeocmq <- raw_adaeocmq |>
     dplyr::left_join(terms)
-  
+
   # Derive `ATERMN`
   records_adaeocmq <- dplyr::bind_rows(
     raw_adaeocmq |>
       dplyr::filter(OCMQNAM == "Hypersensitivity" & HYPSCAT == "A") |>
       dplyr::mutate(ATERMN = 11),
-    
     raw_adaeocmq |>
       dplyr::filter(OCMQNAM == "Hypersensitivity" & HYPSCAT == "B") |>
       dplyr::mutate(ATERMN = 121),
-    
     raw_adaeocmq |>
       dplyr::filter(OCMQNAM == "Hypersensitivity" & HYPSCAT == "C") |>
       dplyr::mutate(ATERMN = 122),
-    
     raw_adaeocmq |>
       dplyr::filter(OCMQNAM == "Hypersensitivity" & HYPSCAT == "D") |>
       dplyr::mutate(ATERMN = 131),
-    
     raw_adaeocmq |>
       dplyr::filter(OCMQNAM == "Hyperglycemia" & OCMQCLSS == "Narrow") |>
       dplyr::mutate(ATERMN = 21),
-    
     raw_adaeocmq |>
       dplyr::filter(OCMQNAM == "Hypoglycemia" & OCMQCLSS == "Narrow") |>
       dplyr::mutate(ATERMN = 31),
-    
     raw_adaeocmq |>
       dplyr::filter(OCMQNAM == "Hypoglycemia" & OCMQCLSS == "Broad") |>
       dplyr::filter(AEDECOD %in% toupper(c(
@@ -101,125 +95,103 @@ gen_adagocmq <- function() {
         "Vision blurred", "Visual impairment"
       ))) |>
       dplyr::mutate(ATERMN = 331),
-    
     raw_adaeocmq |>
       dplyr::filter(OCMQNAM == "Muscle Injury" & OCMQCLSS == "Narrow") |>
       dplyr::mutate(ATERMN = 41),
-    
     raw_adaeocmq |>
       dplyr::filter(AEDECOD == toupper("Myalgia")) |>
       dplyr::mutate(ATERMN = 441),
-    
     raw_adaeocmq |>
       dplyr::filter(AEDECOD == toupper("Muscular Weakness")) |>
       dplyr::mutate(ATERMN = 442),
-    
     raw_adaeocmq |>
       dplyr::filter(
         AEDECOD %in% toupper(c("Myoglobin Urine Present", "Chromaturia"))
       ) |>
       dplyr::mutate(ATERMN = 443)
   ) |>
-    
     dplyr::mutate(
       SRCVALUE = AEDECOD,
       SRCVAR = "AEDECOD",
       SRCDOM = "ADAEOCMQ",
       SRCSEQ = AESEQ
     ) |>
-    
     dplyr::select(dplyr::all_of(c(records_variables, "HYPSCAT", "AEDECOD")))
-  
-  
+
+
   # Create records related to ADLB --------------------------------------------
 
   # Get source data
   raw_adlb <- adlb
-  
+
   # Derive `ATERMN`
   records_adlb <- dplyr::bind_rows(
     raw_adlb |>
       dplyr::filter(PARAMCD == "GLUC" & LBSPEC == "PLASMA" & LBFAST == "Y") |>
       dplyr::filter(grepl("mmol/L", PARAM) & AVAL >= 6.993) |>
       dplyr::mutate(ATERMN = 22),
-    
     raw_adlb |>
       dplyr::filter(PARAMCD == "GLUC" & LBSPEC == "PLASMA" & LBFAST == "Y") |>
       dplyr::filter(grepl("mg/dL", PARAM) & AVAL >= 126) |>
       dplyr::mutate(ATERMN = 22),
-    
     raw_adlb |>
       dplyr::filter(PARAMCD == "GLUC" & grepl("mmol/L", PARAM) & AVAL > 9.99) |>
       dplyr::mutate(ATERMN = 231),
-    
     raw_adlb |>
       dplyr::filter(PARAMCD == "GLUC" & grepl("mg/dL", PARAM) & AVAL > 180) |>
       dplyr::mutate(ATERMN = 231),
-
     raw_adlb |>
       dplyr::filter(PARAMCD == "HBA1C" & AVAL >= 6.5 & ADT >= TRTSDT) |>
       dplyr::mutate(ATERMN = 25),
-    
     raw_adlb |>
       dplyr::filter(PARAMCD == "HBA1C" & AVAL >= 5.7 & CHG >= 0.3) |>
       dplyr::mutate(ATERMN = 26),
-    
     raw_adlb |>
       dplyr::filter(PARAMCD == "GLUC" & LBSPEC == "PLASMA" & LBFAST == "Y") |>
       dplyr::filter(grepl("mmol/L", PARAM) & CHG >= 1.11 & AVAL > 5.55) |>
       dplyr::mutate(ATERMN = 27),
-    
     raw_adlb |>
       dplyr::filter(PARAMCD == "GLUC" & LBSPEC == "PLASMA" & LBFAST == "Y") |>
       dplyr::filter(grepl("mg/dL", PARAM) & CHG >= 20 & AVAL > 100) |>
       dplyr::mutate(ATERMN = 27),
-
     raw_adlb |>
       dplyr::filter(PARAMCD == "GLUC" & LBSPEC == "PLASMA") |>
       dplyr::filter(grepl("mmol/L", PARAM) & AVAL < 3.0) |>
       dplyr::mutate(ATERMN = 32),
-
     raw_adlb |>
       dplyr::filter(PARAMCD == "GLUC" & LBSPEC == "PLASMA") |>
       dplyr::filter(grepl("mg/dL", PARAM) & AVAL < 54) |>
       dplyr::mutate(ATERMN = 32),
-    
     raw_adlb |>
       dplyr::filter(PARAMCD == "GLUC" & LBSPEC == "PLASMA") |>
       dplyr::filter(grepl("mmol/L", PARAM) & AVAL < 3.885) |>
       dplyr::mutate(ATERMN = 332),
-    
     raw_adlb |>
       dplyr::filter(PARAMCD == "GLUC" & LBSPEC == "PLASMA") |>
       dplyr::filter(grepl("mg/dL", PARAM) & AVAL < 70) |>
       dplyr::mutate(ATERMN = 332),
-    
     raw_adlb |>
       dplyr::filter(PARAMCD == "MGB" & PARCAT1 == "URINALYSIS") |>
       dplyr::filter(AVAL > ANRHI) |>
       dplyr::mutate(ATERMN = 42),
-    
     create_atermn_43(raw_adlb)
   ) |>
-    
     dplyr::mutate(
       ASTDT = ADT,
       ASTDY = ADY,
-      
       SRCVALUE = as.character(AVAL),
       SRCVAR = "AVAL",
       SRCDOM = "ADLB",
       SRCSEQ = ASEQ
     ) |>
-
     dplyr::select(dplyr::all_of(c(records_variables, "PARAM")))
-  
-  
+
+
   # Create records related to ADCM --------------------------------------------
-  
+
   # Get source data
   raw_adcm <- adcm
-  
+
   # Derive `ATERMN = 24`
   records_adcm <- raw_adcm |>
     dplyr::filter(ASTDT >= TRTSDT) |>
@@ -254,22 +226,20 @@ gen_adagocmq <- function() {
     )) |>
     dplyr::filter(!grepl("sex hormone", CMCLAS, ignore.case = TRUE)) |>
     dplyr::mutate(ATERMN = 24) |>
-    
     dplyr::mutate(
       SRCVALUE = CMDECOD,
       SRCVAR = "CMDECOD",
       SRCDOM = "ADCM",
       SRCSEQ = CMSEQ
     ) |>
-    
     dplyr::select(dplyr::all_of(records_variables))
-  
-  
+
+
   # Copy variables from ADSL --------------------------------------------------
-  
+
   # Get source data
   raw_adsl <- adsl
-  
+
   variables_adsl <- raw_adsl |>
     dplyr::select(
       STUDYID,
@@ -289,10 +259,10 @@ gen_adagocmq <- function() {
       SITEID,
       SUBJID
     )
-  
-  
+
+
   # Combine records -----------------------------------------------------------
-  
+
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
     ASTDT = "Analysis Start Date",
@@ -308,7 +278,7 @@ gen_adagocmq <- function() {
     SRCSEQ = "Source Sequence Number",
     ANL01FL = "Analysis Flag 01"
   )
-  
+
   gen <- dplyr::bind_rows(records_adaeocmq, records_adlb, records_adcm) |>
     # Derive new records based on `ATERMN`
     derive_atermn_1x(c(121, 122), 12) |>
@@ -318,7 +288,6 @@ gen_adagocmq <- function() {
     derive_atermn_1x(c(331, 332), 33) |>
     derive_atermn_34() |>
     derive_atermn_44() |>
-    
     # Derive `ATERM`
     dplyr::mutate(ATERM = dplyr::case_when(
       ATERMN == 11 ~ "Any hypersensitivity OCMQ narrow term",
@@ -373,7 +342,6 @@ gen_adagocmq <- function() {
       ATERMN == 443 ~ "Myoglobin Urine Present or Chromaturia",
       ATERMN == 44 ~ "Myalgia + Weakness + Chromaturia"
     )) |>
-    
     # Derive `ACAT1N` and `ACAT1`
     dplyr::mutate(ACAT1N = substr(ATERMN, 1, 1)) |>
     dplyr::mutate(ACAT1 = dplyr::case_when(
@@ -382,10 +350,8 @@ gen_adagocmq <- function() {
       ACAT1N == 3 ~ "Hypoglycemia",
       ACAT1N == 4 ~ "Rhabdomyolysis"
     )) |>
-    
     # Derive `ANL01FL`
     dplyr::mutate(ANL01FL = dplyr::if_else(nchar(ATERMN) == 2, "Y", NA)) |>
-    
     # Copy and select variables
     dplyr::left_join(variables_adsl) |>
     dplyr::select(
@@ -418,13 +384,11 @@ gen_adagocmq <- function() {
       SITEID,
       SUBJID
     ) |>
-    
     # Handle NA values and convert characters to factors
     df_na(char_as_factor = TRUE) |>
-    
     # Restore labels
     restore_labels(raw_adsl, additional_labels)
-  
+
   return(gen)
 }
 
