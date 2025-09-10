@@ -11,8 +11,7 @@
 #' @param df A data frame.
 #' @param level A single numeric that will be assigned to the derived records.
 #' @param levels A numeric vector of two `ATERMN` levels.
-#' 
-#' @return The input data frame with the derived records appended.
+#' @returns The input data frame with the derived records appended.
 #' 
 #' @noRd
 #' @examples
@@ -61,7 +60,10 @@ derive_atermn_1x <- function(df, levels, level) {
 #' 
 #' If a subject has more than one records with ATERMN = 231, then set
 #' ATERMN = 23, create a record. 
-#' 
+#'
+#' @param df A data frame.
+#' @returns The input data frame with the derived records appended.
+#'
 #' @noRd
 #' @examples
 #' df <- dplyr::tibble(
@@ -104,7 +106,10 @@ derive_atermn_23 <- function(df) {
 #' record with ATERMN = 332, then set ATERMN = 34, create a record. if there
 #' are multiple combinations satisfy the above criteria, ONLY keep one
 #' combination.
-#' 
+#'
+#' @param df A data frame.
+#' @returns The input data frame with the derived records appended.
+#'
 #' @noRd
 #' @examples
 #' df <- dplyr::tibble(
@@ -161,7 +166,10 @@ derive_atermn_34 <- function(df) {
 #' 
 #' then set ATERMN = 44, create a record. If there are multiple combinations
 #' satisfy the above criteria, create a record for each combination.
-#' 
+#'
+#' @param df A data frame.
+#' @returns The input data frame with the derived records appended.
+#'
 #' @noRd
 #' @examples
 #' df <- dplyr::tibble(
@@ -222,6 +230,8 @@ derive_atermn_44 <- function(df) {
 #' (ADLB.PARAM = 'CPK-MB/CPK' and ADLB.AVAL > 0.05)], then set ATERMN = 43,
 #' create a record.
 #' 
+#' @param df The ADLB dataset.
+#' @returns A data frame that contains only the new records.
 #' @noRd
 create_atermn_43 <- function(df) {
   ids <- unique(df[["USUBJID"]])
