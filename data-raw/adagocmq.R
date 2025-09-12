@@ -271,6 +271,7 @@ gen_adagocmq <- function() {
 
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
+    DIABETFL = "History of Diabetes",
     ASTDT = "Analysis Start Date",
     ASTDY = "Analysis Start Relative Day",
     ACAT1 = "Analysis Category 1",
