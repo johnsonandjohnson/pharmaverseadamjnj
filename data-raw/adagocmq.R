@@ -33,7 +33,7 @@ source(file.path("data-raw", "adsl.R"))
 gen_adagocmq <- function() {
   # For `DIABETFL`
   set.seed(123)
-  
+
   # Variables to keep for created records
   records_variables <- c(
     "USUBJID",
