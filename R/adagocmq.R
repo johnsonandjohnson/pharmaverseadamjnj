@@ -38,5 +38,5 @@
 #' @keywords datasets adagocmq
 #' @name adagocmq
 #' @examples
-#'  head(data("adagocmq"))
+#' head(data("adagocmq"))
 "adagocmq"
