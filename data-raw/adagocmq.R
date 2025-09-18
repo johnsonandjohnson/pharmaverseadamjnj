@@ -244,9 +244,6 @@ gen_adagocmq <- function() {
   raw_adsl <- adsl
 
   variables_adsl <- raw_adsl |>
-    dplyr::mutate(
-      DIABETFL = sample(c("N", "Y"), NROW(raw_adsl), TRUE, c(0.8, 0.2))
-    ) |>
     dplyr::select(
       STUDYID,
       USUBJID,
@@ -271,7 +268,6 @@ gen_adagocmq <- function() {
 
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
-    DIABETFL = "History of Diabetes",
     ASTDT = "Analysis Start Date",
     ASTDY = "Analysis Start Relative Day",
     ACAT1 = "Analysis Category 1",
