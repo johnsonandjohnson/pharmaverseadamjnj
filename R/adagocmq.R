@@ -3,11 +3,10 @@
 #' @description adagocmq modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 1301 rows and 28 variables:
+#' @format A data frame with 1301 rows and 27 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
-#'  \item{DIABETFL}{History of Diabetes}
 #'  \item{ASTDT}{Analysis Start Date}
 #'  \item{ASTDY}{Analysis Start Relative Day}
 #'  \item{TRT01P}{Planned Treatment for Period 01}
@@ -38,5 +37,5 @@
 #' @keywords datasets adagocmq
 #' @name adagocmq
 #' @examples
-#' head(data("adagocmq"))
+#'  head(data("adagocmq"))
 "adagocmq"
