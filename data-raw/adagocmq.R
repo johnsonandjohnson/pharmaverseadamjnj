@@ -31,9 +31,6 @@ source(file.path("data-raw", "adsl.R"))
 #'
 #' @noRd
 gen_adagocmq <- function() {
-  # For `DIABETFL`
-  set.seed(123)
-
   # Variables to keep for created records
   records_variables <- c(
     "USUBJID",
@@ -247,7 +244,6 @@ gen_adagocmq <- function() {
     dplyr::select(
       STUDYID,
       USUBJID,
-      DIABETFL,
       TRT01P,
       TRT01PN,
       TRT01A,
@@ -360,7 +356,6 @@ gen_adagocmq <- function() {
     dplyr::select(
       STUDYID,
       USUBJID,
-      DIABETFL,
       ASTDT,
       ASTDY,
       TRT01P,
