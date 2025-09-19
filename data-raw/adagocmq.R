@@ -291,55 +291,55 @@ gen_adagocmq <- function() {
     dplyr::mutate(ATERM = dplyr::case_when(
       ATERMN == 11 ~ "Any hypersensitivity OCMQ narrow term",
       ATERMN == 121 ~ "Respiratory",
-      ATERMN == 122 ~ "Skin Reaction",
-      ATERMN == 12 ~ "Respiratory + Skin Reaction",
-      ATERMN == 131 ~ "Systemic Reaction",
-      ATERMN == 13 ~ "Respiratory + Systemic Reaction",
-      ATERMN == 14 ~ "Skin + Systemic Reaction",
-      ATERMN == 21 ~ "Any Hyperglycemia OCMQ Narrow Term",
+      ATERMN == 122 ~ "Skin reaction",
+      ATERMN == 12 ~ "Respiratory + skin reaction",
+      ATERMN == 131 ~ "Systemic reaction",
+      ATERMN == 13 ~ "Respiratory + systemic reaction",
+      ATERMN == 14 ~ "Skin + systemic reaction",
+      ATERMN == 21 ~ "Any hyperglycemia OCMQ narrow term",
       ATERMN == 22 & grepl("mg/dL", PARAM) ~
-        "Fasting Plasma Glucose >= 126 mg/dL",
+        "Fasting plasma glucose >=126 mg/dL",
       ATERMN == 22 & grepl("mmol/L", PARAM) ~
-        "Fasting Plasma Glucose >= 6.993 mmol/L",
-      ATERMN == 231 & grepl("mg/dL", PARAM) ~ "Plasma Glucoses > 180 mg/dL",
-      ATERMN == 231 & grepl("mmol/L", PARAM) ~ "Plasma Glucoses > 9.99 mmol/L",
-      ATERMN == 23 & grepl("mg/dL", PARAM) ~ ">= 2 Plasma Glucoses > 180 mg/dL",
+        "Fasting plasma glucose >=6.993 mmol/L",
+      ATERMN == 231 & grepl("mg/dL", PARAM) ~ "Plasma glucoses >180 mg/dL",
+      ATERMN == 231 & grepl("mmol/L", PARAM) ~ "Plasma glucoses >9.99 mmol/L",
+      ATERMN == 23 & grepl("mg/dL", PARAM) ~ ">=2 plasma glucoses >180 mg/dL",
       ATERMN == 23 & grepl("mmol/L", PARAM) ~
-        ">= 2 Plasma Glucoses > 9.99 mmol/L",
-      ATERMN == 24 ~ "Any New Diabetes Concomitant Medication",
-      ATERMN == 25 ~ "Post Baseline HbA1c >= 6.5%",
-      ATERMN == 26 ~ "HbA1c Increase >= 0.3% with Post Baseline HbA1c >= 5.7%",
+        ">=2 plasma glucoses >9.99 mmol/L",
+      ATERMN == 24 ~ "Any new diabetes concomitant medication",
+      ATERMN == 25 ~ "Postbaseline HbA1c >=6.5%",
+      ATERMN == 26 ~ "HbA1c increase >=0.3% with postbaseline HbA1c >=5.7%",
       ATERMN == 27 & grepl("mg/dL", PARAM) ~ paste(
-        "Change from Baseline Fasting Plasma Glucose >= 20 mg/dL",
-        "with Post Baseline Fasting Plasma Glucose > 100 mg/dL"
+        "Change from baseline fasting plasma glucose >=20 mg/dL",
+        "with postbaseline fasting plasma glucose >100 mg/dL"
       ),
       ATERMN == 27 & grepl("mmol/L", PARAM) ~ paste(
-        "Change from Baseline Fasting Plasma Glucose >= 1.11 mmol/L",
-        "with Post Baseline Fasting Plasma Glucose > 5.55 mmol/L"
+        "Change from baseline fasting plasma glucose >=1.11 mmol/L",
+        "with postbaseline fasting plasma glucose >5.55 mmol/L"
       ),
-      ATERMN == 31 ~ "Any Hypoglycemia OCMQ narrow term",
-      ATERMN == 32 & grepl("mg/dL", PARAM) ~ "Plasma Glucose < 54 mg/dL",
-      ATERMN == 32 & grepl("mmol/L", PARAM) ~ "Plasma Glucose < 3.0 mmol/L",
-      ATERMN == 331 ~ "Hypoglycemia Term",
-      ATERMN == 332 & grepl("mg/dL", PARAM) ~ "Plasma Glucose < 70 mg/dL",
-      ATERMN == 332 & grepl("mmol/L", PARAM) ~ "Plasma Glucose < 3.885 mmol/L",
+      ATERMN == 31 ~ "Any hypoglycemia OCMQ narrow term",
+      ATERMN == 32 & grepl("mg/dL", PARAM) ~ "Plasma glucose <54 mg/dL",
+      ATERMN == 32 & grepl("mmol/L", PARAM) ~ "Plasma glucose <3.0 mmol/L",
+      ATERMN == 331 ~ "Hypoglycemia term",
+      ATERMN == 332 & grepl("mg/dL", PARAM) ~ "Plasma glucose <70 mg/dL",
+      ATERMN == 332 & grepl("mmol/L", PARAM) ~ "Plasma glucose <3.885 mmol/L",
       ATERMN == 33 & grepl("mg/dL", PARAM) ~
-        "Hypoglycemia Term + Plasma Glucose < 70 mg/dL",
+        "Hypoglycemia term + plasma glucose <70 mg/dL",
       ATERMN == 33 & grepl("mmol/L", PARAM) ~
-        "Hypoglycemia Term + Plasma Glucose < 3.885 mmol/L",
+        "Hypoglycemia term + plasma glucose <3.885 mmol/L",
       ATERMN == 34 & grepl("mg/dL", PARAM) ~
-        ">= 2 Hypoglycemia Terms + >= 2 Episodes of Plasma Glucose < 70 mg/dL",
+        ">=2 hypoglycemia terms + >=2 episodes of plasma glucose <70 mg/dL",
       ATERMN == 34 & grepl("mmol/L", PARAM) ~ paste(
-        ">= 2 Hypoglycemia Terms +",
-        ">= 2 Episodes of Plasma Glucose < 3.885 mmol/L"
+        ">=2 hypoglycemia terms +",
+        ">=2 episodes of plasma glucose <3.885 mmol/L"
       ),
-      ATERMN == 41 ~ "Any Muscle Injury OCMQ Narrow",
-      ATERMN == 42 ~ "Urine myoglobin > ULN",
-      ATERMN == 43 ~ "CPK >5 x ULN",
+      ATERMN == 41 ~ "Any muscle injury OCMQ narrow term",
+      ATERMN == 42 ~ "Urine myoglobin >ULN",
+      ATERMN == 43 ~ "CPK >5x ULN",
       ATERMN == 441 ~ AEDECOD,
       ATERMN == 442 ~ AEDECOD,
-      ATERMN == 443 ~ "Myoglobin Urine Present or Chromaturia",
-      ATERMN == 44 ~ "Myalgia + Weakness + Chromaturia"
+      ATERMN == 443 ~ "Myoglobin urine present or chromaturia",
+      ATERMN == 44 ~ "Myalgia + weakness + chromaturia"
     )) |>
     # Derive `ACAT1N` and `ACAT1`
     dplyr::mutate(ACAT1N = substr(ATERMN, 1, 1)) |>
@@ -347,7 +347,7 @@ gen_adagocmq <- function() {
       ACAT1N == 1 ~ "Hypersensitivity",
       ACAT1N == 2 ~ "Hyperglycemia",
       ACAT1N == 3 ~ "Hypoglycemia",
-      ACAT1N == 4 ~ "Rhabdomyolysis"
+      ACAT1N == 4 ~ "Muscle injury"
     )) |>
     # Derive `ANL01FL`
     dplyr::mutate(ANL01FL = dplyr::if_else(nchar(ATERMN) == 2, "Y", NA)) |>
