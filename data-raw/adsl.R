@@ -251,7 +251,7 @@ gen_adsl <- function(seed = 123) {
     gen$DTHDT > gen$TRTEDT ~ "Y",
     .default = NA
   )
-  gen$DTH60TFL <- dplyr::case_when(
+  gen$DTHB60FL <- dplyr::case_when(
     gen$DTHDT <= gen$TRTSDT + 60 ~ "Y",
     .default = "N"
   )
@@ -326,7 +326,7 @@ gen_adsl <- function(seed = 123) {
     STRAT2R = "Strat Factor 2 Value Used for Rand",
     SCRNFL = "Screened Population Flag",
     DTHAFTFL = "Death After 30 Days of Last Treatment",
-    DTH60TFL = "Death Within 60 Days of First Treatment",
+    DTHB60FL = "Death Within 60 Days of First Treatment",
     DTHTERM = "Reported Cause of Death",
     LDSTODTH = "Days from Last Dose to Death",
     RANDDTM = "Datetime of Randomization",
