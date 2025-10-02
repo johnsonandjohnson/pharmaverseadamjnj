@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - ADSL update to have all factor levels of RACE and ETHNIC
 
 ### Changed
+- Update adsl DTH60TFL to DTHB60FL
+- Updated adae update to include start/end time.
 - Updated source file OCMQs to reflect FDA changes to FMQ
 - Renamed adaefmq to adaeocmq
 - Fixed ADCM to properly handle uncoded terms
