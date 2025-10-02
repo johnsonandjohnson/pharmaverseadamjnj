@@ -43,15 +43,15 @@ A data frame with 306 rows and 107 variables:
 \item{SCRFDT}{Screen Failure Date}
 \item{EOSDT}{End of Study Date}
 \item{EOSSTT}{End of Study Status}
-\item{FRVDT}{Final Retrievel Visit Date}
+\item{FRVDT}{Final Retrieval Visit Date}
 \item{RANDDT}{Date of Randomization}
 \item{DTHDT}{Date of Death}
 \item{DTHDTF}{Date of Death Imputation Flag}
 \item{DTHADY}{Relative Day of Death}
 \item{LDDTHELD}{Elapsed Days from Last Dose to Death}
-\item{DTHCAUS}{DTHCAUS}
-\item{DTHDOM}{DTHDOM}
-\item{DTHCGR1}{DTHCGR1}
+\item{DTHCAUS}{Cause of Death}
+\item{DTHDOM}{Domain for Date of Death Collection}
+\item{DTHCGR1}{Cause of Death Reason 1}
 \item{LSTALVDT}{Date Last Known Alive}
 \item{SAFFL}{Safety Population Flag}
 \item{RACEGR1}{Pooled Race Group 1}
@@ -105,7 +105,7 @@ A data frame with 306 rows and 107 variables:
 \item{DTHTRTFL}{Death on Treatment Flag}
 \item{DTHCAUSP}{Cause Spec for Death}
 \item{DTHAFTFL}{Death After 30 Days of Last Treatment}
-\item{DTH60TFL}{Death Within 60 Days of First Treatment}
+\item{DTHB60FL}{Death Within 60 Days of First Treatment}
 \item{UNBLNDDY}{Study Day of Unblinding}
 \item{UNBREAS}{Reason For Unblinding}
 \item{LDOSE}{Last Dose}
