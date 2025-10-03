@@ -111,7 +111,7 @@ gen_adlb <- function(seed = 123) {
     # Demographic variables
     TRT01A = forcats::fct_reorder(TRT01A, TRT01AN, .na_rm = TRUE),
     TRTEMFL = as.factor(sample(c(NA, "Y"), dplyr::n(), replace = TRUE)),
-SEX = factor(
+    SEX = factor(
       dplyr::case_when(
         SEX == "F" ~ "Female",
         SEX == "M" ~ "Male"
