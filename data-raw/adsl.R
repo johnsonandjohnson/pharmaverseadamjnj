@@ -93,8 +93,8 @@ gen_adsl <- function(seed = 123) {
   gen$WGTGR1 <- forcats::fct_reorder(
     as.factor(dplyr::case_when(
       gen$WEIGHTBL < 30 ~ "<30",
-      gen$WEIGHTBL >= 30 & gen$WEIGHTBL < 60 ~ "30 to <60",
-      gen$WEIGHTBL >= 60 & gen$WEIGHTBL < 90 ~ "60 to <90",
+      gen$WEIGHTBL >= 30 & gen$WEIGHTBL < 60 ~ ">=30 to <60",
+      gen$WEIGHTBL >= 60 & gen$WEIGHTBL < 90 ~ ">=60 to <90",
       gen$WEIGHTBL >= 90 ~ ">=90"
     )),
     gen$WGTGR1N
@@ -111,8 +111,8 @@ gen_adsl <- function(seed = 123) {
   gen$BMIBLG1 <- forcats::fct_reorder(
     as.factor(dplyr::case_when(
       gen$BMIBL < 18.5 ~ "Underweight <18.5",
-      gen$BMIBL >= 18.5 & gen$BMIBL < 25 ~ "Normal 18.5 to <25",
-      gen$BMIBL >= 25 & gen$BMIBL < 30 ~ "Overweight 25 to <30",
+      gen$BMIBL >= 18.5 & gen$BMIBL < 25 ~ "Normal >=18.5 to <25",
+      gen$BMIBL >= 25 & gen$BMIBL < 30 ~ "Overweight >=25 to <30",
       gen$BMIBL >= 30 ~ "Obese >=30"
     )),
     gen$BMIBLG1N
@@ -121,19 +121,33 @@ gen_adsl <- function(seed = 123) {
   gen$RACE <- as.factor(gen$RACE)
   gen$COUNTRY_DECODE <- as.factor("United States of America")
 
-  gen$RACE_DECODE <- as.factor(dplyr::case_when(
-    gen$RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
+  # Use factor() with explicit levels to maintain the order specified in case_when
+  gen$RACE_DECODE <- factor(
+    dplyr::case_when(
+      gen$RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
+        "American Indian or Alaska Native",
+      gen$RACE == "ASIAN" ~ "Asian",
+      gen$RACE == "BLACK OR AFRICAN AMERICAN" ~ "Black or African American",
+      gen$RACE == "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" ~
+        "Native Hawaiian or other Pacific Islander",
+      gen$RACE == "WHITE" ~ "White",
+      gen$RACE == "MULTIPLE" ~ "Multiple",
+      gen$RACE == "NOT REPORTED" ~ "Not reported",
+      gen$RACE == "UNKNOWN" ~ "Unknown",
+      gen$RACE == "OTHER" ~ "Other"
+    ),
+    levels = c(
       "American Indian or Alaska Native",
-    gen$RACE == "ASIAN" ~ "Asian",
-    gen$RACE == "BLACK OR AFRICAN AMERICAN" ~ "Black or African American",
-    gen$RACE == "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" ~
+      "Asian",
+      "Black or African American",
       "Native Hawaiian or other Pacific Islander",
-    gen$RACE == "WHITE" ~ "White",
-    gen$RACE == "MULTIPLE" ~ "Multiple",
-    gen$RACE == "NOT REPORTED" ~ "Not reported",
-    gen$RACE == "UNKNOWN" ~ "Unknown",
-    gen$RACE == "OTHER" ~ "Other"
-  ))
+      "White",
+      "Multiple",
+      "Not reported",
+      "Unknown",
+      "Other"
+    )
+  )
   gen$RACEGR1 <- as.factor(gen$RACEGR1)
   gen$RFICDTC <- gen$DMDTC
   gen$RFICDT <- as.Date(gen$DMDTC)
@@ -206,8 +220,6 @@ gen_adsl <- function(seed = 123) {
     !is.na(gen$SCRFDT) ~ "Failure to meet eligibility criteria",
     .default = NA
   ))
-
-
   gen$SAFFL <- dplyr::case_when(
     is.na(gen$SAFFL) ~ "N",
     # Randomly set SAFFL="N" for 10% of subjects with non-NA TRT01P
