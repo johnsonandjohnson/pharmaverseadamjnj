@@ -115,8 +115,8 @@ gen_adsl <- function(seed = 123) {
       gen$SEX == "M" ~ "Male"
     ),
     levels = c(
-      "Female",
       "Male",
+      "Female",
       "Intersex",
       "Unknown"
     )
