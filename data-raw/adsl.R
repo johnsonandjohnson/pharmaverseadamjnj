@@ -21,8 +21,23 @@ gen_adsl <- function(seed = 123) {
 
   gen <- dplyr::mutate(
     raw,
-    RACE = as.factor(sample(
-      c(
+    RACE = factor(
+      sample(
+        c(
+          "AMERICAN INDIAN OR ALASKA NATIVE",
+          "ASIAN",
+          "BLACK OR AFRICAN AMERICAN",
+          "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER",
+          "WHITE",
+          "MULTIPLE",
+          "NOT REPORTED",
+          "UNKNOWN",
+          "OTHER"
+        ),
+        dplyr::n(),
+        replace = TRUE
+      ),
+      levels = c(
         "AMERICAN INDIAN OR ALASKA NATIVE",
         "ASIAN",
         "BLACK OR AFRICAN AMERICAN",
@@ -32,20 +47,26 @@ gen_adsl <- function(seed = 123) {
         "NOT REPORTED",
         "UNKNOWN",
         "OTHER"
+      )
+    ),
+    ETHNIC = factor(
+      sample(
+        c(
+          "HISPANIC OR LATINO",
+          "NOT HISPANIC OR LATINO",
+          "UNKNOWN",
+          "NOT REPORTED"
+        ),
+        dplyr::n(),
+        replace = TRUE
       ),
-      dplyr::n(),
-      replace = TRUE
-    )),
-    ETHNIC = as.factor(sample(
-      c(
+      levels = c(
         "HISPANIC OR LATINO",
         "NOT HISPANIC OR LATINO",
         "UNKNOWN",
         "NOT REPORTED"
-      ),
-      dplyr::n(),
-      replace = TRUE
-    ))
+      )
+    )
   )
   gen$TRT01P <- as.factor(gen$TRT01P)
   gen$TRT01P <- droplevels(as.factor(dplyr::case_when(
@@ -69,20 +90,37 @@ gen_adsl <- function(seed = 123) {
     gen$TRT01A == "Placebo" ~ 3
   )
   gen$TRT01A <- forcats::fct_reorder(gen$TRT01A, gen$TRT01AN, .na_rm = TRUE)
-  gen$AGEGR1 <- as.factor(dplyr::case_when(
-    gen$AGE >= 18 & gen$AGE < 65 ~ ">=18 to <65",
-    gen$AGE >= 65 & gen$AGE < 75 ~ ">=65 to <75",
-    gen$AGE >= 75 ~ ">=75"
-  ))
+
+  gen$AGEGR1 <- factor(
+    dplyr::case_when(
+      gen$AGE >= 18 & gen$AGE < 65 ~ ">=18 to <65",
+      gen$AGE >= 65 & gen$AGE < 75 ~ ">=65 to <75",
+      gen$AGE >= 75 ~ ">=75"
+    ),
+    levels = c(
+      ">=18 to <65",
+      ">=65 to <75",
+      ">=75"
+    )
+  )
   gen$AGEGR1N <- dplyr::case_when(
     gen$AGEGR1 == ">=18 to <65" ~ 1,
     gen$AGEGR1 == ">=65 to <75" ~ 2,
     gen$AGEGR1 == ">=75" ~ 3
   )
-  gen$SEX_DECODE <- as.factor(dplyr::case_when(
-    gen$SEX == "F" ~ "Female",
-    gen$SEX == "M" ~ "Male"
-  ))
+
+  gen$SEX_DECODE <- factor(
+    dplyr::case_when(
+      gen$SEX == "F" ~ "Female",
+      gen$SEX == "M" ~ "Male"
+    ),
+    levels = c(
+      "Female",
+      "Male",
+      "Intersex",
+      "Unknown"
+    )
+  )
   gen$WEIGHTBL <- as.numeric(sample(seq(0, 150), nrow(gen), replace = TRUE))
   gen$WGTGR1N <- dplyr::case_when(
     gen$WEIGHTBL < 30 ~ 1,
@@ -118,10 +156,9 @@ gen_adsl <- function(seed = 123) {
     gen$BMIBLG1N
   )
   gen$SEX <- as.factor(gen$SEX)
-  gen$RACE <- as.factor(gen$RACE)
   gen$COUNTRY_DECODE <- as.factor("United States of America")
 
-  # Use factor() with explicit levels to maintain the order specified in case_when
+
   gen$RACE_DECODE <- factor(
     dplyr::case_when(
       gen$RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
@@ -151,12 +188,21 @@ gen_adsl <- function(seed = 123) {
   gen$RACEGR1 <- as.factor(gen$RACEGR1)
   gen$RFICDTC <- gen$DMDTC
   gen$RFICDT <- as.Date(gen$DMDTC)
-  gen$ETHNIC_DECODE <- as.factor(dplyr::case_when(
-    gen$ETHNIC == "HISPANIC OR LATINO" ~ "Hispanic or Latino",
-    gen$ETHNIC == "NOT HISPANIC OR LATINO" ~ "Not Hispanic or Latino",
-    gen$ETHNIC == "NOT REPORTED" ~ "Not reported",
-    gen$ETHNIC == "UNKNOWN" ~ "Unknown"
-  ))
+
+  gen$ETHNIC_DECODE <- factor(
+    dplyr::case_when(
+      gen$ETHNIC == "HISPANIC OR LATINO" ~ "Hispanic or Latino",
+      gen$ETHNIC == "NOT HISPANIC OR LATINO" ~ "Not Hispanic or Latino",
+      gen$ETHNIC == "NOT REPORTED" ~ "Not reported",
+      gen$ETHNIC == "UNKNOWN" ~ "Unknown"
+    ),
+    levels = c(
+      "Hispanic or Latino",
+      "Not Hispanic or Latino",
+      "Not reported",
+      "Unknown"
+    )
+  )
   gen$STRAT1R <- as.factor("Stratification Factor 1")
   gen$STRAT2R <- as.factor("Stratification Factor 2")
   gen$RANUM <- as.factor("1000001")
@@ -166,18 +212,30 @@ gen_adsl <- function(seed = 123) {
   )
   # Randomly assign "CONTINUING" to some subjects for EOTSTT & EOSSTT
   set.seed(seed + 1)
-  gen$EOTSTT <- as.factor(dplyr::case_when(
-    sample(c(TRUE, FALSE), nrow(gen), replace = TRUE, prob = c(0.2, 0.8)) ~ "ONGOING",
-    .default = as.character(gen$EOSSTT)
-  ))
-  gen$EOSSTT <- as.factor(dplyr::case_when(
-    sample(c(TRUE, FALSE), nrow(gen), replace = TRUE, prob = c(0.2, 0.8)) ~ "ONGOING",
-    .default = as.character(gen$EOSSTT)
-  ))
-  gen$DCTREAS <- as.factor(dplyr::case_when(
-    gen$EOTSTT == "DISCONTINUED" ~ "Other",
-    .default = NA
-  ))
+
+  gen$EOTSTT <- factor(
+    dplyr::case_when(
+      sample(c(TRUE, FALSE), nrow(gen), replace = TRUE, prob = c(0.2, 0.8)) ~ "ONGOING",
+      .default = as.character(gen$EOSSTT)
+    ),
+    levels = c("ONGOING", "COMPLETED", "DISCONTINUED")
+  )
+
+  gen$EOSSTT <- factor(
+    dplyr::case_when(
+      sample(c(TRUE, FALSE), nrow(gen), replace = TRUE, prob = c(0.2, 0.8)) ~ "ONGOING",
+      .default = as.character(gen$EOSSTT)
+    ),
+    levels = c("ONGOING", "COMPLETED", "DISCONTINUED")
+  )
+
+  gen$DCTREAS <- factor(
+    dplyr::case_when(
+      gen$EOTSTT == "DISCONTINUED" ~ "Other",
+      .default = NA
+    ),
+    levels = c("Other")
+  )
   gen$LTVISIT <- as.factor("Last Treatment Visit")
   gen$DCTREASP <- dplyr::case_when(
     gen$DCTREAS == "Other" ~ "specify text",
@@ -187,10 +245,14 @@ gen_adsl <- function(seed = 123) {
     gen$EOTSTT == "DISCONTINUED" ~ gen$EOSDT,
     .default = NA
   )
-  gen$DCSREAS <- as.factor(dplyr::case_when(
-    gen$EOSSTT == "DISCONTINUED" ~ "Other",
-    .default = NA
-  ))
+
+  gen$DCSREAS <- factor(
+    dplyr::case_when(
+      gen$EOSSTT == "DISCONTINUED" ~ "Other",
+      .default = NA
+    ),
+    levels = c("Other")
+  )
   gen$DCSREASP <- dplyr::case_when(
     gen$DCSREAS == "Other" ~ "specify text",
     .default = NA
@@ -212,38 +274,62 @@ gen_adsl <- function(seed = 123) {
   gen$TRTEDY <- trtedy_vals
 
   gen$SCRNFL <- as.factor("Y")
-  gen$SCRFFL <- as.factor(dplyr::case_when(
-    !is.na(gen$SCRFDT) ~ "Y",
-    .default = "N"
-  ))
-  gen$DCSCREEN <- as.factor(dplyr::case_when(
-    !is.na(gen$SCRFDT) ~ "Failure to meet eligibility criteria",
-    .default = NA
-  ))
+
+  gen$SCRFFL <- factor(
+    dplyr::case_when(
+      !is.na(gen$SCRFDT) ~ "Y",
+      .default = "N"
+    ),
+    levels = c("Y", "N")
+  )
+
+  gen$DCSCREEN <- factor(
+    dplyr::case_when(
+      !is.na(gen$SCRFDT) ~ "Failure to meet eligibility criteria",
+      .default = NA
+    ),
+    levels = c("Failure to meet eligibility criteria")
+  )
   gen$SAFFL <- dplyr::case_when(
     is.na(gen$SAFFL) ~ "N",
     # Randomly set SAFFL="N" for 10% of subjects with non-NA TRT01P
     !is.na(gen$TRT01P) & sample(c(TRUE, FALSE), nrow(gen), replace = TRUE, prob = c(0.3, 0.7)) ~ "N",
     .default = gen$SAFFL
   )
-  gen$ENRLFL <- as.factor(dplyr::case_when(
-    gen$SAFFL == "Y" ~ "Y",
-    .default = "N"
-  ))
+
+  gen$ENRLFL <- factor(
+    dplyr::case_when(
+      gen$SAFFL == "Y" ~ "Y",
+      .default = "N"
+    ),
+    levels = c("Y", "N")
+  )
   gen$RANDFL <- ifelse(gen$SAFFL == "Y", "Y", "N")
   gen$RANDFL <- as.factor(gen$RANDFL)
-  gen$ITTFL <- as.factor(dplyr::case_when(
-    gen$SAFFL == "Y" ~ "Y",
-    .default = "N"
-  ))
-  gen$FASFL <- as.factor(dplyr::case_when(
-    gen$SAFFL == "Y" ~ "Y",
-    .default = "N"
-  ))
-  gen$PPROTFL <- as.factor(dplyr::case_when(
-    gen$SAFFL == "Y" ~ "Y",
-    .default = "N"
-  ))
+
+  gen$ITTFL <- factor(
+    dplyr::case_when(
+      gen$SAFFL == "Y" ~ "Y",
+      .default = "N"
+    ),
+    levels = c("Y", "N")
+  )
+
+  gen$FASFL <- factor(
+    dplyr::case_when(
+      gen$SAFFL == "Y" ~ "Y",
+      .default = "N"
+    ),
+    levels = c("Y", "N")
+  )
+
+  gen$PPROTFL <- factor(
+    dplyr::case_when(
+      gen$SAFFL == "Y" ~ "Y",
+      .default = "N"
+    ),
+    levels = c("Y", "N")
+  )
   gen$LSTSVDT <- dplyr::case_when(
     !is.na(gen$LSTALVDT) ~ gen$LSTALVDT,
     !is.na(gen$SCRFDT) ~ gen$SCRFDT
@@ -289,10 +375,14 @@ gen_adsl <- function(seed = 123) {
   gen$DTHB30FL <- as.factor(gen$DTHB30FL)
 
   # Add FASFL flag when TRT is NA
-  gen$FASFL <- as.factor(dplyr::case_when(
-    is.na(gen$TRT01P) ~ "N",
-    .default = "Y"
-  ))
+
+  gen$FASFL <- factor(
+    dplyr::case_when(
+      is.na(gen$TRT01P) ~ "N",
+      .default = "Y"
+    ),
+    levels = c("Y", "N")
+  )
 
   # remove NA TRTEDY
   gen <- dplyr::filter(gen, !is.na(TRTEDY))

@@ -31,11 +31,17 @@ gen_adex <- function(seed = 123) {
       EXDOSE == 81 ~ 15,
       .default = EXDOSE
     ),
-    ATRT = as.factor(dplyr::case_when(
-      TRT01P == "Xanomeline High Dose" ~ "XANOMELINE",
-      TRT01P == "Xanomeline Low Dose" ~ "XANOMELINE",
-      TRT01P == "Placebo" ~ "PLACEBO"
-    )),
+    ATRT = factor(
+      dplyr::case_when(
+        TRT01P == "Xanomeline High Dose" ~ "XANOMELINE",
+        TRT01P == "Xanomeline Low Dose" ~ "XANOMELINE",
+        TRT01P == "Placebo" ~ "PLACEBO"
+      ),
+      levels = c(
+        "XANOMELINE",
+        "PLACEBO"
+      )
+    ),
     DAEXPDTC = as.Date(sample(
       c("2013-09-10", "2013-12-15", "2014-02-05", "2014-03-20"),
       dplyr::n(),
@@ -111,76 +117,144 @@ gen_adex <- function(seed = 123) {
       TRT01A == "Placebo" ~ 3
     ),
     TRT01A = forcats::fct_reorder(TRT01A, TRT01AN, .na_rm = TRUE),
-    AGEGR1 = as.factor(dplyr::case_when(
-      AGE >= 18 & AGE < 65 ~ ">=18 to <65",
-      AGE >= 65 & AGE < 75 ~ ">=65 to <75",
-      AGE >= 75 ~ ">=75"
-    )),
+    AGEGR1 = factor(
+      dplyr::case_when(
+        AGE >= 18 & AGE < 65 ~ ">=18 to <65",
+        AGE >= 65 & AGE < 75 ~ ">=65 to <75",
+        AGE >= 75 ~ ">=75"
+      ),
+      levels = c(
+        ">=18 to <65",
+        ">=65 to <75",
+        ">=75"
+      )
+    ),
     AOCCUR = as.factor(sample(c("N", "Y"), dplyr::n(), replace = TRUE)),
-    SEX = as.factor(dplyr::case_when(
-      SEX == "F" ~ "Female",
-      SEX == "M" ~ "Male"
-    )),
+    SEX = factor(
+      dplyr::case_when(
+        SEX == "F" ~ "Female",
+        SEX == "M" ~ "Male"
+      ),
+      levels = c(
+        "Female",
+        "Male",
+        "Intersex",
+        "Unknown"
+      )
+    ),
     COUNTRY = as.factor("United States of America"),
-    RACE_DECODE = as.factor(dplyr::case_when(
-      RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
+    RACE_DECODE = factor(
+      dplyr::case_when(
+        RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
+          "American Indian or Alaska Native",
+        RACE == "ASIAN" ~ "Asian",
+        RACE == "BLACK OR AFRICAN AMERICAN" ~ "Black or African American",
+        RACE == "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" ~
+          "Native Hawaiian or other Pacific Islander",
+        RACE == "WHITE" ~ "White",
+        RACE == "MULTIPLE" ~ "Multiple",
+        RACE == "NOT REPORTED" ~ "Not reported",
+        RACE == "UNKNOWN" ~ "Unknown",
+        RACE == "OTHER" ~ "Other"
+      ),
+      levels = c(
         "American Indian or Alaska Native",
-      RACE == "ASIAN" ~ "Asian",
-      RACE == "BLACK OR AFRICAN AMERICAN" ~ "Black or African American",
-      RACE == "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" ~
+        "Asian",
+        "Black or African American",
         "Native Hawaiian or other Pacific Islander",
-      RACE == "WHITE" ~ "White",
-      RACE == "MULTIPLE" ~ "Multiple",
-      RACE == "NOT REPORTED" ~ "Not reported",
-      RACE == "UNKNOWN" ~ "Unknown",
-      RACE == "OTHER" ~ "Other"
-    )),
+        "White",
+        "Multiple",
+        "Not reported",
+        "Unknown",
+        "Other"
+      )
+    ),
     RACEGR1 = as.factor(RACEGR1),
-    ETHNIC = as.factor(dplyr::case_when(
-      ETHNIC == "HISPANIC OR LATINO" ~ "Hispanic or Latino",
-      ETHNIC == "NOT HISPANIC OR LATINO" ~ "Not Hispanic or Latino",
-      ETHNIC == "NOT REPORTED" ~ "Not reported",
-      ETHNIC == "UNKNOWN" ~ "Unknown",
-    )),
-    ACAT1 = as.factor(case_when(
-      is.na(EXADJ) ~ "Dose not adjusted",
-      EXADJ == "ADVERSE EVENT" ~ "Dose adjusted",
-      EXADJ == "MEDICAL ERROR" ~ "Dose adjusted",
-      TRUE ~ "Other" # default case if needed
-    )),
-    AREASOC = as.factor(case_when(
-      is.na(EXADJ) ~ NA_character_,
-      EXADJ == "ADVERSE EVENT" ~ "Adverse Event",
-      EXADJ == "MEDICATION ERROR" ~ "Other",
-      TRUE ~ NA_character_ # default case
-    )),
-    AREASOO = as.factor(case_when(
-      AREASOC == "Other" ~ "Other reason",
-      TRUE ~ NA_character_ # default case
-    )),
+    ETHNIC = factor(
+      dplyr::case_when(
+        ETHNIC == "HISPANIC OR LATINO" ~ "Hispanic or Latino",
+        ETHNIC == "NOT HISPANIC OR LATINO" ~ "Not Hispanic or Latino",
+        ETHNIC == "NOT REPORTED" ~ "Not reported",
+        ETHNIC == "UNKNOWN" ~ "Unknown"
+      ),
+      levels = c(
+        "Hispanic or Latino",
+        "Not Hispanic or Latino",
+        "Not reported",
+        "Unknown"
+      )
+    ),
+    ACAT1 = factor(
+      case_when(
+        is.na(EXADJ) ~ "Dose not adjusted",
+        EXADJ == "ADVERSE EVENT" ~ "Dose adjusted",
+        EXADJ == "MEDICAL ERROR" ~ "Dose adjusted",
+        TRUE ~ "Other" # default case if needed
+      ),
+      levels = c(
+        "Dose not adjusted",
+        "Dose adjusted",
+        "Other"
+      )
+    ),
+    AREASOC = factor(
+      case_when(
+        is.na(EXADJ) ~ NA_character_,
+        EXADJ == "ADVERSE EVENT" ~ "Adverse Event",
+        EXADJ == "MEDICATION ERROR" ~ "Other",
+        TRUE ~ NA_character_ # default case
+      ),
+      levels = c(
+        "Adverse Event",
+        "Other"
+      )
+    ),
+    AREASOO = factor(
+      case_when(
+        AREASOC == "Other" ~ "Other reason",
+        TRUE ~ NA_character_ # default case
+      ),
+      levels = c(
+        "Other reason"
+      )
+    ),
     AADJ = AREASOC,
     AADJPOTH = dplyr::case_when(
       AADJ == "Other" ~ "************",
       .default = "Reason prior to infusion"
     ),
     AADJP = AADJ,
-    AACTDU = as.factor(sample(
-      c(
+    AACTDU = factor(
+      sample(
+        c(
+          "INFUSION INTERRUPTED",
+          NA_character_,
+          "INFUSION RATE INCREASED",
+          "INFUSION CONTINUED AT SAME RATE",
+          "INFUSION ABORTED",
+          "FULL DOSE ADMINISTERED WITHOUT INTERRUPTION OR RATE CHANGE"
+        ),
+        dplyr::n(),
+        replace = TRUE
+      ),
+      levels = c(
         "INFUSION INTERRUPTED",
-        NA_character_,
         "INFUSION RATE INCREASED",
         "INFUSION CONTINUED AT SAME RATE",
         "INFUSION ABORTED",
         "FULL DOSE ADMINISTERED WITHOUT INTERRUPTION OR RATE CHANGE"
+      )
+    ),
+    AACTDU1 = factor(
+      case_when(
+        AACTDU == "FULL DOSE ADMINISTERED WITHOUT INTERRUPTION OR RATE CHANGE" ~
+          "FULL DOSE ADMINISTERED WITHOUT INTERRUPTION OR RATE CHANGE",
+        TRUE ~ NA_character_ # default case
       ),
-      dplyr::n(),
-      replace = TRUE
-    )),
-    AACTDU1 = as.factor(case_when(
-      AACTDU == "FULL DOSE ADMINISTERED WITHOUT INTERRUPTION OR RATE CHANGE" ~
-        "FULL DOSE ADMINISTERED WITHOUT INTERRUPTION OR RATE CHANGE",
-      TRUE ~ NA_character_ # default case
-    )),
+      levels = c(
+        "FULL DOSE ADMINISTERED WITHOUT INTERRUPTION OR RATE CHANGE"
+      )
+    ),
     AACTDU2 = case_when(
       AACTDU == "INFUSION ABORTED" ~ "INFUSION ABORTED",
       TRUE ~ NA_character_ # default case
@@ -230,25 +304,42 @@ gen_adex <- function(seed = 123) {
       ),
       "Reason during infusion"
     ),
-    ACAT2 = as.factor(sample(
-      c("Dose not administered", "Dose administered"),
-      dplyr::n(),
-      replace = TRUE
-    )),
-    AACTPR = as.factor(sample(
-      c(
+    ACAT2 = factor(
+      sample(
+        c("Dose not administered", "Dose administered"),
+        dplyr::n(),
+        replace = TRUE
+      ),
+      levels = c(
+        "Dose not administered", 
+        "Dose administered"
+      )
+    ),
+    AACTPR = factor(
+      sample(
+        c(
+          "INFUSION RATE DECREASED COMPARED TO PRIOR INFUSION",
+          NA_character_,
+          "INFUSION SKIPPED (AND NOT MADE UP)",
+          "DOSE RE-ESCALATED",
+          "INFUSION DELAYED WITHIN THE CYCLE",
+          "DOSE REDUCED COMPARED TO PRIOR INFUSION",
+          "SAME DOSE AS PRIOR INFUSION",
+          "STUDY DRUG PERMANENTLY DISCONTINUED"
+        ),
+        dplyr::n(),
+        replace = TRUE
+      ),
+      levels = c(
         "INFUSION RATE DECREASED COMPARED TO PRIOR INFUSION",
-        NA_character_,
         "INFUSION SKIPPED (AND NOT MADE UP)",
         "DOSE RE-ESCALATED",
         "INFUSION DELAYED WITHIN THE CYCLE",
         "DOSE REDUCED COMPARED TO PRIOR INFUSION",
         "SAME DOSE AS PRIOR INFUSION",
         "STUDY DRUG PERMANENTLY DISCONTINUED"
-      ),
-      dplyr::n(),
-      replace = TRUE
-    )),
+      )
+    ),
     AACTPR_DECODE = stringr::str_to_sentence(AACTPR),
     ASCHDOSE = EXDOSE,
     ASCHDOSU = EXDOSU,
