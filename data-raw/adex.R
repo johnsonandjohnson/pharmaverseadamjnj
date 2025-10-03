@@ -311,7 +311,7 @@ gen_adex <- function(seed = 123) {
         replace = TRUE
       ),
       levels = c(
-        "Dose not administered", 
+        "Dose not administered",
         "Dose administered"
       )
     ),
