@@ -88,6 +88,16 @@ gen_adae <- function(seed = 123) {
 
   gen <- dplyr::mutate(
     gen,
+    # Add times to ASTDTM
+    ASTDTM = {
+      # Extract the date part from ASTDTM
+      date_parts <- sub(" UTC", "", ASTDTM)
+      # Generate random hours (0-23) for each row
+      # Format time strings (00:00:00)
+      times <- sprintf("00:00:00")
+      # Combine date with random time and UTC timezone
+      paste(date_parts, times, "UTC")
+    },
     AETOXGR = as.factor(sample(seq(0, 5), dplyr::n(), replace = TRUE)),
     AETOXGRN = as.numeric(as.character(AETOXGR)),
     AEACN = as.factor(sample(

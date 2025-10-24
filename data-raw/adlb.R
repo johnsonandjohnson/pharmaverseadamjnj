@@ -111,30 +111,59 @@ gen_adlb <- function(seed = 123) {
     # Demographic variables
     TRT01A = forcats::fct_reorder(TRT01A, TRT01AN, .na_rm = TRUE),
     TRTEMFL = as.factor(sample(c(NA, "Y"), dplyr::n(), replace = TRUE)),
-    SEX = as.factor(dplyr::case_when(
-      SEX == "F" ~ "Female",
-      SEX == "M" ~ "Male"
-    )),
+    SEX = factor(
+      dplyr::case_when(
+        SEX == "F" ~ "Female",
+        SEX == "M" ~ "Male"
+      ),
+      levels = c(
+        "Female",
+        "Male",
+        "Intersex",
+        "Unknown"
+      )
+    ),
     COUNTRY_DECODE = as.factor("United States of America"),
-    RACE_DECODE = as.factor(dplyr::case_when(
-      RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
+    RACE_DECODE = factor(
+      dplyr::case_when(
+        RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
+          "American Indian or Alaska Native",
+        RACE == "ASIAN" ~ "Asian",
+        RACE == "BLACK OR AFRICAN AMERICAN" ~ "Black or African American",
+        RACE == "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" ~
+          "Native Hawaiian or other Pacific Islander",
+        RACE == "WHITE" ~ "White",
+        RACE == "MULTIPLE" ~ "Multiple",
+        RACE == "NOT REPORTED" ~ "Not reported",
+        RACE == "UNKNOWN" ~ "Unknown",
+        RACE == "OTHER" ~ "Other"
+      ),
+      levels = c(
         "American Indian or Alaska Native",
-      RACE == "ASIAN" ~ "Asian",
-      RACE == "BLACK OR AFRICAN AMERICAN" ~ "Black or African American",
-      RACE == "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" ~
+        "Asian",
+        "Black or African American",
         "Native Hawaiian or other Pacific Islander",
-      RACE == "WHITE" ~ "White",
-      RACE == "MULTIPLE" ~ "Multiple",
-      RACE == "NOT REPORTED" ~ "Not reported",
-      RACE == "UNKNOWN" ~ "Unknown",
-      RACE == "OTHER" ~ "Other"
-    )),
-    ETHNIC_DECODE = as.factor(dplyr::case_when(
-      ETHNIC == "HISPANIC OR LATINO" ~ "Hispanic or Latino",
-      ETHNIC == "NOT HISPANIC OR LATINO" ~ "Not Hispanic or Latino",
-      ETHNIC == "NOT REPORTED" ~ "Not reported",
-      ETHNIC == "UNKNOWN" ~ "Unknown"
-    )),
+        "White",
+        "Multiple",
+        "Not reported",
+        "Unknown",
+        "Other"
+      )
+    ),
+    ETHNIC_DECODE = factor(
+      dplyr::case_when(
+        ETHNIC == "HISPANIC OR LATINO" ~ "Hispanic or Latino",
+        ETHNIC == "NOT HISPANIC OR LATINO" ~ "Not Hispanic or Latino",
+        ETHNIC == "NOT REPORTED" ~ "Not reported",
+        ETHNIC == "UNKNOWN" ~ "Unknown"
+      ),
+      levels = c(
+        "Hispanic or Latino",
+        "Not Hispanic or Latino",
+        "Not reported",
+        "Unknown"
+      )
+    ),
     # Parameter coding
     PARAMCD = as.factor(case_when(
       PARAM == "Alkaline Phosphatase (U/L)" ~ "ALP",

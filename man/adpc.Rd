@@ -5,7 +5,7 @@
 \alias{adpc}
 \title{adpc}
 \format{
-A data frame with 3852 rows and 129 variables:
+A data frame with 4479 rows and 129 variables:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{USUBJID}{Unique Subject Identifier}
@@ -56,7 +56,6 @@ A data frame with 3852 rows and 129 variables:
 \item{ATPTN}{Analysis Timepoint (N)}
 \item{ATPT}{Analysis Timepoint}
 \item{ATPTREF}{Analysis Timepoint Reference}
-\item{ABLFL}{Baseline Record Flag}
 \item{BASETYPE}{Baseline Type}
 \item{DOSEA}{Actual Treatment Dose}
 \item{DOSEP}{Planned Treatment Dose}
@@ -72,6 +71,7 @@ A data frame with 3852 rows and 129 variables:
 \item{SRCVAR}{Source Variable}
 \item{SRCSEQ}{Source Sequence Number}
 \item{DTYPE}{Derivation Type}
+\item{ABLFL}{Baseline Record Flag}
 \item{MRRLT}{Modified Rel. Time from Ref. Dose}
 \item{ANL01FL}{Analysis Flag 01}
 \item{ANL02FL}{Analysis Flag 02}
@@ -116,15 +116,15 @@ A data frame with 3852 rows and 129 variables:
 \item{SCRFDT}{Screen Failure Date}
 \item{EOSDT}{End of Study Date}
 \item{EOSSTT}{End of Study Status}
-\item{FRVDT}{Final Retrievel Visit Date}
+\item{FRVDT}{Final Retrieval Visit Date}
 \item{RANDDT}{Date of Randomization}
 \item{DTHDT}{Date of Death}
-\item{DTHDTF}{DTHDTF}
+\item{DTHDTF}{Date of Death Imputation Flag}
 \item{DTHADY}{Relative Day of Death}
 \item{LDDTHELD}{Elapsed Days from Last Dose to Death}
-\item{DTHCAUS}{DTHCAUS}
-\item{DTHDOM}{DTHDOM}
-\item{DTHCGR1}{DTHCGR1}
+\item{DTHCAUS}{Cause of Death}
+\item{DTHDOM}{Domain for Date of Death Collection}
+\item{DTHCGR1}{Cause of Death Reason 1}
 \item{LSTALVDT}{Date Last Known Alive}
 \item{SAFFL}{Safety Population Flag}
 \item{RACEGR1}{Pooled Race Group 1}

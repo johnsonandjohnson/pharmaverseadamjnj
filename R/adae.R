@@ -52,6 +52,8 @@
 #'  \item{ADURN}{Analysis Duration (N)}
 #'  \item{ADURU}{Analysis Duration Units}
 #'  \item{LDOSEDTM}{End Date/Time of Last Dose}
+#'  \item{DOSEON}{Treatment Dose at Record Start}
+#'  \item{DOSEU}{Treatment Dose Units}
 #'  \item{ASEV}{Analysis Severity/Intensity}
 #'  \item{AREL}{Analysis Causality}
 #'  \item{TRTEMFL}{Treatment Emergent Analysis Flag}
@@ -61,8 +63,6 @@
 #'  \item{AETOXGRN}{Standard Toxicity Grade (N)}
 #'  \item{AEACN_DECODE}{Action Taken with Study Treatment}
 #'  \item{DOSEDY}{Day of Study Drug}
-#'  \item{DOSEU}{Treatment Dose Units}
-#'  \item{DOSEON}{Treatment Dose at Record Start}
 #'  \item{AECONTRT}{Concomitant or Additional Trtmnt Given}
 #'  \item{CQ01NAM}{Customized Query 01 Name}
 #'  \item{CQ02NAM}{Customized Query 02 Name}
