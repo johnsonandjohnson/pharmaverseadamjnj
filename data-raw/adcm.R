@@ -72,7 +72,6 @@ gen_adcm <- function(seed = 123) {
   ))
 
 
-
   gen$PREFL <- as.factor(dplyr::case_when(
     gen$ASTDT < gen$TRTSDT ~ "Y",
     .default = NA
