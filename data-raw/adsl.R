@@ -389,7 +389,8 @@ gen_adsl <- function(seed = 123) {
 
   gen <- dplyr::mutate(
     gen,
-    PKFL = dplyr::if_else(USUBJID %in% pharmaverseadam::adpc$USUBJID, "Y", "N")
+    PKFL = dplyr::if_else(USUBJID %in% pharmaverseadam::adpc$USUBJID, "Y", "N"),
+    DIABETFL = sample(c("N", "Y"), NROW(gen), TRUE, c(0.8, 0.2))
   )
 
   # Define additional labels for new variables not in source dataset
@@ -449,7 +450,8 @@ gen_adsl <- function(seed = 123) {
     DTHDY = "Study Day of Death",
     RESCRNFL = "Re-screened Flag",
     ITTFL = "Intent-To-Treat Population Flag",
-    PKFL = "Pharmacokinetic Population Flag"
+    PKFL = "Pharmacokinetic Population Flag",
+    DIABETFL = "History of Diabetes"
   )
 
   # Handle NA values and convert characters to factors

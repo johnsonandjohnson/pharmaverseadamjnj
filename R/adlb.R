@@ -3,7 +3,7 @@
 #' @description adlb modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 83640 rows and 153 variables:
+#' @format A data frame with 83640 rows and 155 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}
@@ -102,15 +102,15 @@
 #'  \item{SCRFDT}{Screen Failure Date}
 #'  \item{EOSDT}{End of Study Date}
 #'  \item{EOSSTT}{End of Study Status}
-#'  \item{FRVDT}{Final Retrieval Visit Date}
+#'  \item{FRVDT}{Final Retrievel Visit Date}
 #'  \item{RANDDT}{Date of Randomization}
 #'  \item{DTHDT}{Date of Death}
-#'  \item{DTHDTF}{Date of Death Imputation Flag}
+#'  \item{DTHDTF}{DTHDTF}
 #'  \item{DTHADY}{Relative Day of Death}
 #'  \item{LDDTHELD}{Elapsed Days from Last Dose to Death}
-#'  \item{DTHCAUS}{Cause of Death}
-#'  \item{DTHDOM}{Domain for Date of Death Collection}
-#'  \item{DTHCGR1}{Cause of Death Reason 1}
+#'  \item{DTHCAUS}{DTHCAUS}
+#'  \item{DTHDOM}{DTHDOM}
+#'  \item{DTHCGR1}{DTHCGR1}
 #'  \item{LSTALVDT}{Date Last Known Alive}
 #'  \item{SAFFL}{Safety Population Flag}
 #'  \item{RACEGR1}{Pooled Race Group 1}
@@ -147,6 +147,8 @@
 #'  \item{LBCLSIG}{Clinically Significant}
 #'  \item{TR01SDT}{Start Date of Treatment for Period 01}
 #'  \item{TR01EDT}{End Date of Treatment for Period 01}
+#'  \item{LBSPEC}{Specimen Type}
+#'  \item{LBFAST}{Fasting Status}
 #'  \item{ANL03FL}{Analysis Record Flag 03 - Protocol Visit}
 #'  \item{ANL04FL}{Analysis Flag 04}
 #'  \item{ANL05FL}{Analysis Flag 05}
@@ -159,7 +161,7 @@
 #'  \item{ANL15FL}{Analysis Flag 15}
 #'  \item{ANL16FL}{Analysis Flag 16}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adlb
 #' @name adlb
 #' @examples

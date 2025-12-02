@@ -3,7 +3,7 @@
 #' @description adpc modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 4479 rows and 129 variables:
+#' @format A data frame with 3852 rows and 129 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -54,6 +54,7 @@
 #'  \item{ATPTN}{Analysis Timepoint (N)}
 #'  \item{ATPT}{Analysis Timepoint}
 #'  \item{ATPTREF}{Analysis Timepoint Reference}
+#'  \item{ABLFL}{Baseline Record Flag}
 #'  \item{BASETYPE}{Baseline Type}
 #'  \item{DOSEA}{Actual Treatment Dose}
 #'  \item{DOSEP}{Planned Treatment Dose}
@@ -69,7 +70,6 @@
 #'  \item{SRCVAR}{Source Variable}
 #'  \item{SRCSEQ}{Source Sequence Number}
 #'  \item{DTYPE}{Derivation Type}
-#'  \item{ABLFL}{Baseline Record Flag}
 #'  \item{MRRLT}{Modified Rel. Time from Ref. Dose}
 #'  \item{ANL01FL}{Analysis Flag 01}
 #'  \item{ANL02FL}{Analysis Flag 02}
@@ -114,15 +114,15 @@
 #'  \item{SCRFDT}{Screen Failure Date}
 #'  \item{EOSDT}{End of Study Date}
 #'  \item{EOSSTT}{End of Study Status}
-#'  \item{FRVDT}{Final Retrieval Visit Date}
+#'  \item{FRVDT}{Final Retrievel Visit Date}
 #'  \item{RANDDT}{Date of Randomization}
 #'  \item{DTHDT}{Date of Death}
-#'  \item{DTHDTF}{Date of Death Imputation Flag}
+#'  \item{DTHDTF}{DTHDTF}
 #'  \item{DTHADY}{Relative Day of Death}
 #'  \item{LDDTHELD}{Elapsed Days from Last Dose to Death}
-#'  \item{DTHCAUS}{Cause of Death}
-#'  \item{DTHDOM}{Domain for Date of Death Collection}
-#'  \item{DTHCGR1}{Cause of Death Reason 1}
+#'  \item{DTHCAUS}{DTHCAUS}
+#'  \item{DTHDOM}{DTHDOM}
+#'  \item{DTHCGR1}{DTHCGR1}
 #'  \item{LSTALVDT}{Date Last Known Alive}
 #'  \item{SAFFL}{Safety Population Flag}
 #'  \item{RACEGR1}{Pooled Race Group 1}
@@ -135,7 +135,7 @@
 #'  \item{CRIT1}{Concentrations Below the Lowest Quantification Level Criterion}
 #'  \item{CRIT1FL}{Concentrations Below the Lowest Quantification Level Flag}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adpc
 #' @name adpc
 #' @examples

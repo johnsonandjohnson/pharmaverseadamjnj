@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - ADSL update to have all factor levels of RACE and ETHNIC
+- Add ADAGOCMQ dataset
+- Add `LBSPEC` and `LBFAST` to ADLB dataset
 
 ### Changed
 - Update adsl DTH60TFL to DTHB60FL
