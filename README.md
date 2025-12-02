@@ -39,6 +39,8 @@ Generate ADaM datasets aligned with Johnson & Johnson's Clinical and Statistical
 - ADVS (Vital Signs Analysis Dataset)
 - ADTTESAF (Time-to-Event Safety Analysis Dataset)
 - ADAEOCMQ (Adverse Events Analysis Dataset OC Medical Query)
+- ADAGOCMQ (Adverse Events Analysis Dataset OC Medical Query Grouped)
+- ADPC (Pharmacokinetic Analysis Dataset)
 
 ## Installation
 

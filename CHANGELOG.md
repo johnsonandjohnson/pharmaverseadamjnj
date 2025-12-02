@@ -5,14 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.2] - 2024-07-03
+## [0.0.2] - 2025-12-03
 
 ### Added
-- ADSL update to have all factor levels of RACE and ETHNIC
-- Add ADAGOCMQ dataset
-- Add `LBSPEC` and `LBFAST` to ADLB dataset
+- Added ADAGOCMQ &  ADPC dataset
+- Added `LBSPEC` and `LBFAST` to ADLB dataset
 
 ### Changed
+- Update ADSL to have all factor levels of RACE and ETHNIC
 - Update adsl DTH60TFL to DTHB60FL
 - Updated adae update to include start/end time.
 - Updated source file OCMQs to reflect FDA changes to FMQ
