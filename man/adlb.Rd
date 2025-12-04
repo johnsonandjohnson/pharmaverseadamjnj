@@ -104,15 +104,15 @@ A data frame with 83640 rows and 155 variables:
 \item{SCRFDT}{Screen Failure Date}
 \item{EOSDT}{End of Study Date}
 \item{EOSSTT}{End of Study Status}
-\item{FRVDT}{Final Retrievel Visit Date}
+\item{FRVDT}{Final Retrieval Visit Date}
 \item{RANDDT}{Date of Randomization}
 \item{DTHDT}{Date of Death}
-\item{DTHDTF}{DTHDTF}
+\item{DTHDTF}{Date of Death Imputation Flag}
 \item{DTHADY}{Relative Day of Death}
 \item{LDDTHELD}{Elapsed Days from Last Dose to Death}
-\item{DTHCAUS}{DTHCAUS}
-\item{DTHDOM}{DTHDOM}
-\item{DTHCGR1}{DTHCGR1}
+\item{DTHCAUS}{Cause of Death}
+\item{DTHDOM}{Domain for Date of Death Collection}
+\item{DTHCGR1}{Cause of Death Reason 1}
 \item{LSTALVDT}{Date Last Known Alive}
 \item{SAFFL}{Safety Population Flag}
 \item{RACEGR1}{Pooled Race Group 1}
@@ -174,7 +174,7 @@ adlb
 adlb modified from pharmaverseadam
 }
 \examples{
-head(data("adlb"))
+ head(data("adlb"))
 }
 \seealso{
 \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
