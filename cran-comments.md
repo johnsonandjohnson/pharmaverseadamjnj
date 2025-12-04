@@ -1,6 +1,11 @@
+# CRAN Comments
+
 ## R CMD check results
 
-0 errors | 0 warnings | 0 note
+0 errors | 0 warnings | 0 notes
 
 * This is a new release.
-* Removed dontruns (sorry there was commit issue on the previous susbmission)
+
+## Downstream dependencies
+
+There are currently no downstream dependencies for this package.

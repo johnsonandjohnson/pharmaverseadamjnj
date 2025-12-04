@@ -7,3 +7,6 @@
 ^\.Rproj\.user$
 ^CRAN-SUBMISSION$
 ^\.idea$
+^\.github$
+^CHANGELOG\.md$
+^_pkgdown\.yml$

@@ -31,10 +31,119 @@ gen_adae <- function(seed = 123) {
         TRTEDY > 365 ~ "Beyond 13 months"
       )
     ) %>%
-    dplyr::select(USUBJID, ACAT1, TRTEDY)
+    dplyr::select(USUBJID, ACAT1)
+
+  gen <- raw
+
+  # Update specific records as per requirements:
+
+  # a.  First records Placebo and Treatment for Female Narrow
+  gen <- gen %>%
+    mutate(
+      AETERM = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1, "ABNORMAL UTERINE BLEEDING", AETERM),
+      AELLT = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
+        "DYSFUNCTIONAL UTERINE BLEEDING", AELLT
+      ),
+      AEDECOD = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
+        "ABNORMAL UTERINE BLEEDING", AEDECOD
+      ),
+      AEHLT = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
+        "MENSTRUATION AND UTERINE BLEEDING NEC", AEHLT
+      ),
+      AEHLGT = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
+        "MENSTRUAL CYCLE AND UTERINE BLEEDING DISORDERS", AEHLGT
+      ),
+      AEBODSYS = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
+        "REPRODUCTIVE SYSTEM AND BREAST DISORDERS", AEBODSYS
+      ),
+      AESOC = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
+        "REPRODUCTIVE SYSTEM AND BREAST DISORDERS", AESOC
+      )
+    )
+
+  # b.  First records Placebo and Treatment for Male Narrow
+  gen <- gen %>%
+    mutate(
+      AETERM = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1, "ERECTILE DYSFUNCTION", AETERM),
+      AELLT = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1, "ERECTILE DISTURBANCE", AELLT),
+      AEDECOD = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1, "ERECTILE DYSFUNCTION", AEDECOD),
+      AEHLT = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1,
+        "ERECTION AND EJACULATION CONDITIONS AND DISORDERS", AEHLT
+      ),
+      AEHLGT = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1,
+        "SEXUAL FUNCTION AND FERTILITY DISORDERS", AEHLGT
+      ),
+      AEBODSYS = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1,
+        "REPRODUCTIVE SYSTEM AND BREAST DISORDERS", AEBODSYS
+      ),
+      AESOC = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1,
+        "REPRODUCTIVE SYSTEM AND BREAST DISORDERS", AESOC
+      )
+    )
+
+  # c.  First records Placebo and Treatment for Female Broad
+  gen <- gen %>%
+    mutate(
+      AETERM = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1, "BLEEDING ANOVULATORY", AETERM),
+      AELLT = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
+        "ANOVULAR DYSFUNCTIONAL UTERINE BLEEDING", AELLT
+      ),
+      AEDECOD = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
+        "BLEEDING ANOVULATORY", AEDECOD
+      ),
+      AEHLT = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
+        "FEMALE GONADAL FUNCTION DISORDERS", AEHLT
+      ),
+      AEHLGT = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
+        "ENDOCRINE DISORDERS OF GONADAL FUNCTION", AEHLGT
+      ),
+      AEBODSYS = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
+        "ENDOCRINE DISORDERS", AEBODSYS
+      ),
+      AESOC = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
+        "ENDOCRINE DISORDERS", AESOC
+      ),
+      TRTEMFL = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1, "Y", TRTEMFL)
+    )
+
+  # d.  First records Placebo and Treatment for Male Broad
+  gen <- gen %>%
+    mutate(
+      AETERM = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
+        "DISTURBANCE IN SEXUAL AROUSAL", AETERM
+      ),
+      AELLT = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
+        "SEXUAL AROUSAL DECREASED", AELLT
+      ),
+      AEDECOD = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
+        "DISTURBANCE IN SEXUAL AROUSAL", AEDECOD
+      ),
+      AEHLT = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
+        "SEXUAL AROUSAL DISORDERS", AEHLT
+      ),
+      AEHLGT = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
+        "SEXUAL DYSFUNCTIONS, DISTURBANCES AND GENDER IDENTITY DISORDERS", AEHLGT
+      ),
+      AEBODSYS = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
+        "PSYCHIATRIC DISORDERS", AEBODSYS
+      ),
+      AESOC = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
+        "PSYCHIATRIC DISORDERS", AESOC
+      )
+    )
 
   gen <- dplyr::mutate(
-    raw,
+    gen,
+    # Add times to ASTDTM
+    ASTDTM = {
+      # Extract the date part from ASTDTM
+      date_parts <- sub(" UTC", "", ASTDTM)
+      # Generate random hours (0-23) for each row
+      # Format time strings (00:00:00)
+      times <- sprintf("00:00:00")
+      # Combine date with random time and UTC timezone
+      paste(date_parts, times, "UTC")
+    },
     AETOXGR = as.factor(sample(seq(0, 5), dplyr::n(), replace = TRUE)),
     AETOXGRN = as.numeric(as.character(AETOXGR)),
     AEACN = as.factor(sample(
@@ -178,6 +287,12 @@ gen_adae <- function(seed = 123) {
   )
   gen <- select(gen, -months)
 
+  # Add TRDISCFL variable: "Y" if AEACN = "DRUG WITHDRAWN", null otherwise
+  gen <- gen %>%
+    mutate(
+      TRDISCFL = ifelse(AEACN == "DRUG WITHDRAWN", "Y", NA_character_)
+    )
+
   # Add labels
   additional_labels <- list(
     SAFFL = "Safety Population Flag",
@@ -201,7 +316,8 @@ gen_adae <- function(seed = 123) {
     AECONTRT = "Concomitant or Additional Trtmnt Given",
     AENDTF_DECODE = "Analysis End Date Imputation Flag",
     AESMIE = "Other Medically Important Serious Event",
-    AESMIE_DECODE = "Other Medically Important Serious Event"
+    AESMIE_DECODE = "Other Medically Important Serious Event",
+    TRDISCFL = "Treatment Discontinued Flag"
   )
 
   # Handle NA values and convert characters to factors

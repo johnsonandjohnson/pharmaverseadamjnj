@@ -33,44 +33,6 @@ gen_advs <- function(seed = 123) {
       AVALC = NA
     )
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   # Create SYSBPO, DIABPO, and PULSEO Parameters
   gen_ortho <- gen |>
     dplyr::filter(
@@ -357,8 +319,10 @@ gen_advs <- function(seed = 123) {
     ) |>
     dplyr::rowwise() |>
     dplyr::mutate(
-      ATOXGR = pmax(ATOXGRL, ATOXGRH, na.rm = TRUE)
-    ) |>
+      ATOXGR = factor(pmax(ATOXGRL, ATOXGRH, na.rm = TRUE), levels = c(0, 1, 2, 3, 4)),
+      ATOXGRL = as.factor(ATOXGRL),
+      ATOXGRH = as.factor(ATOXGRH)
+    ) |> # recreate factors
     dplyr::ungroup()
 
   gen_add_avisit1 <- gen |>

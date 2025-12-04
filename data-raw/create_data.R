@@ -50,12 +50,12 @@ run_script <- function(script_path) {
         tryCatch(
           {
             # Handle special cases with custom descriptions and sources
-            if (dataset_name == "adaefmq") {
+            if (dataset_name == "adaeocmq") {
               roxygen2_data(
                 dataset_name,
                 # nolint start
-                custom_description = "adae modified from pharmaverseadam to include FDA Medical Query information",
-                custom_source = "data from adae from pharmaverseadam and, FDA_FMW_Consolidated_List.rds and FDA_FMQ_References.rds"
+                custom_description = "adae modified from pharmaverseadam to include Office of New Drugs (OND) Custom Medical Queries",
+                custom_source = "data from adae from pharmaverseadam and, FDA_OCMQ_Consolidated_List.rds and FDA_OCMQ_References.rds"
                 # nolint end
               )
             } else if (dataset_name == "adttesaf") {

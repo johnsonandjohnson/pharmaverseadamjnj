@@ -3,12 +3,11 @@
 on:
   push:
     branches: [main]
-  pull_request:
   release:
     types: [published]
   workflow_dispatch:
 
-name: pkgdown.yaml
+name: Docs 📚
 
 permissions: read-all
 

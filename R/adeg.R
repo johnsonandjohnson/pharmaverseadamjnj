@@ -3,7 +3,7 @@
 #' @description adeg modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 11844 rows and 70 variables:
+#' @format A data frame with 13536 rows and 71 variables:
 #' \describe{
 #'  \item{DOMAIN}{Domain Abbreviation}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -66,6 +66,7 @@
 #'  \item{CRIT1FL}{Criterion 1 Evaluation Result Flag}
 #'  \item{CRIT2}{Analysis Criterion 2}
 #'  \item{CRIT2FL}{Criterion 2 Evaluation Result Flag}
+#'  \item{EGCLSIG}{Clinically Significant}
 #'  \item{BASE}{Baseline Value}
 #'  \item{BNRIND}{Baseline Reference Range Indicator}
 #'  \item{BASECAT1}{Baseline Category 1}
@@ -76,9 +77,9 @@
 #'  \item{SEX}{Sex}
 #'  \item{RACE_DECODE}{Race}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaefmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adeg
 #' @name adeg
 #' @examples
-#'  head(data("adeg"))
+#' head(data("adeg"))
 "adeg"

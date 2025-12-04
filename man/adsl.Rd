@@ -5,7 +5,7 @@
 \alias{adsl}
 \title{adsl}
 \format{
-A data frame with 306 rows and 106 variables:
+A data frame with 306 rows and 108 variables:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{USUBJID}{Unique Subject Identifier}
@@ -105,7 +105,7 @@ A data frame with 306 rows and 106 variables:
 \item{DTHTRTFL}{Death on Treatment Flag}
 \item{DTHCAUSP}{Cause Spec for Death}
 \item{DTHAFTFL}{Death After 30 Days of Last Treatment}
-\item{DTH60TFL}{Death Within 60 Days of First Treatment}
+\item{DTHB60FL}{Death Within 60 Days of First Treatment}
 \item{UNBLNDDY}{Study Day of Unblinding}
 \item{UNBREAS}{Reason For Unblinding}
 \item{LDOSE}{Last Dose}
@@ -113,6 +113,8 @@ A data frame with 306 rows and 106 variables:
 \item{DTHTERM}{Reported Cause of Death}
 \item{LDSTODTH}{Days from Last Dose to Death}
 \item{DTHDY}{Study Day of Death}
+\item{PKFL}{Pharmacokinetic Population Flag}
+\item{DIABETFL}{History of Diabetes}
 }
 }
 \source{
@@ -125,10 +127,10 @@ adsl
 adsl modified from pharmaverseadam
 }
 \examples{
- head(data("adsl"))
+head(data("adsl"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaefmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 }
 \keyword{adsl}
 \keyword{datasets}

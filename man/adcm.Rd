@@ -5,7 +5,7 @@
 \alias{adcm}
 \title{adcm}
 \format{
-A data frame with 7276 rows and 62 variables:
+A data frame with 7276 rows and 63 variables:
 \describe{
 \item{DOMAIN}{Domain Abbreviation}
 \item{USUBJID}{Unique Subject Identifier}
@@ -69,6 +69,7 @@ A data frame with 7276 rows and 62 variables:
 \item{TRT01A}{Actual Treatment for Period 01}
 \item{SAFFL}{Safety Population Flag}
 \item{TRTSDT}{Date of First Exposure to Treatment}
+\item{STUDYID}{Study Identifier}
 }
 }
 \source{
@@ -81,10 +82,10 @@ adcm
 adcm modified from pharmaverseadam
 }
 \examples{
- head(data("adcm"))
+head(data("adcm"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaefmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 }
 \keyword{adcm}
 \keyword{datasets}

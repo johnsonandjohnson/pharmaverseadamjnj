@@ -266,7 +266,7 @@ gen_adeg <- function(seed = 123) {
     CRIT1FL = "Criterion 1 Evaluation Result Flag",
     CRIT2 = "Analysis Criterion 2",
     CRIT2FL = "Criterion 2 Evaluation Result Flag",
-    EGCLSIG = "ECG Clinical Significance",
+    EGCLSIG = "Clinically Significant",
 
     # Categorization variable
     BASECAT1 = "Baseline Category 1"
