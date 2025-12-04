@@ -33,4 +33,4 @@ RoxygenNote: 7.3.3
 Language: en-US
 Depends:
     R (>= 3.5),
-    pharmaverseadam 
+    pharmaverseadam (>= 1.2.0)
