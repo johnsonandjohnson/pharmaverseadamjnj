@@ -82,7 +82,7 @@ adcm
 adcm modified from pharmaverseadam
 }
 \examples{
- head(data("adcm"))
+head(data("adcm"))
 }
 \seealso{
 \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
