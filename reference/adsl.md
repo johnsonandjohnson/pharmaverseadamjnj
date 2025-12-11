@@ -158,7 +158,7 @@ A data frame with 306 rows and 108 variables:
 
 - FRVDT:
 
-  Final Retrievel Visit Date
+  Final Retrieval Visit Date
 
 - RANDDT:
 
@@ -182,15 +182,15 @@ A data frame with 306 rows and 108 variables:
 
 - DTHCAUS:
 
-  DTHCAUS
+  Cause of Death
 
 - DTHDOM:
 
-  DTHDOM
+  Domain for Date of Death Collection
 
 - DTHCGR1:
 
-  DTHCGR1
+  Cause of Death Reason 1
 
 - LSTALVDT:
 

@@ -402,7 +402,7 @@ A data frame with 83640 rows and 155 variables:
 
 - FRVDT:
 
-  Final Retrievel Visit Date
+  Final Retrieval Visit Date
 
 - RANDDT:
 
@@ -414,7 +414,7 @@ A data frame with 83640 rows and 155 variables:
 
 - DTHDTF:
 
-  DTHDTF
+  Date of Death Imputation Flag
 
 - DTHADY:
 
@@ -426,15 +426,15 @@ A data frame with 83640 rows and 155 variables:
 
 - DTHCAUS:
 
-  DTHCAUS
+  Cause of Death
 
 - DTHDOM:
 
-  DTHDOM
+  Domain for Date of Death Collection
 
 - DTHCGR1:
 
-  DTHCGR1
+  Cause of Death Reason 1
 
 - LSTALVDT:
 

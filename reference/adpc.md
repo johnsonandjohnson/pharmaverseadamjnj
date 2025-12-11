@@ -10,7 +10,7 @@ adpc
 
 ## Format
 
-A data frame with 3852 rows and 129 variables:
+A data frame with 4479 rows and 129 variables:
 
 - STUDYID:
 
@@ -208,10 +208,6 @@ A data frame with 3852 rows and 129 variables:
 
   Analysis Timepoint Reference
 
-- ABLFL:
-
-  Baseline Record Flag
-
 - BASETYPE:
 
   Baseline Type
@@ -271,6 +267,10 @@ A data frame with 3852 rows and 129 variables:
 - DTYPE:
 
   Derivation Type
+
+- ABLFL:
+
+  Baseline Record Flag
 
 - MRRLT:
 
@@ -450,7 +450,7 @@ A data frame with 3852 rows and 129 variables:
 
 - FRVDT:
 
-  Final Retrievel Visit Date
+  Final Retrieval Visit Date
 
 - RANDDT:
 
@@ -462,7 +462,7 @@ A data frame with 3852 rows and 129 variables:
 
 - DTHDTF:
 
-  DTHDTF
+  Date of Death Imputation Flag
 
 - DTHADY:
 
@@ -474,15 +474,15 @@ A data frame with 3852 rows and 129 variables:
 
 - DTHCAUS:
 
-  DTHCAUS
+  Cause of Death
 
 - DTHDOM:
 
-  DTHDOM
+  Domain for Date of Death Collection
 
 - DTHCGR1:
 
-  DTHCGR1
+  Cause of Death Reason 1
 
 - LSTALVDT:
 

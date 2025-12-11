@@ -200,6 +200,14 @@ A data frame with 1191 rows and 81 variables:
 
   End Date/Time of Last Dose
 
+- DOSEON:
+
+  Treatment Dose at Record Start
+
+- DOSEU:
+
+  Treatment Dose Units
+
 - ASEV:
 
   Analysis Severity/Intensity
@@ -235,14 +243,6 @@ A data frame with 1191 rows and 81 variables:
 - DOSEDY:
 
   Day of Study Drug
-
-- DOSEU:
-
-  Treatment Dose Units
-
-- DOSEON:
-
-  Treatment Dose at Record Start
 
 - AECONTRT:
 

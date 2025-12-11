@@ -24,6 +24,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Fixed ADLB to use “BEFORE TREATMENT” for ATPT instead of “00:00”
 - ADSL: Set RANDFL to “Y” for most subjects with SAFFL=“Y”, but also for
   a few with SAFFL=“N” and non-NA TRT01P
+- Updated {pharmaverseadam} released a new version 0.1.2 some variable
+  labels have been added accordingly.
 
 ## \[0.0.1\] - 2024-07-02
 
