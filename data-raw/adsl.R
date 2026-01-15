@@ -457,7 +457,7 @@ gen_adsl <- function(seed = 123) {
     ITTFL = "Intent-To-Treat Population Flag",
     PKFL = "Pharmacokinetic Population Flag",
     DIABETFL = "History of Diabetes",
-    DCTADY = " Day of Discontinuation of Study Treatment"
+    DCTADY = "Day of Discontinuation of Study Treatment"
   )
 
   # Handle NA values and convert characters to factors
