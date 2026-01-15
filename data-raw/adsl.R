@@ -395,7 +395,7 @@ gen_adsl <- function(seed = 123) {
 
   gen <- dplyr::mutate(
     gen,
-    DCTADY = DCTDT - TRTSDT + 1
+    DCTADY = as.numeric(DCTDT - TRTSDT + 1)
   )
 
   # Define additional labels for new variables not in source dataset
