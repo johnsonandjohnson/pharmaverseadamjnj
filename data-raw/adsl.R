@@ -392,7 +392,7 @@ gen_adsl <- function(seed = 123) {
     PKFL = dplyr::if_else(USUBJID %in% pharmaverseadam::adpc$USUBJID, "Y", "N"),
     DIABETFL = sample(c("N", "Y"), NROW(gen), TRUE, c(0.8, 0.2))
   )
-  
+
   gen <- dplyr::mutate(
     gen,
     DCTADY = DCTDT - TRTSDT + 1
