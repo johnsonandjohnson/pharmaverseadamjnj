@@ -115,7 +115,7 @@ A data frame with 306 rows and 109 variables:
 \item{DTHDY}{Study Day of Death}
 \item{PKFL}{Pharmacokinetic Population Flag}
 \item{DIABETFL}{History of Diabetes}
-\item{DCTADY}{ Day of Discontinuation of Study Treatment}
+\item{DCTADY}{Day of Discontinuation of Study Treatment}
 }
 }
 \source{
