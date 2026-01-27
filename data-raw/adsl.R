@@ -393,6 +393,11 @@ gen_adsl <- function(seed = 123) {
     DIABETFL = sample(c("N", "Y"), NROW(gen), TRUE, c(0.8, 0.2))
   )
 
+  gen <- dplyr::mutate(
+    gen,
+    DCTADY = as.numeric(DCTDT - TRTSDT + 1)
+  )
+
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
     TRT01PN = "Planned Treatment for Period 01 (N)",
@@ -451,7 +456,8 @@ gen_adsl <- function(seed = 123) {
     RESCRNFL = "Re-screened Flag",
     ITTFL = "Intent-To-Treat Population Flag",
     PKFL = "Pharmacokinetic Population Flag",
-    DIABETFL = "History of Diabetes"
+    DIABETFL = "History of Diabetes",
+    DCTADY = "Study Day of Treatment Discontinuation"
   )
 
   # Handle NA values and convert characters to factors

@@ -5,7 +5,7 @@
 \alias{adsl}
 \title{adsl}
 \format{
-A data frame with 306 rows and 108 variables:
+A data frame with 306 rows and 109 variables:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{USUBJID}{Unique Subject Identifier}
@@ -115,6 +115,7 @@ A data frame with 306 rows and 108 variables:
 \item{DTHDY}{Study Day of Death}
 \item{PKFL}{Pharmacokinetic Population Flag}
 \item{DIABETFL}{History of Diabetes}
+\item{DCTADY}{Study Day of Treatment Discontinuation}
 }
 }
 \source{
