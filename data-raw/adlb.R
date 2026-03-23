@@ -23,7 +23,7 @@ gen_adlb <- function(seed = 123) {
 
   gen <- dplyr::mutate(
     gen,
-    # We'll adjust AVAL and ANRHI for ALKPH to ensure ratio > 3 when calculated on-the-fly
+    # adjust AVAL and ANRHI for ALKPH to ensure ratio > 3 when calculated on-the-fly
     AVAL = ifelse(
       PARAMCD == "ALKPH" & USUBJID == unique(USUBJID)[1] & ADY > 0,
       30, # Use a high AVAL
@@ -31,7 +31,7 @@ gen_adlb <- function(seed = 123) {
     ),
     ANRHI = ifelse(
       PARAMCD == "ALKPH" & USUBJID == unique(USUBJID)[1] & ADY > 0,
-      5, # This will ensure AVAL/ANRHI = 30/5 = 6 > 3
+      5, # ensure AVAL/ANRHI = 30/5 = 6 > 3
       ANRHI
     ),
     # Treatment and arm variables
@@ -102,7 +102,7 @@ gen_adlb <- function(seed = 123) {
         AVISIT == "Unscheduled 12.1" ~ "Cycle 17",
         AVISIT == "Unscheduled 13.1" ~ "Cycle 18",
         AVISIT == "Week 26" ~ "End Of Treatment",
-        TRUE ~ as.character(AVISIT) # Other values remain unchanged
+        TRUE ~ as.character(AVISIT)
       )),
       AVISITN,
       .na_rm = FALSE
@@ -461,7 +461,7 @@ gen_adlb <- function(seed = 123) {
         sample(c("Potassium, low", NA), n(), replace = TRUE),
       PARAM == "Sodium (mmol/L)" ~
         sample(c("Sodium, low", NA), n(), replace = TRUE),
-      TRUE ~ NA_character_ # Assign NA for other values not matching
+      TRUE ~ NA_character_
     ),
     ATOXGR = case_when(
       ATOXGR == "0" ~ "0",
@@ -471,7 +471,7 @@ gen_adlb <- function(seed = 123) {
       ATOXGR == "-3" ~ "3",
       ATOXGR == "2" ~ "4",
       ATOXGR == "3" ~ "5",
-      TRUE ~ NA_character_ # Other values can result in NA
+      TRUE ~ NA_character_
     ),
     # Miscellaneous variables
     APOBLFL = as.factor(sample(c(NA, "Y"), dplyr::n(), replace = TRUE)),
@@ -511,8 +511,10 @@ gen_adlb <- function(seed = 123) {
     ),
     LBFAST = dplyr::case_when(
       PARAMCD == "GLUC" ~ "Y"
-    )
+    ),
+    LBNAM = sample(c("CENTRAL", "LOCAL"), n(), replace = TRUE, prob = c(0.85, 0.15))
   )
+
 
   # Apply admiral::restrict_derivation for ANL03FL
   gen <- admiral::restrict_derivation(
@@ -557,7 +559,7 @@ gen_adlb <- function(seed = 123) {
       mode = "last"
     ),
     filter = AVISIT != "Screening"
-  ) %>%
+  ) |>
     mutate(
       ANL06FL = ANL05FL,
       ANL07FL = ANL05FL,
@@ -631,7 +633,8 @@ gen_adlb <- function(seed = 123) {
     TR01SDT = "Start Date of Treatment for Period 01",
     TR01EDT = "End Date of Treatment for Period 01",
     LBSPEC = "Specimen Type",
-    LBFAST = "Fasting Status"
+    LBFAST = "Fasting Status",
+    LBNAM = "Laboratory Name"
   )
 
   # Handle NA values and convert characters to factors
@@ -645,9 +648,9 @@ gen_adlb <- function(seed = 123) {
   )
 
   # Ensure uniqueness of records per subject/parameter/visit
-  gen <- gen %>%
-    group_by(USUBJID, PARAMCD, AVISIT) %>%
-    slice(1) %>%
+  gen <- gen |>
+    group_by(USUBJID, PARAMCD, AVISIT) |>
+    slice(1) |>
     ungroup()
 
   return(gen)
