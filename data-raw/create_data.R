@@ -18,7 +18,7 @@ data_scripts <- data_scripts[
 # Run each script and handle saving and documentation
 run_script <- function(script_path) {
   script_name <- basename(script_path)
-  dataset_name <- tools::file_path_sans_ext(script_name) # Extract dataset name (e.g., "adsl" from "adsl.R")
+  dataset_name <- tools::file_path_sans_ext(script_name)
   message(paste0("Running ", script_name, "..."))
 
   # Create environment to capture the resulting dataset
@@ -103,5 +103,5 @@ run_script <- function(script_path) {
 
 # Run all other data creation scripts
 walk(data_scripts, run_script)
-
+styler::style_pkg(".")
 message("All datasets have been created and documented.")

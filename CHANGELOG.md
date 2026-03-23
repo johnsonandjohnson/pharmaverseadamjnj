@@ -7,12 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.0.3] - 2026-01-27
 
-### Changed
-Add DCTADY to ADSL #32
+### Added
+- Add DCTADY to ADSL #32
+- Add addili 
+
 
 ## [0.0.2] - 2025-12-03
 
-### Added
 - Added ADAGOCMQ &  ADPC dataset
 - Added `LBSPEC` and `LBFAST` to ADLB dataset
 

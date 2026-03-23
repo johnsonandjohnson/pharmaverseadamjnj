@@ -7,8 +7,35 @@
 \format{
 A data frame with 40702 rows and 78 variables:
 \describe{
-\item{DOMAIN}{Domain Abbreviation}
 \item{USUBJID}{Unique Subject Identifier}
+\item{DOMAIN}{Domain Abbreviation}
+\item{ASEQ}{Analysis Sequence Number}
+\item{TRTP}{Planned Treatment}
+\item{TRTA}{Actual Treatment}
+\item{ADT}{Analysis Date}
+\item{ADY}{Analysis Relative Day}
+\item{AVISIT}{Analysis Visit}
+\item{AVISITN}{Analysis Visit (N)}
+\item{ATPT}{Analysis Time Point}
+\item{ATPTN}{Analysis Timepoint (N)}
+\item{PARAM}{Parameter}
+\item{PARAMCD}{Parameter Code}
+\item{PARAMN}{Parameter (N)}
+\item{AVAL}{Analysis Value}
+\item{AVALCAT1}{Analysis Value Category 1}
+\item{AVALCA1N}{Analysis Value Category 1 (N)}
+\item{BASETYPE}{Baseline Type}
+\item{CHG}{Change from Baseline}
+\item{PCHG}{Percent Change from Baseline}
+\item{DTYPE}{Derivation Type}
+\item{ANRIND}{Analysis Reference Range Indicator}
+\item{ANRLO}{Analysis Normal Range Lower Limit}
+\item{ANRHI}{Analysis Normal Range Upper Limit}
+\item{A1LO}{Analysis Range 1 Lower Limit}
+\item{A1HI}{Analysis Range 1 Upper Limit}
+\item{ABLFL}{Baseline Record Flag}
+\item{ANL01FL}{Analysis Flag 01}
+\item{ONTRTFL}{On Treatment Record Flag}
 \item{VSSEQ}{Sequence Number}
 \item{VSTESTCD}{Vital Signs Test Short Name}
 \item{VSTEST}{Vital Signs Test Name}
@@ -30,33 +57,6 @@ A data frame with 40702 rows and 78 variables:
 \item{VSTPTNUM}{Planned Time Point Number}
 \item{VSELTM}{Planned Elapsed Time from Time Point Ref}
 \item{VSTPTREF}{Time Point Reference}
-\item{ADT}{Analysis Date}
-\item{ADY}{Analysis Relative Day}
-\item{PARAMCD}{Parameter Code}
-\item{AVAL}{Analysis Value}
-\item{ATPTN}{Analysis Timepoint (N)}
-\item{ATPT}{Analysis Time Point}
-\item{AVISIT}{Analysis Visit}
-\item{AVISITN}{Analysis Visit (N)}
-\item{DTYPE}{Derivation Type}
-\item{ONTRTFL}{On Treatment Record Flag}
-\item{ANRLO}{Analysis Normal Range Lower Limit}
-\item{ANRHI}{Analysis Normal Range Upper Limit}
-\item{A1LO}{Analysis Range 1 Lower Limit}
-\item{A1HI}{Analysis Range 1 Upper Limit}
-\item{ANRIND}{Analysis Reference Range Indicator}
-\item{BASETYPE}{Baseline Type}
-\item{ABLFL}{Baseline Record Flag}
-\item{CHG}{Change from Baseline}
-\item{PCHG}{Percent Change from Baseline}
-\item{ANL01FL}{Analysis Flag 01}
-\item{TRTP}{Planned Treatment}
-\item{TRTA}{Actual Treatment}
-\item{ASEQ}{Analysis Sequence Number}
-\item{AVALCAT1}{Analysis Value Category 1}
-\item{AVALCA1N}{Analysis Value Category 1 (N)}
-\item{PARAM}{Parameter}
-\item{PARAMN}{Parameter (N)}
 \item{AVALC}{Analysis Value (C)}
 \item{ANL02FL}{Analysis Flag 02-By Visit Value}
 \item{APOBLFL}{Post-Baseline Record Flag}
@@ -100,7 +100,7 @@ advs modified from pharmaverseadam
 head(data("advs"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 }
 \keyword{advs}
 \keyword{datasets}

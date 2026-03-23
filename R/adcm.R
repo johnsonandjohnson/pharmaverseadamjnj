@@ -5,48 +5,48 @@
 #'
 #' @format A data frame with 7276 rows and 63 variables:
 #' \describe{
-#'  \item{DOMAIN}{Domain Abbreviation}
 #'  \item{USUBJID}{Unique Subject Identifier}
+#'  \item{DOMAIN}{Domain Abbreviation}
+#'  \item{TRTP}{Planned Treatment}
+#'  \item{TRTA}{Actual Treatment}
+#'  \item{APHASE}{Phase}
+#'  \item{APHASEN}{Description of Phase N}
 #'  \item{CMSEQ}{Sequence Number}
-#'  \item{CMSPID}{Sponsor-Defined Identifier}
-#'  \item{CMTRT}{Reported Name of Drug, Med, or Therapy}
 #'  \item{CMDECOD}{Standardized Medication Name}
-#'  \item{CMINDC}{Indication}
+#'  \item{CMTRT}{Reported Name of Drug, Med, or Therapy}
 #'  \item{CMCLAS}{Medication Class}
+#'  \item{CMSTDTC}{Start Date/Time of Medication}
+#'  \item{ASTDT}{Analysis Start Date}
+#'  \item{ASTDTM}{Analysis Start Date/Time}
+#'  \item{ASTDTF}{Analysis Start Date Imputation Flag}
+#'  \item{ASTTMF}{Analysis Start Time Imputation Flag}
+#'  \item{CMENDTC}{End Date/Time of Medication}
+#'  \item{AENDT}{Analysis End Date}
+#'  \item{AENDTM}{Analysis End Date/Time}
+#'  \item{AENDTF}{Analysis End Date Imputation Flag}
+#'  \item{AENTMF}{Analysis End Time Imputation Flag}
+#'  \item{ASTDY}{Analysis Start Relative Day}
+#'  \item{CMSTDY}{Study Day of Start of Medication}
+#'  \item{AENDY}{Analysis End Relative Day}
+#'  \item{CMENDY}{Study Day of End of Medication}
+#'  \item{ADURN}{Analysis Duration (N)}
+#'  \item{ADURU}{Analysis Duration Units}
+#'  \item{ANL01FL}{Analysis Flag 01}
+#'  \item{ONTRTFL}{On Treatment Record Flag}
+#'  \item{PREFL}{Pre-treatment Flag}
+#'  \item{FUPFL}{Follow-up Flag}
+#'  \item{AOCCPFL}{1st Occurrence of Preferred Term Flag}
+#'  \item{CMINDC}{Indication}
 #'  \item{CMDOSE}{Dose per Administration}
 #'  \item{CMDOSU}{Dose Units}
 #'  \item{CMDOSFRQ}{Dosing Frequency per Interval}
 #'  \item{CMROUTE}{Route of Administration}
+#'  \item{CMSPID}{Sponsor-Defined Identifier}
+#'  \item{CMENRTPT}{End Relative to Reference Time Point}
 #'  \item{VISITNUM}{Visit Number}
 #'  \item{VISIT}{Visit Name}
 #'  \item{VISITDY}{Planned Study Day of Visit}
 #'  \item{CMDTC}{Date/Time of Collection}
-#'  \item{CMSTDTC}{Start Date/Time of Medication}
-#'  \item{CMENDTC}{End Date/Time of Medication}
-#'  \item{CMSTDY}{Study Day of Start of Medication}
-#'  \item{CMENDY}{Study Day of End of Medication}
-#'  \item{CMENRTPT}{End Relative to Reference Time Point}
-#'  \item{ASTDTM}{Analysis Start Date/Time}
-#'  \item{ASTDTF}{Analysis Start Date Imputation Flag}
-#'  \item{ASTTMF}{Analysis Start Time Imputation Flag}
-#'  \item{AENDTM}{Analysis End Date/Time}
-#'  \item{AENDTF}{Analysis End Date Imputation Flag}
-#'  \item{AENTMF}{Analysis End Time Imputation Flag}
-#'  \item{ASTDT}{Analysis Start Date}
-#'  \item{AENDT}{Analysis End Date}
-#'  \item{ASTDY}{Analysis Start Relative Day}
-#'  \item{AENDY}{Analysis End Relative Day}
-#'  \item{ADURN}{Analysis Duration (N)}
-#'  \item{ADURU}{Analysis Duration Units}
-#'  \item{ONTRTFL}{On Treatment Record Flag}
-#'  \item{PREFL}{Pre-treatment Flag}
-#'  \item{FUPFL}{Follow-up Flag}
-#'  \item{ANL01FL}{Analysis Flag 01}
-#'  \item{AOCCPFL}{1st Occurrence of Preferred Term Flag}
-#'  \item{APHASE}{Phase}
-#'  \item{APHASEN}{Description of Phase N}
-#'  \item{TRTP}{Planned Treatment}
-#'  \item{TRTA}{Actual Treatment}
 #'  \item{CMLVL1}{Preferred ATC Text for ATC Level 1}
 #'  \item{CMLVL2}{Preferred ATC Text for ATC Level 2}
 #'  \item{CMLVL3}{Preferred ATC Text for ATC Level 3}
@@ -69,7 +69,7 @@
 #'  \item{TRTSDT}{Date of First Exposure to Treatment}
 #'  \item{STUDYID}{Study Identifier}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adcm
 #' @name adcm
 #' @examples
