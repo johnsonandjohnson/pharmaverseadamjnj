@@ -158,7 +158,7 @@ gen_addili <- function(seed = 123) {
   # Apply CDILI temporal window (30 days here)
   addili_anl04050607 <- derive_var_joined_exist_flag(
     addili_anl04050607,
-    dataset_add = trigger_07,
+    dataset_add = anl07,
     by_vars = exprs(USUBJID),
     new_var = ANL07_CHECK,
     join_vars = exprs(TRG_ADT),
@@ -182,8 +182,8 @@ gen_addili <- function(seed = 123) {
       mode = "first",
       check_type = "none"
     ),
-    filter = (PARAMCD == "BILI" & ONTRTFL == "Y" & ANL05FL == "Y") |
-      (PARAMCD != "BILI" & ONTRTFL == "Y")
+    filter = (PARAMCD == "BILI" & (ONTRTFL == "Y" | ANL05FL == "Y")) |
+             (PARAMCD != "BILI" & ONTRTFL == "Y")
   )
 
   # Derive ANL03FL - Max R2ANRHI for CDILI
@@ -197,8 +197,8 @@ gen_addili <- function(seed = 123) {
       mode = "first",
       check_type = "none"
     ),
-    filter = (PARAMCD == "BILI" & ONTRTFL == "Y" & ANL07FL == "Y") |
-      (PARAMCD != "BILI" & ONTRTFL == "Y")
+    filter = (PARAMCD == "BILI" & (ONTRTFL == "Y" | ANL07FL == "Y")) |
+             (PARAMCD != "BILI" & ONTRTFL == "Y")
   )
 
   subj_summary <- addili_anl020304050607 |>
