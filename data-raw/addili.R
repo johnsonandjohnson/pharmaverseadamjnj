@@ -183,7 +183,7 @@ gen_addili <- function(seed = 123) {
       check_type = "none"
     ),
     filter = (PARAMCD == "BILI" & (ONTRTFL == "Y" | ANL05FL == "Y")) |
-             (PARAMCD != "BILI" & ONTRTFL == "Y")
+      (PARAMCD != "BILI" & ONTRTFL == "Y")
   )
 
   # Derive ANL03FL - Max R2ANRHI for CDILI
@@ -198,7 +198,7 @@ gen_addili <- function(seed = 123) {
       check_type = "none"
     ),
     filter = (PARAMCD == "BILI" & (ONTRTFL == "Y" | ANL07FL == "Y")) |
-             (PARAMCD != "BILI" & ONTRTFL == "Y")
+      (PARAMCD != "BILI" & ONTRTFL == "Y")
   )
 
   subj_summary <- addili_anl020304050607 |>
