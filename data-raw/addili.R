@@ -37,20 +37,29 @@ gen_addili <- function(seed = 123) {
   hys_subjs <- c("01-701-1028", "01-701-1034", "01-701-1047", "01-701-1115")
   chol_subj <- "01-701-1118"
 
+
   adlb <- raw |>
+    group_by(USUBJID) |>
     mutate(
+      .hys_alt_ast_mult = if_else(USUBJID %in% hys_subjs, rnorm(1, mean = 4.1, sd = 0.1), NA_real_),
+      .hys_bili_mult = if_else(USUBJID %in% hys_subjs, rnorm(1, mean = 3.1, sd = 0.1), NA_real_),
+      .chol_alp_mult = if_else(USUBJID == chol_subj, rnorm(1, mean = 2.5, sd = 0.08), NA_real_),
+      .chol_bili_mult = if_else(USUBJID == chol_subj, rnorm(1, mean = 3.1, sd = 0.1), NA_real_),
+      .chol_alt_ast_mult = if_else(USUBJID == chol_subj, rnorm(1, mean = 1.5, sd = 0.05), NA_real_),
       AVAL = case_when(
         # Hy's Law: ALT & AST > 3x, BILI > 2x
-        USUBJID %in% hys_subjs & PARAMCD %in% c("ALT", "AST") ~ ANRHI * 4.1,
-        USUBJID %in% hys_subjs & PARAMCD == "BILI" ~ ANRHI * 3.1,
+        USUBJID %in% hys_subjs & PARAMCD %in% c("ALT", "AST") ~ ANRHI * .hys_alt_ast_mult,
+        USUBJID %in% hys_subjs & PARAMCD == "BILI" ~ ANRHI * .hys_bili_mult,
         # Cholestasis: ALP > 2x, BILI > 2x
-        USUBJID == chol_subj & PARAMCD == "ALP" ~ ANRHI * 2.5,
-        USUBJID == chol_subj & PARAMCD == "BILI" ~ ANRHI * 3.1,
-        USUBJID == chol_subj & PARAMCD %in% c("ALT", "AST") ~ ANRHI * 1.5,
+        USUBJID == chol_subj & PARAMCD == "ALP" ~ ANRHI * .chol_alp_mult,
+        USUBJID == chol_subj & PARAMCD == "BILI" ~ ANRHI * .chol_bili_mult,
+        USUBJID == chol_subj & PARAMCD %in% c("ALT", "AST") ~ ANRHI * .chol_alt_ast_mult,
         TRUE ~ AVAL
       ),
       R2ANRHI = AVAL / ANRHI
-    )
+    ) |>
+    ungroup() |>
+    select(-.hys_alt_ast_mult, -.hys_bili_mult, -.chol_alp_mult, -.chol_bili_mult, -.chol_alt_ast_mult)
 
   # Subset ADLB and Keep Predecessor Variables
   addili_base <- adlb |>
@@ -236,11 +245,19 @@ gen_addili <- function(seed = 123) {
       PARAM = "Analysis Value - HDILI",
       PARCAT1 = NA_character_,
       ANL07FL = NA_character_,
-      AVALC = case_when(
-        bili_crit1_hdili & !is.na(ANL04FL) ~ "ALT or AST >=3x ULN and TBILI >=2x ULN",
-        bili_crit1_ontrt & is.na(ANL04FL) ~ "ALT and AST <3x ULN and TBILI >=2x ULN",
-        !is.na(ANL04FL) ~ "ALT or AST >=3x ULN and TBILI <2x ULN",
-        TRUE ~ "ALT and AST <3x ULN and TBILI <2x ULN"
+      AVALC = factor(
+        case_when(
+          bili_crit1_hdili & !is.na(ANL04FL) ~ "ALT or AST >=3x ULN and TBILI >=2x ULN",
+          bili_crit1_ontrt & is.na(ANL04FL) ~ "ALT and AST <3x ULN and TBILI >=2x ULN",
+          !is.na(ANL04FL) ~ "ALT or AST >=3x ULN and TBILI <2x ULN",
+          TRUE ~ "ALT and AST <3x ULN and TBILI <2x ULN"
+        ),
+        levels = c(
+          "ALT or AST >=3x ULN and TBILI >=2x ULN",
+          "ALT and AST <3x ULN and TBILI >=2x ULN",
+          "ALT or AST >=3x ULN and TBILI <2x ULN",
+          "ALT and AST <3x ULN and TBILI <2x ULN"
+        )
       ),
       CRIT1 = "TBILI >=2x ULN within 30 days on or after ALT or AST >=3x ULN",
       CRIT1FL = if_else(AVALC == "ALT or AST >=3x ULN and TBILI >=2x ULN" & has_anl05fl, "Y", "N")
@@ -375,6 +392,13 @@ gen_addili <- function(seed = 123) {
     AVALCA2N = "Analysis Value Category 2 (N)",
     ASEQ     = "Analysis Sequence Number"
   )
+
+  # Standardize all Criterion flags to factors with Y first
+  gen <- gen %>%
+    mutate(across(
+      starts_with("CRIT") & ends_with("FL"),
+      ~ factor(.x, levels = c("Y", "N"))
+    ))
 
   # Handle NA values and convert characters to factors
   gen <- df_na(gen, char_as_factor = TRUE)
