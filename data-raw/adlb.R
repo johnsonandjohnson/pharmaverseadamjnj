@@ -559,7 +559,7 @@ gen_adlb <- function(seed = 123) {
       mode = "last"
     ),
     filter = AVISIT != "Screening"
-  ) |>
+  ) %>%
     mutate(
       ANL06FL = ANL05FL,
       ANL07FL = ANL05FL,
@@ -648,9 +648,9 @@ gen_adlb <- function(seed = 123) {
   )
 
   # Ensure uniqueness of records per subject/parameter/visit
-  gen <- gen |>
-    group_by(USUBJID, PARAMCD, AVISIT) |>
-    slice(1) |>
+  gen <- gen %>%
+    group_by(USUBJID, PARAMCD, AVISIT) %>%
+    slice(1) %>%
     ungroup()
 
   return(gen)
