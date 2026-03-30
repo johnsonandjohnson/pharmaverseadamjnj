@@ -17,7 +17,7 @@ gen_advs <- function(seed = 123) {
   set.seed(seed)
   raw <- pharmaverseadam::advs
 
-  gen <- raw %>%
+  gen <- raw |>
     # nolint start
     dplyr::filter(
       (PARAMCD == "SYSBP" |
@@ -27,17 +27,17 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "WEIGHT") &
         DTYPE == "AVERAGE" &
         !is.na(AVISIT)
-    ) %>%
+    ) |>
     # nolint end
     dplyr::mutate(
       AVALC = NA
     )
 
   # Create SYSBPO, DIABPO, and PULSEO Parameters
-  gen_ortho <- gen %>%
+  gen_ortho <- gen |>
     dplyr::filter(
       PARAMCD == "SYSBP" | PARAMCD == "DIABP" | PARAMCD == "PULSE"
-    ) %>%
+    ) |>
     dplyr::mutate(
       PARAMCD = dplyr::case_when(
         PARAMCD == "SYSBP" ~ "SYSBPO",
@@ -59,8 +59,8 @@ gen_advs <- function(seed = 123) {
       )
     )
 
-  gen_ortho_der <- gen_ortho %>%
-    dplyr::filter(PARAMCD == "SYSBPO" | PARAMCD == "DIABPO") %>%
+  gen_ortho_der <- gen_ortho |>
+    dplyr::filter(PARAMCD == "SYSBPO" | PARAMCD == "DIABPO") |>
     dplyr::mutate(
       PARAMCD = dplyr::case_when(
         PARAMCD == "SYSBPO" ~ "ORTHYPS",
@@ -79,18 +79,18 @@ gen_advs <- function(seed = 123) {
       AVAL = NA,
     )
 
-  gen_orthyps <- gen_ortho_der %>%
-    dplyr::filter(PARAMCD == "ORTHYPS") %>%
+  gen_orthyps <- gen_ortho_der |>
+    dplyr::filter(PARAMCD == "ORTHYPS") |>
     dplyr::mutate(
       ORTHYPS = AVALC
-    ) %>%
+    ) |>
     dplyr::select(-AVALC)
 
-  gen_orthypd <- gen_ortho_der %>%
-    dplyr::filter(PARAMCD == "ORTHYPD") %>%
+  gen_orthypd <- gen_ortho_der |>
+    dplyr::filter(PARAMCD == "ORTHYPD") |>
     dplyr::mutate(
       ORTHYPD = AVALC
-    ) %>%
+    ) |>
     dplyr::select(STUDYID, USUBJID, AVISITN, ORTHYPD)
 
   gen_orthyp <- dplyr::inner_join(
@@ -101,7 +101,7 @@ gen_advs <- function(seed = 123) {
     suffix = c(".x", ".y"),
     keep = FALSE,
     na_matches = "na"
-  ) %>%
+  ) |>
     dplyr::mutate(
       PARAMCD = "ORTHYP",
       PARAM = "Orthostatic Hypotension",
@@ -111,10 +111,10 @@ gen_advs <- function(seed = 123) {
           "Y",
         .default = "N"
       )
-    ) %>%
+    ) |>
     dplyr::select(-ORTHYPS, -ORTHYPD)
 
-  gen <- rbind(gen, gen_ortho, gen_ortho_der, gen_orthyp) %>%
+  gen <- rbind(gen, gen_ortho, gen_ortho_der, gen_orthyp) |>
     dplyr::mutate(
       ABLFL = dplyr::case_when(
         AVISIT == "Baseline" ~ "Y",
@@ -158,22 +158,22 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "DIABP" & AVAL >= 110 & AVAL < 119 ~ 4,
         PARAMCD == "DIABP" & AVAL >= 120 ~ 5,
       ),
-    ) %>%
-    dplyr::select(-BASE, -BNRIND) %>%
+    ) |>
+    dplyr::select(-BASE, -BNRIND) |>
     admiral::derive_var_base(
       by_vars = exprs(USUBJID, PARAMCD),
       source_var = AVAL,
       new_var = BASE,
       filter = ABLFL == "Y"
-    ) %>%
+    ) |>
     admiral::derive_var_base(
       by_vars = exprs(USUBJID, PARAMCD),
       source_var = ANRIND,
       new_var = BNRIND,
       filter = ABLFL == "Y"
-    ) %>%
-    admiral::derive_var_chg() %>%
-    admiral::derive_var_pchg() %>%
+    ) |>
+    admiral::derive_var_chg() |>
+    admiral::derive_var_pchg() |>
     dplyr::mutate(
       CHG = dplyr::case_when(
         ABLFL == "Y" ~ NA,
@@ -316,17 +316,17 @@ gen_advs <- function(seed = 123) {
         )),
         AVISITN
       ),
-    ) %>%
-    dplyr::rowwise() %>%
+    ) |>
+    dplyr::rowwise() |>
     dplyr::mutate(
       ATOXGR = factor(pmax(ATOXGRL, ATOXGRH, na.rm = TRUE), levels = c(0, 1, 2, 3, 4)),
       ATOXGRL = as.factor(ATOXGRL),
       ATOXGRH = as.factor(ATOXGRH)
-    ) %>% # recreate factors
+    ) |> # recreate factors
     dplyr::ungroup()
 
-  gen_add_avisit1 <- gen %>%
-    dplyr::filter(AVISIT != "Screening") %>%
+  gen_add_avisit1 <- gen |>
+    dplyr::filter(AVISIT != "Screening") |>
     dplyr::mutate(
       AVISITN = dplyr::case_when(
         AVISIT == "Cycle 02" ~ 10,
@@ -353,10 +353,10 @@ gen_advs <- function(seed = 123) {
       ADT = ADT + 365,
     )
 
-  gen_add_avisit2 <- gen %>%
+  gen_add_avisit2 <- gen |>
     dplyr::filter(
       AVISIT == "Cycle 08" | AVISIT == "Cycle 09" | AVISIT == "End Of Treatment"
-    ) %>%
+    ) |>
     dplyr::mutate(
       AVISITN = dplyr::case_when(
         AVISIT == "Cycle 08" ~ 19,
@@ -371,10 +371,10 @@ gen_advs <- function(seed = 123) {
       ADT = ADT + 730,
     )
 
-  gen <- rbind(gen, gen_add_avisit1, gen_add_avisit2) %>%
+  gen <- rbind(gen, gen_add_avisit1, gen_add_avisit2) |>
     dplyr::mutate(
       AVISIT = forcats::fct_reorder(as.factor(AVISIT), AVISITN),
-    ) %>%
+    ) |>
     admiral::restrict_derivation(
       derivation = admiral::derive_var_extreme_flag,
       args = params(
@@ -386,7 +386,7 @@ gen_advs <- function(seed = 123) {
         mode = "last"
       ),
       filter = AVISIT != "Screening"
-    ) %>%
+    ) |>
     admiral::restrict_derivation(
       derivation = admiral::derive_var_extreme_flag,
       args = params(
@@ -398,7 +398,7 @@ gen_advs <- function(seed = 123) {
         mode = "last"
       ),
       filter = AVISIT != "Screening"
-    ) %>%
+    ) |>
     admiral::restrict_derivation(
       derivation = admiral::derive_var_extreme_flag,
       args = params(
@@ -410,7 +410,7 @@ gen_advs <- function(seed = 123) {
         mode = "last"
       ),
       filter = AVISIT != "Screening"
-    ) %>%
+    ) |>
     admiral::restrict_derivation(
       derivation = admiral::derive_var_extreme_flag,
       args = params(
@@ -422,7 +422,7 @@ gen_advs <- function(seed = 123) {
         mode = "last"
       ),
       filter = AVISIT != "Screening"
-    ) %>%
+    ) |>
     mutate(
       TRTEMFL = dplyr::case_when(
         ADT > TRTSDT & ADT < TRTEDT ~ "Y",
@@ -446,7 +446,7 @@ gen_advs <- function(seed = 123) {
   )
 
   # Select only the key and the 'to_keep' variables from ADSL
-  adsl_subset <- adsl %>%
+  adsl_subset <- adsl |>
     select(USUBJID, all_of(to_keep_from_adsl))
 
   if (length(shared) > 0) {

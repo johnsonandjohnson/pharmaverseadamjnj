@@ -38,8 +38,8 @@ gen_addili <- function(seed = 123) {
   chol_subj <- "01-701-1118"
 
 
-  adlb <- raw %>%
-    group_by(USUBJID) %>%
+  adlb <- raw |>
+    group_by(USUBJID) |>
     mutate(
       .hys_alt_ast_mult = if_else(USUBJID %in% hys_subjs, rnorm(1, mean = 4.1, sd = 0.1), NA_real_),
       .hys_bili_mult = if_else(USUBJID %in% hys_subjs, rnorm(1, mean = 3.1, sd = 0.1), NA_real_),
@@ -57,29 +57,29 @@ gen_addili <- function(seed = 123) {
         TRUE ~ AVAL
       ),
       R2ANRHI = AVAL / ANRHI
-    ) %>%
-    ungroup() %>%
+    ) |>
+    ungroup() |>
     select(-.hys_alt_ast_mult, -.hys_bili_mult, -.chol_alp_mult, -.chol_bili_mult, -.chol_alt_ast_mult)
 
   # Subset ADLB and Keep Predecessor Variables
-  addili_base <- adlb %>%
+  addili_base <- adlb |>
     filter(
       PARAMCD %in% c("ALP", "ALT", "AST", "BILI"),
       !is.na(AVAL)
-    ) %>%
+    ) |>
     select(any_of(adlb_vars))
 
   # join ADSL
-  adsl_subset <- adsl %>%
+  adsl_subset <- adsl |>
     select(any_of(adsl_vars))
 
-  addili_merged <- addili_base %>%
+  addili_merged <- addili_base |>
     left_join(
       adsl_subset,
       by = c("STUDYID", "USUBJID")
     )
 
-  addili_prep <- addili_merged %>%
+  addili_prep <- addili_merged |>
     mutate(
       PARCAT1 = case_when(
         PARAMCD %in% c("ALT", "AST") ~ "ALT or AST",
@@ -126,28 +126,28 @@ gen_addili <- function(seed = 123) {
     )
 
   # Derive ANL04FL, ANL06FL
-  anl04 <- addili_prep %>%
-    filter(PARCAT1 == "ALT or AST", ONTRTFL == "Y", CRIT1FL == "Y") %>%
-    pull(USUBJID) %>%
+  anl04 <- addili_prep |>
+    filter(PARCAT1 == "ALT or AST", ONTRTFL == "Y", CRIT1FL == "Y") |>
+    pull(USUBJID) |>
     unique()
 
-  anl06 <- addili_prep %>%
-    filter(PARCAT1 == "ALP", ONTRTFL == "Y", CRIT1FL == "Y") %>%
-    pull(USUBJID) %>%
+  anl06 <- addili_prep |>
+    filter(PARCAT1 == "ALP", ONTRTFL == "Y", CRIT1FL == "Y") |>
+    pull(USUBJID) |>
     unique()
 
-  addili_anl0406 <- addili_prep %>%
+  addili_anl0406 <- addili_prep |>
     mutate(
       ANL04FL = if_else(USUBJID %in% anl04, "Y", NA_character_),
       ANL06FL = if_else(USUBJID %in% anl06, "Y", NA_character_)
     )
   # Derive ANL05FL, ANL07FL
-  anl05 <- addili_anl0406 %>%
-    filter(PARCAT1 == "ALT or AST", ONTRTFL == "Y", CRIT1FL == "Y") %>%
+  anl05 <- addili_anl0406 |>
+    filter(PARCAT1 == "ALT or AST", ONTRTFL == "Y", CRIT1FL == "Y") |>
     select(USUBJID, TRG_ADT = ADT)
 
-  anl07 <- addili_anl0406 %>%
-    filter(PARCAT1 == "ALP", ONTRTFL == "Y", CRIT1FL == "Y") %>%
+  anl07 <- addili_anl0406 |>
+    filter(PARCAT1 == "ALP", ONTRTFL == "Y", CRIT1FL == "Y") |>
     select(USUBJID, TRG_ADT = ADT)
 
   # Apply HDILI temporal window (30 days here)
@@ -159,7 +159,7 @@ gen_addili <- function(seed = 123) {
     join_vars = exprs(TRG_ADT),
     join_type = "all",
     filter_join = ADT >= TRG_ADT & ADT <= TRG_ADT + 30
-  ) %>%
+  ) |>
     mutate(
       ANL05FL = if_else(PARAMCD == "BILI" & ANL04FL == "Y" & ANL05_CHECK == "Y", "Y", NA_character_)
     )
@@ -173,10 +173,10 @@ gen_addili <- function(seed = 123) {
     join_vars = exprs(TRG_ADT),
     join_type = "all",
     filter_join = ADT >= TRG_ADT & ADT <= TRG_ADT + 30
-  ) %>%
+  ) |>
     mutate(
       ANL07FL = if_else(PARAMCD == "BILI" & ANL06FL == "Y" & ANL07_CHECK == "Y", "Y", NA_character_)
-    ) %>%
+    ) |>
     select(-ANL05_CHECK, -ANL07_CHECK) # remove temporary variables
 
 
@@ -210,8 +210,8 @@ gen_addili <- function(seed = 123) {
       (PARAMCD != "BILI" & ONTRTFL == "Y")
   )
 
-  subj_summary <- addili_anl020304050607 %>%
-    group_by(STUDYID, USUBJID) %>%
+  subj_summary <- addili_anl020304050607 |>
+    group_by(STUDYID, USUBJID) |>
     summarise(
       across(any_of(c(
         "TRT01P", "TRT01PN", "TRT01A", "TRT01AN", "AGE", "AGEU", "AGEGR1", "AGEGR1N", "SEX",
@@ -238,8 +238,8 @@ gen_addili <- function(seed = 123) {
   # ==============================================================================
   # Step 10: Derive HDILI Virtual Records + AVALCATy Mapping
   # ==============================================================================
-  hdili_records <- subj_summary %>%
-    filter(has_ontrt_alt_ast & has_elig_bili_hdili) %>%
+  hdili_records <- subj_summary |>
+    filter(has_ontrt_alt_ast & has_elig_bili_hdili) |>
     mutate(
       PARAMCD = "HDILI",
       PARAM = "Analysis Value - HDILI",
@@ -273,8 +273,8 @@ gen_addili <- function(seed = 123) {
   )
   hdili_records <- derive_vars_cat(hdili_records, definition = hdili_def)
 
-  cdili_records <- subj_summary %>%
-    filter(has_ontrt_alp & has_elig_bili_cdili) %>%
+  cdili_records <- subj_summary |>
+    filter(has_ontrt_alp & has_elig_bili_cdili) |>
     mutate(
       PARAMCD = "CDILI",
       PARAM = "Analysis Value - CDILI",
@@ -301,21 +301,21 @@ gen_addili <- function(seed = 123) {
 
   gen <- bind_rows(
     addili_anl020304050607,
-    hdili_records %>% select(
+    hdili_records |> select(
       any_of(names(addili_anl020304050607)),
       AVALC, AVALCAT1, AVALCA1N, AVALCAT2, AVALCA2N, CRIT1, CRIT1FL
     ),
-    cdili_records %>% select(
+    cdili_records |> select(
       any_of(names(addili_anl020304050607)),
       AVALC, AVALCAT2, AVALCA2N, CRIT1, CRIT1FL
     )
-  ) %>%
+  ) |>
     # Derive ASEQ
     derive_var_obs_number(
       new_var = ASEQ,
       by_vars = exprs(STUDYID, USUBJID),
       order = exprs(PARAMCD, AVISITN, ADT)
-    ) %>%
+    ) |>
     arrange(STUDYID, USUBJID, PARAMCD, AVISITN, ADT)
 
 
@@ -394,7 +394,7 @@ gen_addili <- function(seed = 123) {
   )
 
   # Standardize all Criterion flags to factors with Y first
-  gen <- gen %>%
+  gen <- gen |>
     mutate(across(
       starts_with("CRIT") & ends_with("FL"),
       ~ factor(.x, levels = c("Y", "N"))

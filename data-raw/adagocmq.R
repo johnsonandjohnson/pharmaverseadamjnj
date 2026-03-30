@@ -52,8 +52,8 @@ gen_adagocmq <- function() {
   # https://www.fda.gov/drugs/development-resources/
   # office-new-drugs-custom-medical-queries-ocmqs
   terms <-
-    file.path("source_data", "OCMQs_v3.0.xlsm") %>%
-    readxl::read_excel(sheet = "Hypersensitivity") %>%
+    file.path("source_data", "OCMQs_v3.0.xlsm") |>
+    readxl::read_excel(sheet = "Hypersensitivity") |>
     dplyr::mutate(
       AEDECOD = toupper(Term),
       HYPSCAT = substr(`Algorithmic Category`, 1, 1)

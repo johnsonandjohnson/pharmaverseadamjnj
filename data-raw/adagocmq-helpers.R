@@ -27,8 +27,8 @@ derive_atermn_1x <- function(df, levels, level) {
   ids <- unique(df[["USUBJID"]])
 
   for (id in ids) {
-    subject <- df %>%
-      dplyr::filter(USUBJID == id) %>%
+    subject <- df |>
+      dplyr::filter(USUBJID == id) |>
       dplyr::filter(ATERMN %in% levels)
 
     if (!all(levels %in% subject[["ATERMN"]])) next
@@ -36,11 +36,11 @@ derive_atermn_1x <- function(df, levels, level) {
     for (i in seq_len(NROW(subject))) {
       current <- subject[i, ]
 
-      records_within_7 <- subject[-(1:i), ] %>%
-        dplyr::filter(abs(ASTDT - current[["ASTDT"]]) <= 7) %>%
-        dplyr::filter(ATERMN != current[["ATERMN"]]) %>%
-        dplyr::mutate(ATERMN = level) %>%
-        dplyr::mutate(ASTDT = min(ASTDT, current[["ASTDT"]])) %>%
+      records_within_7 <- subject[-(1:i), ] |>
+        dplyr::filter(abs(ASTDT - current[["ASTDT"]]) <= 7) |>
+        dplyr::filter(ATERMN != current[["ATERMN"]]) |>
+        dplyr::mutate(ATERMN = level) |>
+        dplyr::mutate(ASTDT = min(ASTDT, current[["ASTDT"]])) |>
         dplyr::mutate(
           SRCVALUE = NA,
           SRCVAR = NA,
@@ -76,16 +76,16 @@ derive_atermn_23 <- function(df) {
   ids <- unique(df[["USUBJID"]])
 
   for (id in ids) {
-    subject <- df %>%
-      dplyr::filter(USUBJID == id) %>%
+    subject <- df |>
+      dplyr::filter(USUBJID == id) |>
       dplyr::filter(ATERMN == 231)
 
     if (NROW(subject) <= 1) next
 
-    record_23 <- subject %>%
-      dplyr::mutate(ASTDT = min(ASTDT)) %>%
-      dplyr::slice(1) %>%
-      dplyr::mutate(ATERMN = 23) %>%
+    record_23 <- subject |>
+      dplyr::mutate(ASTDT = min(ASTDT)) |>
+      dplyr::slice(1) |>
+      dplyr::mutate(ATERMN = 23) |>
       dplyr::mutate(
         SRCVALUE = NA,
         SRCVAR = NA,
@@ -123,24 +123,24 @@ derive_atermn_34 <- function(df) {
   ids <- unique(df[["USUBJID"]])
 
   for (id in ids) {
-    subject <- df %>%
-      dplyr::filter(USUBJID == id) %>%
+    subject <- df |>
+      dplyr::filter(USUBJID == id) |>
       dplyr::filter(ATERMN %in% c(331, 332))
 
     if (!all(c(331, 332) %in% subject[["ATERMN"]])) next
 
-    subject <- subject %>%
-      dplyr::group_by(ATERMN) %>%
+    subject <- subject |>
+      dplyr::group_by(ATERMN) |>
       dplyr::mutate(n = dplyr::n())
 
     if (any(subject[["n"]] <= 1)) next
 
-    record_34 <- subject %>%
-      dplyr::ungroup() %>%
-      dplyr::mutate(ASTDT = min(ASTDT)) %>%
-      dplyr::mutate(n = NULL) %>%
-      dplyr::slice(1) %>%
-      dplyr::mutate(ATERMN = 34) %>%
+    record_34 <- subject |>
+      dplyr::ungroup() |>
+      dplyr::mutate(ASTDT = min(ASTDT)) |>
+      dplyr::mutate(n = NULL) |>
+      dplyr::slice(1) |>
+      dplyr::mutate(ATERMN = 34) |>
       dplyr::mutate(
         SRCVALUE = NA,
         SRCVAR = NA,
@@ -184,8 +184,8 @@ derive_atermn_44 <- function(df) {
   ids <- unique(df[["USUBJID"]])
 
   for (id in ids) {
-    subject <- df %>%
-      dplyr::filter(USUBJID == id) %>%
+    subject <- df |>
+      dplyr::filter(USUBJID == id) |>
       dplyr::filter(ATERMN %in% levels)
 
     if (!all(levels %in% subject[["ATERMN"]])) next
@@ -195,8 +195,8 @@ derive_atermn_44 <- function(df) {
       current_level <- current[["ATERMN"]]
       current_date <- current[["ASTDT"]]
 
-      records_within_7 <- subject[-(1:i), ] %>%
-        dplyr::filter(abs(ASTDT - current_date) <= 7) %>%
+      records_within_7 <- subject[-(1:i), ] |>
+        dplyr::filter(abs(ASTDT - current_date) <= 7) |>
         dplyr::filter(ATERMN != current_level)
 
       rest_levels <- setdiff(levels, current_level)
@@ -204,10 +204,10 @@ derive_atermn_44 <- function(df) {
       n_combinations <- sum(records_within_7[["ATERMN"]] == rest_levels[1]) *
         sum(records_within_7[["ATERMN"]] == rest_levels[2])
 
-      records_within_7 <- records_within_7 %>%
-        dplyr::mutate(ATERMN = 44) %>%
-        dplyr::mutate(ASTDT = min(ASTDT, current_date)) %>%
-        dplyr::slice(rep(1, n_combinations)) %>%
+      records_within_7 <- records_within_7 |>
+        dplyr::mutate(ATERMN = 44) |>
+        dplyr::mutate(ASTDT = min(ASTDT, current_date)) |>
+        dplyr::slice(rep(1, n_combinations)) |>
         dplyr::mutate(
           SRCVALUE = NA,
           SRCVAR = NA,
@@ -238,8 +238,8 @@ create_atermn_43 <- function(df) {
   records <- df[0, ]
 
   for (id in ids) {
-    subject <- df %>%
-      dplyr::filter(USUBJID == id) %>%
+    subject <- df |>
+      dplyr::filter(USUBJID == id) |>
       dplyr::filter(PARAMCD == "CK" & AVAL > 5 * ANRHI & BASE <= ANRHI)
 
     if (NROW(subject) == 0) next
@@ -247,14 +247,14 @@ create_atermn_43 <- function(df) {
     dates_within_3 <- subject[["ADT"]]
     dates_within_3 <- c(dates_within_3 + 3, dates_within_3 - 3)
 
-    records_within_3 <- df %>%
-      dplyr::filter(USUBJID == id) %>%
-      dplyr::filter(PARAM == "CPK-MB/CPK" & AVAL > 0.05) %>%
+    records_within_3 <- df |>
+      dplyr::filter(USUBJID == id) |>
+      dplyr::filter(PARAM == "CPK-MB/CPK" & AVAL > 0.05) |>
       dplyr::filter(ADT %in% dates_within_3)
 
     if (NROW(records_within_3) > 0) next
 
-    record <- subject[1, ] %>%
+    record <- subject[1, ] |>
       dplyr::mutate(ATERMN = 43)
 
     records <- dplyr::bind_rows(records, record)
