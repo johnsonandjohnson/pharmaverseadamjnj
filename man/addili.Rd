@@ -55,7 +55,7 @@ A data frame with 10476 rows and 71 variables:
 \item{SITEID}{Study Site Identifier}
 \item{SUBJID}{Subject Identifier for the Study}
 \item{PARCAT1}{Parameter Category 1}
-\item{R2ANRHI}{Ratio to Analysis Normal Range Upper Limit}
+\item{R2ANRHI}{Ratio to ANR Upper Limit}
 \item{CRIT1}{Analysis Criterion 1}
 \item{CRIT1FL}{Criterion 1 Evaluation Result Flag}
 \item{CRIT2}{Analysis Criterion 2}
