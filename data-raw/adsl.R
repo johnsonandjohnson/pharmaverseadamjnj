@@ -185,6 +185,7 @@ gen_adsl <- function(seed = 123) {
       "Other"
     )
   )
+  gen$REGION1 <- "North America"
   gen$RACEGR1 <- as.factor(gen$RACEGR1)
   gen$RFICDTC <- gen$DMDTC
   gen$RFICDT <- as.Date(gen$DMDTC)

@@ -21,7 +21,7 @@ gen_adae <- function(seed = 123) {
   source(file.path("data-raw", "adsl.R"))
 
   # Create a mapping of USUBJID to their appropriate ACAT1 category based on TRTEDY
-  subject_acat1_map <- adsl %>%
+  subject_acat1_map <- adsl |>
     dplyr::mutate(
       ACAT1 = dplyr::case_when(
         TRTEDY <= 90 ~ "Within 3 months",
@@ -30,7 +30,7 @@ gen_adae <- function(seed = 123) {
         TRTEDY > 270 & TRTEDY <= 365 ~ "10 to 12 months",
         TRTEDY > 365 ~ "Beyond 13 months"
       )
-    ) %>%
+    ) |>
     dplyr::select(USUBJID, ACAT1)
 
   gen <- raw
@@ -38,7 +38,7 @@ gen_adae <- function(seed = 123) {
   # Update specific records as per requirements:
 
   # a.  First records Placebo and Treatment for Female Narrow
-  gen <- gen %>%
+  gen <- gen |>
     mutate(
       AETERM = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1, "ABNORMAL UTERINE BLEEDING", AETERM),
       AELLT = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
@@ -62,7 +62,7 @@ gen_adae <- function(seed = 123) {
     )
 
   # b.  First records Placebo and Treatment for Male Narrow
-  gen <- gen %>%
+  gen <- gen |>
     mutate(
       AETERM = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1, "ERECTILE DYSFUNCTION", AETERM),
       AELLT = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1, "ERECTILE DISTURBANCE", AELLT),
@@ -82,7 +82,7 @@ gen_adae <- function(seed = 123) {
     )
 
   # c.  First records Placebo and Treatment for Female Broad
-  gen <- gen %>%
+  gen <- gen |>
     mutate(
       AETERM = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1, "BLEEDING ANOVULATORY", AETERM),
       AELLT = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
@@ -107,7 +107,7 @@ gen_adae <- function(seed = 123) {
     )
 
   # d.  First records Placebo and Treatment for Male Broad
-  gen <- gen %>%
+  gen <- gen |>
     mutate(
       AETERM = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
         "DISTURBANCE IN SEXUAL AROUSAL", AETERM
@@ -222,19 +222,19 @@ gen_adae <- function(seed = 123) {
   gen$ACAT1 <- as.factor(gen$ACAT1)
 
   # Apply derivations
-  gen <- gen %>%
+  gen <- gen |>
     derive_var_extreme_flag(
       new_var = AOCCFL,
       by_vars = exprs(STUDYID, USUBJID),
       order = exprs(STUDYID, USUBJID, ASTDY, AESEQ),
       mode = "first"
-    ) %>%
+    ) |>
     derive_var_extreme_flag(
       new_var = AOCCPFL,
       by_vars = exprs(STUDYID, USUBJID, AEDECOD),
       order = exprs(STUDYID, USUBJID, AEDECOD, ASTDY, AESEQ),
       mode = "first"
-    ) %>%
+    ) |>
     derive_var_extreme_flag(
       new_var = AOCCSFL,
       by_vars = exprs(STUDYID, USUBJID, AEBODSYS),
@@ -260,7 +260,7 @@ gen_adae <- function(seed = 123) {
   )
 
   # Select only the key and the 'to_keep' variables from ADSL
-  adsl_subset <- adsl %>%
+  adsl_subset <- adsl |>
     select(USUBJID, all_of(to_keep_from_adsl))
 
   if (length(shared) > 0) {
@@ -288,7 +288,7 @@ gen_adae <- function(seed = 123) {
   gen <- select(gen, -months)
 
   # Add TRDISCFL variable: "Y" if AEACN = "DRUG WITHDRAWN", null otherwise
-  gen <- gen %>%
+  gen <- gen |>
     mutate(
       TRDISCFL = ifelse(AEACN == "DRUG WITHDRAWN", "Y", NA_character_)
     )
