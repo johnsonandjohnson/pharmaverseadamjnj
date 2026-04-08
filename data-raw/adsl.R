@@ -148,6 +148,21 @@ gen_adsl <- function(seed = 123) {
   gen$RACEGR1 <- as.factor(gen$RACEGR1)
   gen$RFICDTC <- gen$DMDTC
   gen$RFICDT <- as.Date(gen$DMDTC)
+
+  gen$ETHNIC_DECODE <- factor(
+    dplyr::case_when(
+      gen$ETHNIC == "HISPANIC OR LATINO" ~ "Hispanic or Latino",
+      gen$ETHNIC == "NOT HISPANIC OR LATINO" ~ "Not Hispanic or Latino",
+      gen$ETHNIC == "NOT REPORTED" ~ "Not reported",
+      gen$ETHNIC == "UNKNOWN" ~ "Unknown"
+    ),
+    levels = c(
+      "Hispanic or Latino",
+      "Not Hispanic or Latino",
+      "Not reported",
+      "Unknown"
+    )
+  )
   gen$STRAT1R <- as.factor("Stratification Factor 1")
   gen$STRAT2R <- as.factor("Stratification Factor 2")
   gen$RANUM <- as.factor("1000001")
