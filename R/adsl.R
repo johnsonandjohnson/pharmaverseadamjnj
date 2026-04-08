@@ -3,66 +3,66 @@
 #' @description adsl modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 306 rows and 109 variables:
+#' @format A data frame with 306 rows and 114 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{SUBJID}{Subject Identifier for the Study}
+#'  \item{SITEID}{Study Site Identifier}
+#'  \item{COUNTRY}{Country}
 #'  \item{RFSTDTC}{Subject Reference Start Date/Time}
 #'  \item{RFENDTC}{Subject Reference End Date/Time}
 #'  \item{RFXSTDTC}{Date/Time of First Study Treatment}
 #'  \item{RFXENDTC}{Date/Time of Last Study Treatment}
-#'  \item{RFICDTC}{Date/Time of Informed Consent}
 #'  \item{RFPENDTC}{Date/Time of End of Participation}
-#'  \item{DTHDTC}{Date/Time of Death}
-#'  \item{DTHFL}{Subject Death Flag}
-#'  \item{SITEID}{Study Site Identifier}
-#'  \item{AGE}{Age}
-#'  \item{AGEU}{Age Units}
-#'  \item{SEX}{Sex}
-#'  \item{RACE}{Race}
-#'  \item{ETHNIC}{Ethnicity}
-#'  \item{ARMCD}{Planned Arm Code}
-#'  \item{ARM}{Description of Planned Arm}
-#'  \item{ACTARMCD}{Actual Arm Code}
-#'  \item{ACTARM}{Description of Actual Arm}
-#'  \item{COUNTRY}{Country}
-#'  \item{DMDTC}{Date/Time of Collection}
-#'  \item{DMDY}{Study Day of Collection}
-#'  \item{TRT01P}{Planned Treatment for Period 01}
-#'  \item{TRT01A}{Actual Treatment for Period 01}
-#'  \item{TRTSDTM}{Datetime of First Exposure to Treatment}
-#'  \item{TRTSTMF}{Time of First Exposure Imput. Flag}
-#'  \item{TRTEDTM}{Datetime of Last Exposure to Treatment}
-#'  \item{TRTETMF}{Time of Last Exposure Imput. Flag}
-#'  \item{TRTSDT}{Date of First Exposure to Treatment}
-#'  \item{TRTEDT}{Date of Last Exposure to Treatment}
-#'  \item{TRTDURD}{Total Treatment Duration (Days)}
 #'  \item{SCRFDT}{Screen Failure Date}
-#'  \item{EOSDT}{End of Study Date}
-#'  \item{EOSSTT}{End of Study Status}
 #'  \item{FRVDT}{Final Retrieval Visit Date}
-#'  \item{RANDDT}{Date of Randomization}
-#'  \item{DTHDT}{Date of Death}
-#'  \item{DTHDTF}{Date of Death Imputation Flag}
+#'  \item{DTHDTC}{Date/Time of Death}
 #'  \item{DTHADY}{Relative Day of Death}
+#'  \item{DTHFL}{Subject Death Flag}
 #'  \item{LDDTHELD}{Elapsed Days from Last Dose to Death}
-#'  \item{DTHCAUS}{Cause of Death}
-#'  \item{DTHDOM}{Domain for Date of Death Collection}
-#'  \item{DTHCGR1}{Cause of Death Reason 1}
-#'  \item{LSTALVDT}{Date Last Known Alive}
-#'  \item{SAFFL}{Safety Population Flag}
-#'  \item{RACEGR1}{Pooled Race Group 1}
-#'  \item{AGEGR1}{Pooled Age Group 1}
-#'  \item{REGION1}{Geographic Region 1}
 #'  \item{LDDTHGR1}{Last Dose to Death - Days Elapsed Grp 1}
 #'  \item{DTH30FL}{Death Within 30 Days of Last Trt Flag}
 #'  \item{DTHA30FL}{Death After 30 Days from Last Trt Flag}
+#'  \item{DTHDOM}{Domain for Date of Death Collection}
 #'  \item{DTHB30FL}{Death Within 30 Days of First Trt Flag}
+#'  \item{REGION1}{Geographic Region 1}
+#'  \item{DMDTC}{Date/Time of Collection}
+#'  \item{DMDY}{Study Day of Collection}
+#'  \item{AGE}{Age}
+#'  \item{AGEU}{Age Units}
+#'  \item{AGEGR1}{Pooled Age Group 1}
+#'  \item{SEX}{Sex}
+#'  \item{RACE}{Race}
+#'  \item{RACEGR1}{Pooled Race Group 1}
+#'  \item{ETHNIC}{Ethnicity}
+#'  \item{SAFFL}{Safety Population Flag}
+#'  \item{ARM}{Description of Planned Arm}
+#'  \item{ARMCD}{Planned Arm Code}
+#'  \item{ACTARM}{Description of Actual Arm}
+#'  \item{ACTARMCD}{Actual Arm Code}
+#'  \item{TRT01P}{Planned Treatment for Period 01}
+#'  \item{TRT01A}{Actual Treatment for Period 01}
+#'  \item{TRTSDT}{Date of First Exposure to Treatment}
+#'  \item{TRTSDTM}{Datetime of First Exposure to Treatment}
+#'  \item{TRTSTMF}{Time of First Exposure Imput. Flag}
+#'  \item{TRTEDT}{Date of Last Exposure to Treatment}
+#'  \item{TRTEDTM}{Datetime of Last Exposure to Treatment}
+#'  \item{TRTETMF}{Time of Last Exposure Imput. Flag}
+#'  \item{EOSSTT}{End of Study Status}
+#'  \item{EOSDT}{End of Study Date}
+#'  \item{RFICDTC}{Date/Time of Informed Consent}
+#'  \item{RANDDT}{Date of Randomization}
+#'  \item{LSTALVDT}{Date Last Known Alive}
+#'  \item{TRTDURD}{Total Treatment Duration (Days)}
+#'  \item{DTHDT}{Date of Death}
+#'  \item{DTHDTF}{Date of Death Imputation Flag}
+#'  \item{DTHCAUS}{Cause of Death}
+#'  \item{DTHCGR1}{Cause of Death Reason 1}
+#'  \item{BRTHDTC}{Date/Time of Birth}
 #'  \item{TRT01PN}{Planned Treatment for Period 01 (N)}
 #'  \item{TRT01AN}{Actual Treatment for Period 01 (N)}
 #'  \item{AGEGR1N}{Pooled Age Group 1 (N)}
-#'  \item{SEX_DECODE}{Sex}
 #'  \item{WEIGHTBL}{Weight (kg)}
 #'  \item{WGTGR1N}{Weight Group 1 (N)}
 #'  \item{WGTGR1}{Weight Group 1}
@@ -71,10 +71,7 @@
 #'  \item{BMIBL}{Body mass index (kg/m2)}
 #'  \item{BMIBLG1N}{BMI at Baseline Group 1 (N)}
 #'  \item{BMIBLG1}{BMI at Baseline Group 1}
-#'  \item{COUNTRY_DECODE}{Country}
-#'  \item{RACE_DECODE}{Race}
 #'  \item{RFICDT}{Date of Informed Consent}
-#'  \item{ETHNIC_DECODE}{Ethnicity}
 #'  \item{STRAT1R}{Strat Factor 1 Value Used for Rand}
 #'  \item{STRAT2R}{Strat Factor 2 Value Used for Rand}
 #'  \item{RANUM}{Randomization Number}
@@ -97,6 +94,7 @@
 #'  \item{FASFL}{Full Analysis Set Population Flag}
 #'  \item{PPROTFL}{Per-Protocol Population Flag}
 #'  \item{LSTSVDT}{Last Subject Visit (SV) Date}
+#'  \item{LASTCTDT}{Last Contact Date}
 #'  \item{EOSDY}{Study Day of Study Termination}
 #'  \item{UNBLNDFL}{Subject Blind Broken}
 #'  \item{RESCRNFL}{Re-screened Flag}
@@ -104,6 +102,7 @@
 #'  \item{DTHCAUSP}{Cause Spec for Death}
 #'  \item{DTHAFTFL}{Death After 30 Days of Last Treatment}
 #'  \item{DTHB60FL}{Death Within 60 Days of First Treatment}
+#'  \item{UNBLNDDT}{Date of Unblinding}
 #'  \item{UNBLNDDY}{Study Day of Unblinding}
 #'  \item{UNBREAS}{Reason For Unblinding}
 #'  \item{LDOSE}{Last Dose}
@@ -113,11 +112,17 @@
 #'  \item{DTHDY}{Study Day of Death}
 #'  \item{PKFL}{Pharmacokinetic Population Flag}
 #'  \item{DIABETFL}{History of Diabetes}
+#'  \item{IMFL}{Immunogenicity Population Flag}
 #'  \item{DCTADY}{Study Day of Treatment Discontinuation}
+#'  \item{SAFEXRS}{Reason for Excl from Safety Population}
+#'  \item{FASEXRS}{Reason for Excl from Full Analysis Set}
+#'  \item{PPREXRS}{Reason for Excl from Per-Prot Population}
+#'  \item{PKEXRES}{Reason for Excl from Pharmacokin Pop}
+#'  \item{IMEXRES}{Reason for Excl from Immunogen Pop}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adsl
 #' @name adsl
 #' @examples
-#' head(data("adsl"))
+#'  head(data("adsl"))
 "adsl"

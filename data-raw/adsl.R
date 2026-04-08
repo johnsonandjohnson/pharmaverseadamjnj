@@ -109,18 +109,6 @@ gen_adsl <- function(seed = 123) {
     gen$AGEGR1 == ">=75" ~ 3
   )
 
-  gen$SEX_DECODE <- factor(
-    dplyr::case_when(
-      gen$SEX == "F" ~ "Female",
-      gen$SEX == "M" ~ "Male"
-    ),
-    levels = c(
-      "Male",
-      "Female",
-      "Intersex",
-      "Unknown"
-    )
-  )
   gen$WEIGHTBL <- as.numeric(sample(seq(0, 150), nrow(gen), replace = TRUE))
   gen$WGTGR1N <- dplyr::case_when(
     gen$WEIGHTBL < 30 ~ 1,
@@ -156,53 +144,9 @@ gen_adsl <- function(seed = 123) {
     gen$BMIBLG1N
   )
   gen$SEX <- as.factor(gen$SEX)
-  gen$COUNTRY_DECODE <- as.factor("United States of America")
-
-
-  gen$RACE_DECODE <- factor(
-    dplyr::case_when(
-      gen$RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
-        "American Indian or Alaska Native",
-      gen$RACE == "ASIAN" ~ "Asian",
-      gen$RACE == "BLACK OR AFRICAN AMERICAN" ~ "Black or African American",
-      gen$RACE == "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" ~
-        "Native Hawaiian or other Pacific Islander",
-      gen$RACE == "WHITE" ~ "White",
-      gen$RACE == "MULTIPLE" ~ "Multiple",
-      gen$RACE == "NOT REPORTED" ~ "Not reported",
-      gen$RACE == "UNKNOWN" ~ "Unknown",
-      gen$RACE == "OTHER" ~ "Other"
-    ),
-    levels = c(
-      "American Indian or Alaska Native",
-      "Asian",
-      "Black or African American",
-      "Native Hawaiian or other Pacific Islander",
-      "White",
-      "Multiple",
-      "Not reported",
-      "Unknown",
-      "Other"
-    )
-  )
   gen$RACEGR1 <- as.factor(gen$RACEGR1)
   gen$RFICDTC <- gen$DMDTC
   gen$RFICDT <- as.Date(gen$DMDTC)
-
-  gen$ETHNIC_DECODE <- factor(
-    dplyr::case_when(
-      gen$ETHNIC == "HISPANIC OR LATINO" ~ "Hispanic or Latino",
-      gen$ETHNIC == "NOT HISPANIC OR LATINO" ~ "Not Hispanic or Latino",
-      gen$ETHNIC == "NOT REPORTED" ~ "Not reported",
-      gen$ETHNIC == "UNKNOWN" ~ "Unknown"
-    ),
-    levels = c(
-      "Hispanic or Latino",
-      "Not Hispanic or Latino",
-      "Not reported",
-      "Unknown"
-    )
-  )
   gen$STRAT1R <- as.factor("Stratification Factor 1")
   gen$STRAT2R <- as.factor("Stratification Factor 2")
   gen$RANUM <- as.factor("1000001")
@@ -334,6 +278,10 @@ gen_adsl <- function(seed = 123) {
     !is.na(gen$LSTALVDT) ~ gen$LSTALVDT,
     !is.na(gen$SCRFDT) ~ gen$SCRFDT
   )
+  gen$LASTCTDT <- dplyr::case_when(
+    !is.na(gen$LSTALVDT) ~ gen$LSTALVDT,
+    !is.na(gen$SCRFDT) ~ gen$SCRFDT
+  )
   gen$EOSDY <- as.numeric(gen$EOSDT - gen$RANDDT + 1)
   gen$UNBLNDFL <- "Y"
   gen$RESCRNFL <- "Y"
@@ -353,6 +301,10 @@ gen_adsl <- function(seed = 123) {
     gen$DTHDT <= gen$TRTSDT + 60 ~ "Y",
     .default = "N"
   )
+  gen$UNBLNDDT <- as.Date(dplyr::case_when(
+    gen$UNBLNDFL == "Y" ~ gen$TRTSDT + 1,
+    .default = NA
+  ))
   gen$UNBLNDDY <- as.numeric(dplyr::case_when(
     gen$UNBLNDFL == "Y" ~ gen$TRTSDT - gen$RANDDT + 1,
     .default = NA
@@ -392,10 +344,39 @@ gen_adsl <- function(seed = 123) {
     PKFL = dplyr::if_else(USUBJID %in% pharmaverseadam::adpc$USUBJID, "Y", "N"),
     DIABETFL = sample(c("N", "Y"), NROW(gen), TRUE, c(0.8, 0.2))
   )
+  
+  gen <- dplyr::mutate(
+    gen,
+    IMFL = PKFL
+  )
 
   gen <- dplyr::mutate(
     gen,
     DCTADY = as.numeric(DCTDT - TRTSDT + 1)
+  )
+  
+  gen <- dplyr::mutate(
+    gen,
+    SAFEXRS = dplyr::case_when(
+      toupper(SAFFL) != "Y" ~ "Exclusion reason for safety analysis set",
+      .default = NA
+    ),
+    FASEXRS = dplyr::case_when(
+      toupper(FASFL) != "Y" ~ "Exclusion reason for full analysis set",
+      .default = NA
+    ),
+    PPREXRS = dplyr::case_when(
+      toupper(PPROTFL) != "Y" ~ "Exclusion reason for per-protocol analysis set",
+      .default = NA
+    ),
+    PKEXRES = dplyr::case_when(
+      toupper(PKFL) != "Y" ~ "Exclusion reason for pharmacokinetics analysis set",
+      .default = NA
+    ),
+    IMEXRES = dplyr::case_when(
+      toupper(IMFL) != "Y" ~ "Exclusion reason for immunogenicity analysis set",
+      .default = NA
+    ),
   )
 
   # Define additional labels for new variables not in source dataset
@@ -403,9 +384,6 @@ gen_adsl <- function(seed = 123) {
     TRT01PN = "Planned Treatment for Period 01 (N)",
     TRT01AN = "Actual Treatment for Period 01 (N)",
     AGEGR1N = "Pooled Age Group 1 (N)",
-    SEX_DECODE = "Sex",
-    RACE_DECODE = "Race",
-    ETHNIC_DECODE = "Ethnicity",
     WEIGHTBL = "Weight (kg)",
     WGTGR1N = "Weight Group 1 (N)",
     WGTGR1 = "Weight Group 1",
@@ -414,7 +392,6 @@ gen_adsl <- function(seed = 123) {
     BMIBL = "Body mass index (kg/m2)",
     BMIBLG1N = "BMI at Baseline Group 1 (N)",
     BMIBLG1 = "BMI at Baseline Group 1",
-    COUNTRY_DECODE = "Country",
     RFICDT = "Date of Informed Consent",
     RANDFL = "Randomized Flag",
     RACEGR1 = "Pooled Race Group 1",
@@ -447,17 +424,25 @@ gen_adsl <- function(seed = 123) {
     DCTREAS = "Reason for Discontinuation of Treatment",
     DCTREASP = "Reason Specify for Discont of Treatment",
     UNBLNDDY = "Study Day of Unblinding",
+    UNBLNDDT = "Date of Unblinding",
     UNBLNDFL = "Subject Blind Broken",
     UNBREAS = "Reason For Unblinding",
     DCSCREEN = "Reason for Discont During Screening",
     PPROTFL = "Per-Protocol Population Flag",
     LTVISIT = "Last Treatment Visit",
+    LASTCTDT = "Last Contact Date",
     DTHDY = "Study Day of Death",
     RESCRNFL = "Re-screened Flag",
     ITTFL = "Intent-To-Treat Population Flag",
     PKFL = "Pharmacokinetic Population Flag",
+    IMFL = "Immunogenicity Population Flag",
     DIABETFL = "History of Diabetes",
-    DCTADY = "Study Day of Treatment Discontinuation"
+    DCTADY = "Study Day of Treatment Discontinuation",
+    SAFEXRS = "Reason for Excl from Safety Population",
+    FASEXRS = "Reason for Excl from Full Analysis Set",
+    PPREXRS = "Reason for Excl from Per-Prot Population",
+    PKEXRES = "Reason for Excl from Pharmacokin Pop",
+    IMEXRES = "Reason for Excl from Immunogen Pop"
   )
 
   # Handle NA values and convert characters to factors
