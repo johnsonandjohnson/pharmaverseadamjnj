@@ -74,8 +74,8 @@ gen_adsl <- function(seed = 123) {
     .default = gen$TRT01P
   )))
   gen$TRT01PN <- dplyr::case_when(
-    gen$TRT01P == "Xanomeline High Dose" ~ 1,
-    gen$TRT01P == "Xanomeline Low Dose" ~ 2,
+    gen$TRT01P == "Xanomeline Low Dose" ~ 1,
+    gen$TRT01P == "Xanomeline High Dose" ~ 2,
     gen$TRT01P == "Placebo" ~ 3
   )
   gen$TRT01P <- forcats::fct_reorder(gen$TRT01P, gen$TRT01PN, .na_rm = TRUE)
@@ -85,8 +85,8 @@ gen_adsl <- function(seed = 123) {
     .default = gen$TRT01A
   )))
   gen$TRT01AN <- dplyr::case_when(
-    gen$TRT01A == "Xanomeline High Dose" ~ 1,
-    gen$TRT01A == "Xanomeline Low Dose" ~ 2,
+    gen$TRT01A == "Xanomeline Low Dose" ~ 1,
+    gen$TRT01A == "Xanomeline High Dose" ~ 2,
     gen$TRT01A == "Placebo" ~ 3
   )
   gen$TRT01A <- forcats::fct_reorder(gen$TRT01A, gen$TRT01AN, .na_rm = TRUE)
