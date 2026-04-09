@@ -123,47 +123,6 @@ gen_adlb <- function(seed = 123) {
         "Unknown"
       )
     ),
-    COUNTRY_DECODE = as.factor("United States of America"),
-    RACE_DECODE = factor(
-      dplyr::case_when(
-        RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
-          "American Indian or Alaska Native",
-        RACE == "ASIAN" ~ "Asian",
-        RACE == "BLACK OR AFRICAN AMERICAN" ~ "Black or African American",
-        RACE == "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" ~
-          "Native Hawaiian or other Pacific Islander",
-        RACE == "WHITE" ~ "White",
-        RACE == "MULTIPLE" ~ "Multiple",
-        RACE == "NOT REPORTED" ~ "Not reported",
-        RACE == "UNKNOWN" ~ "Unknown",
-        RACE == "OTHER" ~ "Other"
-      ),
-      levels = c(
-        "American Indian or Alaska Native",
-        "Asian",
-        "Black or African American",
-        "Native Hawaiian or other Pacific Islander",
-        "White",
-        "Multiple",
-        "Not reported",
-        "Unknown",
-        "Other"
-      )
-    ),
-    ETHNIC_DECODE = factor(
-      dplyr::case_when(
-        ETHNIC == "HISPANIC OR LATINO" ~ "Hispanic or Latino",
-        ETHNIC == "NOT HISPANIC OR LATINO" ~ "Not Hispanic or Latino",
-        ETHNIC == "NOT REPORTED" ~ "Not reported",
-        ETHNIC == "UNKNOWN" ~ "Unknown"
-      ),
-      levels = c(
-        "Hispanic or Latino",
-        "Not Hispanic or Latino",
-        "Not reported",
-        "Unknown"
-      )
-    ),
     # Parameter coding
     PARAMCD = as.factor(case_when(
       PARAM == "Alkaline Phosphatase (U/L)" ~ "ALP",
@@ -598,7 +557,6 @@ gen_adlb <- function(seed = 123) {
     PCHG = "Percent Change from Baseline",
     SEX = "Sex",
     RACE = "Race",
-    COUNTRY_DECODE = "Country",
     PARCAT1 = "Parameter Category 1",
     PARCAT2 = "Parameter Category 2",
     PARCAT3 = "Parameter Category 3",
@@ -623,8 +581,6 @@ gen_adlb <- function(seed = 123) {
     AVALC = "Analysis Value (C)",
     AVALU = "Analysis Value - Units",
     TRTEMFL = "Treatment Emergent Analysis Flag",
-    RACE_DECODE = "Race Description",
-    ETHNIC_DECODE = "Ethnicity Description",
     ATOXGRN = "Analysis Toxicity Grade (Numeric)",
     ATOXGRL = "Analysis Toxicity Grade Low",
     ADTM = "Analysis Date/Time",

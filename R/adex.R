@@ -3,7 +3,7 @@
 #' @description adex modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 591 rows and 128 variables:
+#' @format A data frame with 591 rows and 126 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -106,7 +106,6 @@
 #'  \item{AVISIT}{Visit Label}
 #'  \item{TRT01AN}{Actual Treatment for Period 01 (N)}
 #'  \item{AOCCUR}{Analysis Occurrence}
-#'  \item{RACE_DECODE}{Race}
 #'  \item{ACAT1}{Analysis Category 1}
 #'  \item{AREASOC}{Analysis Reason for Occur Value}
 #'  \item{AREASOO}{Other Analysis Reason for Occur Value}
@@ -122,7 +121,6 @@
 #'  \item{AADJOTH}{Other Anal Reason for Dose Adjustment}
 #'  \item{ACAT2}{Analysis Category 2}
 #'  \item{AACTPR}{Action Taken Prior to Infusion Start}
-#'  \item{AACTPR_DECODE}{Action Taken Prior to Infusion Start}
 #'  \item{ASCHDOSE}{Analysis Scheduled Dose}
 #'  \item{ASCHDOSU}{Analysis Scheduled Dose Units}
 #'  \item{ADOSFRM}{Analysis Dose Form}
@@ -134,9 +132,9 @@
 #'  \item{AINFRAT}{Analysis Infusion Rate}
 #'  \item{AINFRAU}{Analysis Infusion Rate Unit}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adae.xpt}} \code{\link{adaeocmq}} \code{\link{adaeocmq.xpt}} \code{\link{adagocmq}} \code{\link{adagocmq.xpt}} \code{\link{adcm}} \code{\link{adcm.xpt}} \code{\link{addili}} \code{\link{addili.xpt}} \code{\link{adeg}} \code{\link{adeg.xpt}} \code{\link{adex}} \code{\link{adex.xpt}} \code{\link{adexsum}} \code{\link{adexsum.xpt}} \code{\link{adlb}} \code{\link{adlb.xpt}} \code{\link{adpc}} \code{\link{adpc.xpt}} \code{\link{adsl}} \code{\link{adsl.xpt}} \code{\link{adttesaf}} \code{\link{adttesaf.xpt}} \code{\link{advs}} \code{\link{advs.xpt}}# nolint
 #' @keywords datasets adex
 #' @name adex
 #' @examples
-#' head(data("adex"))
+#'  head(data("adex"))
 "adex"

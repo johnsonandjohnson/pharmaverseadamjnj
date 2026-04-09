@@ -235,8 +235,7 @@ gen_adeg <- function(seed = 123) {
     "SAFFL",
     "STUDYID",
     "AGE",
-    "SEX",
-    "RACE_DECODE"
+    "SEX"
   )
 
   # Select only the key and the 'to_keep' variables from ADSL

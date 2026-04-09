@@ -143,32 +143,6 @@ gen_adex <- function(seed = 123) {
       )
     ),
     COUNTRY = as.factor("United States of America"),
-    RACE_DECODE = factor(
-      dplyr::case_when(
-        RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
-          "American Indian or Alaska Native",
-        RACE == "ASIAN" ~ "Asian",
-        RACE == "BLACK OR AFRICAN AMERICAN" ~ "Black or African American",
-        RACE == "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" ~
-          "Native Hawaiian or other Pacific Islander",
-        RACE == "WHITE" ~ "White",
-        RACE == "MULTIPLE" ~ "Multiple",
-        RACE == "NOT REPORTED" ~ "Not reported",
-        RACE == "UNKNOWN" ~ "Unknown",
-        RACE == "OTHER" ~ "Other"
-      ),
-      levels = c(
-        "American Indian or Alaska Native",
-        "Asian",
-        "Black or African American",
-        "Native Hawaiian or other Pacific Islander",
-        "White",
-        "Multiple",
-        "Not reported",
-        "Unknown",
-        "Other"
-      )
-    ),
     RACEGR1 = as.factor(RACEGR1),
     ETHNIC = factor(
       dplyr::case_when(
@@ -340,7 +314,6 @@ gen_adex <- function(seed = 123) {
         "STUDY DRUG PERMANENTLY DISCONTINUED"
       )
     ),
-    AACTPR_DECODE = stringr::str_to_sentence(AACTPR),
     ASCHDOSE = EXDOSE,
     ASCHDOSU = EXDOSU,
     ADOSFRM = EXDOSFRM,
@@ -402,7 +375,6 @@ gen_adex <- function(seed = 123) {
     COUNTRY = "Country",
     RACE = "Race",
     ETHNIC = "Ethnicity",
-    RACE_DECODE = "Race",
     ATRT = "Analysis name of Treatment",
     ASCHDOSE = "Analysis Scheduled Dose",
     ASCHDOSU = "Analysis Scheduled Dose Units",
@@ -411,7 +383,6 @@ gen_adex <- function(seed = 123) {
     ADOSFRQ = "Analysis Dosing Frequency per Interval",
     AROUTE = "Analysis Route of Administration",
     AADJPOTH = "Other Anal Reason for Dose Adjust Prior",
-    AACTPR_DECODE = "Action Taken Prior to Infusion Start",
     ATVINF = "Analysis Total Volume Infused",
     ATVINFU = "Analysis Total Volume Infused Units",
     AINFRAT = "Analysis Infusion Rate",
