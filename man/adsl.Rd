@@ -5,7 +5,7 @@
 \alias{adsl}
 \title{adsl}
 \format{
-A data frame with 306 rows and 110 variables:
+A data frame with 306 rows and 114 variables:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{USUBJID}{Unique Subject Identifier}
@@ -65,7 +65,6 @@ A data frame with 306 rows and 110 variables:
 \item{TRT01PN}{Planned Treatment for Period 01 (N)}
 \item{TRT01AN}{Actual Treatment for Period 01 (N)}
 \item{AGEGR1N}{Pooled Age Group 1 (N)}
-\item{SEX_DECODE}{Sex}
 \item{WEIGHTBL}{Weight (kg)}
 \item{WGTGR1N}{Weight Group 1 (N)}
 \item{WGTGR1}{Weight Group 1}
@@ -74,10 +73,7 @@ A data frame with 306 rows and 110 variables:
 \item{BMIBL}{Body mass index (kg/m2)}
 \item{BMIBLG1N}{BMI at Baseline Group 1 (N)}
 \item{BMIBLG1}{BMI at Baseline Group 1}
-\item{COUNTRY_DECODE}{Country}
-\item{RACE_DECODE}{Race}
 \item{RFICDT}{Date of Informed Consent}
-\item{ETHNIC_DECODE}{Ethnicity}
 \item{STRAT1R}{Strat Factor 1 Value Used for Rand}
 \item{STRAT2R}{Strat Factor 2 Value Used for Rand}
 \item{RANUM}{Randomization Number}
@@ -100,6 +96,7 @@ A data frame with 306 rows and 110 variables:
 \item{FASFL}{Full Analysis Set Population Flag}
 \item{PPROTFL}{Per-Protocol Population Flag}
 \item{LSTSVDT}{Last Subject Visit (SV) Date}
+\item{LASTCTDT}{Last Contact Date}
 \item{EOSDY}{Study Day of Study Termination}
 \item{UNBLNDFL}{Subject Blind Broken}
 \item{RESCRNFL}{Re-screened Flag}
@@ -107,6 +104,7 @@ A data frame with 306 rows and 110 variables:
 \item{DTHCAUSP}{Cause Spec for Death}
 \item{DTHAFTFL}{Death After 30 Days of Last Treatment}
 \item{DTHB60FL}{Death Within 60 Days of First Treatment}
+\item{UNBLNDDT}{Date of Unblinding}
 \item{UNBLNDDY}{Study Day of Unblinding}
 \item{UNBREAS}{Reason For Unblinding}
 \item{LDOSE}{Last Dose}
@@ -116,7 +114,13 @@ A data frame with 306 rows and 110 variables:
 \item{DTHDY}{Study Day of Death}
 \item{PKFL}{Pharmacokinetic Population Flag}
 \item{DIABETFL}{History of Diabetes}
+\item{IMFL}{Immunogenicity Population Flag}
 \item{DCTADY}{Study Day of Treatment Discontinuation}
+\item{SAFEXRS}{Reason for Excl from Safety Population}
+\item{FASEXRS}{Reason for Excl from Full Analysis Set}
+\item{PPREXRS}{Reason for Excl from Per-Prot Population}
+\item{PKEXRES}{Reason for Excl from Pharmacokin Pop}
+\item{IMEXRES}{Reason for Excl from Immunogen Pop}
 }
 }
 \source{
@@ -129,7 +133,7 @@ adsl
 adsl modified from pharmaverseadam
 }
 \examples{
-head(data("adsl"))
+ head(data("adsl"))
 }
 \seealso{
 \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
