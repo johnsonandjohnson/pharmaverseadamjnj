@@ -11,3 +11,4 @@
 ^CHANGELOG\.md$
 ^_pkgdown\.yml$
 ^air\.toml$
+^.gitattributes$
