@@ -27,7 +27,6 @@ data_scripts <- data_scripts[
   !grepl("(helpers\\.R|create_data\\.R)", data_scripts)
 ]
 
-
 # Run each script and handle saving and documentation
 run_script <- function(script_path) {
   script_name <- basename(script_path)
