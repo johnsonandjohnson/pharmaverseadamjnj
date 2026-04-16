@@ -406,6 +406,20 @@ gen_adsl <- function(seed = 123) {
       .default = NA
     ),
   )
+  
+  # Derive `COHORT` from `ARM`
+  gen <- dplyr::mutate(gen, COHORT = factor(
+    dplyr::case_match(
+      ARM,
+      "Placebo" ~ "Cohort 1",
+      "Xanomeline High Dose" ~ "Cohort 2",
+      "Xanomeline Low Dose" ~ "Cohort 3",
+      "Screen Failure" ~ NA_character_,
+      .default = NA_character_
+    ),
+    
+    levels = c("Cohort 1", "Cohort 2", "Cohort 3")
+  ))
 
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
@@ -472,7 +486,8 @@ gen_adsl <- function(seed = 123) {
     FASEXRS = "Reason for Excl from Full Analysis Set",
     PPREXRS = "Reason for Excl from Per-Prot Population",
     PKEXRES = "Reason for Excl from Pharmacokin Pop",
-    IMEXRES = "Reason for Excl from Immunogen Pop"
+    IMEXRES = "Reason for Excl from Immunogen Pop",
+    COHORT = "Cohort"
   )
 
   # Handle NA values and convert characters to factors
