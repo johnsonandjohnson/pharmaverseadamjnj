@@ -434,6 +434,9 @@ gen_adsl <- function(seed = 123) {
     
     levels = c("Group 1", "Group 2", "Group 3")
   )) 
+  
+  # Derive `EOTDT` from `TRTEDT`
+  gen <- dplyr::mutate(gen, EOTDT = TRTEDT)
 
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
@@ -502,7 +505,8 @@ gen_adsl <- function(seed = 123) {
     PKEXRES = "Reason for Excl from Pharmacokin Pop",
     IMEXRES = "Reason for Excl from Immunogen Pop",
     COHORT = "Cohort",
-    GROUP = "Analysis Group"
+    GROUP = "Analysis Group",
+    EOTDT = "End‑of‑Treatment Date"
   )
 
   # Handle NA values and convert characters to factors
