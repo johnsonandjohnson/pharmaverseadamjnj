@@ -3,7 +3,7 @@
 #' @description advs modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 40702 rows and 77 variables:
+#' @format A data frame with 40702 rows and 78 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}
@@ -56,6 +56,7 @@
 #'  \item{VSELTM}{Planned Elapsed Time from Time Point Ref}
 #'  \item{VSTPTREF}{Time Point Reference}
 #'  \item{AVALC}{Analysis Value (C)}
+#'  \item{ASTDT}{ASTDT}
 #'  \item{ANL02FL}{Analysis Flag 02-By Visit Value}
 #'  \item{APOBLFL}{Post-Baseline Record Flag}
 #'  \item{BASE}{Baseline Value}
