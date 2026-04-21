@@ -3,7 +3,7 @@
 #' @description adsl modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 306 rows and 114 variables:
+#' @format A data frame with 306 rows and 116 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -72,6 +72,8 @@
 #'  \item{BMIBLG1N}{BMI at Baseline Group 1 (N)}
 #'  \item{BMIBLG1}{BMI at Baseline Group 1}
 #'  \item{RFICDT}{Date of Informed Consent}
+#'  \item{STRAT1D}{Description of Stratification Factor 1}
+#'  \item{STRAT2D}{Description of Stratification Factor 2}
 #'  \item{STRAT1R}{Strat Factor 1 Value Used for Rand}
 #'  \item{STRAT2R}{Strat Factor 2 Value Used for Rand}
 #'  \item{RANUM}{Randomization Number}

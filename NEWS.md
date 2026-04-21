@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Add xpt
 - relevel TRT01P and TRT01A
 - change ONTRFl for ADVS to first dose within 30 days
+- Add STRAT1D, STRAT2D to ADSL
 
 ### Changed
 - Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX
