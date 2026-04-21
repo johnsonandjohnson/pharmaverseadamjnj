@@ -120,6 +120,7 @@ gen_advs <- function(seed = 123) {
         AVISIT == "Baseline" ~ "Y",
         .default = NA
       ),
+      ASTDT = ADT,
       ATPT = "BEFORE TREATMENT",
       ATPTN = 1,
       ANL01FL = "Y",
@@ -128,10 +129,10 @@ gen_advs <- function(seed = 123) {
         AVISIT == "Baseline" ~ NA,
         .default = "Y"
       ),
-      ONTRTFL = dplyr::case_when(
-        AVISIT == "Baseline" ~ NA,
-        .default = "Y"
-      ),
+      ONTRTFL = as.factor(dplyr::case_when(
+        TRTSDT < ASTDT & ASTDT < TRTEDT + 30 ~ "Y",
+        .default = NA
+      )),
       AVALCAT1 = dplyr::case_when(
         PARAMCD == "SYSBP" & AVAL < 90 ~ "<90",
         PARAMCD == "SYSBP" & AVAL >= 90 & AVAL < 119 ~ ">=90 to 119",

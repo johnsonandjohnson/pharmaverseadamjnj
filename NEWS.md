@@ -1,6 +1,64 @@
+# Changelog
 
-# pharmaverseadamjnj 0.0.4
+All notable changes to this project will be documented in this file.
 
-## New features and improvements
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
+and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [0.0.4] - 2026-04-07
+
+### Added
+- Added vars to ADSL: LASTCTDT, UNBLNDDT, IMFL, SAFEXRS, FASEXRS, PPREXRS, PKEXRES, and IMEXRES
+- Add xpt
+- relevel TRT01P and TRT01A
+- change ONTRFl for ADVS to first dose within 30 days
+
+### Changed
+- Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX
 
 
+## [0.0.3] - 2026-01-27
+
+### Added
+- Add DCTADY to ADSL #32
+- Add new addili dataset
+- Add LBNAM variable to adlb 
+- Add REGION1 = "North America"
+
+
+## [0.0.2] - 2025-12-03
+
+- Added ADAGOCMQ &  ADPC dataset
+- Added `LBSPEC` and `LBFAST` to ADLB dataset
+
+### Changed
+- Update ADSL to have all factor levels of RACE and ETHNIC
+- Update adsl DTH60TFL to DTHB60FL
+- Updated adae update to include start/end time.
+- Updated source file OCMQs to reflect FDA changes to FMQ
+- Renamed adaefmq to adaeocmq
+- Fixed ADCM to properly handle uncoded terms
+- Fixed ADLB to use "BEFORE TREATMENT" for ATPT instead of "00:00"
+- ADSL: Set RANDFL to "Y" for most subjects with SAFFL="Y", but also for a few with SAFFL="N" and non-NA TRT01P
+- Updated {pharmaverseadam} released a new version 0.1.2 some variable labels have been added accordingly.
+
+## [0.0.1] - 2024-07-02
+
+### Added
+- Initial CRAN release
+- Provides ADaM datasets that comply with J&J Innovative Medicine standards
+- Built on top of the 'pharmaverseadam' package
+- Implements data conversion from pharmaverse format to J&J standards format
+- Provides reproducible and consistent test data
+
+### Implemented ADaM Domains
+- ADSL (Subject Level Analysis Dataset)
+- ADAE (Adverse Events Analysis Dataset)
+- ADCM (Concomitant Medications Analysis Dataset)
+- ADEG (ECG Analysis Dataset)
+- ADEX (Exposure Analysis Dataset)
+- ADESUM (Exposure Analysis Summary Dataset)
+- ADLB (Laboratory Test Results Analysis Dataset)
+- ADVS (Vital Signs Analysis Dataset)
+- ADTTESAF (Time-to-Event Safety Analysis Dataset)
+- ADAEFMQ (Adverse Events Analysis Dataset FDA Medical Query)
