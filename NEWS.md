@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Change ONTRFl for ADVS to first dose within 30 days
 - Added STRAT1D, STRAT2D to ADSL
 - Added ABODSYS1, ABODSYS2, ADECOD1, and ADECOD2 to ADEX
+- Added CRITx (1-8) to ADVS
+- Added VSCLSIG to ADVS
 
 ### Changed
 - Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX

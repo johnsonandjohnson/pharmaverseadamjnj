@@ -3,7 +3,7 @@
 #' @description advs modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 40702 rows and 78 variables:
+#' @format A data frame with 40702 rows and 89 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}
@@ -68,6 +68,17 @@
 #'  \item{CRIT2FL}{Criterion 2 Evaluation Result Flag}
 #'  \item{CRIT3}{Analysis Criterion 3}
 #'  \item{CRIT3FL}{Criterion 3 Evaluation Result Flag}
+#'  \item{CRIT4}{CRIT4}
+#'  \item{CRIT4FL}{CRIT4FL}
+#'  \item{CRIT5}{CRIT5}
+#'  \item{CRIT5FL}{CRIT5FL}
+#'  \item{CRIT6}{CRIT6}
+#'  \item{CRIT6FL}{CRIT6FL}
+#'  \item{CRIT7}{CRIT7}
+#'  \item{CRIT7FL}{CRIT7FL}
+#'  \item{CRIT8}{CRIT8}
+#'  \item{CRIT8FL}{CRIT8FL}
+#'  \item{VSCLSIG}{VSCLSIG}
 #'  \item{ATOXDSCL}{Analysis Toxicity Description Low}
 #'  \item{ATOXDSCH}{Analysis Toxicity Description High}
 #'  \item{ATOXGRL}{Analysis Toxicity Grade Low}
