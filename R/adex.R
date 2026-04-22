@@ -3,7 +3,7 @@
 #' @description adex modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 591 rows and 126 variables:
+#' @format A data frame with 591 rows and 130 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -131,6 +131,10 @@
 #'  \item{ATVINFU}{Analysis Total Volume Infused Units}
 #'  \item{AINFRAT}{Analysis Infusion Rate}
 #'  \item{AINFRAU}{Analysis Infusion Rate Unit}
+#'  \item{ABODSYS1}{SOC of AE driving action on study drug (1)}
+#'  \item{ABODSYS2}{SOC of AE driving action on study drug (2)}
+#'  \item{ADECOD1}{PT of AE driving action on study drug (1)}
+#'  \item{ADECOD2}{PT of AE driving action on study drug (2)}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adae.xpt}} \code{\link{adaeocmq}} \code{\link{adaeocmq.xpt}} \code{\link{adagocmq}} \code{\link{adagocmq.xpt}} \code{\link{adcm}} \code{\link{adcm.xpt}} \code{\link{addili}} \code{\link{addili.xpt}} \code{\link{adeg}} \code{\link{adeg.xpt}} \code{\link{adex}} \code{\link{adex.xpt}} \code{\link{adexsum}} \code{\link{adexsum.xpt}} \code{\link{adlb}} \code{\link{adlb.xpt}} \code{\link{adpc}} \code{\link{adpc.xpt}} \code{\link{adsl}} \code{\link{adsl.xpt}} \code{\link{adttesaf}} \code{\link{adttesaf.xpt}} \code{\link{advs}} \code{\link{advs.xpt}}# nolint
 #' @keywords datasets adex

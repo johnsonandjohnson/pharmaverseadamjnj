@@ -9,10 +9,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added vars to ADSL: LASTCTDT, UNBLNDDT, IMFL, SAFEXRS, FASEXRS, PPREXRS, PKEXRES, and IMEXRES
-- Add xpt
-- relevel TRT01P and TRT01A
-- change ONTRFl for ADVS to first dose within 30 days
-- Add STRAT1D, STRAT2D to ADSL
+- Added xpt
+- Releveled TRT01P and TRT01A (now Xanomeline Low Dose -> Xanomeline High Dose -> Placebo)
+- Change ONTRFl for ADVS to first dose within 30 days
+- Added STRAT1D, STRAT2D to ADSL
+- Added ABODSYS1, ABODSYS2, ADECOD1, and ADECOD2 to ADEX
 
 ### Changed
 - Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX

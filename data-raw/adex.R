@@ -9,6 +9,8 @@ library(stringr)
 
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
+# Ensure ADAE is available for cross-domain derivations
+source(file.path("data-raw", "adae.R"))
 
 # Generate ADEX dataset
 gen_adex <- function(seed = 123) {
@@ -337,6 +339,60 @@ gen_adex <- function(seed = 123) {
     }
   )
 
+
+  # Derive ABODSYSy and ADECODy
+  #  - ABODSYSy: AE System Organ Class (AE.AEBODSYS)
+  #  - ADECODy:  AE Preferred Term    (AE.AEDECOD)
+
+  # Actions indicating change due to AE (RELREC proxy)
+  ae_actions <- c(
+    "DRUG WITHDRAWN",
+    "DRUG INTERRUPTED",
+    "DOSE REDUCED",
+    "DOSE RATE REDUCED"
+  )
+
+
+  ex_key <- gen |>
+    dplyr::mutate(
+      .row_id = dplyr::row_number(),
+      EXASTDT = as.Date(sub(" .*", "", ASTDTM))
+    ) |>
+    dplyr::select(.row_id, USUBJID, EXASTDT)
+
+
+  ae_sub <- adae |>
+    dplyr::mutate(
+      AEASTDT = as.Date(sub(" .*", "", ASTDTM))
+    ) |>
+    dplyr::filter(AEACN %in% ae_actions) |>
+    dplyr::select(USUBJID, AEASTDT, AEBODSYS, AEDECOD, AESEQ)
+
+
+  ex_ae <- dplyr::left_join(
+    ex_key,
+    ae_sub,
+    by = c("USUBJID" = "USUBJID", "EXASTDT" = "AEASTDT")
+  ) |>
+    dplyr::arrange(.row_id, AESEQ)
+
+  soc_summ <- ex_ae |>
+    dplyr::group_by(.row_id) |>
+    dplyr::summarise(
+      ABODSYS1 = dplyr::first(unique(na.omit(AEBODSYS))),
+      ABODSYS2 = dplyr::nth(unique(na.omit(AEBODSYS)), 2),
+      ADECOD1  = dplyr::first(unique(na.omit(AEDECOD))),
+      ADECOD2  = dplyr::nth(unique(na.omit(AEDECOD)), 2),
+      .groups = "drop"
+    )
+
+
+  gen <- gen |>
+    dplyr::mutate(.row_id = dplyr::row_number()) |>
+    dplyr::left_join(soc_summ, by = ".row_id") |>
+    dplyr::select(-.row_id)
+
+
   # Additional labels for all relevant variables
   additional_labels <- list(
     EXTRT = "Planned Treatment",
@@ -387,6 +443,11 @@ gen_adex <- function(seed = 123) {
     ATVINFU = "Analysis Total Volume Infused Units",
     AINFRAT = "Analysis Infusion Rate",
     AINFRAU = "Analysis Infusion Rate Unit"
+    ,
+    ABODSYS1 = "SOC of AE driving action on study drug (1)",
+    ABODSYS2 = "SOC of AE driving action on study drug (2)",
+    ADECOD1  = "PT of AE driving action on study drug (1)",
+    ADECOD2  = "PT of AE driving action on study drug (2)"
   )
 
   # Handle NA values and convert characters to factors
