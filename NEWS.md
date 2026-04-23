@@ -15,13 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added ABODSYS1, ABODSYS2, ADECOD1, and ADECOD2 to ADEX
 - Added CRITx (1-8) to ADVS
 - Added VSCLSIG to ADVS
-- Added AOCTIFL, AESCAT to ADAE
+- Added AOCTIFL, AESCAT, SMQzzNAM, and CQzzNAM to ADAE
 
-TODO
-Sort the data in the required order (USUBJID, AETOXGRN, ascending ASTDT) and flag the first treatment emergent record for maximum toxicity grade for each subject.
-ADAE : 1. Add AEHOSPP, AEHOSPR variables. and
-1. Update AESCAT to include values of ”Infusion Related Reactions [to drug name]“, where drug name corresponds to the drugs in the pharmaverseadamjnj data
-1. Add SMQ01NAM, SMQ02NAM, etc. and CQ01NAM
 
 ### Changed
 - Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX

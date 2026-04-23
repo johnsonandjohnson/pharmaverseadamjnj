@@ -287,6 +287,37 @@ gen_adae <- function(seed = 123) {
       )
     )
 
+  # Derive CQ01/02/03 and SMQ01/02/03 names per mapping from AEDECOD
+  gen <- gen |>
+    mutate(
+      .AEDECOD_UP = toupper(AEDECOD),
+      CQ01NAM = case_when(
+        .AEDECOD_UP == "HYPERTENSION" ~ "HYPERTENSION",
+        .default = NA_character_
+      ),
+      SMQ01NAM = case_when(
+        .AEDECOD_UP == "HYPERTENSION" ~ "HYPERTENSION",
+        .default = NA_character_
+      ),
+      CQ02NAM = case_when(
+        .AEDECOD_UP %in% c("PRURITUS", "ERYTHEMA", "RASH") ~ "Sensitivity",
+        .default = NA_character_
+      ),
+      SMQ02NAM = case_when(
+        .AEDECOD_UP %in% c("PRURITUS", "ERYTHEMA", "RASH") ~ "HYPERSENSITIVITY",
+        .default = NA_character_
+      ),
+      CQ03NAM = case_when(
+        .AEDECOD_UP == "DIZZINESS" ~ "Hearing disorders",
+        .default = NA_character_
+      ),
+      SMQ03NAM = case_when(
+        .AEDECOD_UP == "DIZZINESS" ~ "HEARING AND VESTIBULAR DISORDERS",
+        .default = NA_character_
+      )
+    ) |>
+    select(-.AEDECOD_UP)
+
   # Add labels
   additional_labels <- list(
     SAFFL = "Safety Population Flag",
@@ -304,6 +335,9 @@ gen_adae <- function(seed = 123) {
     CQ01NAM = "Customized Query 01 Name",
     CQ02NAM = "Customized Query 02 Name",
     CQ03NAM = "Customized Query 03 Name",
+    SMQ01NAM = "Standardized MedDRA Query 01 Name",
+    SMQ02NAM = "Standardized MedDRA Query 02 Name",
+    SMQ03NAM = "Standardized MedDRA Query 03 Name",
     AECONTRT = "Concomitant or Additional Trtmnt Given",
     AESMIE = "Other Medically Important Serious Event",
     TRDISCFL = "Treatment Discontinued Flag"
