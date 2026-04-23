@@ -3,7 +3,7 @@
 #' @description adae modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 1191 rows and 77 variables:
+#' @format A data frame with 1191 rows and 81 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}
@@ -82,6 +82,10 @@
 #'  \item{TRTEDY}{Treatment Relative End Day}
 #'  \item{TRT01P}{Planned Treatment for Period 01}
 #'  \item{TRDISCFL}{Treatment Discontinued Flag}
+#'  \item{AESCAT}{AESCAT}
+#'  \item{SMQ01NAM}{Standardized MedDRA Query 01 Name}
+#'  \item{SMQ02NAM}{Standardized MedDRA Query 02 Name}
+#'  \item{SMQ03NAM}{Standardized MedDRA Query 03 Name}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adae.xpt}} \code{\link{adaeocmq}} \code{\link{adaeocmq.xpt}} \code{\link{adagocmq}} \code{\link{adagocmq.xpt}} \code{\link{adcm}} \code{\link{adcm.xpt}} \code{\link{addili}} \code{\link{addili.xpt}} \code{\link{adeg}} \code{\link{adeg.xpt}} \code{\link{adex}} \code{\link{adex.xpt}} \code{\link{adexsum}} \code{\link{adexsum.xpt}} \code{\link{adlb}} \code{\link{adlb.xpt}} \code{\link{adpc}} \code{\link{adpc.xpt}} \code{\link{adsl}} \code{\link{adsl.xpt}} \code{\link{adttesaf}} \code{\link{adttesaf.xpt}} \code{\link{advs}} \code{\link{advs.xpt}}# nolint
 #' @keywords datasets adae
