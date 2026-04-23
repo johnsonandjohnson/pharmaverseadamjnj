@@ -279,6 +279,14 @@ gen_adae <- function(seed = 123) {
       TRDISCFL = ifelse(AEACN == "DRUG WITHDRAWN", "Y", NA_character_)
     )
 
+  gen <- gen |>
+    mutate(
+      AESCAT = case_when(
+        AESOC == "GENERAL DISORDERS AND ADMINISTRATION SITE CONDITIONS" ~ "INFUSION RELATED REACTION",
+        .default = "NONE OF THE ABOVE"
+      )
+    )
+
   # Add labels
   additional_labels <- list(
     SAFFL = "Safety Population Flag",
