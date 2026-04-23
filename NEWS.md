@@ -10,16 +10,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Added vars to ADSL: LASTCTDT, UNBLNDDT, IMFL, SAFEXRS, FASEXRS, PPREXRS, PKEXRES, and IMEXRES
 - Added xpt
-- Releveled TRT01P and TRT01A (now Xanomeline Low Dose -> Xanomeline High Dose -> Placebo)
 - Change ONTRFl for ADVS to first dose within 30 days
 - Added STRAT1D, STRAT2D to ADSL
 - Added ABODSYS1, ABODSYS2, ADECOD1, and ADECOD2 to ADEX
 - Added CRITx (1-8) to ADVS
 - Added VSCLSIG to ADVS
+- Added AOCTIFL to ADAE
+
+TODO
+Sort the data in the required order (USUBJID, AETOXGRN, ascending ASTDT) and flag the first treatment emergent record for maximum toxicity grade for each subject.
+ADAE : 1. Add AEHOSPP, AEHOSPR variables. and
+2. Add AEHOSPP, AEHOSPR variables.
+1. Update AESCAT to include values of ”Infusion Related Reactions [to drug name]“, where drug name corresponds to the drugs in the pharmaverseadamjnj data
+1. Add SMQ01NAM, SMQ02NAM, etc.
 
 ### Changed
 - Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX
-
+- Releveled TRT01P and TRT01A (now Xanomeline Low Dose -> Xanomeline High Dose -> Placebo)
 
 ## [0.0.3] - 2026-01-27
 

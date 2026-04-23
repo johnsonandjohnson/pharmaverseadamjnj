@@ -213,6 +213,22 @@ gen_adae <- function(seed = 123) {
       mode = "first"
     )
 
+
+  te_flags <- gen |>
+    dplyr::filter(TRTEMFL == "Y") |>
+    derive_var_extreme_flag(
+      new_var = AOCTIFL,
+      by_vars = exprs(USUBJID),
+      order = exprs(dplyr::desc(AETOXGRN), ASTDY, AESEQ),
+      mode = "first",
+      false_value = "N"
+    ) |>
+    dplyr::select(USUBJID, AESEQ, AOCTIFL)
+
+  gen <- gen |>
+    dplyr::left_join(te_flags, by = c("USUBJID", "AESEQ"))
+
+
   # Drop any variables shared by gen and ADSL (except key)
   shared <- setdiff(intersect(names(gen), names(adsl)), c("USUBJID", "TRTEDY"))
 
@@ -270,6 +286,7 @@ gen_adae <- function(seed = 123) {
     ACAT1 = "Analysis Category 1",
     AETOXGR = "Standard Toxicity Grade",
     AETOXGRN = "Standard Toxicity Grade (N)",
+    AOCTIFL = "1st TE Max Toxicity Grade Flag",
     DOSEDY = "Day of Study Drug",
     DOSEU = "Treatment Dose Units",
     DOSEON = "Treatment Dose at Record Start",
