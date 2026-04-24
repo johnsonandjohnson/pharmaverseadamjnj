@@ -9,13 +9,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Added vars to ADSL: LASTCTDT, UNBLNDDT, IMFL, SAFEXRS, FASEXRS, PPREXRS, PKEXRES, and IMEXRES
-- Added xpt
+- Added restord labels to xpt
 - Change ONTRFl for ADVS to first dose within 30 days
 - Added STRAT1D, STRAT2D to ADSL
 - Added ABODSYS1, ABODSYS2, ADECOD1, and ADECOD2 to ADEX
 - Added CRITx (1-8) to ADVS
-- Added VSCLSIG to ADVS
+- Added VSCLSIG and RACE to ADVS
 - Added AOCTIFL, AESCAT, SMQzzNAM, and CQzzNAM to ADAE
+
 
 
 ### Changed

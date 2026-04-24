@@ -403,7 +403,7 @@ gen_adex <- function(seed = 123) {
     AACTPR = "Action Taken Prior to Infusion Start",
     AREASOC = "Analysis Reason for Occur Value",
     AADJ = "Analysis Reason for Dose Adjustment",
-    AADJP = "Analysis Reason for Dose Adjustment Prior",
+    AADJP = "Analysis Reason for Prior Dose Adjust",
     AREASOO = "Other Analysis Reason for Occur Value",
     AACTDU = "Analysis Action Taken During Study Trt",
     AACTDU1 = "Act Takn Dur Infus-Full Dose Admined",
@@ -444,10 +444,10 @@ gen_adex <- function(seed = 123) {
     AINFRAT = "Analysis Infusion Rate",
     AINFRAU = "Analysis Infusion Rate Unit"
     ,
-    ABODSYS1 = "SOC of AE driving action on study drug (1)",
-    ABODSYS2 = "SOC of AE driving action on study drug (2)",
-    ADECOD1  = "PT of AE driving action on study drug (1)",
-    ADECOD2  = "PT of AE driving action on study drug (2)"
+    ABODSYS1 = "AE SOC Driving Study Drug Action (1)",
+    ABODSYS2 = "AE SOC Driving Study Drug Action (2)",
+    ADECOD1  = "AE PT Driving Study Drug Action (1)",
+    ADECOD2  = "AE PT Driving Study Drug Action (2)"
   )
 
   # Handle NA values and convert characters to factors

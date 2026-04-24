@@ -69,7 +69,7 @@
 #'  \item{AESMIE}{Other Medically Important Serious Event}
 #'  \item{ACAT1}{Analysis Category 1}
 #'  \item{AOCCFL}{1st Occurrence within Subject Flag}
-#'  \item{AOCCPFL}{1st Occurrence within Preferred Term Flag}
+#'  \item{AOCCPFL}{1st Occurrence within Pref Term Flag}
 #'  \item{AOCCSFL}{1st Occurrence of SOC Flag}
 #'  \item{AOCTIFL}{1st TE Max Toxicity Grade Flag}
 #'  \item{TRT01A}{Actual Treatment for Period 01}

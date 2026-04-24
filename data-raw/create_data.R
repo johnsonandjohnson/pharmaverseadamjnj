@@ -5,6 +5,9 @@ library(purrr)
 require(xportr)
 library(dplyr)
 
+# Source utility functions
+source(file.path("data-raw", "helpers.R"))
+
 # Get all dataset scripts (exclude helpers.R and this file)
 data_scripts <- list.files(
   path = "data-raw",
@@ -131,11 +134,20 @@ run_xpt <- function(script_path) {
 
   load(script_path,  envir = env)
 
-  df <- get(dataset_name, envir = env)
+  raw <- get(dataset_name, envir = env)
+
+
+
+  df <- raw |>
+  # Convert all factor columns to character columns for XPT/SAS file compatibility.
+  mutate(across(where(is.factor), as.character))
+
+  df <- restore_labels(
+    df = df,
+    orig_df = raw
+  )
 
   df |>
-  # Convert all factor columns to character columns for XPT/SAS file compatibility.
-  mutate(across(where(is.factor), as.character)) %>%
   xportr_write(path = paste0("data/", dataset_name, ".xpt"))
 
 }
@@ -146,3 +158,4 @@ message("All datasets have been transformed.")
 
 system("air format .")
 message("All datasets have been formated.")
+
