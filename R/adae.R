@@ -3,7 +3,7 @@
 #' @description adae modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 1191 rows and 81 variables:
+#' @format A data frame with 1191 rows and 83 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}
@@ -82,6 +82,8 @@
 #'  \item{TRTEDY}{Treatment Relative End Day}
 #'  \item{TRT01P}{Planned Treatment for Period 01}
 #'  \item{TRDISCFL}{Treatment Discontinued Flag}
+#'  \item{AESHOSPP}{Prolongs Hospitalization}
+#'  \item{AESHOSPR}{Requires Hospitalization}
 #'  \item{AESCAT}{AESCAT}
 #'  \item{SMQ01NAM}{Standardized MedDRA Query 01 Name}
 #'  \item{SMQ02NAM}{Standardized MedDRA Query 02 Name}
