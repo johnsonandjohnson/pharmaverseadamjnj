@@ -281,6 +281,12 @@ gen_adae <- function(seed = 123) {
 
   gen <- gen |>
     mutate(
+      AESHOSPP = ifelse(AESHOSP == "Y", "Y", NA_character_),
+      AESHOSPR = ifelse(AESHOSP == "Y", "Y", NA_character_)
+    )
+
+  gen <- gen |>
+    mutate(
       AESCAT = case_when(
         AESOC == "GENERAL DISORDERS AND ADMINISTRATION SITE CONDITIONS" ~ "INFUSION RELATED REACTION",
         .default = "NONE OF THE ABOVE"
@@ -340,7 +346,9 @@ gen_adae <- function(seed = 123) {
     SMQ03NAM = "Standardized MedDRA Query 03 Name",
     AECONTRT = "Concomitant or Additional Trtmnt Given",
     AESMIE = "Other Medically Important Serious Event",
-    TRDISCFL = "Treatment Discontinued Flag"
+    TRDISCFL = "Treatment Discontinued Flag",
+    AESHOSPP = "Prolongs Hospitalization",
+    AESHOSPR = "Requires Hospitalization"
   )
 
   # Handle NA values and convert characters to factors

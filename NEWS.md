@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added CRITx (1-8) to ADVS
 - Added VSCLSIG and RACE to ADVS
 - Added AOCTIFL, AESCAT, SMQzzNAM, and CQzzNAM to ADAE
+- Added derived variables `AESHOSPP` and `AESHOSPR`
 
 
 
