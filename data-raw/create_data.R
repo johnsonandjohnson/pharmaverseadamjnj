@@ -123,27 +123,25 @@ message("All datasets have been created and documented.")
 
 # Run each script and handle saving and documentation
 run_xpt <- function(script_path) {
-
   env <- new.env()
 
   script_name <- basename(script_path)
   dataset_name <- tools::file_path_sans_ext(script_name)
   message(paste0("Loading ", script_name, "..."))
 
-  load(script_path,  envir = env)
+  load(script_path, envir = env)
 
   df <- get(dataset_name, envir = env)
 
   df |>
-  # Convert all factor columns to character columns for XPT/SAS file compatibility.
-  mutate(across(where(is.factor), as.character)) %>%
-  xportr_write(path = paste0("data/", dataset_name, ".xpt"))
-
+    # Convert all factor columns to character columns for XPT/SAS file compatibility.
+    mutate(across(where(is.factor), as.character)) %>%
+    xportr_write(path = paste0("data/", dataset_name, ".xpt"))
 }
 
 walk(data_rda, run_xpt)
 
 message("All datasets have been transformed.")
 
-#system("air format .")
+# system("air format .")
 message("All datasets have been formated.")
