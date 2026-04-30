@@ -144,7 +144,7 @@ run_xpt <- function(script_path) {
   )
 
   df |>
-    xportr_write(path = paste0("data/", dataset_name, ".xpt"))
+    xportr_write(path = paste0("inst/extdata/", dataset_name, ".xpt"))
 }
 
 walk(data_rda, run_xpt)
