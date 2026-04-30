@@ -85,7 +85,7 @@ adcm modified from pharmaverseadam
  head(data("adcm"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adae.xpt}} \code{\link{adaeocmq}} \code{\link{adaeocmq.xpt}} \code{\link{adagocmq}} \code{\link{adagocmq.xpt}} \code{\link{adcm}} \code{\link{adcm.xpt}} \code{\link{addili}} \code{\link{addili.xpt}} \code{\link{adeg}} \code{\link{adeg.xpt}} \code{\link{adex}} \code{\link{adex.xpt}} \code{\link{adexsum}} \code{\link{adexsum.xpt}} \code{\link{adlb}} \code{\link{adlb.xpt}} \code{\link{adpc}} \code{\link{adpc.xpt}} \code{\link{adsl}} \code{\link{adsl.xpt}} \code{\link{adttesaf}} \code{\link{adttesaf.xpt}} \code{\link{advs}} \code{\link{advs.xpt}}# nolint
 }
 \keyword{adcm}
 \keyword{datasets}

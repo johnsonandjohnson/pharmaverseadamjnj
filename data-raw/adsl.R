@@ -166,11 +166,17 @@ gen_adsl <- function(seed = 123) {
     rep("Stratification Factor 2 Value 2", n_subj - n_first)
   )
   gen$STRAT1R <- factor(sample(vals1),
-                        levels = c("Stratification Factor 1 Value 1",
-                                   "Stratification Factor 1 Value 2"))
+    levels = c(
+      "Stratification Factor 1 Value 1",
+      "Stratification Factor 1 Value 2"
+    )
+  )
   gen$STRAT2R <- factor(sample(vals2),
-                        levels = c("Stratification Factor 2 Value 1",
-                                   "Stratification Factor 2 Value 2"))
+    levels = c(
+      "Stratification Factor 2 Value 1",
+      "Stratification Factor 2 Value 2"
+    )
+  )
   gen$RANUM <- as.factor("1000001")
   gen$RANDDTM <- as.POSIXct(
     paste0(gen$RANDDT, " 11:59"),

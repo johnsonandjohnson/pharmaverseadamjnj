@@ -63,31 +63,31 @@ A data frame with 1972 rows and 86 variables:
 \item{DOSEU}{Treatment Dose Units}
 \item{AETOXGR}{Standard Toxicity Grade}
 \item{AETOXGRN}{Standard Toxicity Grade (N)}
-\item{AEACN_DECODE}{Action Taken with Study Treatment}
 \item{DOSEDY}{Day of Study Drug}
 \item{AECONTRT}{Concomitant or Additional Trtmnt Given}
 \item{CQ01NAM}{Customized Query 01 Name}
 \item{CQ02NAM}{Customized Query 02 Name}
 \item{CQ03NAM}{Customized Query 03 Name}
 \item{AESMIE}{Other Medically Important Serious Event}
-\item{AESER_DECODE}{Serious Event}
-\item{AEREL_DECODE}{Causality}
-\item{AEOUT_DECODE}{Outcome of Adverse Event}
 \item{ACAT1}{Analysis Category 1}
 \item{AOCCFL}{1st Occurrence within Subject Flag}
-\item{AOCCPFL}{1st Occurrence within Preferred Term Flag}
+\item{AOCCPFL}{1st Occurrence within Pref Term Flag}
 \item{AOCCSFL}{1st Occurrence of SOC Flag}
+\item{AOCTIFL}{1st TE Max Toxicity Grade Flag}
 \item{TRT01A}{Actual Treatment for Period 01}
 \item{SAFFL}{Safety Population Flag}
 \item{AGE}{Age}
 \item{SEX}{Sex}
 \item{RACE}{Race}
-\item{RACE_DECODE}{Race}
 \item{STUDYID}{Study Identifier}
 \item{AGEGR1}{Pooled Age Group 1}
 \item{TRTEDY}{Treatment Relative End Day}
 \item{TRT01P}{Planned Treatment for Period 01}
 \item{TRDISCFL}{Treatment Discontinued Flag}
+\item{AESCAT}{AESCAT}
+\item{SMQ01NAM}{Standardized MedDRA Query 01 Name}
+\item{SMQ02NAM}{Standardized MedDRA Query 02 Name}
+\item{SMQ03NAM}{Standardized MedDRA Query 03 Name}
 \item{OCMQNAM}{Custom Medical Query Name}
 \item{OCMQSOC}{Custom Medical Query System Organ Class}
 \item{OCMQCLSS}{Custom Medical Query Scope}
@@ -108,7 +108,7 @@ adae modified from pharmaverseadam to include Office of New Drugs (OND) Custom M
  head(data("adaeocmq"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adae.xpt}} \code{\link{adaeocmq}} \code{\link{adaeocmq.xpt}} \code{\link{adagocmq}} \code{\link{adagocmq.xpt}} \code{\link{adcm}} \code{\link{adcm.xpt}} \code{\link{addili}} \code{\link{addili.xpt}} \code{\link{adeg}} \code{\link{adeg.xpt}} \code{\link{adex}} \code{\link{adex.xpt}} \code{\link{adexsum}} \code{\link{adexsum.xpt}} \code{\link{adlb}} \code{\link{adlb.xpt}} \code{\link{adpc}} \code{\link{adpc.xpt}} \code{\link{adsl}} \code{\link{adsl.xpt}} \code{\link{adttesaf}} \code{\link{adttesaf.xpt}} \code{\link{advs}} \code{\link{advs.xpt}}# nolint
 }
 \keyword{adaeocmq}
 \keyword{datasets}

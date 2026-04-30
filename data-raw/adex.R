@@ -381,8 +381,8 @@ gen_adex <- function(seed = 123) {
     dplyr::summarise(
       ABODSYS1 = dplyr::first(unique(na.omit(AEBODSYS))),
       ABODSYS2 = dplyr::nth(unique(na.omit(AEBODSYS)), 2),
-      ADECOD1  = dplyr::first(unique(na.omit(AEDECOD))),
-      ADECOD2  = dplyr::nth(unique(na.omit(AEDECOD)), 2),
+      ADECOD1 = dplyr::first(unique(na.omit(AEDECOD))),
+      ADECOD2 = dplyr::nth(unique(na.omit(AEDECOD)), 2),
       .groups = "drop"
     )
 
@@ -461,12 +461,11 @@ gen_adex <- function(seed = 123) {
     ATVINF = "Analysis Total Volume Infused",
     ATVINFU = "Analysis Total Volume Infused Units",
     AINFRAT = "Analysis Infusion Rate",
-    AINFRAU = "Analysis Infusion Rate Unit"
-    ,
+    AINFRAU = "Analysis Infusion Rate Unit",
     ABODSYS1 = "AE SOC Driving Study Drug Action (1)",
     ABODSYS2 = "AE SOC Driving Study Drug Action (2)",
-    ADECOD1  = "AE PT Driving Study Drug Action (1)",
-    ADECOD2  = "AE PT Driving Study Drug Action (2)"
+    ADECOD1 = "AE PT Driving Study Drug Action (1)",
+    ADECOD2 = "AE PT Driving Study Drug Action (2)"
   )
 
   # Handle NA values and convert characters to factors
