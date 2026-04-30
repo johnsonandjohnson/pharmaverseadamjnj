@@ -30,10 +30,19 @@ gen_advs <- function(seed = 123) {
     ) |>
     # nolint end
     dplyr::mutate(
-      AVALC = NA
+      AVALC = NA_character_
     )
 
-  # Create SYSBPO, DIABPO, and PULSEO Parameters
+  gen_wk20 <- gen |>
+    dplyr::filter(AVISIT == "Week 16") |>
+    dplyr::mutate(AVISIT = "Week 20", AVISITN = 20, ADT = ADT + 28)
+
+  gen_wk24 <- gen |>
+    dplyr::filter(AVISIT == "Week 16") |>
+    dplyr::mutate(AVISIT = "Week 24", AVISITN = 24, ADT = ADT + 56)
+
+  gen <- rbind(gen, gen_wk20, gen_wk24)
+
   gen_ortho <- gen |>
     dplyr::filter(
       PARAMCD == "SYSBP" | PARAMCD == "DIABP" | PARAMCD == "PULSE"
@@ -50,12 +59,9 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "PULSEO" ~ "Pulse Rate Orthostatic (beats/min)",
       ),
       AVAL = dplyr::case_when(
-        PARAMCD == "SYSBPO" ~
-          as.numeric(sample(seq(-30, 30), dplyr::n(), replace = TRUE)),
-        PARAMCD == "DIABPO" ~
-          as.numeric(sample(seq(-25, 25), dplyr::n(), replace = TRUE)),
-        PARAMCD == "PULSEO" ~
-          as.numeric(sample(seq(-25, 25), dplyr::n(), replace = TRUE)),
+        PARAMCD == "SYSBPO" ~ as.numeric(sample(seq(-30, 30), dplyr::n(), replace = TRUE)),
+        PARAMCD == "DIABPO" ~ as.numeric(sample(seq(-25, 25), dplyr::n(), replace = TRUE)),
+        PARAMCD == "PULSEO" ~ as.numeric(sample(seq(-25, 25), dplyr::n(), replace = TRUE)),
       )
     )
 
@@ -76,49 +82,31 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "ORTHYPD" & AVAL < -10 ~ "Y",
         PARAMCD == "ORTHYPD" ~ "N",
       ),
-      AVAL = NA,
+      AVAL = NA_real_
     )
 
-  gen_orthyps <- gen_ortho_der |>
-    dplyr::filter(PARAMCD == "ORTHYPS") |>
+  gen_orthyp <- gen_ortho_der |>
+    dplyr::group_by(STUDYID, USUBJID, AVISIT, AVISITN, ADT) |>
     dplyr::mutate(
-      ORTHYPS = AVALC
-    ) |>
-    dplyr::select(-AVALC)
-
-  gen_orthypd <- gen_ortho_der |>
-    dplyr::filter(PARAMCD == "ORTHYPD") |>
-    dplyr::mutate(
-      ORTHYPD = AVALC
-    ) |>
-    dplyr::select(STUDYID, USUBJID, AVISITN, ORTHYPD)
-
-  gen_orthyp <- dplyr::inner_join(
-    gen_orthyps,
-    gen_orthypd,
-    by = c("STUDYID", "USUBJID", "AVISITN"),
-    copy = FALSE,
-    suffix = c(".x", ".y"),
-    keep = FALSE,
-    na_matches = "na"
-  ) |>
-    dplyr::mutate(
-      PARAMCD = "ORTHYP",
-      PARAM = "Orthostatic Hypotension",
-      AVALC = dplyr::case_when(
-        ORTHYPS == "Y" |
-          ORTHYPD == "Y" ~
-          "Y",
+      ORTHYP_FLAG = dplyr::case_when(
+        any(AVALC == "Y", na.rm = TRUE) ~ "Y",
         .default = "N"
       )
     ) |>
-    dplyr::select(-ORTHYPS, -ORTHYPD)
+    dplyr::slice_head(n = 1) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(
+      PARAMCD = "ORTHYP",
+      PARAM = "Orthostatic Hypotension",
+      AVALC = ORTHYP_FLAG
+    ) |>
+    dplyr::select(-ORTHYP_FLAG)
 
   gen <- rbind(gen, gen_ortho, gen_ortho_der, gen_orthyp) |>
     dplyr::mutate(
       ABLFL = dplyr::case_when(
         AVISIT == "Baseline" ~ "Y",
-        .default = NA
+        .default = NA_character_
       ),
       ASTDT = ADT,
       ATPT = "BEFORE TREATMENT",
@@ -126,12 +114,12 @@ gen_advs <- function(seed = 123) {
       ANL01FL = "Y",
       ANL02FL = "Y",
       APOBLFL = dplyr::case_when(
-        AVISIT == "Baseline" ~ NA,
+        AVISIT == "Baseline" ~ NA_character_,
         .default = "Y"
       ),
       ONTRTFL = as.factor(dplyr::case_when(
-        TRTSDT < ASTDT & ASTDT < TRTEDT + 30 ~ "Y",
-        .default = NA
+        AVISIT == "Baseline" ~ NA_character_,
+        .default = "Y"
       )),
       AVALCAT1 = dplyr::case_when(
         PARAMCD == "SYSBP" & AVAL < 90 ~ "<90",
@@ -177,11 +165,11 @@ gen_advs <- function(seed = 123) {
     admiral::derive_var_pchg() |>
     dplyr::mutate(
       CHG = dplyr::case_when(
-        ABLFL == "Y" ~ NA,
+        ABLFL == "Y" ~ NA_real_,
         .default = CHG
       ),
       PCHG = dplyr::case_when(
-        ABLFL == "Y" ~ NA,
+        ABLFL == "Y" ~ NA_real_,
         .default = PCHG
       ),
       ADTM = as.POSIXct(paste0(ADT, "T06:00"), format = "%Y-%m-%dT%H:%M"),
@@ -192,22 +180,24 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "DIABPO" ~ "DBP (STD-SUP)<-10",
       ),
       CRIT1FL = dplyr::case_when(
-        PARAMCD == "SYSBP" & AVAL < 90 ~ "Y",
-        PARAMCD == "DIABP" & AVAL < 60 ~ "Y",
+        PARAMCD == "PULSE" & !is.na(AVAL) & AVAL < 50 & !is.na(CHG) & CHG <= -20 ~ "Y",
+        PARAMCD == "SYSBP" & !is.na(AVAL) & AVAL < 90 & !is.na(CHG) & CHG <= -30 ~ "Y",
+        PARAMCD == "DIABP" & !is.na(AVAL) & AVAL < 50 & !is.na(CHG) & CHG <= -20 ~ "Y",
         PARAMCD == "SYSBPO" & AVAL < -20 ~ "Y",
         PARAMCD == "DIABPO" & AVAL < -10 ~ "Y",
-        PARAMCD %in% c("SYSBP", "DIABP", "SYSBPO", "DIABPO") ~ "N",
-        .default = NA
+        PARAMCD %in% c("PULSE", "SYSBP", "DIABP", "SYSBPO", "DIABPO") ~ "N",
+        .default = NA_character_
       ),
       CRIT2 = dplyr::case_when(
         PARAMCD == "SYSBP" ~ ">=90",
         PARAMCD == "DIABP" ~ ">=60",
       ),
       CRIT2FL = dplyr::case_when(
-        PARAMCD == "SYSBP" & AVAL >= 90 ~ "Y",
-        PARAMCD == "DIABP" & AVAL >= 60 ~ "Y",
-        PARAMCD %in% c("SYSBP", "DIABP") ~ "N",
-        .default = NA
+        PARAMCD == "PULSE" & !is.na(AVAL) & AVAL > 120 & !is.na(CHG) & CHG >= 30 ~ "Y",
+        PARAMCD == "SYSBP" & !is.na(AVAL) & AVAL > 180 & !is.na(CHG) & CHG >= 40 ~ "Y",
+        PARAMCD == "DIABP" & !is.na(AVAL) & AVAL > 105 & !is.na(CHG) & CHG >= 30 ~ "Y",
+        PARAMCD %in% c("PULSE", "SYSBP", "DIABP") ~ "N",
+        .default = NA_character_
       ),
       CRIT3 = dplyr::case_when(
         PARAMCD == "SYSBP" ~ ">=120",
@@ -217,7 +207,7 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "SYSBP" & AVAL >= 120 ~ "Y",
         PARAMCD == "DIABP" & AVAL >= 80 ~ "Y",
         PARAMCD %in% c("SYSBP", "DIABP") ~ "N",
-        .default = NA
+        .default = NA_character_
       ),
       CRIT4 = dplyr::case_when(
         PARAMCD == "SYSBP" ~ ">=140",
@@ -227,7 +217,7 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "SYSBP" & AVAL >= 140 ~ "Y",
         PARAMCD == "DIABP" & AVAL >= 90 ~ "Y",
         PARAMCD %in% c("SYSBP", "DIABP") ~ "N",
-        .default = NA
+        .default = NA_character_
       ),
       CRIT5 = dplyr::case_when(
         PARAMCD == "SYSBP" ~ ">=160",
@@ -237,7 +227,7 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "SYSBP" & AVAL >= 160 ~ "Y",
         PARAMCD == "DIABP" & AVAL >= 110 ~ "Y",
         PARAMCD %in% c("SYSBP", "DIABP") ~ "N",
-        .default = NA
+        .default = NA_character_
       ),
       CRIT6 = dplyr::case_when(
         PARAMCD == "SYSBP" ~ ">=180",
@@ -247,7 +237,7 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "SYSBP" & AVAL >= 180 ~ "Y",
         PARAMCD == "DIABP" & AVAL >= 120 ~ "Y",
         PARAMCD %in% c("SYSBP", "DIABP") ~ "N",
-        .default = NA
+        .default = NA_character_
       ),
       CRIT7 = dplyr::case_when(
         PARAMCD == "PULSE" ~ "<50 beats/min and with >20 beats/min decrease from baseline",
@@ -265,7 +255,7 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "TEMP" & AVAL > 38 & CHG >= 1 ~ "Y",
         PARAMCD == "WEIGHT" & PCHG < -10 ~ "Y",
         PARAMCD %in% c("PULSE", "SYSBP", "DIABP", "RESP", "TEMP", "WEIGHT") ~ "N",
-        .default = NA
+        .default = NA_character_
       ),
       CRIT8 = dplyr::case_when(
         PARAMCD == "PULSE" ~ ">120 beats/min and with >30 beats/min increase from baseline",
@@ -279,7 +269,7 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "DIABP" & AVAL < 50 & CHG < -20 ~ "Y",
         PARAMCD == "WEIGHT" & PCHG > 10 ~ "Y",
         PARAMCD %in% c("PULSE", "SYSBP", "DIABP", "WEIGHT") ~ "N",
-        .default = NA
+        .default = NA_character_
       ),
       VSCLSIG = dplyr::case_when(
         PARAMCD == "SYSBP" & !is.na(AVAL) & AVAL >= 130 ~ "Y",
@@ -415,16 +405,18 @@ gen_advs <- function(seed = 123) {
   gen <- rbind(gen, gen_add_avisit1, gen_add_avisit2) |>
     dplyr::mutate(
       AVISIT = forcats::fct_reorder(as.factor(AVISIT), AVISITN),
+      TMP_SEQ = dplyr::row_number()
     ) |>
     admiral::restrict_derivation(
       derivation = admiral::derive_var_extreme_flag,
       args = params(
         by_vars = exprs(STUDYID, USUBJID, PARAMCD),
-        order = exprs(desc(AVAL), ADT),
+        order = exprs(desc(AVAL), ADT, TMP_SEQ),
         new_var = ANL06FL,
         true_value = "Y",
-        false_value = NA,
-        mode = "last"
+        false_value = NA_character_,
+        mode = "last",
+        check_type = "none"
       ),
       filter = AVISIT != "Screening"
     ) |>
@@ -432,11 +424,12 @@ gen_advs <- function(seed = 123) {
       derivation = admiral::derive_var_extreme_flag,
       args = params(
         by_vars = exprs(STUDYID, USUBJID, PARAMCD),
-        order = exprs(ATOXGRH, ADT),
+        order = exprs(ATOXGRH, ADT, TMP_SEQ),
         new_var = ANL05FL,
         true_value = "Y",
-        false_value = NA,
-        mode = "last"
+        false_value = NA_character_,
+        mode = "last",
+        check_type = "none"
       ),
       filter = AVISIT != "Screening"
     ) |>
@@ -444,11 +437,12 @@ gen_advs <- function(seed = 123) {
       derivation = admiral::derive_var_extreme_flag,
       args = params(
         by_vars = exprs(STUDYID, USUBJID, PARAMCD),
-        order = exprs(desc(ATOXGRL), ADT),
+        order = exprs(desc(ATOXGRL), ADT, TMP_SEQ),
         new_var = ANL04FL,
         true_value = "Y",
-        false_value = NA,
-        mode = "last"
+        false_value = NA_character_,
+        mode = "last",
+        check_type = "none"
       ),
       filter = AVISIT != "Screening"
     ) |>
@@ -456,15 +450,17 @@ gen_advs <- function(seed = 123) {
       derivation = admiral::derive_var_extreme_flag,
       args = params(
         by_vars = exprs(STUDYID, USUBJID, PARAMCD),
-        order = exprs(AVAL, ADT),
+        order = exprs(AVAL, ADT, TMP_SEQ),
         new_var = ANL03FL,
         true_value = "Y",
-        false_value = NA,
-        mode = "last"
+        false_value = NA_character_,
+        mode = "last",
+        check_type = "none"
       ),
       filter = AVISIT != "Screening"
     ) |>
-    mutate(
+    dplyr::select(-TMP_SEQ) |>
+    dplyr::mutate(
       TRTEMFL = dplyr::case_when(
         ADT > TRTSDT & ADT < TRTEDT ~ "Y",
         .default = "N"
@@ -488,10 +484,9 @@ gen_advs <- function(seed = 123) {
 
   # Select only the key and the 'to_keep' variables from ADSL
   adsl_subset <- adsl |>
-    select(USUBJID, all_of(to_keep_from_adsl))
+    dplyr::select(USUBJID, dplyr::all_of(to_keep_from_adsl))
 
   if (length(shared) > 0) {
-    message("Dropping shared vars from raw: ", paste(shared, collapse = ", "))
     gen <- dplyr::select(gen, -dplyr::any_of(shared))
   }
 
@@ -538,6 +533,8 @@ gen_advs <- function(seed = 123) {
     orig_df = raw,
     additional_labels = additional_labels
   )
+
+  gen <- gen |> dplyr::slice_sample(prop = 1)
 
   return(gen)
 }

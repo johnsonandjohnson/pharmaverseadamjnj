@@ -20,10 +20,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added derived variables `AESHOSPP` and `AESHOSPR`
 
 
-
 ### Changed
 - Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX
 - Releveled TRT01P and TRT01A (now Xanomeline Low Dose -> Xanomeline High Dose -> Placebo)
+- Modified "General disorders and administration site conditions" to "Gastrointestinal disorders" in ADEX
+- Modified ADVS on ORTHYP, ORTHYPS and  ORTHYPD parameters for TSFVIT04
 
 ## [0.0.3] - 2026-01-27
 

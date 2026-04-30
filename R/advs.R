@@ -3,7 +3,7 @@
 #' @description advs modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 40702 rows and 90 variables:
+#' @format A data frame with 50080 rows and 90 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}

@@ -8,6 +8,13 @@ library(dplyr)
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
 
+# Get all rda
+data_rda <- list.files(
+  path = "data",
+  pattern = "\\.rda$",
+  full.names = TRUE
+)
+
 # Get all dataset scripts (exclude helpers.R and this file)
 data_scripts <- list.files(
   path = "data-raw",
@@ -21,12 +28,7 @@ data_scripts <- data_scripts[
 ]
 
 
-# Get all rda
-data_rda <- list.files(
-  path = "data",
-  pattern = "\\.rda$",
-  full.names = TRUE
-)
+
 
 
 # Run each script and handle saving and documentation
