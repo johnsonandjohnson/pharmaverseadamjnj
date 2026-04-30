@@ -213,6 +213,22 @@ gen_adae <- function(seed = 123) {
       mode = "first"
     )
 
+
+  te_flags <- gen |>
+    dplyr::filter(TRTEMFL == "Y") |>
+    derive_var_extreme_flag(
+      new_var = AOCTIFL,
+      by_vars = exprs(USUBJID),
+      order = exprs(dplyr::desc(AETOXGRN), ASTDY, AESEQ),
+      mode = "first",
+      false_value = "N"
+    ) |>
+    dplyr::select(USUBJID, AESEQ, AOCTIFL)
+
+  gen <- gen |>
+    dplyr::left_join(te_flags, by = c("USUBJID", "AESEQ"))
+
+
   # Drop any variables shared by gen and ADSL (except key)
   shared <- setdiff(intersect(names(gen), names(adsl)), c("USUBJID", "TRTEDY"))
 
@@ -263,6 +279,51 @@ gen_adae <- function(seed = 123) {
       TRDISCFL = ifelse(AEACN == "DRUG WITHDRAWN", "Y", NA_character_)
     )
 
+  gen <- gen |>
+    mutate(
+      AESHOSPP = ifelse(AESHOSP == "Y", "Y", NA_character_),
+      AESHOSPR = ifelse(AESHOSP == "Y", "Y", NA_character_)
+    )
+
+  gen <- gen |>
+    mutate(
+      AESCAT = case_when(
+        AESOC == "GENERAL DISORDERS AND ADMINISTRATION SITE CONDITIONS" ~ "INFUSION RELATED REACTION",
+        .default = "NONE OF THE ABOVE"
+      )
+    )
+
+  # Derive CQ01/02/03 and SMQ01/02/03 names per mapping from AEDECOD
+  gen <- gen |>
+    mutate(
+      .AEDECOD_UP = toupper(AEDECOD),
+      CQ01NAM = case_when(
+        .AEDECOD_UP == "HYPERTENSION" ~ "HYPERTENSION",
+        .default = NA_character_
+      ),
+      SMQ01NAM = case_when(
+        .AEDECOD_UP == "HYPERTENSION" ~ "HYPERTENSION",
+        .default = NA_character_
+      ),
+      CQ02NAM = case_when(
+        .AEDECOD_UP %in% c("PRURITUS", "ERYTHEMA", "RASH") ~ "Sensitivity",
+        .default = NA_character_
+      ),
+      SMQ02NAM = case_when(
+        .AEDECOD_UP %in% c("PRURITUS", "ERYTHEMA", "RASH") ~ "HYPERSENSITIVITY",
+        .default = NA_character_
+      ),
+      CQ03NAM = case_when(
+        .AEDECOD_UP == "DIZZINESS" ~ "Hearing disorders",
+        .default = NA_character_
+      ),
+      SMQ03NAM = case_when(
+        .AEDECOD_UP == "DIZZINESS" ~ "HEARING AND VESTIBULAR DISORDERS",
+        .default = NA_character_
+      )
+    ) |>
+    select(-.AEDECOD_UP)
+
   # Add labels
   additional_labels <- list(
     SAFFL = "Safety Population Flag",
@@ -270,18 +331,24 @@ gen_adae <- function(seed = 123) {
     ACAT1 = "Analysis Category 1",
     AETOXGR = "Standard Toxicity Grade",
     AETOXGRN = "Standard Toxicity Grade (N)",
+    AOCTIFL = "1st TE Max Toxicity Grade Flag",
     DOSEDY = "Day of Study Drug",
     DOSEU = "Treatment Dose Units",
     DOSEON = "Treatment Dose at Record Start",
     AOCCFL = "1st Occurrence within Subject Flag",
-    AOCCPFL = "1st Occurrence within Preferred Term Flag",
+    AOCCPFL = "1st Occurrence within Pref Term Flag",
     AOCCSFL = "1st Occurrence of SOC Flag",
     CQ01NAM = "Customized Query 01 Name",
     CQ02NAM = "Customized Query 02 Name",
     CQ03NAM = "Customized Query 03 Name",
+    SMQ01NAM = "Standardized MedDRA Query 01 Name",
+    SMQ02NAM = "Standardized MedDRA Query 02 Name",
+    SMQ03NAM = "Standardized MedDRA Query 03 Name",
     AECONTRT = "Concomitant or Additional Trtmnt Given",
     AESMIE = "Other Medically Important Serious Event",
-    TRDISCFL = "Treatment Discontinued Flag"
+    TRDISCFL = "Treatment Discontinued Flag",
+    AESHOSPP = "Prolongs Hospitalization",
+    AESHOSPR = "Requires Hospitalization"
   )
 
   # Handle NA values and convert characters to factors

@@ -3,7 +3,7 @@
 #' @description advs modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 40702 rows and 77 variables:
+#' @format A data frame with 50080 rows and 90 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}
@@ -56,6 +56,7 @@
 #'  \item{VSELTM}{Planned Elapsed Time from Time Point Ref}
 #'  \item{VSTPTREF}{Time Point Reference}
 #'  \item{AVALC}{Analysis Value (C)}
+#'  \item{ASTDT}{ASTDT}
 #'  \item{ANL02FL}{Analysis Flag 02-By Visit Value}
 #'  \item{APOBLFL}{Post-Baseline Record Flag}
 #'  \item{BASE}{Baseline Value}
@@ -67,6 +68,17 @@
 #'  \item{CRIT2FL}{Criterion 2 Evaluation Result Flag}
 #'  \item{CRIT3}{Analysis Criterion 3}
 #'  \item{CRIT3FL}{Criterion 3 Evaluation Result Flag}
+#'  \item{CRIT4}{CRIT4}
+#'  \item{CRIT4FL}{CRIT4FL}
+#'  \item{CRIT5}{CRIT5}
+#'  \item{CRIT5FL}{CRIT5FL}
+#'  \item{CRIT6}{CRIT6}
+#'  \item{CRIT6FL}{CRIT6FL}
+#'  \item{CRIT7}{CRIT7}
+#'  \item{CRIT7FL}{CRIT7FL}
+#'  \item{CRIT8}{CRIT8}
+#'  \item{CRIT8FL}{CRIT8FL}
+#'  \item{VSCLSIG}{VSCLSIG}
 #'  \item{ATOXDSCL}{Analysis Toxicity Description Low}
 #'  \item{ATOXDSCH}{Analysis Toxicity Description High}
 #'  \item{ATOXGRL}{Analysis Toxicity Grade Low}
@@ -82,10 +94,11 @@
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{AGE}{Age}
 #'  \item{SEX}{Sex}
+#'  \item{RACE}{Race}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adae.xpt}} \code{\link{adaeocmq}} \code{\link{adaeocmq.xpt}} \code{\link{adagocmq}} \code{\link{adagocmq.xpt}} \code{\link{adcm}} \code{\link{adcm.xpt}} \code{\link{addili}} \code{\link{addili.xpt}} \code{\link{adeg}} \code{\link{adeg.xpt}} \code{\link{adex}} \code{\link{adex.xpt}} \code{\link{adexsum}} \code{\link{adexsum.xpt}} \code{\link{adlb}} \code{\link{adlb.xpt}} \code{\link{adpc}} \code{\link{adpc.xpt}} \code{\link{adsl}} \code{\link{adsl.xpt}} \code{\link{adttesaf}} \code{\link{adttesaf.xpt}} \code{\link{advs}} \code{\link{advs.xpt}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets advs
 #' @name advs
 #' @examples
-#'  head(data("advs"))
+#' head(data("advs"))
 "advs"

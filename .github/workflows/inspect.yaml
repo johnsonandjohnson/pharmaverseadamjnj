@@ -4,7 +4,6 @@ name: Check 🛠
 on:
   pull_request:
     types:
-      - opened
       - synchronize
       - reopened
       - ready_for_review
@@ -74,7 +73,7 @@ jobs:
   linter:
     if: github.event_name != 'push'
     name: Linter 🦸‍♀️
-    uses: johnsonandjohnson/pharmaversesdtmjnj/.github/workflows/lint.yaml@main
+    uses: johnsonandjohnson/actions/.github/workflows/lint.yaml@dev
   roxygen:
     name: Roxygen 🅾
     uses: insightsengineering/r.pkg.template/.github/workflows/roxygen.yaml@main
@@ -107,14 +106,6 @@ jobs:
   licenses:
     name: License Check 🃏
     uses: insightsengineering/r.pkg.template/.github/workflows/licenses.yaml@main
-  style:
-    if: github.event_name != 'push'
-    name: Style Check 👗
-    uses: insightsengineering/r.pkg.template/.github/workflows/style.yaml@main
-    with:
-      auto-update: true
-    secrets:
-      REPO_GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
   grammar:
     if: github.event_name != 'push'
     name: Grammar Check 🔤

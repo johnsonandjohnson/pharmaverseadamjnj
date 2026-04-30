@@ -9,6 +9,8 @@ library(stringr)
 
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
+# Ensure ADAE is available for cross-domain derivations
+source(file.path("data-raw", "adae.R"))
 
 # Generate ADEX dataset
 gen_adex <- function(seed = 123) {
@@ -337,6 +339,79 @@ gen_adex <- function(seed = 123) {
     }
   )
 
+
+  # Derive ABODSYSy and ADECODy
+  #  - ABODSYSy: AE System Organ Class (AE.AEBODSYS)
+  #  - ADECODy:  AE Preferred Term    (AE.AEDECOD)
+
+  # Actions indicating change due to AE (RELREC proxy)
+  ae_actions <- c(
+    "DRUG WITHDRAWN",
+    "DRUG INTERRUPTED",
+    "DOSE REDUCED",
+    "DOSE RATE REDUCED"
+  )
+
+
+  ex_key <- gen |>
+    dplyr::mutate(
+      .row_id = dplyr::row_number(),
+      EXASTDT = as.Date(sub(" .*", "", ASTDTM))
+    ) |>
+    dplyr::select(.row_id, USUBJID, EXASTDT)
+
+
+  ae_sub <- adae |>
+    dplyr::mutate(
+      AEASTDT = as.Date(sub(" .*", "", ASTDTM))
+    ) |>
+    dplyr::filter(AEACN %in% ae_actions) |>
+    dplyr::select(USUBJID, AEASTDT, AEBODSYS, AEDECOD, AESEQ)
+
+
+  ex_ae <- dplyr::left_join(
+    ex_key,
+    ae_sub,
+    by = c("USUBJID" = "USUBJID", "EXASTDT" = "AEASTDT")
+  ) |>
+    dplyr::arrange(.row_id, AESEQ)
+
+  soc_summ <- ex_ae |>
+    dplyr::group_by(.row_id) |>
+    dplyr::summarise(
+      ABODSYS1 = dplyr::first(unique(na.omit(AEBODSYS))),
+      ABODSYS2 = dplyr::nth(unique(na.omit(AEBODSYS)), 2),
+      ADECOD1 = dplyr::first(unique(na.omit(AEDECOD))),
+      ADECOD2 = dplyr::nth(unique(na.omit(AEDECOD)), 2),
+      .groups = "drop"
+    )
+
+
+  gen <- gen |>
+    dplyr::mutate(.row_id = dplyr::row_number()) |>
+    dplyr::left_join(soc_summ, by = ".row_id") |>
+    dplyr::select(-.row_id)
+
+  gen <- gen |>
+    dplyr::mutate(
+      AREASOC = dplyr::case_when(
+        ABODSYS1 %in% c(
+          "General disorders and administration site conditions",
+          "Gastrointestinal disorders"
+        ) ~ "Adverse Event",
+        .default = AREASOC
+      ),
+      ABODSYS1 = dplyr::case_when(
+        AADJ == "Adverse Event" ~ "Gastrointestinal disorders",
+        .default = ABODSYS1
+      ),
+      ADECOD1 = dplyr::case_when(
+        AADJ == "Adverse Event" ~ "VOMITING",
+        .default = ADECOD1
+      )
+    )
+
+
   # Additional labels for all relevant variables
   additional_labels <- list(
     EXTRT = "Planned Treatment",
@@ -347,7 +422,7 @@ gen_adex <- function(seed = 123) {
     AACTPR = "Action Taken Prior to Infusion Start",
     AREASOC = "Analysis Reason for Occur Value",
     AADJ = "Analysis Reason for Dose Adjustment",
-    AADJP = "Analysis Reason for Dose Adjustment Prior",
+    AADJP = "Analysis Reason for Prior Dose Adjust",
     AREASOO = "Other Analysis Reason for Occur Value",
     AACTDU = "Analysis Action Taken During Study Trt",
     AACTDU1 = "Act Takn Dur Infus-Full Dose Admined",
@@ -386,7 +461,11 @@ gen_adex <- function(seed = 123) {
     ATVINF = "Analysis Total Volume Infused",
     ATVINFU = "Analysis Total Volume Infused Units",
     AINFRAT = "Analysis Infusion Rate",
-    AINFRAU = "Analysis Infusion Rate Unit"
+    AINFRAU = "Analysis Infusion Rate Unit",
+    ABODSYS1 = "AE SOC Driving Study Drug Action (1)",
+    ABODSYS2 = "AE SOC Driving Study Drug Action (2)",
+    ADECOD1 = "AE PT Driving Study Drug Action (1)",
+    ADECOD2 = "AE PT Driving Study Drug Action (2)"
   )
 
   # Handle NA values and convert characters to factors

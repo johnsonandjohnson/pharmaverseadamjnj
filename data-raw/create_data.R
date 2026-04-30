@@ -5,6 +5,16 @@ library(purrr)
 require(xportr)
 library(dplyr)
 
+# Source utility functions
+source(file.path("data-raw", "helpers.R"))
+
+# Get all rda
+data_rda <- list.files(
+  path = "data",
+  pattern = "\\.rda$",
+  full.names = TRUE
+)
+
 # Get all dataset scripts (exclude helpers.R and this file)
 data_scripts <- list.files(
   path = "data-raw",
@@ -16,14 +26,6 @@ data_scripts <- list.files(
 data_scripts <- data_scripts[
   !grepl("(helpers\\.R|create_data\\.R)", data_scripts)
 ]
-
-
-# Get all rda
-data_rda <- list.files(
-  path = "data",
-  pattern = "\\.rda$",
-  full.names = TRUE
-)
 
 
 # Run each script and handle saving and documentation
@@ -122,22 +124,27 @@ message("All datasets have been created and documented.")
 
 # Run each script and handle saving and documentation
 run_xpt <- function(script_path) {
-
   env <- new.env()
 
   script_name <- basename(script_path)
   dataset_name <- tools::file_path_sans_ext(script_name)
   message(paste0("Loading ", script_name, "..."))
 
-  load(script_path,  envir = env)
+  load(script_path, envir = env)
 
-  df <- get(dataset_name, envir = env)
+  raw <- get(dataset_name, envir = env)
+
+
+  df <- raw |>
+    mutate(across(where(is.factor), as.character))
+
+  df <- restore_labels(
+    df = df,
+    orig_df = raw
+  )
 
   df |>
-  # Convert all factor columns to character columns for XPT/SAS file compatibility.
-  mutate(across(where(is.factor), as.character)) %>%
-  xportr_write(path = paste0("data/", dataset_name, ".xpt"))
-
+    xportr_write(path = paste0("inst/extdata/", dataset_name, ".xpt"))
 }
 
 walk(data_rda, run_xpt)

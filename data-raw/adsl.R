@@ -150,8 +150,33 @@ gen_adsl <- function(seed = 123) {
   gen$RFICDT <- as.Date(gen$DMDTC)
 
 
-  gen$STRAT1R <- as.factor("Stratification Factor 1")
-  gen$STRAT2R <- as.factor("Stratification Factor 2")
+  # Stratification factors
+  gen$STRAT1D <- as.factor("Description of Stratification Factor 1")
+  gen$STRAT2D <- as.factor("Description of Stratification Factor 2")
+
+  # Randomized values (exactly ~50% each, shuffled for randomness)
+  n_subj <- nrow(gen)
+  n_first <- floor(n_subj / 2)
+  vals1 <- c(
+    rep("Stratification Factor 1 Value 1", n_first),
+    rep("Stratification Factor 1 Value 2", n_subj - n_first)
+  )
+  vals2 <- c(
+    rep("Stratification Factor 2 Value 1", n_first),
+    rep("Stratification Factor 2 Value 2", n_subj - n_first)
+  )
+  gen$STRAT1R <- factor(sample(vals1),
+    levels = c(
+      "Stratification Factor 1 Value 1",
+      "Stratification Factor 1 Value 2"
+    )
+  )
+  gen$STRAT2R <- factor(sample(vals2),
+    levels = c(
+      "Stratification Factor 2 Value 1",
+      "Stratification Factor 2 Value 2"
+    )
+  )
   gen$RANUM <- as.factor("1000001")
   gen$RANDDTM <- as.POSIXct(
     paste0(gen$RANDDT, " 11:59"),
@@ -410,7 +435,9 @@ gen_adsl <- function(seed = 123) {
     LDOSU = "Last Dose Unit",
     AGEGR1N = "Pooled Age Group 1 (N)",
     RANUM = "Randomization Number",
+    STRAT1D = "Description of Stratification Factor 1",
     STRAT1R = "Strat Factor 1 Value Used for Rand",
+    STRAT2D = "Description of Stratification Factor 2",
     STRAT2R = "Strat Factor 2 Value Used for Rand",
     SCRNFL = "Screened Population Flag",
     DTHAFTFL = "Death After 30 Days of Last Treatment",

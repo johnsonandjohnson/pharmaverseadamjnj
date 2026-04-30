@@ -5,7 +5,7 @@
 \alias{advs}
 \title{advs}
 \format{
-A data frame with 40702 rows and 78 variables:
+A data frame with 50080 rows and 90 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{DOMAIN}{Domain Abbreviation}
@@ -58,6 +58,7 @@ A data frame with 40702 rows and 78 variables:
 \item{VSELTM}{Planned Elapsed Time from Time Point Ref}
 \item{VSTPTREF}{Time Point Reference}
 \item{AVALC}{Analysis Value (C)}
+\item{ASTDT}{ASTDT}
 \item{ANL02FL}{Analysis Flag 02-By Visit Value}
 \item{APOBLFL}{Post-Baseline Record Flag}
 \item{BASE}{Baseline Value}
@@ -69,6 +70,17 @@ A data frame with 40702 rows and 78 variables:
 \item{CRIT2FL}{Criterion 2 Evaluation Result Flag}
 \item{CRIT3}{Analysis Criterion 3}
 \item{CRIT3FL}{Criterion 3 Evaluation Result Flag}
+\item{CRIT4}{CRIT4}
+\item{CRIT4FL}{CRIT4FL}
+\item{CRIT5}{CRIT5}
+\item{CRIT5FL}{CRIT5FL}
+\item{CRIT6}{CRIT6}
+\item{CRIT6FL}{CRIT6FL}
+\item{CRIT7}{CRIT7}
+\item{CRIT7FL}{CRIT7FL}
+\item{CRIT8}{CRIT8}
+\item{CRIT8FL}{CRIT8FL}
+\item{VSCLSIG}{VSCLSIG}
 \item{ATOXDSCL}{Analysis Toxicity Description Low}
 \item{ATOXDSCH}{Analysis Toxicity Description High}
 \item{ATOXGRL}{Analysis Toxicity Grade Low}
@@ -84,7 +96,7 @@ A data frame with 40702 rows and 78 variables:
 \item{STUDYID}{Study Identifier}
 \item{AGE}{Age}
 \item{SEX}{Sex}
-\item{RACE_DECODE}{Race}
+\item{RACE}{Race}
 }
 }
 \source{
@@ -97,7 +109,7 @@ advs
 advs modified from pharmaverseadam
 }
 \examples{
- head(data("advs"))
+head(data("advs"))
 }
 \seealso{
 \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint

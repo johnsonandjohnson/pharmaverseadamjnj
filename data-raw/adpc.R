@@ -23,8 +23,8 @@ gen_adpc <- function(seed = 123) {
 
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
-    CRIT1 = "Concentrations Below the Lowest Quantification Level Criterion",
-    CRIT1FL = "Concentrations Below the Lowest Quantification Level Flag"
+    CRIT1 = "Lowest Quantification Level Criterion",
+    CRIT1FL = "Lowest Quantification Level Flag"
   )
 
   # Handle NA values and convert characters to factors
