@@ -139,7 +139,6 @@ run_xpt <- function(script_path) {
 
 
   df <- raw |>
-    # Convert all factor columns to character columns for XPT/SAS file compatibility.
     mutate(across(where(is.factor), as.character))
 
   df <- restore_labels(
