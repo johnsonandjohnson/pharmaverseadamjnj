@@ -392,6 +392,25 @@ gen_adex <- function(seed = 123) {
     dplyr::left_join(soc_summ, by = ".row_id") |>
     dplyr::select(-.row_id)
 
+  gen <- gen |>
+    dplyr::mutate(
+      AREASOC = dplyr::case_when(
+        ABODSYS1 %in% c(
+          "General disorders and administration site conditions",
+          "Gastrointestinal disorders"
+        ) ~ "Adverse Event",
+        .default = AREASOC
+      ),
+      ABODSYS1 = dplyr::case_when(
+        AADJ == "Adverse Event" ~ "Gastrointestinal disorders",
+        .default = ABODSYS1
+      ),
+      ADECOD1 = dplyr::case_when(
+        AADJ == "Adverse Event" ~ "VOMITING",
+        .default = ADECOD1
+      )
+    )
+
 
   # Additional labels for all relevant variables
   additional_labels <- list(
