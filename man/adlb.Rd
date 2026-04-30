@@ -5,7 +5,7 @@
 \alias{adlb}
 \title{adlb}
 \format{
-A data frame with 83640 rows and 156 variables:
+A data frame with 83640 rows and 153 variables:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{USUBJID}{Unique Subject Identifier}
@@ -126,9 +126,6 @@ A data frame with 83640 rows and 156 variables:
 \item{AVALU}{Analysis Value - Units}
 \item{ANL02FL}{Analysis Record Flag 02-Analysis Value}
 \item{TRTEMFL}{Treatment Emergent Analysis Flag}
-\item{COUNTRY_DECODE}{Country}
-\item{RACE_DECODE}{Race Description}
-\item{ETHNIC_DECODE}{Ethnicity Description}
 \item{PARCAT2}{Parameter Category 2}
 \item{PARCAT3}{Parameter Category 3}
 \item{PARCAT4}{Parameter Category 4}
@@ -178,7 +175,7 @@ adlb modified from pharmaverseadam
  head(data("adlb"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adae.xpt}} \code{\link{adaeocmq}} \code{\link{adaeocmq.xpt}} \code{\link{adagocmq}} \code{\link{adagocmq.xpt}} \code{\link{adcm}} \code{\link{adcm.xpt}} \code{\link{addili}} \code{\link{addili.xpt}} \code{\link{adeg}} \code{\link{adeg.xpt}} \code{\link{adex}} \code{\link{adex.xpt}} \code{\link{adexsum}} \code{\link{adexsum.xpt}} \code{\link{adlb}} \code{\link{adlb.xpt}} \code{\link{adpc}} \code{\link{adpc.xpt}} \code{\link{adsl}} \code{\link{adsl.xpt}} \code{\link{adttesaf}} \code{\link{adttesaf.xpt}} \code{\link{advs}} \code{\link{advs.xpt}}# nolint
 }
 \keyword{adlb}
 \keyword{datasets}
