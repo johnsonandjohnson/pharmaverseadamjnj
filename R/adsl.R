@@ -124,5 +124,5 @@
 #' @keywords datasets adsl
 #' @name adsl
 #' @examples
-#'  head(data("adsl"))
+#' head(data("adsl"))
 "adsl"
