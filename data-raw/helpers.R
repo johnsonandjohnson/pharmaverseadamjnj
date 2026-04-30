@@ -269,7 +269,7 @@ roxygen2_data <- function(
         noquote(gsub(
           ".rda",
           "",
-          list.files(path = paste0(getwd(), "/data"))
+          list.files(path = paste0(getwd(), "/data"), pattern = "*.rda")
         )),
         "}}",
         collapse = " "

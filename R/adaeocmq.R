@@ -3,7 +3,7 @@
 #' @description adae modified from pharmaverseadam to include Office of New Drugs (OND) Custom Medical Queries
 #' @source data from adae from pharmaverseadam and, FDA_OCMQ_Consolidated_List.rds and FDA_OCMQ_References.rds
 #'
-#' @format A data frame with 1972 rows and 86 variables:
+#' @format A data frame with 1972 rows and 88 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}
@@ -82,6 +82,8 @@
 #'  \item{TRTEDY}{Treatment Relative End Day}
 #'  \item{TRT01P}{Planned Treatment for Period 01}
 #'  \item{TRDISCFL}{Treatment Discontinued Flag}
+#'  \item{AESHOSPP}{Prolongs Hospitalization}
+#'  \item{AESHOSPR}{Requires Hospitalization}
 #'  \item{AESCAT}{AESCAT}
 #'  \item{SMQ01NAM}{Standardized MedDRA Query 01 Name}
 #'  \item{SMQ02NAM}{Standardized MedDRA Query 02 Name}
@@ -92,9 +94,9 @@
 #'  \item{GENSPMFL}{Gender Specific OCMQ Male Flag}
 #'  \item{GENSPFFL}{Gender Specific OCMQ Female Flag}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adae.xpt}} \code{\link{adaeocmq}} \code{\link{adaeocmq.xpt}} \code{\link{adagocmq}} \code{\link{adagocmq.xpt}} \code{\link{adcm}} \code{\link{adcm.xpt}} \code{\link{addili}} \code{\link{addili.xpt}} \code{\link{adeg}} \code{\link{adeg.xpt}} \code{\link{adex}} \code{\link{adex.xpt}} \code{\link{adexsum}} \code{\link{adexsum.xpt}} \code{\link{adlb}} \code{\link{adlb.xpt}} \code{\link{adpc}} \code{\link{adpc.xpt}} \code{\link{adsl}} \code{\link{adsl.xpt}} \code{\link{adttesaf}} \code{\link{adttesaf.xpt}} \code{\link{advs}} \code{\link{advs.xpt}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adaeocmq
 #' @name adaeocmq
 #' @examples
-#' head(data("adaeocmq"))
+#'  head(data("adaeocmq"))
 "adaeocmq"
