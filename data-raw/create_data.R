@@ -12,6 +12,7 @@ data_scripts <- list.files(
   full.names = TRUE
 )
 
+
 # Filter out helper and create_data scripts
 data_scripts <- data_scripts[
   !grepl("(helpers\\.R|create_data\\.R)", data_scripts)
@@ -144,5 +145,5 @@ walk(data_rda, run_xpt)
 
 message("All datasets have been transformed.")
 
-system("air format .")
+#system("air format .")
 message("All datasets have been formated.")
