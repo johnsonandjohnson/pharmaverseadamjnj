@@ -178,6 +178,9 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "DIABP" ~ "<60",
         PARAMCD == "SYSBPO" ~ "SBP (STD-SUP)<-20",
         PARAMCD == "DIABPO" ~ "DBP (STD-SUP)<-10",
+        PARAMCD == "ORTHYPS" ~ "SBP (STD-SUP)<-20",
+        PARAMCD == "ORTHYPD" ~ "DBP (STD-SUP)<-10",
+        PARAMCD == "ORTHYP" ~ "SBP (STD-SUP)<-20 or DBP (STD-SUP)<-10",
       ),
       CRIT1FL = dplyr::case_when(
         PARAMCD == "PULSE" & !is.na(AVAL) & AVAL < 50 & !is.na(CHG) & CHG <= -20 ~ "Y",
@@ -185,7 +188,10 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "DIABP" & !is.na(AVAL) & AVAL < 50 & !is.na(CHG) & CHG <= -20 ~ "Y",
         PARAMCD == "SYSBPO" & AVAL < -20 ~ "Y",
         PARAMCD == "DIABPO" & AVAL < -10 ~ "Y",
-        PARAMCD %in% c("PULSE", "SYSBP", "DIABP", "SYSBPO", "DIABPO") ~ "N",
+        PARAMCD == "ORTHYPS" & AVALC == "Y" ~ "Y",
+        PARAMCD == "ORTHYPD" & AVALC == "Y" ~ "Y",
+        PARAMCD == "ORTHYP" & AVALC == "Y" ~ "Y",
+        PARAMCD %in% c("PULSE", "SYSBP", "DIABP", "SYSBPO", "DIABPO", "ORTHYPS", "ORTHYPD", "ORTHYP") ~ "N",
         .default = NA_character_
       ),
       CRIT2 = dplyr::case_when(
