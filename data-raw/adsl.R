@@ -406,7 +406,7 @@ gen_adsl <- function(seed = 123) {
       .default = NA
     ),
   )
-  
+
   gen <- gen |>
     dplyr::mutate(
       COHORT = factor(
@@ -418,10 +418,10 @@ gen_adsl <- function(seed = 123) {
           "Screen Failure" ~ NA_character_,
           default = NA_character_
         ),
-        
+
         levels = c("Cohort 1", "Cohort 2", "Cohort 3")
       ),
-      
+
       GROUP = factor(
         dplyr::recode_values(
           ARM,
@@ -431,10 +431,10 @@ gen_adsl <- function(seed = 123) {
           "Screen Failure" ~ NA_character_,
           default = NA_character_
         ),
-        
+
         levels = c("Group 1", "Group 2", "Group 3")
       ),
-      
+
       EOTDT = TRTEDT
     )
 

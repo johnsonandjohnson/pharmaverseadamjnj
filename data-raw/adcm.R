@@ -140,18 +140,18 @@ gen_adcm <- function(seed = 123) {
   }
 
   gen <- dplyr::left_join(gen, adsl_subset, by = "USUBJID")
-  
+
   gen <- gen |>
     dplyr::mutate(
       CMSTRTPT = dplyr::if_else(
         lubridate::parse_date_time(CMSTDTC, c("ymd", "ym", "y")) <
           lubridate::parse_date_time(TRTSDT, c("ymd", "ym", "y")),
-        
+
         "PRE-TREATMENT",
         "ON-TREATMENT",
         NA_character_
       ),
-      
+
       CMSTTPT = CMSTRTPT
     )
 
@@ -178,7 +178,7 @@ gen_adcm <- function(seed = 123) {
     CQ05NAM = "Customized Query 05 Name",
     CQ06NAM = "Customized Query 06 Name",
     CQ07NAM = "Customized Query 07 Name",
-    
+
     CMSTRTPT = "Start Relative to Reference Time Point",
     CMSTTPT = "Start Reference Time Point"
   )
