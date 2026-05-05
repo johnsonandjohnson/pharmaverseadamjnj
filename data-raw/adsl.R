@@ -407,36 +407,37 @@ gen_adsl <- function(seed = 123) {
     ),
   )
   
-  # Derive `COHORT` from `ARM`
-  gen <- dplyr::mutate(gen, COHORT = factor(
-    dplyr::case_match(
-      ARM,
-      "Placebo" ~ "Cohort 1",
-      "Xanomeline High Dose" ~ "Cohort 2",
-      "Xanomeline Low Dose" ~ "Cohort 3",
-      "Screen Failure" ~ NA_character_,
-      .default = NA_character_
-    ),
-    
-    levels = c("Cohort 1", "Cohort 2", "Cohort 3")
-  ))
-  
-  # Derive `GROUP` from `ARM`
-  gen <- dplyr::mutate(gen, GROUP = factor(
-    dplyr::case_match(
-      ARM,
-      "Placebo" ~ "Group 1",
-      "Xanomeline High Dose" ~ "Group 2",
-      "Xanomeline Low Dose" ~ "Group 3",
-      "Screen Failure" ~ NA_character_,
-      .default = NA_character_
-    ),
-    
-    levels = c("Group 1", "Group 2", "Group 3")
-  )) 
-  
-  # Derive `EOTDT` from `TRTEDT`
-  gen <- dplyr::mutate(gen, EOTDT = TRTEDT)
+  gen <- gen |>
+    dplyr::mutate(
+      COHORT = factor(
+        dplyr::recode_values(
+          ARM,
+          "Placebo" ~ "Cohort 1",
+          "Xanomeline High Dose" ~ "Cohort 2",
+          "Xanomeline Low Dose" ~ "Cohort 3",
+          "Screen Failure" ~ NA_character_,
+          default = NA_character_
+        ),
+        
+        levels = c("Cohort 1", "Cohort 2", "Cohort 3")
+      ),
+      
+      GROUP = factor(
+        dplyr::recode_values(
+          ARM,
+          "Placebo" ~ "Group 1",
+          "Xanomeline High Dose" ~ "Group 2",
+          "Xanomeline Low Dose" ~ "Group 3",
+          "Screen Failure" ~ NA_character_,
+          default = NA_character_
+        ),
+        
+        levels = c("Group 1", "Group 2", "Group 3")
+      ),
+      
+      EOTDT = TRTEDT,
+      DCTADY = as.integer(difftime(DCTDT, RFSTDTC, units = "days"))
+    )
 
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
