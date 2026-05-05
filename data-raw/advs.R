@@ -392,18 +392,20 @@ gen_advs <- function(seed = 123) {
 
   gen_add_avisit2 <- gen |>
     dplyr::filter(
-      AVISIT == "Cycle 08" | AVISIT == "Cycle 09" | AVISIT == "End Of Treatment"
+      AVISIT == "Cycle 08" | AVISIT == "Cycle 09" | AVISIT == "Cycle 29" |  AVISIT == "End Of Treatment"
     ) |>
     dplyr::mutate(
       AVISITN = dplyr::case_when(
         AVISIT == "Cycle 08" ~ 19,
         AVISIT == "Cycle 09" ~ 21,
-        AVISIT == "End Of Treatment" ~ 22
+        AVISIT == "Cycle 29" ~ 22,
+        AVISIT == "End Of Treatment" ~ 23
       ),
       AVISIT = dplyr::case_when(
         AVISIT == "Cycle 08" ~ "Cycle 22",
         AVISIT == "Cycle 09" ~ "Cycle 25",
-        AVISIT == "End Of Treatment" ~ "Cycle 29"
+        AVISIT == "Cycle 29" ~ "Cycle 29",
+        AVISIT == "End Of Treatment" ~ "Cycle 30"
       ),
       ADT = ADT + 730,
     )
