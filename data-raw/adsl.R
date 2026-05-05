@@ -435,8 +435,7 @@ gen_adsl <- function(seed = 123) {
         levels = c("Group 1", "Group 2", "Group 3")
       ),
       
-      EOTDT = TRTEDT,
-      DCTADY = as.integer(difftime(DCTDT, RFSTDTC, units = "days"))
+      EOTDT = TRTEDT
     )
 
   # Define additional labels for new variables not in source dataset
