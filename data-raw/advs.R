@@ -24,6 +24,7 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "DIABP" |
         PARAMCD == "PULSE" |
         PARAMCD == "TEMP" |
+        PARAMCD == "RESP" |
         PARAMCD == "WEIGHT") &
         DTYPE == "AVERAGE" &
         !is.na(AVISIT)

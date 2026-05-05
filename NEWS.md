@@ -10,6 +10,7 @@
 - Added VSCLSIG and RACE to ADVS
 - Added AOCTIFL, AESCAT, SMQzzNAM, and CQzzNAM to ADAE
 - Added derived variables `AESHOSPP` and `AESHOSPR`
+- Added ADVS: RESP TEMP and PULSE PARAMCD
 
 
 ### Changed
