@@ -506,7 +506,7 @@ gen_adsl <- function(seed = 123) {
     IMEXRES = "Reason for Excl from Immunogen Pop",
     COHORT = "Cohort",
     GROUP = "Analysis Group",
-    EOTDT = "End‑of‑Treatment Date"
+    EOTDT = "End-of-Treatment Date"
   )
 
   # Handle NA values and convert characters to factors
