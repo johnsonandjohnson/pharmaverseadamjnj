@@ -405,7 +405,17 @@ gen_adsl <- function(seed = 123) {
       toupper(IMFL) != "Y" ~ "Exclusion reason for immunogenicity analysis set",
       .default = NA
     ),
+  ) |>
+  mutate(
+    DCSCREEN = case_when(
+      USUBJID == "01-701-1240" ~ "Subject refused to sign informed consent",
+      .default = DCSCREEN
+    ),
+    RESCRNFL = if_else(
+      SCRFFL == "Y" & runif(n()) < 0.5, "Y", NA_character_
+    )
   )
+
 
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
