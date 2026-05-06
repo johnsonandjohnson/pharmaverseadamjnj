@@ -4,6 +4,7 @@
 library(dplyr)
 library(pharmaverseadam)
 library(formatters)
+library(lubridate)
 
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
@@ -140,6 +141,20 @@ gen_adcm <- function(seed = 123) {
 
   gen <- dplyr::left_join(gen, adsl_subset, by = "USUBJID")
 
+  gen <- gen |>
+    dplyr::mutate(
+      CMSTRTPT = dplyr::if_else(
+        lubridate::parse_date_time(CMSTDTC, c("ymd", "ym", "y")) <
+          lubridate::parse_date_time(TRTSDT, c("ymd", "ym", "y")),
+
+        "PRE-TREATMENT",
+        "ON-TREATMENT",
+        NA_character_
+      ),
+
+      CMSTTPT = CMSTRTPT
+    )
+
   # Additional labels for new variables not in the source dataset
   additional_labels <- list(
     # Concomitant medication variables
@@ -162,7 +177,10 @@ gen_adcm <- function(seed = 123) {
     CQ04NAM = "Customized Query 04 Name",
     CQ05NAM = "Customized Query 05 Name",
     CQ06NAM = "Customized Query 06 Name",
-    CQ07NAM = "Customized Query 07 Name"
+    CQ07NAM = "Customized Query 07 Name",
+
+    CMSTRTPT = "Start Relative to Reference Time Point",
+    CMSTTPT = "Start Reference Time Point"
   )
 
   # Handle NA values and convert characters to factors

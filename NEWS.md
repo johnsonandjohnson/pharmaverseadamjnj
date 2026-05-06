@@ -11,6 +11,8 @@
 - Added AOCTIFL, AESCAT, SMQzzNAM, and CQzzNAM to ADAE
 - Added derived variables `AESHOSPP` and `AESHOSPR`
 - Added ADVS: RESP TEMP and PULSE PARAMCD
+- Added variables `COHORT`, `GROUP`, and `EOTDT` to ADSL.
+- Added variables `CMSTRTPT` and `CMSTTPT` to ADCM.
 
 
 ### Changed
