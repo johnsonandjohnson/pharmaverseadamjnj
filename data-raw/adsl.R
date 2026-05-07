@@ -420,26 +420,26 @@ gen_adsl <- function(seed = 123) {
   gen <- gen |>
     dplyr::mutate(
       COHORT = factor(
-        dplyr::recode_values(
+        dplyr::case_match(
           ARM,
           "Placebo" ~ "Cohort 1",
           "Xanomeline High Dose" ~ "Cohort 2",
           "Xanomeline Low Dose" ~ "Cohort 3",
           "Screen Failure" ~ NA_character_,
-          default = NA_character_
+          .default = NA_character_
         ),
 
         levels = c("Cohort 1", "Cohort 2", "Cohort 3")
       ),
 
       GROUP = factor(
-        dplyr::recode_values(
+        dplyr::case_match(
           ARM,
           "Placebo" ~ "Group 1",
           "Xanomeline High Dose" ~ "Group 2",
           "Xanomeline Low Dose" ~ "Group 3",
           "Screen Failure" ~ NA_character_,
-          default = NA_character_
+          .default = NA_character_
         ),
 
         levels = c("Group 1", "Group 2", "Group 3")
