@@ -13,3 +13,4 @@
 ^air\.toml$
 ^.gitattributes$
 ^.*\.xpt$
+^revdep$

@@ -8,6 +8,4 @@ Fixes #nnn
 ## Checks
 
 - [ ] (Have you updated the NEWS.md ?)
-- [ ] (Have you added proper tests for new functions/features ?)
-- [ ] (Have you added new functions to the pkgdown.yml ?)
-- [ ] (Have you run document() on new functions ?)
+- [ ] (Have you run document() on new data ?)
