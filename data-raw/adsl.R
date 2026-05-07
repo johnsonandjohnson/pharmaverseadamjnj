@@ -407,29 +407,41 @@ gen_adsl <- function(seed = 123) {
     ),
   )
 
+  gen <- dplyr::mutate(
+    gen,
+    DCSCREEN = case_when(
+      USUBJID == "01-701-1240" ~ "Subject refused to sign informed consent",
+      .default = DCSCREEN
+    ),
+    RESCRNFL = if_else(
+      SCRFFL == "Y" & runif(n()) < 0.5, "Y", NA_character_
+    )
+  )
+
+
   gen <- gen |>
     dplyr::mutate(
       COHORT = factor(
-        dplyr::recode_values(
+        dplyr::case_match(
           ARM,
           "Placebo" ~ "Cohort 1",
           "Xanomeline High Dose" ~ "Cohort 2",
           "Xanomeline Low Dose" ~ "Cohort 3",
           "Screen Failure" ~ NA_character_,
-          default = NA_character_
+          .default = NA_character_
         ),
 
         levels = c("Cohort 1", "Cohort 2", "Cohort 3")
       ),
 
       GROUP = factor(
-        dplyr::recode_values(
+        dplyr::case_match(
           ARM,
           "Placebo" ~ "Group 1",
           "Xanomeline High Dose" ~ "Group 2",
           "Xanomeline Low Dose" ~ "Group 3",
           "Screen Failure" ~ NA_character_,
-          default = NA_character_
+          .default = NA_character_
         ),
 
         levels = c("Group 1", "Group 2", "Group 3")
@@ -506,7 +518,8 @@ gen_adsl <- function(seed = 123) {
     IMEXRES = "Reason for Excl from Immunogen Pop",
     COHORT = "Cohort",
     GROUP = "Analysis Group",
-    EOTDT = "End-of-Treatment Date"
+    EOTDT = "End-of-Treatment Date",
+    BRTHDTC = "Date/Time of Birth"
   )
 
   # Handle NA values and convert characters to factors

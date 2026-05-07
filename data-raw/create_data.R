@@ -151,5 +151,5 @@ walk(data_rda, run_xpt)
 
 message("All datasets have been transformed.")
 
-system("air format .")
+system("air format data-raw/")
 message("All datasets have been formated.")

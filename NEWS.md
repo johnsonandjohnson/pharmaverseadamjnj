@@ -10,6 +10,7 @@
 - Added VSCLSIG and RACE to ADVS
 - Added AOCTIFL, AESCAT, SMQzzNAM, and CQzzNAM to ADAE
 - Added derived variables `AESHOSPP` and `AESHOSPR`
+- Added ADVS: RESP TEMP and PULSE PARAMCD
 - Added variables `COHORT`, `GROUP`, and `EOTDT` to ADSL.
 - Added variables `CMSTRTPT` and `CMSTTPT` to ADCM.
 
@@ -19,6 +20,7 @@
 - Releveled TRT01P and TRT01A (now Xanomeline Low Dose -> Xanomeline High Dose -> Placebo)
 - Modified "General disorders and administration site conditions" to "Gastrointestinal disorders" in ADEX
 - Modified ADVS on ORTHYP, ORTHYPS and  ORTHYPD parameters for TSFVIT04
+- Modified RESCRNFL and assigned 01-701-1240 to Subject refused to sign informed consent
 
 ## [0.0.3] - 2026-01-27
 

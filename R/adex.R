@@ -140,5 +140,5 @@
 #' @keywords datasets adex
 #' @name adex
 #' @examples
-#' head(data("adex"))
+#'  head(data("adex"))
 "adex"

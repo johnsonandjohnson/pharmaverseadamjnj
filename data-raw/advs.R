@@ -24,6 +24,7 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "DIABP" |
         PARAMCD == "PULSE" |
         PARAMCD == "TEMP" |
+        PARAMCD == "RESP" |
         PARAMCD == "WEIGHT") &
         DTYPE == "AVERAGE" &
         !is.na(AVISIT)
@@ -178,6 +179,9 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "DIABP" ~ "<60",
         PARAMCD == "SYSBPO" ~ "SBP (STD-SUP)<-20",
         PARAMCD == "DIABPO" ~ "DBP (STD-SUP)<-10",
+        PARAMCD == "ORTHYPS" ~ "SBP (STD-SUP)<-20",
+        PARAMCD == "ORTHYPD" ~ "DBP (STD-SUP)<-10",
+        PARAMCD == "ORTHYP" ~ "SBP (STD-SUP)<-20 or DBP (STD-SUP)<-10",
       ),
       CRIT1FL = dplyr::case_when(
         PARAMCD == "PULSE" & !is.na(AVAL) & AVAL < 50 & !is.na(CHG) & CHG <= -20 ~ "Y",
@@ -185,7 +189,10 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "DIABP" & !is.na(AVAL) & AVAL < 50 & !is.na(CHG) & CHG <= -20 ~ "Y",
         PARAMCD == "SYSBPO" & AVAL < -20 ~ "Y",
         PARAMCD == "DIABPO" & AVAL < -10 ~ "Y",
-        PARAMCD %in% c("PULSE", "SYSBP", "DIABP", "SYSBPO", "DIABPO") ~ "N",
+        PARAMCD == "ORTHYPS" & AVALC == "Y" ~ "Y",
+        PARAMCD == "ORTHYPD" & AVALC == "Y" ~ "Y",
+        PARAMCD == "ORTHYP" & AVALC == "Y" ~ "Y",
+        PARAMCD %in% c("PULSE", "SYSBP", "DIABP", "SYSBPO", "DIABPO", "ORTHYPS", "ORTHYPD", "ORTHYP") ~ "N",
         .default = NA_character_
       ),
       CRIT2 = dplyr::case_when(
@@ -386,18 +393,20 @@ gen_advs <- function(seed = 123) {
 
   gen_add_avisit2 <- gen |>
     dplyr::filter(
-      AVISIT == "Cycle 08" | AVISIT == "Cycle 09" | AVISIT == "End Of Treatment"
+      AVISIT == "Cycle 08" | AVISIT == "Cycle 09" | AVISIT == "Cycle 29" |  AVISIT == "End Of Treatment"
     ) |>
     dplyr::mutate(
       AVISITN = dplyr::case_when(
         AVISIT == "Cycle 08" ~ 19,
         AVISIT == "Cycle 09" ~ 21,
-        AVISIT == "End Of Treatment" ~ 22
+        AVISIT == "Cycle 29" ~ 22,
+        AVISIT == "End Of Treatment" ~ 23
       ),
       AVISIT = dplyr::case_when(
         AVISIT == "Cycle 08" ~ "Cycle 22",
         AVISIT == "Cycle 09" ~ "Cycle 25",
-        AVISIT == "End Of Treatment" ~ "Cycle 29"
+        AVISIT == "Cycle 29" ~ "Cycle 29",
+        AVISIT == "End Of Treatment" ~ "Cycle 30"
       ),
       ADT = ADT + 730,
     )
