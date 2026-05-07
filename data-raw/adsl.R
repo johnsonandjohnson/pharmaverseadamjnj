@@ -405,8 +405,10 @@ gen_adsl <- function(seed = 123) {
       toupper(IMFL) != "Y" ~ "Exclusion reason for immunogenicity analysis set",
       .default = NA
     ),
-  ) |>
-  mutate(
+  )
+
+  gen <- dplyr::mutate(
+    gen,
     DCSCREEN = case_when(
       USUBJID == "01-701-1240" ~ "Subject refused to sign informed consent",
       .default = DCSCREEN
