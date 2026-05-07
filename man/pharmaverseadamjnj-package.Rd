@@ -21,6 +21,7 @@ Authors:
 Other contributors:
 \itemize{
   \item Mahesh Divakaran \email{mdivaka2@its.jnj.com} [contributor]
+  \item Renfei Mao \email{rmao6@its.jnj.com} [contributor]
   \item J&J Innovative Medicine [copyright holder, funder]
 }
 
