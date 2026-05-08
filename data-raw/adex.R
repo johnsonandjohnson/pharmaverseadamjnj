@@ -75,8 +75,8 @@ gen_adex <- function(seed = 123) {
       .default = TRT01P
     )),
     TRT01PN = dplyr::case_when(
-      TRT01P == "Xanomeline High Dose" ~ 1,
-      TRT01P == "Xanomeline Low Dose" ~ 2,
+      TRT01P == "Xanomeline High Dose" ~ 2,
+      TRT01P == "Xanomeline Low Dose" ~ 1,
       TRT01P == "Placebo" ~ 3
     ),
     TRT01P = forcats::fct_reorder(TRT01P, TRT01PN, .na_rm = TRUE),
@@ -114,8 +114,8 @@ gen_adex <- function(seed = 123) {
       .na_rm = FALSE
     ),
     TRT01AN = dplyr::case_when(
-      TRT01A == "Xanomeline High Dose" ~ 1,
-      TRT01A == "Xanomeline Low Dose" ~ 2,
+      TRT01A == "Xanomeline High Dose" ~ 2,
+      TRT01A == "Xanomeline Low Dose" ~ 1,
       TRT01A == "Placebo" ~ 3
     ),
     TRT01A = forcats::fct_reorder(TRT01A, TRT01AN, .na_rm = TRUE),
