@@ -10,7 +10,7 @@
 - Added VSCLSIG and RACE to ADVS
 - Added AOCTIFL, AESCAT, SMQzzNAM, and CQzzNAM to ADAE
 - Added derived variables `AESHOSPP` and `AESHOSPR`
-
+- Added AOCT01FL, AOCT02FL, AOCT03FL, AOCS01FL, AOCS02FL, AOCS03FL to ADAE
 
 ### Changed
 - Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX
