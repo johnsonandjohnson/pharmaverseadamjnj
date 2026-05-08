@@ -138,7 +138,7 @@
 #'  \item{ADECOD1}{AE PT Driving Study Drug Action (1)}
 #'  \item{ADECOD2}{AE PT Driving Study Drug Action (2)}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}}# nolint
 #' @keywords datasets adex
 #' @name adex
 #' @examples

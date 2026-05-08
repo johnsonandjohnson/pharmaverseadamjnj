@@ -634,7 +634,7 @@ gen_adlb <- function(seed = 123) {
     LBNAM = "Laboratory Name",
     COUNTRY_DECODE = "Country Decode",
     RACE_DECODE = "Race Description",
-    ETHNIC_DECODE = "Ethnicity Description",
+    ETHNIC_DECODE = "Ethnicity Description"
   )
 
   # Handle NA values and convert characters to factors
