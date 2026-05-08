@@ -186,6 +186,22 @@ gen_adsl <- function(seed = 123) {
     )
   )
 
+
+  gen$ETHNIC_DECODE <- factor(
+    dplyr::case_when(
+      gen$ETHNIC == "HISPANIC OR LATINO" ~ "Hispanic or Latino",
+      gen$ETHNIC == "NOT HISPANIC OR LATINO" ~ "Not Hispanic or Latino",
+      gen$ETHNIC == "NOT REPORTED" ~ "Not reported",
+      gen$ETHNIC == "UNKNOWN" ~ "Unknown"
+    ),
+    levels = c(
+      "Hispanic or Latino",
+      "Not Hispanic or Latino",
+      "Not reported",
+      "Unknown"
+    )
+  )
+
   gen$REGION1 <- "North America"
   gen$RACEGR1 <- as.factor(gen$RACEGR1)
   gen$RFICDTC <- gen$DMDTC

@@ -3,7 +3,7 @@
 #' @description adsl modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 306 rows and 119 variables:
+#' @format A data frame with 306 rows and 120 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -74,6 +74,7 @@
 #'  \item{COUNTRY_DECODE}{Country Decode}
 #'  \item{RACE_DECODE}{Race Decode}
 #'  \item{SEX_DECODE}{Sex Decode}
+#'  \item{ETHNIC_DECODE}{Ethnicity Decode}
 #'  \item{RFICDT}{Date of Informed Consent}
 #'  \item{STRAT1D}{Description of Stratification Factor 1}
 #'  \item{STRAT2D}{Description of Stratification Factor 2}
