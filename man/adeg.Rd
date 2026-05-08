@@ -5,7 +5,7 @@
 \alias{adeg}
 \title{adeg}
 \format{
-A data frame with 13536 rows and 70 variables:
+A data frame with 13536 rows and 71 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{DOMAIN}{Domain Abbreviation}
@@ -76,6 +76,7 @@ A data frame with 13536 rows and 70 variables:
 \item{SAFFL}{Safety Population Flag}
 \item{STUDYID}{Study Identifier}
 \item{AGE}{Age}
+\item{RACE_DECODE}{Race Decode}
 \item{SEX}{Sex}
 }
 }
