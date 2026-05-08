@@ -1,4 +1,11 @@
-# pharmaverseadamjnj 0.0.4
+# pharmaverseadamjnj 0.0.6
+
+### Changed
+
+- Put back *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX
+
+
+## [0.0.4] - 2026-05-08
 
 ### Added
 - Added vars to ADSL: LASTCTDT, UNBLNDDT, IMFL, SAFEXRS, FASEXRS, PPREXRS, PKEXRES, and IMEXRES

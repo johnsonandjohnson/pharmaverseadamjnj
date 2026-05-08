@@ -3,7 +3,7 @@
 #' @description adsl modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 306 rows and 116 variables:
+#' @format A data frame with 306 rows and 119 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -71,6 +71,9 @@
 #'  \item{BMIBL}{Body mass index (kg/m2)}
 #'  \item{BMIBLG1N}{BMI at Baseline Group 1 (N)}
 #'  \item{BMIBLG1}{BMI at Baseline Group 1}
+#'  \item{COUNTRY_DECODE}{Country Decode}
+#'  \item{RACE_DECODE}{Race Decode}
+#'  \item{SEX_DECODE}{Sex Decode}
 #'  \item{RFICDT}{Date of Informed Consent}
 #'  \item{STRAT1D}{Description of Stratification Factor 1}
 #'  \item{STRAT2D}{Description of Stratification Factor 2}
@@ -122,7 +125,7 @@
 #'  \item{PKEXRES}{Reason for Excl from Pharmacokin Pop}
 #'  \item{IMEXRES}{Reason for Excl from Immunogen Pop}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adae.xpt}} \code{\link{adaeocmq}} \code{\link{adaeocmq.xpt}} \code{\link{adagocmq}} \code{\link{adagocmq.xpt}} \code{\link{adcm}} \code{\link{adcm.xpt}} \code{\link{addili}} \code{\link{addili.xpt}} \code{\link{adeg}} \code{\link{adeg.xpt}} \code{\link{adex}} \code{\link{adex.xpt}} \code{\link{adexsum}} \code{\link{adexsum.xpt}} \code{\link{adlb}} \code{\link{adlb.xpt}} \code{\link{adpc}} \code{\link{adpc.xpt}} \code{\link{adsl}} \code{\link{adsl.xpt}} \code{\link{adttesaf}} \code{\link{adttesaf.xpt}} \code{\link{advs}} \code{\link{advs.xpt}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adsl
 #' @name adsl
 #' @examples

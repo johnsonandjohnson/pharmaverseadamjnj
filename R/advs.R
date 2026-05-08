@@ -94,11 +94,11 @@
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{AGE}{Age}
 #'  \item{SEX}{Sex}
-#'  \item{RACE}{Race}
+#'  \item{RACE_DECODE}{Race Decode}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets advs
 #' @name advs
 #' @examples
-#' head(data("advs"))
+#'  head(data("advs"))
 "advs"
