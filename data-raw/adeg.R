@@ -235,6 +235,7 @@ gen_adeg <- function(seed = 123) {
     "SAFFL",
     "STUDYID",
     "AGE",
+    "RACE_DECODE",
     "SEX"
   )
 

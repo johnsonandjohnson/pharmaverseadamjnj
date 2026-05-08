@@ -5,7 +5,7 @@
 \alias{adsl}
 \title{adsl}
 \format{
-A data frame with 306 rows and 116 variables:
+A data frame with 306 rows and 119 variables:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{USUBJID}{Unique Subject Identifier}
@@ -73,6 +73,9 @@ A data frame with 306 rows and 116 variables:
 \item{BMIBL}{Body mass index (kg/m2)}
 \item{BMIBLG1N}{BMI at Baseline Group 1 (N)}
 \item{BMIBLG1}{BMI at Baseline Group 1}
+\item{COUNTRY_DECODE}{Country Decode}
+\item{RACE_DECODE}{Race Decode}
+\item{SEX_DECODE}{Sex Decode}
 \item{RFICDT}{Date of Informed Consent}
 \item{STRAT1D}{Description of Stratification Factor 1}
 \item{STRAT2D}{Description of Stratification Factor 2}
@@ -135,7 +138,7 @@ adsl
 adsl modified from pharmaverseadam
 }
 \examples{
-head(data("adsl"))
+ head(data("adsl"))
 }
 \seealso{
 \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint

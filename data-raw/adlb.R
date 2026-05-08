@@ -123,6 +123,47 @@ gen_adlb <- function(seed = 123) {
         "Unknown"
       )
     ),
+     COUNTRY_DECODE = as.factor("United States of America"),
+    RACE_DECODE = factor(
+      dplyr::case_when(
+        RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
+          "American Indian or Alaska Native",
+        RACE == "ASIAN" ~ "Asian",
+        RACE == "BLACK OR AFRICAN AMERICAN" ~ "Black or African American",
+        RACE == "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" ~
+          "Native Hawaiian or other Pacific Islander",
+        RACE == "WHITE" ~ "White",
+        RACE == "MULTIPLE" ~ "Multiple",
+        RACE == "NOT REPORTED" ~ "Not reported",
+        RACE == "UNKNOWN" ~ "Unknown",
+        RACE == "OTHER" ~ "Other"
+      ),
+      levels = c(
+        "American Indian or Alaska Native",
+        "Asian",
+        "Black or African American",
+        "Native Hawaiian or other Pacific Islander",
+        "White",
+        "Multiple",
+        "Not reported",
+        "Unknown",
+        "Other"
+      )
+    ),
+    ETHNIC_DECODE = factor(
+      dplyr::case_when(
+        ETHNIC == "HISPANIC OR LATINO" ~ "Hispanic or Latino",
+        ETHNIC == "NOT HISPANIC OR LATINO" ~ "Not Hispanic or Latino",
+        ETHNIC == "NOT REPORTED" ~ "Not reported",
+        ETHNIC == "UNKNOWN" ~ "Unknown"
+      ),
+      levels = c(
+        "Hispanic or Latino",
+        "Not Hispanic or Latino",
+        "Not reported",
+        "Unknown"
+      )
+    ),
     # Parameter coding
     PARAMCD = as.factor(case_when(
       PARAM == "Alkaline Phosphatase (U/L)" ~ "ALP",
@@ -590,7 +631,10 @@ gen_adlb <- function(seed = 123) {
     TR01EDT = "End Date of Treatment for Period 01",
     LBSPEC = "Specimen Type",
     LBFAST = "Fasting Status",
-    LBNAM = "Laboratory Name"
+    LBNAM = "Laboratory Name",
+    COUNTRY_DECODE = "Country Decode",
+    RACE_DECODE = "Race Description",
+    ETHNIC_DECODE = "Ethnicity Description",
   )
 
   # Handle NA values and convert characters to factors

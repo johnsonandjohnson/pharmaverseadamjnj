@@ -3,7 +3,7 @@
 #' @description adeg modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 13536 rows and 70 variables:
+#' @format A data frame with 13536 rows and 71 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}
@@ -74,6 +74,7 @@
 #'  \item{SAFFL}{Safety Population Flag}
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{AGE}{Age}
+#'  \item{RACE_DECODE}{Race Decode}
 #'  \item{SEX}{Sex}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint

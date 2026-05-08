@@ -145,6 +145,32 @@ gen_adex <- function(seed = 123) {
       )
     ),
     COUNTRY = as.factor("United States of America"),
+    RACE_DECODE = factor(
+      dplyr::case_when(
+        RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
+          "American Indian or Alaska Native",
+        RACE == "ASIAN" ~ "Asian",
+        RACE == "BLACK OR AFRICAN AMERICAN" ~ "Black or African American",
+        RACE == "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" ~
+          "Native Hawaiian or other Pacific Islander",
+        RACE == "WHITE" ~ "White",
+        RACE == "MULTIPLE" ~ "Multiple",
+        RACE == "NOT REPORTED" ~ "Not reported",
+        RACE == "UNKNOWN" ~ "Unknown",
+        RACE == "OTHER" ~ "Other"
+      ),
+      levels = c(
+        "American Indian or Alaska Native",
+        "Asian",
+        "Black or African American",
+        "Native Hawaiian or other Pacific Islander",
+        "White",
+        "Multiple",
+        "Not reported",
+        "Unknown",
+        "Other"
+      )
+    ),
     RACEGR1 = as.factor(RACEGR1),
     ETHNIC = factor(
       dplyr::case_when(
@@ -317,6 +343,7 @@ gen_adex <- function(seed = 123) {
       )
     ),
     ASCHDOSE = EXDOSE,
+    AACTPR_DECODE = stringr::str_to_sentence(AACTPR),
     ASCHDOSU = EXDOSU,
     ADOSFRM = EXDOSFRM,
     ADOSU = EXDOSU,
@@ -465,7 +492,9 @@ gen_adex <- function(seed = 123) {
     ABODSYS1 = "AE SOC Driving Study Drug Action (1)",
     ABODSYS2 = "AE SOC Driving Study Drug Action (2)",
     ADECOD1 = "AE PT Driving Study Drug Action (1)",
-    ADECOD2 = "AE PT Driving Study Drug Action (2)"
+    ADECOD2 = "AE PT Driving Study Drug Action (2)",
+    RACE_DECODE = "Race Decode",
+    AACTPR_DECODE = "Action Taken Prior to Infusion Start"
   )
 
   # Handle NA values and convert characters to factors
