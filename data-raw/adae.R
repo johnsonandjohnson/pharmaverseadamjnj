@@ -298,7 +298,7 @@ gen_adae <- function(seed = 123) {
     mutate(
       .AEDECOD_UP = toupper(AEDECOD),
       CQ01NAM = case_when(
-        .AEDECOD_UP == "HYPERTENSION" ~ "HYPERTENSION",
+        .AEDECOD_UP == "HYPERTENSION" ~ "Hypertension",
         .default = NA_character_
       ),
       SMQ01NAM = case_when(
