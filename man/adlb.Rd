@@ -5,7 +5,7 @@
 \alias{adlb}
 \title{adlb}
 \format{
-A data frame with 83640 rows and 153 variables:
+A data frame with 83640 rows and 156 variables:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{USUBJID}{Unique Subject Identifier}
@@ -126,6 +126,9 @@ A data frame with 83640 rows and 153 variables:
 \item{AVALU}{Analysis Value - Units}
 \item{ANL02FL}{Analysis Record Flag 02-Analysis Value}
 \item{TRTEMFL}{Treatment Emergent Analysis Flag}
+\item{COUNTRY_DECODE}{Country Decode}
+\item{RACE_DECODE}{Race Description}
+\item{ETHNIC_DECODE}{Ethnicity Description}
 \item{PARCAT2}{Parameter Category 2}
 \item{PARCAT3}{Parameter Category 3}
 \item{PARCAT4}{Parameter Category 4}
