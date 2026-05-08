@@ -5,7 +5,7 @@
 \alias{adaeocmq}
 \title{adaeocmq}
 \format{
-A data frame with 1972 rows and 88 variables:
+A data frame with 1972 rows and 93 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{DOMAIN}{Domain Abbreviation}
@@ -63,22 +63,27 @@ A data frame with 1972 rows and 88 variables:
 \item{DOSEU}{Treatment Dose Units}
 \item{AETOXGR}{Standard Toxicity Grade}
 \item{AETOXGRN}{Standard Toxicity Grade (N)}
+\item{AEACN_DECODE}{Action Taken with Study Treatment}
 \item{DOSEDY}{Day of Study Drug}
 \item{AECONTRT}{Concomitant or Additional Trtmnt Given}
 \item{CQ01NAM}{Customized Query 01 Name}
 \item{CQ02NAM}{Customized Query 02 Name}
 \item{CQ03NAM}{Customized Query 03 Name}
 \item{AESMIE}{Other Medically Important Serious Event}
+\item{AESER_DECODE}{Serious Event}
+\item{AEREL_DECODE}{Causality}
+\item{AEOUT_DECODE}{Outcome of Adverse Event}
 \item{ACAT1}{Analysis Category 1}
 \item{AOCCFL}{1st Occurrence within Subject Flag}
 \item{AOCCPFL}{1st Occurrence within Pref Term Flag}
 \item{AOCCSFL}{1st Occurrence of SOC Flag}
-\item{AOCTIFL}{1st TE Max Toxicity Grade Flag}
+\item{AOCTIFL}{AOCTIFL}
 \item{TRT01A}{Actual Treatment for Period 01}
 \item{SAFFL}{Safety Population Flag}
 \item{AGE}{Age}
 \item{SEX}{Sex}
 \item{RACE}{Race}
+\item{RACE_DECODE}{Race Decode}
 \item{STUDYID}{Study Identifier}
 \item{AGEGR1}{Pooled Age Group 1}
 \item{TRTEDY}{Treatment Relative End Day}
@@ -107,7 +112,7 @@ adaeocmq
 adae modified from pharmaverseadam to include Office of New Drugs (OND) Custom Medical Queries
 }
 \examples{
-head(data("adaeocmq"))
+ head(data("adaeocmq"))
 }
 \seealso{
 \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
