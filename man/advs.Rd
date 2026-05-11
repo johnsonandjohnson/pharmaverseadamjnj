@@ -5,7 +5,7 @@
 \alias{advs}
 \title{advs}
 \format{
-A data frame with 50080 rows and 90 variables:
+A data frame with 44406 rows and 90 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{DOMAIN}{Domain Abbreviation}
