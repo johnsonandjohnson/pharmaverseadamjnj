@@ -336,7 +336,6 @@ gen_adae <- function(seed = 123) {
             TRUE,
             TRTEMFL == "Y" & !is.na(.x)
           )
-          
           if_else(
             row_number() == target_row,
             "Y",
@@ -360,7 +359,6 @@ gen_adae <- function(seed = 123) {
             TRUE,
             TRTEMFL == "Y" & !is.na(.x)
           )
-          
           if_else(
             row_number() == target_row,
             "Y",
