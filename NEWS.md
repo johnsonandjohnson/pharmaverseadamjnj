@@ -1,4 +1,4 @@
-# pharmaverseadamjnj 0.0.4
+# pharmaverseadamjnj 0.0.6
 
 ### Added
 - Added vars to ADSL: LASTCTDT, UNBLNDDT, IMFL, SAFEXRS, FASEXRS, PPREXRS, PKEXRES, and IMEXRES
@@ -10,6 +10,9 @@
 - Added VSCLSIG and RACE to ADVS
 - Added AOCTIFL, AESCAT, SMQzzNAM, and CQzzNAM to ADAE
 - Added derived variables `AESHOSPP` and `AESHOSPR`
+- Added ADVS: RESP TEMP and PULSE PARAMCD
+- Added variables `COHORT`, `GROUP`, and `EOTDT` to ADSL.
+- Added variables `CMSTRTPT` and `CMSTTPT` to ADCM.
 - Added AOCT01FL, AOCT02FL, AOCT03FL, AOCS01FL, AOCS02FL, AOCS03FL to ADAE
 
 ### Changed
@@ -17,9 +20,9 @@
 - Releveled TRT01P and TRT01A (now Xanomeline Low Dose -> Xanomeline High Dose -> Placebo)
 - Modified "General disorders and administration site conditions" to "Gastrointestinal disorders" in ADEX
 - Modified ADVS on ORTHYP, ORTHYPS and  ORTHYPD parameters for TSFVIT04
+- Modified RESCRNFL and assigned 01-701-1240 to Subject refused to sign informed consent
 
-## [0.0.3] - 2026-01-27
-
+## [0.0.5] - 2026-05-25
 ### Added
 - Add DCTADY to ADSL #32
 - Add new addili dataset

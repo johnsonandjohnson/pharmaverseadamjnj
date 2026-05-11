@@ -5,7 +5,7 @@
 \alias{adsl}
 \title{adsl}
 \format{
-A data frame with 306 rows and 116 variables:
+A data frame with 306 rows and 119 variables:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{USUBJID}{Unique Subject Identifier}
@@ -123,6 +123,9 @@ A data frame with 306 rows and 116 variables:
 \item{PPREXRS}{Reason for Excl from Per-Prot Population}
 \item{PKEXRES}{Reason for Excl from Pharmacokin Pop}
 \item{IMEXRES}{Reason for Excl from Immunogen Pop}
+\item{COHORT}{Cohort}
+\item{GROUP}{Analysis Group}
+\item{EOTDT}{End-of-Treatment Date}
 }
 }
 \source{
@@ -135,7 +138,7 @@ adsl
 adsl modified from pharmaverseadam
 }
 \examples{
-head(data("adsl"))
+ head(data("adsl"))
 }
 \seealso{
 \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
