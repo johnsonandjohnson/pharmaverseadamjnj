@@ -1,4 +1,4 @@
-# pharmaverseadamjnj 0.0.4
+# pharmaverseadamjnj 0.0.6
 
 ### Added
 - Added vars to ADSL: LASTCTDT, UNBLNDDT, IMFL, SAFEXRS, FASEXRS, PPREXRS, PKEXRES, and IMEXRES
@@ -22,8 +22,7 @@
 - Modified ADVS on ORTHYP, ORTHYPS and  ORTHYPD parameters for TSFVIT04
 - Modified RESCRNFL and assigned 01-701-1240 to Subject refused to sign informed consent
 
-## [0.0.3] - 2026-01-27
-
+## [0.0.5] - 2026-05-25
 ### Added
 - Add DCTADY to ADSL #32
 - Add new addili dataset
