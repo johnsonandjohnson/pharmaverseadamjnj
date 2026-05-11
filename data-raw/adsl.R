@@ -144,48 +144,6 @@ gen_adsl <- function(seed = 123) {
     gen$BMIBLG1N
   )
   gen$SEX <- as.factor(gen$SEX)
-  gen$COUNTRY_DECODE <- as.factor("United States of America")
-
-  gen$RACE_DECODE <- factor(
-    dplyr::case_when(
-      gen$RACE == "AMERICAN INDIAN OR ALASKA NATIVE" ~
-        "American Indian or Alaska Native",
-      gen$RACE == "ASIAN" ~ "Asian",
-      gen$RACE == "BLACK OR AFRICAN AMERICAN" ~ "Black or African American",
-      gen$RACE == "NATIVE HAWAIIAN OR OTHER PACIFIC ISLANDER" ~
-        "Native Hawaiian or other Pacific Islander",
-      gen$RACE == "WHITE" ~ "White",
-      gen$RACE == "MULTIPLE" ~ "Multiple",
-      gen$RACE == "NOT REPORTED" ~ "Not reported",
-      gen$RACE == "UNKNOWN" ~ "Unknown",
-      gen$RACE == "OTHER" ~ "Other"
-    ),
-    levels = c(
-      "American Indian or Alaska Native",
-      "Asian",
-      "Black or African American",
-      "Native Hawaiian or other Pacific Islander",
-      "White",
-      "Multiple",
-      "Not reported",
-      "Unknown",
-      "Other"
-    )
-  )
-
-   gen$SEX_DECODE <- factor(
-    dplyr::case_when(
-      gen$SEX == "F" ~ "Female",
-      gen$SEX == "M" ~ "Male"
-    ),
-    levels = c(
-      "Male",
-      "Female",
-      "Intersex",
-      "Unknown"
-    )
-  )
-
   gen$REGION1 <- "North America"
   gen$RACEGR1 <- as.factor(gen$RACEGR1)
   gen$RFICDTC <- gen$DMDTC
@@ -449,6 +407,49 @@ gen_adsl <- function(seed = 123) {
     ),
   )
 
+  gen <- dplyr::mutate(
+    gen,
+    DCSCREEN = case_when(
+      USUBJID == "01-701-1240" ~ "Subject refused to sign informed consent",
+      .default = DCSCREEN
+    ),
+    RESCRNFL = if_else(
+      SCRFFL == "Y" & runif(n()) < 0.5, "Y", NA_character_
+    )
+  )
+
+
+  gen <- gen |>
+    dplyr::mutate(
+      COHORT = factor(
+        dplyr::case_match(
+          ARM,
+          "Placebo" ~ "Cohort 1",
+          "Xanomeline High Dose" ~ "Cohort 2",
+          "Xanomeline Low Dose" ~ "Cohort 3",
+          "Screen Failure" ~ NA_character_,
+          .default = NA_character_
+        ),
+
+        levels = c("Cohort 1", "Cohort 2", "Cohort 3")
+      ),
+
+      GROUP = factor(
+        dplyr::case_match(
+          ARM,
+          "Placebo" ~ "Group 1",
+          "Xanomeline High Dose" ~ "Group 2",
+          "Xanomeline Low Dose" ~ "Group 3",
+          "Screen Failure" ~ NA_character_,
+          .default = NA_character_
+        ),
+
+        levels = c("Group 1", "Group 2", "Group 3")
+      ),
+
+      EOTDT = TRTEDT
+    )
+
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
     TRT01PN = "Planned Treatment for Period 01 (N)",
@@ -515,10 +516,10 @@ gen_adsl <- function(seed = 123) {
     PPREXRS = "Reason for Excl from Per-Prot Population",
     PKEXRES = "Reason for Excl from Pharmacokin Pop",
     IMEXRES = "Reason for Excl from Immunogen Pop",
-    SEX_DECODE = "Sex Decode",
-    RACE_DECODE = "Race Decode",
-    ETHNIC_DECODE = "Ethnicity Decode",
-    COUNTRY_DECODE = "Country Decode"
+    COHORT = "Cohort",
+    GROUP = "Analysis Group",
+    EOTDT = "End-of-Treatment Date",
+    BRTHDTC = "Date/Time of Birth"
   )
 
   # Handle NA values and convert characters to factors

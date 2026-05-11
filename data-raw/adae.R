@@ -328,7 +328,7 @@ gen_adae <- function(seed = 123) {
     mutate(
       .AEDECOD_UP = toupper(AEDECOD),
       CQ01NAM = case_when(
-        .AEDECOD_UP == "HYPERTENSION" ~ "HYPERTENSION",
+        .AEDECOD_UP == "HYPERTENSION" ~ "Hypertension",
         .default = NA_character_
       ),
       SMQ01NAM = case_when(
@@ -353,6 +353,52 @@ gen_adae <- function(seed = 123) {
       )
     ) |>
     select(-.AEDECOD_UP)
+
+  # Derive AOCTxxFL variables
+  gen <- gen |>
+    arrange(USUBJID, desc(AETOXGRN), ASTDT) |>
+    group_by(USUBJID) |>
+    mutate(
+      across(
+        starts_with("CQ"),
+        ~ {
+          target_row <- match(
+            TRUE,
+            TRTEMFL == "Y" & !is.na(.x)
+          )
+          if_else(
+            row_number() == target_row,
+            "Y",
+            NA_character_
+          )
+        },
+        .names = "{gsub('CQ([0-9]+)NAM', 'AOCT\\\\1FL', .col)}"
+      )
+    ) |>
+    ungroup()
+
+  # Derive AOCSxxFL variables
+  gen <- gen |>
+    arrange(USUBJID, desc(ASEVN), ASTDT) |>
+    group_by(USUBJID) |>
+    mutate(
+      across(
+        starts_with("CQ"),
+        ~ {
+          target_row <- match(
+            TRUE,
+            TRTEMFL == "Y" & !is.na(.x)
+          )
+          if_else(
+            row_number() == target_row,
+            "Y",
+            NA_character_
+          )
+        },
+        .names = "{gsub('CQ([0-9]+)NAM', 'AOCS\\\\1FL', .col)}"
+      )
+    ) |>
+    ungroup()
 
   # Add labels
   additional_labels <- list(
@@ -383,8 +429,18 @@ gen_adae <- function(seed = 123) {
     AESMIE_DECODE = "Other Medically Important Serious Event",
     TRDISCFL = "Treatment Discontinued Flag",
     AESHOSPP = "Prolongs Hospitalization",
-    AESHOSPR = "Requires Hospitalization"
+    AESHOSPR = "Requires Hospitalization",
+    AOCT01FL = "1st AESI Max Tox. Grade 01 Occur Flag",
+    AOCT02FL = "1st AESI Max Tox. Grade 02 Occur Flag",
+    AOCT03FL = "1st AESI Max Tox. Grade 03 Occur Flag",
+    AOCS01FL = "1st AESI Max Sev./Int. 01 Occur. Flag",
+    AOCS02FL = "1st AESI Max Sev./Int. 02 Occur. Flag",
+    AOCS03FL = "1st AESI Max Sev./Int. 03 Occur. Flag"
   )
+
+  # Arrange final data
+
+  gen <- gen |> arrange(USUBJID, AESEQ)
 
   # Handle NA values and convert characters to factors
   gen <- df_na(gen, char_as_factor = TRUE)

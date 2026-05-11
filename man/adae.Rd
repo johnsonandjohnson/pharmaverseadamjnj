@@ -5,7 +5,7 @@
 \alias{adae}
 \title{adae}
 \format{
-A data frame with 1191 rows and 83 variables:
+A data frame with 1191 rows and 89 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{DOMAIN}{Domain Abbreviation}
@@ -90,6 +90,12 @@ A data frame with 1191 rows and 83 variables:
 \item{SMQ01NAM}{Standardized MedDRA Query 01 Name}
 \item{SMQ02NAM}{Standardized MedDRA Query 02 Name}
 \item{SMQ03NAM}{Standardized MedDRA Query 03 Name}
+\item{AOCT01FL}{1st AESI Max Tox. Grade 01 Occur Flag}
+\item{AOCT02FL}{1st AESI Max Tox. Grade 02 Occur Flag}
+\item{AOCT03FL}{1st AESI Max Tox. Grade 03 Occur Flag}
+\item{AOCS01FL}{1st AESI Max Sev./Int. 01 Occur. Flag}
+\item{AOCS02FL}{1st AESI Max Sev./Int. 02 Occur. Flag}
+\item{AOCS03FL}{1st AESI Max Sev./Int. 03 Occur. Flag}
 }
 }
 \source{
@@ -102,7 +108,7 @@ adae
 adae modified from pharmaverseadam
 }
 \examples{
-head(data("adae"))
+ head(data("adae"))
 }
 \seealso{
 \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint

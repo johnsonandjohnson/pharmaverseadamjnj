@@ -5,7 +5,7 @@
 \alias{advs}
 \title{advs}
 \format{
-A data frame with 50080 rows and 90 variables:
+A data frame with 44406 rows and 90 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{DOMAIN}{Domain Abbreviation}
@@ -109,7 +109,7 @@ advs
 advs modified from pharmaverseadam
 }
 \examples{
-head(data("advs"))
+ head(data("advs"))
 }
 \seealso{
 \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint

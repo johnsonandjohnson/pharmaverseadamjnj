@@ -24,6 +24,7 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "DIABP" |
         PARAMCD == "PULSE" |
         PARAMCD == "TEMP" |
+        PARAMCD == "RESP" |
         PARAMCD == "WEIGHT") &
         DTYPE == "AVERAGE" &
         !is.na(AVISIT)
@@ -33,15 +34,17 @@ gen_advs <- function(seed = 123) {
       AVALC = NA_character_
     )
 
-  gen_wk20 <- gen |>
-    dplyr::filter(AVISIT == "Week 16") |>
-    dplyr::mutate(AVISIT = "Week 20", AVISITN = 20, ADT = ADT + 28)
-
-  gen_wk24 <- gen |>
-    dplyr::filter(AVISIT == "Week 16") |>
-    dplyr::mutate(AVISIT = "Week 24", AVISITN = 24, ADT = ADT + 56)
-
-  gen <- rbind(gen, gen_wk20, gen_wk24)
+  gen_resp <- gen |>
+    dplyr::filter(
+      PARAMCD == "PULSE"
+    ) |>
+    dplyr::mutate(
+      PARAMCD = "RESP",
+      PARAM = "Respiratory Rate (breaths/min)",
+      AVAL = dplyr::case_when(
+        PARAMCD == "RESP" ~ as.numeric(sample(seq(10, 25), dplyr::n(), replace = TRUE))
+      )
+    )
 
   gen_ortho <- gen |>
     dplyr::filter(
@@ -102,7 +105,7 @@ gen_advs <- function(seed = 123) {
     ) |>
     dplyr::select(-ORTHYP_FLAG)
 
-  gen <- rbind(gen, gen_ortho, gen_ortho_der, gen_orthyp) |>
+  gen <- rbind(gen, gen_resp, gen_ortho, gen_ortho_der, gen_orthyp) |>
     dplyr::mutate(
       ABLFL = dplyr::case_when(
         AVISIT == "Baseline" ~ "Y",
@@ -178,6 +181,9 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "DIABP" ~ "<60",
         PARAMCD == "SYSBPO" ~ "SBP (STD-SUP)<-20",
         PARAMCD == "DIABPO" ~ "DBP (STD-SUP)<-10",
+        PARAMCD == "ORTHYPS" ~ "SBP (STD-SUP)<-20",
+        PARAMCD == "ORTHYPD" ~ "DBP (STD-SUP)<-10",
+        PARAMCD == "ORTHYP" ~ "SBP (STD-SUP)<-20 or DBP (STD-SUP)<-10",
       ),
       CRIT1FL = dplyr::case_when(
         PARAMCD == "PULSE" & !is.na(AVAL) & AVAL < 50 & !is.na(CHG) & CHG <= -20 ~ "Y",
@@ -185,7 +191,10 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "DIABP" & !is.na(AVAL) & AVAL < 50 & !is.na(CHG) & CHG <= -20 ~ "Y",
         PARAMCD == "SYSBPO" & AVAL < -20 ~ "Y",
         PARAMCD == "DIABPO" & AVAL < -10 ~ "Y",
-        PARAMCD %in% c("PULSE", "SYSBP", "DIABP", "SYSBPO", "DIABPO") ~ "N",
+        PARAMCD == "ORTHYPS" & AVALC == "Y" ~ "Y",
+        PARAMCD == "ORTHYPD" & AVALC == "Y" ~ "Y",
+        PARAMCD == "ORTHYP" & AVALC == "Y" ~ "Y",
+        PARAMCD %in% c("PULSE", "SYSBP", "DIABP", "SYSBPO", "DIABPO", "ORTHYPS", "ORTHYPD", "ORTHYP") ~ "N",
         .default = NA_character_
       ),
       CRIT2 = dplyr::case_when(
@@ -330,7 +339,7 @@ gen_advs <- function(seed = 123) {
         AVISIT == "Week 16" ~ 7,
         AVISIT == "Week 20" ~ 8,
         AVISIT == "Week 24" ~ 9,
-        AVISIT == "Week 26" ~ 23,
+        AVISIT == "Week 26" ~ 24,
       ),
       AVISIT = forcats::fct_reorder(
         as.factor(dplyr::case_when(
@@ -379,25 +388,27 @@ gen_advs <- function(seed = 123) {
         AVISIT == "Cycle 07" ~ "Cycle 17",
         AVISIT == "Cycle 08" ~ "Cycle 19",
         AVISIT == "Cycle 09" ~ "Cycle 21",
-        AVISIT == "End Of Treatment" ~ "Cycle 23",
+        AVISIT == "End Of Treatment" ~ "Cycle 22",
       ),
       ADT = ADT + 365,
     )
 
   gen_add_avisit2 <- gen |>
     dplyr::filter(
-      AVISIT == "Cycle 08" | AVISIT == "Cycle 09" | AVISIT == "End Of Treatment"
+      AVISIT == "Cycle 08" | AVISIT == "Cycle 09" | AVISIT == "Cycle 29" |  AVISIT == "End Of Treatment"
     ) |>
     dplyr::mutate(
       AVISITN = dplyr::case_when(
         AVISIT == "Cycle 08" ~ 19,
-        AVISIT == "Cycle 09" ~ 21,
+        AVISIT == "Cycle 09" ~ 20,
+        AVISIT == "Cycle 29" ~ 21,
         AVISIT == "End Of Treatment" ~ 22
       ),
       AVISIT = dplyr::case_when(
-        AVISIT == "Cycle 08" ~ "Cycle 22",
+        AVISIT == "Cycle 08" ~ "Cycle 23",
         AVISIT == "Cycle 09" ~ "Cycle 25",
-        AVISIT == "End Of Treatment" ~ "Cycle 29"
+        AVISIT == "Cycle 29" ~ "Cycle 29",
+        AVISIT == "End Of Treatment" ~ "Cycle 30"
       ),
       ADT = ADT + 730,
     )

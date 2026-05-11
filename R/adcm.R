@@ -3,7 +3,7 @@
 #' @description adcm modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 7276 rows and 63 variables:
+#' @format A data frame with 7276 rows and 65 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}
@@ -68,6 +68,8 @@
 #'  \item{SAFFL}{Safety Population Flag}
 #'  \item{TRTSDT}{Date of First Exposure to Treatment}
 #'  \item{STUDYID}{Study Identifier}
+#'  \item{CMSTRTPT}{Start Relative to Reference Time Point}
+#'  \item{CMSTTPT}{Start Reference Time Point}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adae.xpt}} \code{\link{adaeocmq}} \code{\link{adaeocmq.xpt}} \code{\link{adagocmq}} \code{\link{adagocmq.xpt}} \code{\link{adcm}} \code{\link{adcm.xpt}} \code{\link{addili}} \code{\link{addili.xpt}} \code{\link{adeg}} \code{\link{adeg.xpt}} \code{\link{adex}} \code{\link{adex.xpt}} \code{\link{adexsum}} \code{\link{adexsum.xpt}} \code{\link{adlb}} \code{\link{adlb.xpt}} \code{\link{adpc}} \code{\link{adpc.xpt}} \code{\link{adsl}} \code{\link{adsl.xpt}} \code{\link{adttesaf}} \code{\link{adttesaf.xpt}} \code{\link{advs}} \code{\link{advs.xpt}}# nolint
 #' @keywords datasets adcm
