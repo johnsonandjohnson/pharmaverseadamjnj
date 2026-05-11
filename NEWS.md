@@ -21,6 +21,9 @@
 - Modified "General disorders and administration site conditions" to "Gastrointestinal disorders" in ADEX
 - Modified ADVS on ORTHYP, ORTHYPS and  ORTHYPD parameters for TSFVIT04
 - Modified RESCRNFL and assigned 01-701-1240 to Subject refused to sign informed consent
+- Modified ADVS on RESP parameter for gsfvit02a and gsfvit02b
+- Modified ADVS on week 20 and week 24 AVISIT derivation
+- Modified ADVS on AVISITN variable
 
 ## [0.0.3] - 2026-01-27
 
