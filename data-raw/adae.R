@@ -346,7 +346,7 @@ gen_adae <- function(seed = 123) {
       )
     ) |>
     ungroup()
-  
+
   # Derive AOCSxxFL variables
   gen <- gen |>
     arrange(USUBJID, desc(ASEVN), ASTDT) |>
@@ -369,7 +369,7 @@ gen_adae <- function(seed = 123) {
       )
     ) |>
     ungroup()
-  
+
   # Add labels
   additional_labels <- list(
     SAFFL = "Safety Population Flag",
@@ -404,9 +404,9 @@ gen_adae <- function(seed = 123) {
   )
 
   # Arrange final data
-  
+
   gen <- gen |> arrange(USUBJID, AESEQ)
-  
+
   # Handle NA values and convert characters to factors
   gen <- df_na(gen, char_as_factor = TRUE)
 
