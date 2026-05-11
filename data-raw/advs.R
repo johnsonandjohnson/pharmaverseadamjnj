@@ -37,11 +37,11 @@ gen_advs <- function(seed = 123) {
   gen_resp <- gen |>
     dplyr::filter(
       PARAMCD == "PULSE" 
-    ) %>% 
+    ) |> 
     dplyr::mutate(
-      PARAMCD='RESP',
-      PARAM='Respiratory Rate (breaths/min)',
-      AVAL=dplyr::case_when(
+      PARAMCD = "RESP",
+      PARAM = "Respiratory Rate (breaths/min)",
+      AVAL = dplyr::case_when(
         PARAMCD == "RESP" ~ as.numeric(sample(seq(10, 25), dplyr::n(), replace = TRUE))
       )
     )
