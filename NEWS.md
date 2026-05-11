@@ -1,4 +1,4 @@
-# pharmaverseadamjnj 0.0.4
+# pharmaverseadamjnj 0.0.6
 
 ### Added
 - Added vars to ADSL: LASTCTDT, UNBLNDDT, IMFL, SAFEXRS, FASEXRS, PPREXRS, PKEXRES, and IMEXRES
@@ -13,7 +13,7 @@
 - Added ADVS: RESP TEMP and PULSE PARAMCD
 - Added variables `COHORT`, `GROUP`, and `EOTDT` to ADSL.
 - Added variables `CMSTRTPT` and `CMSTTPT` to ADCM.
-
+- Added AOCT01FL, AOCT02FL, AOCT03FL, AOCS01FL, AOCS02FL, AOCS03FL to ADAE
 
 ### Changed
 - Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX
@@ -25,8 +25,7 @@
 - Modified ADVS on week 20 and week 24 AVISIT derivation
 - Modified ADVS on AVISITN variable
 
-## [0.0.3] - 2026-01-27
-
+## [0.0.5] - 2026-05-25
 ### Added
 - Add DCTADY to ADSL #32
 - Add new addili dataset
