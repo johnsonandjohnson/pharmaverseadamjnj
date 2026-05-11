@@ -33,11 +33,11 @@ gen_advs <- function(seed = 123) {
     dplyr::mutate(
       AVALC = NA_character_
     )
-  
+
   gen_resp <- gen |>
     dplyr::filter(
-      PARAMCD == "PULSE" 
-    ) |> 
+      PARAMCD == "PULSE"
+    ) |>
     dplyr::mutate(
       PARAMCD = "RESP",
       PARAM = "Respiratory Rate (breaths/min)",
