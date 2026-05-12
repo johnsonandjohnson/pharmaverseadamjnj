@@ -400,7 +400,8 @@ gen_adae <- function(seed = 123) {
     AOCT03FL = "1st AESI Max Tox. Grade 03 Occur Flag",
     AOCS01FL = "1st AESI Max Sev./Int. 01 Occur. Flag",
     AOCS02FL = "1st AESI Max Sev./Int. 02 Occur. Flag",
-    AOCS03FL = "1st AESI Max Sev./Int. 03 Occur. Flag"
+    AOCS03FL = "1st AESI Max Sev./Int. 03 Occur. Flag",
+    AESCAT = "Adverse Event Category"
   )
 
   # Arrange final data

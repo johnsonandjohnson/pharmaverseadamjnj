@@ -73,7 +73,7 @@ A data frame with 1191 rows and 89 variables:
 \item{AOCCFL}{1st Occurrence within Subject Flag}
 \item{AOCCPFL}{1st Occurrence within Pref Term Flag}
 \item{AOCCSFL}{1st Occurrence of SOC Flag}
-\item{AOCTIFL}{AOCTIFL}
+\item{AOCTIFL}{1st TE Max Toxicity Grade Flag}
 \item{TRT01A}{Actual Treatment for Period 01}
 \item{SAFFL}{Safety Population Flag}
 \item{AGE}{Age}
@@ -86,7 +86,7 @@ A data frame with 1191 rows and 89 variables:
 \item{TRDISCFL}{Treatment Discontinued Flag}
 \item{AESHOSPP}{Prolongs Hospitalization}
 \item{AESHOSPR}{Requires Hospitalization}
-\item{AESCAT}{AESCAT}
+\item{AESCAT}{Adverse Event Category}
 \item{SMQ01NAM}{Standardized MedDRA Query 01 Name}
 \item{SMQ02NAM}{Standardized MedDRA Query 02 Name}
 \item{SMQ03NAM}{Standardized MedDRA Query 03 Name}
