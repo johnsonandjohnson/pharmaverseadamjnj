@@ -490,7 +490,7 @@ gen_advs <- function(seed = 123) {
     "STUDYID",
     "AGE",
     "SEX",
-    "RACE"
+    "RACE_DECODE"
   )
 
   # Select only the key and the 'to_keep' variables from ADSL
@@ -508,6 +508,7 @@ gen_advs <- function(seed = 123) {
     AVALC = "Analysis Value (C)",
     AVALU = "Analysis Value Unit",
     ANL01FL = "Analysis Flag 01",
+    COUNTRY_DECODE = "Country",
     PARCAT1 = "Parameter Category 1",
     PARCAT2 = "Parameter Category 2",
     ADTM = "Analysis Date/Time",

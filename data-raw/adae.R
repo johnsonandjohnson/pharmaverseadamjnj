@@ -160,6 +160,17 @@ gen_adae <- function(seed = 123) {
       dplyr::n(),
       replace = TRUE
     )),
+    AEACN_DECODE = dplyr::case_when(
+      AEACN == "DOSE NOT CHANGED" ~ "Dose Not Changed",
+      AEACN == "NOT APPLICABLE" ~ "Not Applicable",
+      AEACN == "DRUG WITHDRAWN" ~ "Drug Withdrawn",
+      AEACN == "DOSE REDUCED" ~ "Dose Reduced",
+      AEACN == "DOSE RATE REDUCED" ~ "Dose Rate Reduced",
+      AEACN == "DRUG INTERRUPTED" ~ "Drug Interrupted",
+      AEACN == "DOSE INCREASED" ~ "Dose Increased",
+      AEACN == "UNKNOWN" ~ "Unknown",
+      AEACN == "NOT APPLICABLE" ~ "Not Applicable"
+    ),
     AESEV = dplyr::case_when(
       AESEV == "MILD" ~ "Mild",
       AESEV == "MODERATE" ~ "Moderate",
@@ -178,12 +189,30 @@ gen_adae <- function(seed = 123) {
     )),
     AESMIE = "Y",
     AESER = as.factor(sample(c("N", "Y"), dplyr::n(), replace = TRUE)),
+    AESER_DECODE = dplyr::case_when(
+      AESER == "Y" ~ "Yes",
+      AESER == "N" ~ "No",
+      .default = NA
+    ),
     AEREL = as.factor(dplyr::case_when(
       AEREL == "PROBABLE" ~ "PROBABLE",
       AEREL == "REMOTE" ~ "RELATED",
       AEREL == "POSSIBLE" ~ "POSSIBLE",
       AEREL == "NONE" ~ "NOT RELATED",
       is.na(AEREL) ~ NA_character_
+    )),
+    AEREL_DECODE = as.factor(dplyr::case_when(
+      AEREL == "PROBABLE" ~ "Probable",
+      AEREL == "RELATED" ~ "Related",
+      AEREL == "POSSIBLE" ~ "Possible",
+      AEREL == "NOT RELATED" ~ "Not Related",
+      is.na(AEREL) ~ "Not applicable"
+    )),
+    AEOUT_DECODE = as.factor(dplyr::case_when(
+      AEOUT == "NOT RECOVERED/NOT RESOLVED" ~ "Not Recovered/Not Resolved",
+      AEOUT == "RECOVERED/RESOLVED" ~ "Recovered/Resolved",
+      AEOUT == "FATAL" ~ "Fatal",
+      TRUE ~ "Other"
     )),
     AEBODSYS = forcats::fct_relabel(AEBODSYS, stringr::str_to_sentence) # Convert AEBODSYS levels to sentence
   )
@@ -239,6 +268,7 @@ gen_adae <- function(seed = 123) {
     "AGE",
     "SEX",
     "RACE",
+    "RACE_DECODE",
     "STUDYID",
     "AGEGR1",
     "TRTEDY",
@@ -298,7 +328,7 @@ gen_adae <- function(seed = 123) {
     mutate(
       .AEDECOD_UP = toupper(AEDECOD),
       CQ01NAM = case_when(
-        .AEDECOD_UP == "HYPERTENSION" ~ "HYPERTENSION",
+        .AEDECOD_UP == "HYPERTENSION" ~ "Hypertension",
         .default = NA_character_
       ),
       SMQ01NAM = case_when(
@@ -324,17 +354,66 @@ gen_adae <- function(seed = 123) {
     ) |>
     select(-.AEDECOD_UP)
 
+  # Derive AOCTxxFL variables
+  gen <- gen |>
+    arrange(USUBJID, desc(AETOXGRN), ASTDT) |>
+    group_by(USUBJID) |>
+    mutate(
+      across(
+        starts_with("CQ"),
+        ~ {
+          target_row <- match(
+            TRUE,
+            TRTEMFL == "Y" & !is.na(.x)
+          )
+          if_else(
+            row_number() == target_row,
+            "Y",
+            NA_character_
+          )
+        },
+        .names = "{gsub('CQ([0-9]+)NAM', 'AOCT\\\\1FL', .col)}"
+      )
+    ) |>
+    ungroup()
+
+  # Derive AOCSxxFL variables
+  gen <- gen |>
+    arrange(USUBJID, desc(ASEVN), ASTDT) |>
+    group_by(USUBJID) |>
+    mutate(
+      across(
+        starts_with("CQ"),
+        ~ {
+          target_row <- match(
+            TRUE,
+            TRTEMFL == "Y" & !is.na(.x)
+          )
+          if_else(
+            row_number() == target_row,
+            "Y",
+            NA_character_
+          )
+        },
+        .names = "{gsub('CQ([0-9]+)NAM', 'AOCS\\\\1FL', .col)}"
+      )
+    ) |>
+    ungroup()
+
   # Add labels
   additional_labels <- list(
     SAFFL = "Safety Population Flag",
     AESER = "Serious Event",
+    AESER_DECODE = "Serious Event",
     ACAT1 = "Analysis Category 1",
     AETOXGR = "Standard Toxicity Grade",
     AETOXGRN = "Standard Toxicity Grade (N)",
-    AOCTIFL = "1st TE Max Toxicity Grade Flag",
+    AEACN_DECODE = "Action Taken with Study Treatment",
     DOSEDY = "Day of Study Drug",
     DOSEU = "Treatment Dose Units",
     DOSEON = "Treatment Dose at Record Start",
+    AEREL_DECODE = "Causality",
+    AEOUT_DECODE = "Outcome of Adverse Event",
     AOCCFL = "1st Occurrence within Subject Flag",
     AOCCPFL = "1st Occurrence within Pref Term Flag",
     AOCCSFL = "1st Occurrence of SOC Flag",
@@ -345,11 +424,23 @@ gen_adae <- function(seed = 123) {
     SMQ02NAM = "Standardized MedDRA Query 02 Name",
     SMQ03NAM = "Standardized MedDRA Query 03 Name",
     AECONTRT = "Concomitant or Additional Trtmnt Given",
+    AENDTF_DECODE = "Analysis End Date Imputation Flag",
     AESMIE = "Other Medically Important Serious Event",
+    AESMIE_DECODE = "Other Medically Important Serious Event",
     TRDISCFL = "Treatment Discontinued Flag",
     AESHOSPP = "Prolongs Hospitalization",
-    AESHOSPR = "Requires Hospitalization"
+    AESHOSPR = "Requires Hospitalization",
+    AOCT01FL = "1st AESI Max Tox. Grade 01 Occur Flag",
+    AOCT02FL = "1st AESI Max Tox. Grade 02 Occur Flag",
+    AOCT03FL = "1st AESI Max Tox. Grade 03 Occur Flag",
+    AOCS01FL = "1st AESI Max Sev./Int. 01 Occur. Flag",
+    AOCS02FL = "1st AESI Max Sev./Int. 02 Occur. Flag",
+    AOCS03FL = "1st AESI Max Sev./Int. 03 Occur. Flag"
   )
+
+  # Arrange final data
+
+  gen <- gen |> arrange(USUBJID, AESEQ)
 
   # Handle NA values and convert characters to factors
   gen <- df_na(gen, char_as_factor = TRUE)
