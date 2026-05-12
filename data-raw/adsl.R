@@ -430,10 +430,8 @@ gen_adsl <- function(seed = 123) {
           "Screen Failure" ~ NA_character_,
           .default = NA_character_
         ),
-
         levels = c("Cohort 1", "Cohort 2", "Cohort 3")
       ),
-
       GROUP = factor(
         dplyr::case_match(
           ARM,
@@ -443,10 +441,8 @@ gen_adsl <- function(seed = 123) {
           "Screen Failure" ~ NA_character_,
           .default = NA_character_
         ),
-
         levels = c("Group 1", "Group 2", "Group 3")
       ),
-
       EOTDT = TRTEDT
     )
 

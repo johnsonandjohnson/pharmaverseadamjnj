@@ -251,7 +251,7 @@ gen_advs <- function(seed = 123) {
       CRIT7 = dplyr::case_when(
         PARAMCD == "PULSE" ~ "<50 beats/min and with >20 beats/min decrease from baseline",
         PARAMCD == "SYSBP" ~ "<90 mmHg and with >30 mmHg decrease from baseline",
-        PARAMCD == "DIABP" ~ ">105 mmHg and with >30 mmHg increase from baseline",
+        PARAMCD == "DIABP" ~ "<50 mmHg and with >20 mmHg decrease from baseline",
         PARAMCD == "RESP" ~ ">20 breaths per minute",
         PARAMCD == "TEMP" ~ ">38 and with >=1 increase from baseline",
         PARAMCD == "WEIGHT" ~ "decrease 10% kg from baseline",
@@ -259,7 +259,7 @@ gen_advs <- function(seed = 123) {
       CRIT7FL = dplyr::case_when(
         PARAMCD == "PULSE" & AVAL < 50 & CHG < -20 ~ "Y",
         PARAMCD == "SYSBP" & AVAL < 90 & CHG < -30 ~ "Y",
-        PARAMCD == "DIABP" & AVAL > 105 & CHG > 30 ~ "Y",
+        PARAMCD == "DIABP" & AVAL < 50 & CHG < -20 ~ "Y",
         PARAMCD == "RESP" & AVAL > 20 ~ "Y",
         PARAMCD == "TEMP" & AVAL > 38 & CHG >= 1 ~ "Y",
         PARAMCD == "WEIGHT" & PCHG < -10 ~ "Y",
@@ -269,13 +269,13 @@ gen_advs <- function(seed = 123) {
       CRIT8 = dplyr::case_when(
         PARAMCD == "PULSE" ~ ">120 beats/min and with >30 beats/min increase from baseline",
         PARAMCD == "SYSBP" ~ ">180 mmHg and with >40 mmHg increase from baseline",
-        PARAMCD == "DIABP" ~ "<50 mmHg and with >20 mmHg decrease from baseline",
+        PARAMCD == "DIABP" ~ ">105 mmHg and with >30 mmHg increase from baseline",
         PARAMCD == "WEIGHT" ~ "increase 10% kg from baseline",
       ),
       CRIT8FL = dplyr::case_when(
         PARAMCD == "PULSE" & AVAL > 120 & CHG > 30 ~ "Y",
         PARAMCD == "SYSBP" & AVAL > 180 & CHG > 40 ~ "Y",
-        PARAMCD == "DIABP" & AVAL < 50 & CHG < -20 ~ "Y",
+        PARAMCD == "DIABP" & AVAL > 105 & CHG > 30 ~ "Y",
         PARAMCD == "WEIGHT" & PCHG > 10 ~ "Y",
         PARAMCD %in% c("PULSE", "SYSBP", "DIABP", "WEIGHT") ~ "N",
         .default = NA_character_
@@ -395,7 +395,7 @@ gen_advs <- function(seed = 123) {
 
   gen_add_avisit2 <- gen |>
     dplyr::filter(
-      AVISIT == "Cycle 08" | AVISIT == "Cycle 09" | AVISIT == "Cycle 29" |  AVISIT == "End Of Treatment"
+      AVISIT == "Cycle 08" | AVISIT == "Cycle 09" | AVISIT == "Cycle 29" | AVISIT == "End Of Treatment"
     ) |>
     dplyr::mutate(
       AVISITN = dplyr::case_when(
@@ -490,7 +490,7 @@ gen_advs <- function(seed = 123) {
     "STUDYID",
     "AGE",
     "SEX",
-    "RACE_DECODE"
+    "RACE"
   )
 
   # Select only the key and the 'to_keep' variables from ADSL
@@ -508,7 +508,7 @@ gen_advs <- function(seed = 123) {
     AVALC = "Analysis Value (C)",
     AVALU = "Analysis Value Unit",
     ANL01FL = "Analysis Flag 01",
-    COUNTRY_DECODE = "Country",
+    COUNTRY = "Country",
     PARCAT1 = "Parameter Category 1",
     PARCAT2 = "Parameter Category 2",
     ADTM = "Analysis Date/Time",

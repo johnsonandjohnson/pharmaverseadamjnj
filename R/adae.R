@@ -84,7 +84,7 @@
 #'  \item{TRDISCFL}{Treatment Discontinued Flag}
 #'  \item{AESHOSPP}{Prolongs Hospitalization}
 #'  \item{AESHOSPR}{Requires Hospitalization}
-#'  \item{AESCAT}{AESCAT}
+#'  \item{AESCAT}{Adverse Event Category}
 #'  \item{SMQ01NAM}{Standardized MedDRA Query 01 Name}
 #'  \item{SMQ02NAM}{Standardized MedDRA Query 02 Name}
 #'  \item{SMQ03NAM}{Standardized MedDRA Query 03 Name}
