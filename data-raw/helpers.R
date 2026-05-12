@@ -306,3 +306,75 @@ roxygen2_data <- function(
 
   writeLines(description, file.path("R", paste0(df_name, ".R")))
 }
+
+
+
+# Helper function to fix USUBJID for new treatment arm
+fix_usubjid <- function(
+  df,
+  newlev = "Std Of Care",
+  trt_var = "TRT01P",
+  usubjid_var = "USUBJID",
+  subjid_var = "SUBJID"
+) {
+  rws <- which(df[[trt_var]] == newlev)
+
+  usubj_char <- as.character(df[[usubjid_var]])
+  subjid <- as.integer(as.character(df[[subjid_var]]))
+  subjid[rws] <- subjid[rws] + 1000
+  substr(usubj_char, 8, 11) <- as.character(subjid)
+  df[[usubjid_var]] <- factor(usubj_char)
+  df[[subjid_var]] <- factor(as.character(subjid))
+  df
+}
+
+# Create fake treatment arm by duplicating placebo
+make_fake_adsl <- function(
+  df,
+  newlev = "Std Of Care",
+  oldlev = "Placebo",
+  trt_var = "TRT01P",
+  age_var = "AGE",
+  usubjid_var = "USUBJID",
+  subjid_var = "SUBJID"
+) {
+  fakeyfake <- dplyr::filter(df, .data[[trt_var]] == !!oldlev)
+  fakeyfake[[trt_var]] <- newlev
+  fakeyfake[[age_var]] <- floor(stats::runif(NROW(fakeyfake), 30, 90))
+
+  df[[trt_var]] <- as.character(df[[trt_var]])
+  df <- rbind(df, fakeyfake)
+  df[[trt_var]] <- factor(df[[trt_var]])
+
+  fix_usubjid(
+    df,
+    newlev = newlev,
+    trt_var = trt_var,
+    usubjid_var = usubjid_var,
+    subjid_var = subjid_var
+  )
+}
+
+# Borrow AEs for new treatment arm
+borrow_aes <- function(
+  ae_df,
+  sl_df,
+  mult = 1,
+  newlev = "Std Of Care",
+  oldlev = "Placebo",
+  trt_var = "TRT01P",
+  usubjid_var = "USUBJID"
+) {
+  plac_count <- sum(ae_df[[trt_var]] == oldlev, na.rm = TRUE)
+  new_count <- floor(plac_count * mult)
+  soc_usubjids <- as.character(sl_df[[usubjid_var]])[
+    !is.na(sl_df[[trt_var]]) & sl_df[[trt_var]] == newlev
+  ]
+
+  duprows <- sample(seq_len(NROW(ae_df)), new_count, replace = TRUE)
+
+  newrws <- ae_df[duprows, ]
+  newrws[[usubjid_var]] <- sample(soc_usubjids, NROW(newrws), replace = TRUE)
+
+  rbind(ae_df, newrws)
+}
