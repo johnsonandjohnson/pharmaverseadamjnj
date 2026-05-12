@@ -10,9 +10,7 @@ library(tibble)
 source(file.path("data-raw", "helpers.R"))
 
 
-
-
-# Generate ADCOMP dataset
+# Generate ADAE_COMP dataset
 gen_adae_comp <- function(seed = 123) {
 
   # Source related datasets
