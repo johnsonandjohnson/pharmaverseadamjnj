@@ -3,7 +3,7 @@
 #' @description adae modified from pharmaverseadam to include Office of New Drugs (OND) Custom Medical Queries
 #' @source data from adae from pharmaverseadam and, FDA_OCMQ_Consolidated_List.rds and FDA_OCMQ_References.rds
 #'
-#' @format A data frame with 1972 rows and 88 variables:
+#' @format A data frame with 1972 rows and 94 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}
@@ -88,6 +88,12 @@
 #'  \item{SMQ01NAM}{Standardized MedDRA Query 01 Name}
 #'  \item{SMQ02NAM}{Standardized MedDRA Query 02 Name}
 #'  \item{SMQ03NAM}{Standardized MedDRA Query 03 Name}
+#'  \item{AOCT01FL}{1st AESI Max Tox. Grade 01 Occur Flag}
+#'  \item{AOCT02FL}{1st AESI Max Tox. Grade 02 Occur Flag}
+#'  \item{AOCT03FL}{1st AESI Max Tox. Grade 03 Occur Flag}
+#'  \item{AOCS01FL}{1st AESI Max Sev./Int. 01 Occur. Flag}
+#'  \item{AOCS02FL}{1st AESI Max Sev./Int. 02 Occur. Flag}
+#'  \item{AOCS03FL}{1st AESI Max Sev./Int. 03 Occur. Flag}
 #'  \item{OCMQNAM}{Custom Medical Query Name}
 #'  \item{OCMQSOC}{Custom Medical Query System Organ Class}
 #'  \item{OCMQCLSS}{Custom Medical Query Scope}

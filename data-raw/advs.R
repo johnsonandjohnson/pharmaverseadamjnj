@@ -395,7 +395,7 @@ gen_advs <- function(seed = 123) {
 
   gen_add_avisit2 <- gen |>
     dplyr::filter(
-      AVISIT == "Cycle 08" | AVISIT == "Cycle 09" | AVISIT == "Cycle 29" |  AVISIT == "End Of Treatment"
+      AVISIT == "Cycle 08" | AVISIT == "Cycle 09" | AVISIT == "Cycle 29" | AVISIT == "End Of Treatment"
     ) |>
     dplyr::mutate(
       AVISITN = dplyr::case_when(
@@ -490,7 +490,7 @@ gen_advs <- function(seed = 123) {
     "STUDYID",
     "AGE",
     "SEX",
-    "RACE_DECODE"
+    "RACE"
   )
 
   # Select only the key and the 'to_keep' variables from ADSL
@@ -508,7 +508,7 @@ gen_advs <- function(seed = 123) {
     AVALC = "Analysis Value (C)",
     AVALU = "Analysis Value Unit",
     ANL01FL = "Analysis Flag 01",
-    COUNTRY_DECODE = "Country",
+    COUNTRY = "Country",
     PARCAT1 = "Parameter Category 1",
     PARCAT2 = "Parameter Category 2",
     ADTM = "Analysis Date/Time",
