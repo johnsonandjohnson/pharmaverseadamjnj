@@ -1,4 +1,4 @@
-# Generate ADCM dataset
+# Generate ADAECOMP dataset
 
 # Load necessary libraries
 library(dplyr)
@@ -10,9 +10,8 @@ library(tibble)
 source(file.path("data-raw", "helpers.R"))
 
 
-# Generate ADAE_COMP dataset
-gen_adae_comp <- function(seed = 123) {
-
+# Generate ADAECOMP dataset
+gen_adaecomp <- function(seed = 123) {
   # Source related datasets
   source(file.path("data-raw", "adsl.R"))
   source(file.path("data-raw", "adae.R"))
@@ -37,4 +36,4 @@ gen_adae_comp <- function(seed = 123) {
   return(gen)
 }
 
-adae_comp <- gen_adae_comp()
+adaecomp <- gen_adaecomp()

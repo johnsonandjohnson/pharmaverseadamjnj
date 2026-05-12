@@ -309,12 +309,11 @@ roxygen2_data <- function(
 
 # Helper function to fix USUBJID for new treatment arm
 fix_usubjid <- function(
-  df,
-  newlev = "Std Of Care",
-  trt_var = "TRT01P",
-  usubjid_var = "USUBJID",
-  subjid_var = "SUBJID"
-) {
+    df,
+    newlev = "Std Of Care",
+    trt_var = "TRT01P",
+    usubjid_var = "USUBJID",
+    subjid_var = "SUBJID") {
   rws <- which(df[[trt_var]] == newlev)
 
   usubj_char <- as.character(df[[usubjid_var]])
@@ -328,14 +327,13 @@ fix_usubjid <- function(
 
 # Create fake treatment arm by duplicating placebo
 make_fake_adsl <- function(
-  df,
-  newlev = "Std Of Care",
-  oldlev = "Placebo",
-  trt_var = "TRT01P",
-  age_var = "AGE",
-  usubjid_var = "USUBJID",
-  subjid_var = "SUBJID"
-) {
+    df,
+    newlev = "Std Of Care",
+    oldlev = "Placebo",
+    trt_var = "TRT01P",
+    age_var = "AGE",
+    usubjid_var = "USUBJID",
+    subjid_var = "SUBJID") {
   fakeyfake <- dplyr::filter(df, .data[[trt_var]] == !!oldlev)
   fakeyfake[[trt_var]] <- newlev
   fakeyfake[[age_var]] <- floor(stats::runif(NROW(fakeyfake), 30, 90))
@@ -355,14 +353,13 @@ make_fake_adsl <- function(
 
 # Borrow AEs for new treatment arm
 borrow_aes <- function(
-  ae_df,
-  sl_df,
-  mult = 1,
-  newlev = "Std Of Care",
-  oldlev = "Placebo",
-  trt_var = "TRT01P",
-  usubjid_var = "USUBJID"
-) {
+    ae_df,
+    sl_df,
+    mult = 1,
+    newlev = "Std Of Care",
+    oldlev = "Placebo",
+    trt_var = "TRT01P",
+    usubjid_var = "USUBJID") {
   plac_count <- sum(ae_df[[trt_var]] == oldlev, na.rm = TRUE)
   new_count <- floor(plac_count * mult)
   soc_usubjids <- as.character(sl_df[[usubjid_var]])[

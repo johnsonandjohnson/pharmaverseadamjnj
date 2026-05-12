@@ -14,6 +14,7 @@
 - Added variables `COHORT`, `GROUP`, and `EOTDT` to ADSL.
 - Added variables `CMSTRTPT` and `CMSTTPT` to ADCM.
 - Added AOCT01FL, AOCT02FL, AOCT03FL, AOCS01FL, AOCS02FL, AOCS03FL to ADAE
+- Added ADAECOMP and ADSLCOMP datasets
 
 ### Changed
 - Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX
