@@ -54,10 +54,20 @@ data from adtte_onc from pharmaverseadam
 
 ## See also
 
-[`adae`](adae.md) [`adaeocmq`](adaeocmq.md) [`adagocmq`](adagocmq.md)
-[`adcm`](adcm.md) [`adeg`](adeg.md) [`adex`](adex.md)
-[`adexsum`](adexsum.md) [`adlb`](adlb.md) [`adpc`](adpc.md)
-[`adsl`](adsl.md) `adttesaf` [`advs`](advs.md)\# nolint
+[`adae`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adae.md)
+[`adaeocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaeocmq.md)
+[`adagocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adagocmq.md)
+[`adcm`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adcm.md)
+[`addili`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addili.md)
+[`adeg`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adeg.md)
+[`adex`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adex.md)
+[`adexsum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adexsum.md)
+[`adlb`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adlb.md)
+[`adpc`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adpc.md)
+[`adsl`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adsl.md)
+`adttesaf`
+[`advs`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/advs.md)\#
+nolint
 
 ## Examples
 

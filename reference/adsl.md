@@ -10,7 +10,7 @@ adsl
 
 ## Format
 
-A data frame with 306 rows and 108 variables:
+A data frame with 306 rows and 110 variables:
 
 - STUDYID:
 
@@ -23,6 +23,14 @@ A data frame with 306 rows and 108 variables:
 - SUBJID:
 
   Subject Identifier for the Study
+
+- SITEID:
+
+  Study Site Identifier
+
+- COUNTRY:
+
+  Country
 
 - RFSTDTC:
 
@@ -40,177 +48,33 @@ A data frame with 306 rows and 108 variables:
 
   Date/Time of Last Study Treatment
 
-- RFICDTC:
-
-  Date/Time of Informed Consent
-
 - RFPENDTC:
 
   Date/Time of End of Participation
-
-- DTHDTC:
-
-  Date/Time of Death
-
-- DTHFL:
-
-  Subject Death Flag
-
-- SITEID:
-
-  Study Site Identifier
-
-- AGE:
-
-  Age
-
-- AGEU:
-
-  Age Units
-
-- SEX:
-
-  Sex
-
-- RACE:
-
-  Race
-
-- ETHNIC:
-
-  Ethnicity
-
-- ARMCD:
-
-  Planned Arm Code
-
-- ARM:
-
-  Description of Planned Arm
-
-- ACTARMCD:
-
-  Actual Arm Code
-
-- ACTARM:
-
-  Description of Actual Arm
-
-- COUNTRY:
-
-  Country
-
-- DMDTC:
-
-  Date/Time of Collection
-
-- DMDY:
-
-  Study Day of Collection
-
-- TRT01P:
-
-  Planned Treatment for Period 01
-
-- TRT01A:
-
-  Actual Treatment for Period 01
-
-- TRTSDTM:
-
-  Datetime of First Exposure to Treatment
-
-- TRTSTMF:
-
-  Time of First Exposure Imput. Flag
-
-- TRTEDTM:
-
-  Datetime of Last Exposure to Treatment
-
-- TRTETMF:
-
-  Time of Last Exposure Imput. Flag
-
-- TRTSDT:
-
-  Date of First Exposure to Treatment
-
-- TRTEDT:
-
-  Date of Last Exposure to Treatment
-
-- TRTDURD:
-
-  Total Treatment Duration (Days)
 
 - SCRFDT:
 
   Screen Failure Date
 
-- EOSDT:
-
-  End of Study Date
-
-- EOSSTT:
-
-  End of Study Status
-
 - FRVDT:
 
   Final Retrieval Visit Date
 
-- RANDDT:
+- DTHDTC:
 
-  Date of Randomization
-
-- DTHDT:
-
-  Date of Death
-
-- DTHDTF:
-
-  Date of Death Imputation Flag
+  Date/Time of Death
 
 - DTHADY:
 
   Relative Day of Death
 
+- DTHFL:
+
+  Subject Death Flag
+
 - LDDTHELD:
 
   Elapsed Days from Last Dose to Death
-
-- DTHCAUS:
-
-  Cause of Death
-
-- DTHDOM:
-
-  Domain for Date of Death Collection
-
-- DTHCGR1:
-
-  Cause of Death Reason 1
-
-- LSTALVDT:
-
-  Date Last Known Alive
-
-- SAFFL:
-
-  Safety Population Flag
-
-- RACEGR1:
-
-  Pooled Race Group 1
-
-- AGEGR1:
-
-  Pooled Age Group 1
-
-- REGION1:
-
-  Geographic Region 1
 
 - LDDTHGR1:
 
@@ -224,9 +88,149 @@ A data frame with 306 rows and 108 variables:
 
   Death After 30 Days from Last Trt Flag
 
+- DTHDOM:
+
+  Domain for Date of Death Collection
+
 - DTHB30FL:
 
   Death Within 30 Days of First Trt Flag
+
+- REGION1:
+
+  Geographic Region 1
+
+- DMDTC:
+
+  Date/Time of Collection
+
+- DMDY:
+
+  Study Day of Collection
+
+- AGE:
+
+  Age
+
+- AGEU:
+
+  Age Units
+
+- AGEGR1:
+
+  Pooled Age Group 1
+
+- SEX:
+
+  Sex
+
+- RACE:
+
+  Race
+
+- RACEGR1:
+
+  Pooled Race Group 1
+
+- ETHNIC:
+
+  Ethnicity
+
+- SAFFL:
+
+  Safety Population Flag
+
+- ARM:
+
+  Description of Planned Arm
+
+- ARMCD:
+
+  Planned Arm Code
+
+- ACTARM:
+
+  Description of Actual Arm
+
+- ACTARMCD:
+
+  Actual Arm Code
+
+- TRT01P:
+
+  Planned Treatment for Period 01
+
+- TRT01A:
+
+  Actual Treatment for Period 01
+
+- TRTSDT:
+
+  Date of First Exposure to Treatment
+
+- TRTSDTM:
+
+  Datetime of First Exposure to Treatment
+
+- TRTSTMF:
+
+  Time of First Exposure Imput. Flag
+
+- TRTEDT:
+
+  Date of Last Exposure to Treatment
+
+- TRTEDTM:
+
+  Datetime of Last Exposure to Treatment
+
+- TRTETMF:
+
+  Time of Last Exposure Imput. Flag
+
+- EOSSTT:
+
+  End of Study Status
+
+- EOSDT:
+
+  End of Study Date
+
+- RFICDTC:
+
+  Date/Time of Informed Consent
+
+- RANDDT:
+
+  Date of Randomization
+
+- LSTALVDT:
+
+  Date Last Known Alive
+
+- TRTDURD:
+
+  Total Treatment Duration (Days)
+
+- DTHDT:
+
+  Date of Death
+
+- DTHDTF:
+
+  Date of Death Imputation Flag
+
+- DTHCAUS:
+
+  Cause of Death
+
+- DTHCGR1:
+
+  Cause of Death Reason 1
+
+- BRTHDTC:
+
+  Date/Time of Birth
 
 - TRT01PN:
 
@@ -444,16 +448,30 @@ A data frame with 306 rows and 108 variables:
 
   History of Diabetes
 
+- DCTADY:
+
+  Study Day of Treatment Discontinuation
+
 ## Source
 
 data from pharmaverseadam.
 
 ## See also
 
-[`adae`](adae.md) [`adaeocmq`](adaeocmq.md) [`adagocmq`](adagocmq.md)
-[`adcm`](adcm.md) [`adeg`](adeg.md) [`adex`](adex.md)
-[`adexsum`](adexsum.md) [`adlb`](adlb.md) [`adpc`](adpc.md) `adsl`
-[`adttesaf`](adttesaf.md) [`advs`](advs.md)\# nolint
+[`adae`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adae.md)
+[`adaeocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaeocmq.md)
+[`adagocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adagocmq.md)
+[`adcm`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adcm.md)
+[`addili`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addili.md)
+[`adeg`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adeg.md)
+[`adex`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adex.md)
+[`adexsum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adexsum.md)
+[`adlb`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adlb.md)
+[`adpc`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adpc.md)
+`adsl`
+[`adttesaf`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adttesaf.md)
+[`advs`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/advs.md)\#
+nolint
 
 ## Examples
 

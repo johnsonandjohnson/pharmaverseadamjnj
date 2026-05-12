@@ -58,6 +58,7 @@ Statistical Programming standards.
 You can install the development version from GitHub:
 
 ``` r
+
 install.packages("pharmaverseadamjnj") #CRAN Release
 #devtools::install_github("johnsonandjohnson/pharmaverseadamjnj", ref = "dev") #or for the rolling dev release
 ```
@@ -65,6 +66,7 @@ install.packages("pharmaverseadamjnj") #CRAN Release
 ## Usage
 
 ``` r
+
 library(pharmaverseadamjnj)
 
 # Access the ADaM datasets directly

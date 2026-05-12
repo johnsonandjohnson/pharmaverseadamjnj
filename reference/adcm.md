@@ -12,37 +12,133 @@ adcm
 
 A data frame with 7276 rows and 63 variables:
 
+- USUBJID:
+
+  Unique Subject Identifier
+
 - DOMAIN:
 
   Domain Abbreviation
 
-- USUBJID:
+- TRTP:
 
-  Unique Subject Identifier
+  Planned Treatment
+
+- TRTA:
+
+  Actual Treatment
+
+- APHASE:
+
+  Phase
+
+- APHASEN:
+
+  Description of Phase N
 
 - CMSEQ:
 
   Sequence Number
 
-- CMSPID:
+- CMDECOD:
 
-  Sponsor-Defined Identifier
+  Standardized Medication Name
 
 - CMTRT:
 
   Reported Name of Drug, Med, or Therapy
 
-- CMDECOD:
+- CMCLAS:
 
-  Standardized Medication Name
+  Medication Class
+
+- CMSTDTC:
+
+  Start Date/Time of Medication
+
+- ASTDT:
+
+  Analysis Start Date
+
+- ASTDTM:
+
+  Analysis Start Date/Time
+
+- ASTDTF:
+
+  Analysis Start Date Imputation Flag
+
+- ASTTMF:
+
+  Analysis Start Time Imputation Flag
+
+- CMENDTC:
+
+  End Date/Time of Medication
+
+- AENDT:
+
+  Analysis End Date
+
+- AENDTM:
+
+  Analysis End Date/Time
+
+- AENDTF:
+
+  Analysis End Date Imputation Flag
+
+- AENTMF:
+
+  Analysis End Time Imputation Flag
+
+- ASTDY:
+
+  Analysis Start Relative Day
+
+- CMSTDY:
+
+  Study Day of Start of Medication
+
+- AENDY:
+
+  Analysis End Relative Day
+
+- CMENDY:
+
+  Study Day of End of Medication
+
+- ADURN:
+
+  Analysis Duration (N)
+
+- ADURU:
+
+  Analysis Duration Units
+
+- ANL01FL:
+
+  Analysis Flag 01
+
+- ONTRTFL:
+
+  On Treatment Record Flag
+
+- PREFL:
+
+  Pre-treatment Flag
+
+- FUPFL:
+
+  Follow-up Flag
+
+- AOCCPFL:
+
+  1st Occurrence of Preferred Term Flag
 
 - CMINDC:
 
   Indication
-
-- CMCLAS:
-
-  Medication Class
 
 - CMDOSE:
 
@@ -60,6 +156,14 @@ A data frame with 7276 rows and 63 variables:
 
   Route of Administration
 
+- CMSPID:
+
+  Sponsor-Defined Identifier
+
+- CMENRTPT:
+
+  End Relative to Reference Time Point
+
 - VISITNUM:
 
   Visit Number
@@ -75,110 +179,6 @@ A data frame with 7276 rows and 63 variables:
 - CMDTC:
 
   Date/Time of Collection
-
-- CMSTDTC:
-
-  Start Date/Time of Medication
-
-- CMENDTC:
-
-  End Date/Time of Medication
-
-- CMSTDY:
-
-  Study Day of Start of Medication
-
-- CMENDY:
-
-  Study Day of End of Medication
-
-- CMENRTPT:
-
-  End Relative to Reference Time Point
-
-- ASTDTM:
-
-  Analysis Start Date/Time
-
-- ASTDTF:
-
-  Analysis Start Date Imputation Flag
-
-- ASTTMF:
-
-  Analysis Start Time Imputation Flag
-
-- AENDTM:
-
-  Analysis End Date/Time
-
-- AENDTF:
-
-  Analysis End Date Imputation Flag
-
-- AENTMF:
-
-  Analysis End Time Imputation Flag
-
-- ASTDT:
-
-  Analysis Start Date
-
-- AENDT:
-
-  Analysis End Date
-
-- ASTDY:
-
-  Analysis Start Relative Day
-
-- AENDY:
-
-  Analysis End Relative Day
-
-- ADURN:
-
-  Analysis Duration (N)
-
-- ADURU:
-
-  Analysis Duration Units
-
-- ONTRTFL:
-
-  On Treatment Record Flag
-
-- PREFL:
-
-  Pre-treatment Flag
-
-- FUPFL:
-
-  Follow-up Flag
-
-- ANL01FL:
-
-  Analysis Flag 01
-
-- AOCCPFL:
-
-  1st Occurrence of Preferred Term Flag
-
-- APHASE:
-
-  Phase
-
-- APHASEN:
-
-  Description of Phase N
-
-- TRTP:
-
-  Planned Treatment
-
-- TRTA:
-
-  Actual Treatment
 
 - CMLVL1:
 
@@ -270,10 +270,20 @@ data from pharmaverseadam.
 
 ## See also
 
-[`adae`](adae.md) [`adaeocmq`](adaeocmq.md) [`adagocmq`](adagocmq.md)
-`adcm` [`adeg`](adeg.md) [`adex`](adex.md) [`adexsum`](adexsum.md)
-[`adlb`](adlb.md) [`adpc`](adpc.md) [`adsl`](adsl.md)
-[`adttesaf`](adttesaf.md) [`advs`](advs.md)\# nolint
+[`adae`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adae.md)
+[`adaeocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaeocmq.md)
+[`adagocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adagocmq.md)
+`adcm`
+[`addili`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addili.md)
+[`adeg`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adeg.md)
+[`adex`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adex.md)
+[`adexsum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adexsum.md)
+[`adlb`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adlb.md)
+[`adpc`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adpc.md)
+[`adsl`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adsl.md)
+[`adttesaf`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adttesaf.md)
+[`advs`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/advs.md)\#
+nolint
 
 ## Examples
 
