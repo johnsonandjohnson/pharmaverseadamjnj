@@ -235,12 +235,11 @@ gen_adeg <- function(seed = 123) {
     "SAFFL",
     "STUDYID",
     "AGE",
-    "SEX",
-    "RACE_DECODE"
+    "SEX"
   )
 
   # Select only the key and the 'to_keep' variables from ADSL
-  adsl_subset <- adsl %>%
+  adsl_subset <- adsl |>
     select(USUBJID, all_of(to_keep_from_adsl))
 
   if (length(shared) > 0) {

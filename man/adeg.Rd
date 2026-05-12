@@ -5,10 +5,41 @@
 \alias{adeg}
 \title{adeg}
 \format{
-A data frame with 13536 rows and 71 variables:
+A data frame with 13536 rows and 70 variables:
 \describe{
-\item{DOMAIN}{Domain Abbreviation}
 \item{USUBJID}{Unique Subject Identifier}
+\item{DOMAIN}{Domain Abbreviation}
+\item{ASEQ}{Analysis Sequence Number}
+\item{TRTP}{Planned Treatment}
+\item{TRTA}{Actual Treatment}
+\item{ADT}{Analysis Date}
+\item{ADTM}{Analysis Datetime}
+\item{ADY}{Analysis Relative Day}
+\item{ATMF}{Analysis Time Imputation Flag}
+\item{AVISIT}{Analysis Visit}
+\item{AVISITN}{Analysis Visit (N)}
+\item{ATPT}{Analysis Timepoint}
+\item{ATPTN}{Analysis Timepoint (N)}
+\item{PARAM}{Parameter}
+\item{PARAMCD}{Parameter Code}
+\item{PARAMN}{Parameter (N)}
+\item{AVAL}{Analysis Value}
+\item{AVALC}{Analysis Value (C)}
+\item{AVALCAT1}{Analysis Value Category 1}
+\item{AVALCA1N}{Analysis Value Category 1 (N)}
+\item{BASEC}{Baseline Value (C)}
+\item{BASETYPE}{Baseline Type}
+\item{CHG}{Change from Baseline}
+\item{CHGCAT1}{Change from Baseline Category 1}
+\item{CHGCAT1N}{Change from Baseline Category 1 (N)}
+\item{PCHG}{Percent Change from Baseline}
+\item{DTYPE}{Derivation Type}
+\item{ANRIND}{Analysis Reference Range Indicator}
+\item{ANRLO}{Analysis Normal Range Lower Limit}
+\item{ANRHI}{Analysis Normal Range Upper Limit}
+\item{ABLFL}{Baseline Record Flag}
+\item{ANL01FL}{Analysis Flag 01-Analysis Value}
+\item{ONTRTFL}{On Treatment Record Flag}
 \item{EGSEQ}{Sequence Number}
 \item{EGTESTCD}{ECG Test or Examination Short Name}
 \item{EGTEST}{ECG Test or Examination Name}
@@ -29,37 +60,6 @@ A data frame with 13536 rows and 71 variables:
 \item{EGTPTNUM}{Planned Time Point Number}
 \item{EGELTM}{Planned Elapsed Time from Time Point Ref}
 \item{EGTPTREF}{Time Point Reference}
-\item{ADTM}{Analysis Datetime}
-\item{ATMF}{Analysis Time Imputation Flag}
-\item{ADY}{Analysis Relative Day}
-\item{PARAMCD}{Parameter Code}
-\item{AVAL}{Analysis Value}
-\item{AVALC}{Analysis Value (C)}
-\item{ADT}{Analysis Date}
-\item{ATPTN}{Analysis Timepoint (N)}
-\item{ATPT}{Analysis Timepoint}
-\item{AVISIT}{Analysis Visit}
-\item{AVISITN}{Analysis Visit (N)}
-\item{DTYPE}{Derivation Type}
-\item{ONTRTFL}{On Treatment Record Flag}
-\item{ANRLO}{Analysis Normal Range Lower Limit}
-\item{ANRHI}{Analysis Normal Range Upper Limit}
-\item{ANRIND}{Analysis Reference Range Indicator}
-\item{BASETYPE}{Baseline Type}
-\item{ABLFL}{Baseline Record Flag}
-\item{BASEC}{Baseline Value (C)}
-\item{CHG}{Change from Baseline}
-\item{PCHG}{Percent Change from Baseline}
-\item{ANL01FL}{Analysis Flag 01-Analysis Value}
-\item{TRTP}{Planned Treatment}
-\item{TRTA}{Actual Treatment}
-\item{ASEQ}{Analysis Sequence Number}
-\item{AVALCAT1}{Analysis Value Category 1}
-\item{AVALCA1N}{Analysis Value Category 1 (N)}
-\item{CHGCAT1}{Change from Baseline Category 1}
-\item{CHGCAT1N}{Change from Baseline Category 1 (N)}
-\item{PARAM}{Parameter}
-\item{PARAMN}{Parameter (N)}
 \item{TRTEMFL}{Treatment Emergent Analysis Flag}
 \item{ANL02FL}{Analysis Flag 02-By Visit Value}
 \item{ANL03FL}{Analysis Flag 03-Maximum Value}
@@ -77,7 +77,6 @@ A data frame with 13536 rows and 71 variables:
 \item{STUDYID}{Study Identifier}
 \item{AGE}{Age}
 \item{SEX}{Sex}
-\item{RACE_DECODE}{Race}
 }
 }
 \source{
@@ -90,10 +89,10 @@ adeg
 adeg modified from pharmaverseadam
 }
 \examples{
-head(data("adeg"))
+ head(data("adeg"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 }
 \keyword{adeg}
 \keyword{datasets}

@@ -24,16 +24,28 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "DIABP" |
         PARAMCD == "PULSE" |
         PARAMCD == "TEMP" |
+        PARAMCD == "RESP" |
         PARAMCD == "WEIGHT") &
         DTYPE == "AVERAGE" &
         !is.na(AVISIT)
     ) |>
     # nolint end
     dplyr::mutate(
-      AVALC = NA
+      AVALC = NA_character_
     )
 
-  # Create SYSBPO, DIABPO, and PULSEO Parameters
+  gen_resp <- gen |>
+    dplyr::filter(
+      PARAMCD == "PULSE"
+    ) |>
+    dplyr::mutate(
+      PARAMCD = "RESP",
+      PARAM = "Respiratory Rate (breaths/min)",
+      AVAL = dplyr::case_when(
+        PARAMCD == "RESP" ~ as.numeric(sample(seq(10, 25), dplyr::n(), replace = TRUE))
+      )
+    )
+
   gen_ortho <- gen |>
     dplyr::filter(
       PARAMCD == "SYSBP" | PARAMCD == "DIABP" | PARAMCD == "PULSE"
@@ -50,12 +62,9 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "PULSEO" ~ "Pulse Rate Orthostatic (beats/min)",
       ),
       AVAL = dplyr::case_when(
-        PARAMCD == "SYSBPO" ~
-          as.numeric(sample(seq(-30, 30), dplyr::n(), replace = TRUE)),
-        PARAMCD == "DIABPO" ~
-          as.numeric(sample(seq(-25, 25), dplyr::n(), replace = TRUE)),
-        PARAMCD == "PULSEO" ~
-          as.numeric(sample(seq(-25, 25), dplyr::n(), replace = TRUE)),
+        PARAMCD == "SYSBPO" ~ as.numeric(sample(seq(-30, 30), dplyr::n(), replace = TRUE)),
+        PARAMCD == "DIABPO" ~ as.numeric(sample(seq(-25, 25), dplyr::n(), replace = TRUE)),
+        PARAMCD == "PULSEO" ~ as.numeric(sample(seq(-25, 25), dplyr::n(), replace = TRUE)),
       )
     )
 
@@ -76,62 +85,45 @@ gen_advs <- function(seed = 123) {
         PARAMCD == "ORTHYPD" & AVAL < -10 ~ "Y",
         PARAMCD == "ORTHYPD" ~ "N",
       ),
-      AVAL = NA,
+      AVAL = NA_real_
     )
 
-  gen_orthyps <- gen_ortho_der |>
-    dplyr::filter(PARAMCD == "ORTHYPS") |>
+  gen_orthyp <- gen_ortho_der |>
+    dplyr::group_by(STUDYID, USUBJID, AVISIT, AVISITN, ADT) |>
     dplyr::mutate(
-      ORTHYPS = AVALC
-    ) |>
-    dplyr::select(-AVALC)
-
-  gen_orthypd <- gen_ortho_der |>
-    dplyr::filter(PARAMCD == "ORTHYPD") |>
-    dplyr::mutate(
-      ORTHYPD = AVALC
-    ) |>
-    dplyr::select(STUDYID, USUBJID, AVISITN, ORTHYPD)
-
-  gen_orthyp <- dplyr::inner_join(
-    gen_orthyps,
-    gen_orthypd,
-    by = c("STUDYID", "USUBJID", "AVISITN"),
-    copy = FALSE,
-    suffix = c(".x", ".y"),
-    keep = FALSE,
-    na_matches = "na"
-  ) |>
-    dplyr::mutate(
-      PARAMCD = "ORTHYP",
-      PARAM = "Orthostatic Hypotension",
-      AVALC = dplyr::case_when(
-        ORTHYPS == "Y" |
-          ORTHYPD == "Y" ~
-          "Y",
+      ORTHYP_FLAG = dplyr::case_when(
+        any(AVALC == "Y", na.rm = TRUE) ~ "Y",
         .default = "N"
       )
     ) |>
-    dplyr::select(-ORTHYPS, -ORTHYPD)
+    dplyr::slice_head(n = 1) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(
+      PARAMCD = "ORTHYP",
+      PARAM = "Orthostatic Hypotension",
+      AVALC = ORTHYP_FLAG
+    ) |>
+    dplyr::select(-ORTHYP_FLAG)
 
-  gen <- rbind(gen, gen_ortho, gen_ortho_der, gen_orthyp) |>
+  gen <- rbind(gen, gen_resp, gen_ortho, gen_ortho_der, gen_orthyp) |>
     dplyr::mutate(
       ABLFL = dplyr::case_when(
         AVISIT == "Baseline" ~ "Y",
-        .default = NA
+        .default = NA_character_
       ),
+      ASTDT = ADT,
       ATPT = "BEFORE TREATMENT",
       ATPTN = 1,
       ANL01FL = "Y",
       ANL02FL = "Y",
       APOBLFL = dplyr::case_when(
-        AVISIT == "Baseline" ~ NA,
+        AVISIT == "Baseline" ~ NA_character_,
         .default = "Y"
       ),
-      ONTRTFL = dplyr::case_when(
-        AVISIT == "Baseline" ~ NA,
+      ONTRTFL = as.factor(dplyr::case_when(
+        AVISIT == "Baseline" ~ NA_character_,
         .default = "Y"
-      ),
+      )),
       AVALCAT1 = dplyr::case_when(
         PARAMCD == "SYSBP" & AVAL < 90 ~ "<90",
         PARAMCD == "SYSBP" & AVAL >= 90 & AVAL < 119 ~ ">=90 to 119",
@@ -176,74 +168,122 @@ gen_advs <- function(seed = 123) {
     admiral::derive_var_pchg() |>
     dplyr::mutate(
       CHG = dplyr::case_when(
-        ABLFL == "Y" ~ NA,
+        ABLFL == "Y" ~ NA_real_,
         .default = CHG
       ),
       PCHG = dplyr::case_when(
-        ABLFL == "Y" ~ NA,
+        ABLFL == "Y" ~ NA_real_,
         .default = PCHG
       ),
       ADTM = as.POSIXct(paste0(ADT, "T06:00"), format = "%Y-%m-%dT%H:%M"),
       CRIT1 = dplyr::case_when(
-        PARAMCD == "SYSBP" ~
-          "<90 mmHg and with >30 mmHg decrease from baseline",
-        PARAMCD == "DIABP" ~
-          "<50 mmHg and with >20 mmHg decrease from baseline",
-        PARAMCD == "PULSE" ~ "<50 bpm and with >20 bpm decrease from baseline",
-        PARAMCD == "WEIGHT" ~ "decrease 10% kg from baseline",
-        PARAMCD == "RESP" ~ ">20 breaths per minute",
-        PARAMCD == "TEMP" ~ ">38 and with >=1 increase from baseline",
-        PARAMCD == "PULSEO" ~ "Orthostatic Pulse Rate >15",
-        PARAMCD == "SYSBPO" ~ "Orthostatic SBP <-20",
-        PARAMCD == "DIABPO" ~ "Orthostatic DBP <-10",
+        PARAMCD == "SYSBP" ~ "<90",
+        PARAMCD == "DIABP" ~ "<60",
+        PARAMCD == "SYSBPO" ~ "SBP (STD-SUP)<-20",
+        PARAMCD == "DIABPO" ~ "DBP (STD-SUP)<-10",
+        PARAMCD == "ORTHYPS" ~ "SBP (STD-SUP)<-20",
+        PARAMCD == "ORTHYPD" ~ "DBP (STD-SUP)<-10",
+        PARAMCD == "ORTHYP" ~ "SBP (STD-SUP)<-20 or DBP (STD-SUP)<-10",
       ),
       CRIT1FL = dplyr::case_when(
-        PARAMCD == "SYSBP" & AVAL < 90 & CHG < -30 ~ "Y",
-        PARAMCD == "SYSBP" ~ "N",
-        PARAMCD == "DIABP" & AVAL < 50 & CHG < -20 ~ "Y",
-        PARAMCD == "DIABP" ~ "N",
-        PARAMCD == "PULSE" & AVAL < 50 & CHG < -20 ~ "Y",
-        PARAMCD == "PULSE" ~ "N",
-        PARAMCD == "WEIGHT" & PCHG < -10 ~ "Y",
-        PARAMCD == "WEIGHT" ~ "N",
-        PARAMCD == "RESP" & AVAL > 20 ~ "Y",
-        PARAMCD == "RESP" ~ "N",
-        PARAMCD == "TEMP" & AVAL > 38 & CHG >= 1 ~ "Y",
-        PARAMCD == "TEMP" ~ "N",
-        PARAMCD == "PULSEO" & AVAL > 15 ~ "Y",
-        PARAMCD == "PULSEO" ~ "N",
+        PARAMCD == "PULSE" & !is.na(AVAL) & AVAL < 50 & !is.na(CHG) & CHG <= -20 ~ "Y",
+        PARAMCD == "SYSBP" & !is.na(AVAL) & AVAL < 90 & !is.na(CHG) & CHG <= -30 ~ "Y",
+        PARAMCD == "DIABP" & !is.na(AVAL) & AVAL < 50 & !is.na(CHG) & CHG <= -20 ~ "Y",
         PARAMCD == "SYSBPO" & AVAL < -20 ~ "Y",
-        PARAMCD == "SYSBPO" ~ "N",
         PARAMCD == "DIABPO" & AVAL < -10 ~ "Y",
-        PARAMCD == "DIABPO" ~ "N",
+        PARAMCD == "ORTHYPS" & AVALC == "Y" ~ "Y",
+        PARAMCD == "ORTHYPD" & AVALC == "Y" ~ "Y",
+        PARAMCD == "ORTHYP" & AVALC == "Y" ~ "Y",
+        PARAMCD %in% c("PULSE", "SYSBP", "DIABP", "SYSBPO", "DIABPO", "ORTHYPS", "ORTHYPD", "ORTHYP") ~ "N",
+        .default = NA_character_
       ),
       CRIT2 = dplyr::case_when(
-        PARAMCD == "SYSBP" ~
-          ">180 mmHg and with >40 mmHg increase from baseline",
-        PARAMCD == "DIABP" ~
-          ">105 mmHg and with >30 mmHg increase from baseline",
-        PARAMCD == "PULSE" ~ ">120 bpm and with >30 bpm increase from baseline",
-        PARAMCD == "WEIGHT" ~ "increase 10% kg from baseline",
+        PARAMCD == "SYSBP" ~ ">=90",
+        PARAMCD == "DIABP" ~ ">=60",
       ),
       CRIT2FL = dplyr::case_when(
-        PARAMCD == "SYSBP" & AVAL > 180 & CHG > 40 ~ "Y",
-        PARAMCD == "SYSBP" ~ "N",
-        PARAMCD == "DIABP" & AVAL > 105 & CHG > 30 ~ "Y",
-        PARAMCD == "DIABP" ~ "N",
-        PARAMCD == "PULSE" & AVAL > 120 & CHG > 30 ~ "Y",
-        PARAMCD == "PULSE" ~ "N",
-        PARAMCD == "WEIGHT" & CHG > 10 ~ "Y",
-        PARAMCD == "WEIGHT" ~ "N",
+        PARAMCD == "PULSE" & !is.na(AVAL) & AVAL > 120 & !is.na(CHG) & CHG >= 30 ~ "Y",
+        PARAMCD == "SYSBP" & !is.na(AVAL) & AVAL > 180 & !is.na(CHG) & CHG >= 40 ~ "Y",
+        PARAMCD == "DIABP" & !is.na(AVAL) & AVAL > 105 & !is.na(CHG) & CHG >= 30 ~ "Y",
+        PARAMCD %in% c("PULSE", "SYSBP", "DIABP") ~ "N",
+        .default = NA_character_
       ),
       CRIT3 = dplyr::case_when(
-        PARAMCD == "SYSBP" ~ "Systolic blood pressure<90",
-        PARAMCD == "DIABP" ~ "Diastolic blood pressure<60",
+        PARAMCD == "SYSBP" ~ ">=120",
+        PARAMCD == "DIABP" ~ ">=80",
       ),
       CRIT3FL = dplyr::case_when(
-        PARAMCD == "SYSBP" & AVAL < 90 ~ "Y",
-        PARAMCD == "SYSBP" ~ "N",
-        PARAMCD == "DIABP" & AVAL < 60 ~ "Y",
-        PARAMCD == "DIABP" ~ "N",
+        PARAMCD == "SYSBP" & AVAL >= 120 ~ "Y",
+        PARAMCD == "DIABP" & AVAL >= 80 ~ "Y",
+        PARAMCD %in% c("SYSBP", "DIABP") ~ "N",
+        .default = NA_character_
+      ),
+      CRIT4 = dplyr::case_when(
+        PARAMCD == "SYSBP" ~ ">=140",
+        PARAMCD == "DIABP" ~ ">=90",
+      ),
+      CRIT4FL = dplyr::case_when(
+        PARAMCD == "SYSBP" & AVAL >= 140 ~ "Y",
+        PARAMCD == "DIABP" & AVAL >= 90 ~ "Y",
+        PARAMCD %in% c("SYSBP", "DIABP") ~ "N",
+        .default = NA_character_
+      ),
+      CRIT5 = dplyr::case_when(
+        PARAMCD == "SYSBP" ~ ">=160",
+        PARAMCD == "DIABP" ~ ">=110",
+      ),
+      CRIT5FL = dplyr::case_when(
+        PARAMCD == "SYSBP" & AVAL >= 160 ~ "Y",
+        PARAMCD == "DIABP" & AVAL >= 110 ~ "Y",
+        PARAMCD %in% c("SYSBP", "DIABP") ~ "N",
+        .default = NA_character_
+      ),
+      CRIT6 = dplyr::case_when(
+        PARAMCD == "SYSBP" ~ ">=180",
+        PARAMCD == "DIABP" ~ ">=120",
+      ),
+      CRIT6FL = dplyr::case_when(
+        PARAMCD == "SYSBP" & AVAL >= 180 ~ "Y",
+        PARAMCD == "DIABP" & AVAL >= 120 ~ "Y",
+        PARAMCD %in% c("SYSBP", "DIABP") ~ "N",
+        .default = NA_character_
+      ),
+      CRIT7 = dplyr::case_when(
+        PARAMCD == "PULSE" ~ "<50 beats/min and with >20 beats/min decrease from baseline",
+        PARAMCD == "SYSBP" ~ "<90 mmHg and with >30 mmHg decrease from baseline",
+        PARAMCD == "DIABP" ~ "<50 mmHg and with >20 mmHg decrease from baseline",
+        PARAMCD == "RESP" ~ ">20 breaths per minute",
+        PARAMCD == "TEMP" ~ ">38 and with >=1 increase from baseline",
+        PARAMCD == "WEIGHT" ~ "decrease 10% kg from baseline",
+      ),
+      CRIT7FL = dplyr::case_when(
+        PARAMCD == "PULSE" & AVAL < 50 & CHG < -20 ~ "Y",
+        PARAMCD == "SYSBP" & AVAL < 90 & CHG < -30 ~ "Y",
+        PARAMCD == "DIABP" & AVAL < 50 & CHG < -20 ~ "Y",
+        PARAMCD == "RESP" & AVAL > 20 ~ "Y",
+        PARAMCD == "TEMP" & AVAL > 38 & CHG >= 1 ~ "Y",
+        PARAMCD == "WEIGHT" & PCHG < -10 ~ "Y",
+        PARAMCD %in% c("PULSE", "SYSBP", "DIABP", "RESP", "TEMP", "WEIGHT") ~ "N",
+        .default = NA_character_
+      ),
+      CRIT8 = dplyr::case_when(
+        PARAMCD == "PULSE" ~ ">120 beats/min and with >30 beats/min increase from baseline",
+        PARAMCD == "SYSBP" ~ ">180 mmHg and with >40 mmHg increase from baseline",
+        PARAMCD == "DIABP" ~ ">105 mmHg and with >30 mmHg increase from baseline",
+        PARAMCD == "WEIGHT" ~ "increase 10% kg from baseline",
+      ),
+      CRIT8FL = dplyr::case_when(
+        PARAMCD == "PULSE" & AVAL > 120 & CHG > 30 ~ "Y",
+        PARAMCD == "SYSBP" & AVAL > 180 & CHG > 40 ~ "Y",
+        PARAMCD == "DIABP" & AVAL > 105 & CHG > 30 ~ "Y",
+        PARAMCD == "WEIGHT" & PCHG > 10 ~ "Y",
+        PARAMCD %in% c("PULSE", "SYSBP", "DIABP", "WEIGHT") ~ "N",
+        .default = NA_character_
+      ),
+      VSCLSIG = dplyr::case_when(
+        PARAMCD == "SYSBP" & !is.na(AVAL) & AVAL >= 130 ~ "Y",
+        PARAMCD == "DIABP" & !is.na(AVAL) & AVAL >= 80 ~ "Y",
+        .default = "N"
       ),
       ATOXDSCL = dplyr::case_when(
         PARAMCD == "SYSBP" ~ "Hypotension (systolic)",
@@ -299,7 +339,7 @@ gen_advs <- function(seed = 123) {
         AVISIT == "Week 16" ~ 7,
         AVISIT == "Week 20" ~ 8,
         AVISIT == "Week 24" ~ 9,
-        AVISIT == "Week 26" ~ 23,
+        AVISIT == "Week 26" ~ 24,
       ),
       AVISIT = forcats::fct_reorder(
         as.factor(dplyr::case_when(
@@ -348,25 +388,27 @@ gen_advs <- function(seed = 123) {
         AVISIT == "Cycle 07" ~ "Cycle 17",
         AVISIT == "Cycle 08" ~ "Cycle 19",
         AVISIT == "Cycle 09" ~ "Cycle 21",
-        AVISIT == "End Of Treatment" ~ "Cycle 23",
+        AVISIT == "End Of Treatment" ~ "Cycle 22",
       ),
       ADT = ADT + 365,
     )
 
   gen_add_avisit2 <- gen |>
     dplyr::filter(
-      AVISIT == "Cycle 08" | AVISIT == "Cycle 09" | AVISIT == "End Of Treatment"
+      AVISIT == "Cycle 08" | AVISIT == "Cycle 09" | AVISIT == "Cycle 29" | AVISIT == "End Of Treatment"
     ) |>
     dplyr::mutate(
       AVISITN = dplyr::case_when(
         AVISIT == "Cycle 08" ~ 19,
-        AVISIT == "Cycle 09" ~ 21,
+        AVISIT == "Cycle 09" ~ 20,
+        AVISIT == "Cycle 29" ~ 21,
         AVISIT == "End Of Treatment" ~ 22
       ),
       AVISIT = dplyr::case_when(
-        AVISIT == "Cycle 08" ~ "Cycle 22",
+        AVISIT == "Cycle 08" ~ "Cycle 23",
         AVISIT == "Cycle 09" ~ "Cycle 25",
-        AVISIT == "End Of Treatment" ~ "Cycle 29"
+        AVISIT == "Cycle 29" ~ "Cycle 29",
+        AVISIT == "End Of Treatment" ~ "Cycle 30"
       ),
       ADT = ADT + 730,
     )
@@ -374,16 +416,18 @@ gen_advs <- function(seed = 123) {
   gen <- rbind(gen, gen_add_avisit1, gen_add_avisit2) |>
     dplyr::mutate(
       AVISIT = forcats::fct_reorder(as.factor(AVISIT), AVISITN),
+      TMP_SEQ = dplyr::row_number()
     ) |>
     admiral::restrict_derivation(
       derivation = admiral::derive_var_extreme_flag,
       args = params(
         by_vars = exprs(STUDYID, USUBJID, PARAMCD),
-        order = exprs(desc(AVAL), ADT),
+        order = exprs(desc(AVAL), ADT, TMP_SEQ),
         new_var = ANL06FL,
         true_value = "Y",
-        false_value = NA,
-        mode = "last"
+        false_value = NA_character_,
+        mode = "last",
+        check_type = "none"
       ),
       filter = AVISIT != "Screening"
     ) |>
@@ -391,11 +435,12 @@ gen_advs <- function(seed = 123) {
       derivation = admiral::derive_var_extreme_flag,
       args = params(
         by_vars = exprs(STUDYID, USUBJID, PARAMCD),
-        order = exprs(ATOXGRH, ADT),
+        order = exprs(ATOXGRH, ADT, TMP_SEQ),
         new_var = ANL05FL,
         true_value = "Y",
-        false_value = NA,
-        mode = "last"
+        false_value = NA_character_,
+        mode = "last",
+        check_type = "none"
       ),
       filter = AVISIT != "Screening"
     ) |>
@@ -403,11 +448,12 @@ gen_advs <- function(seed = 123) {
       derivation = admiral::derive_var_extreme_flag,
       args = params(
         by_vars = exprs(STUDYID, USUBJID, PARAMCD),
-        order = exprs(desc(ATOXGRL), ADT),
+        order = exprs(desc(ATOXGRL), ADT, TMP_SEQ),
         new_var = ANL04FL,
         true_value = "Y",
-        false_value = NA,
-        mode = "last"
+        false_value = NA_character_,
+        mode = "last",
+        check_type = "none"
       ),
       filter = AVISIT != "Screening"
     ) |>
@@ -415,15 +461,17 @@ gen_advs <- function(seed = 123) {
       derivation = admiral::derive_var_extreme_flag,
       args = params(
         by_vars = exprs(STUDYID, USUBJID, PARAMCD),
-        order = exprs(AVAL, ADT),
+        order = exprs(AVAL, ADT, TMP_SEQ),
         new_var = ANL03FL,
         true_value = "Y",
-        false_value = NA,
-        mode = "last"
+        false_value = NA_character_,
+        mode = "last",
+        check_type = "none"
       ),
       filter = AVISIT != "Screening"
     ) |>
-    mutate(
+    dplyr::select(-TMP_SEQ) |>
+    dplyr::mutate(
       TRTEMFL = dplyr::case_when(
         ADT > TRTSDT & ADT < TRTEDT ~ "Y",
         .default = "N"
@@ -442,15 +490,14 @@ gen_advs <- function(seed = 123) {
     "STUDYID",
     "AGE",
     "SEX",
-    "RACE_DECODE"
+    "RACE"
   )
 
   # Select only the key and the 'to_keep' variables from ADSL
-  adsl_subset <- adsl %>%
-    select(USUBJID, all_of(to_keep_from_adsl))
+  adsl_subset <- adsl |>
+    dplyr::select(USUBJID, dplyr::all_of(to_keep_from_adsl))
 
   if (length(shared) > 0) {
-    message("Dropping shared vars from raw: ", paste(shared, collapse = ", "))
     gen <- dplyr::select(gen, -dplyr::any_of(shared))
   }
 
@@ -461,7 +508,7 @@ gen_advs <- function(seed = 123) {
     AVALC = "Analysis Value (C)",
     AVALU = "Analysis Value Unit",
     ANL01FL = "Analysis Flag 01",
-    COUNTRY_DECODE = "Country",
+    COUNTRY = "Country",
     PARCAT1 = "Parameter Category 1",
     PARCAT2 = "Parameter Category 2",
     ADTM = "Analysis Date/Time",
@@ -498,6 +545,8 @@ gen_advs <- function(seed = 123) {
     orig_df = raw,
     additional_labels = additional_labels
   )
+
+  gen <- gen |> dplyr::slice_sample(prop = 1)
 
   return(gen)
 }

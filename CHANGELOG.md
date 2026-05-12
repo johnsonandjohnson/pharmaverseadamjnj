@@ -5,9 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.0.2] - 2025-12-03
+## [0.0.4] - 2026-04-07
 
 ### Added
+- Added vars to ADSL: LASTCTDT, UNBLNDDT, IMFL, SAFEXRS, FASEXRS, PPREXRS, PKEXRES, and IMEXRES
+
+### Changed
+- Removed *_DECODE vars in ADSL
+
+
+## [0.0.3] - 2026-01-27
+
+### Added
+- Add DCTADY to ADSL #32
+- Add new addili dataset
+- Add LBNAM variable to adlb 
+- Add REGION1 = "North America"
+
+
+## [0.0.2] - 2025-12-03
+
 - Added ADAGOCMQ &  ADPC dataset
 - Added `LBSPEC` and `LBFAST` to ADLB dataset
 

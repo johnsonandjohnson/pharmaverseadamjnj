@@ -4,6 +4,7 @@
 library(dplyr)
 library(pharmaverseadam)
 library(formatters)
+library(lubridate)
 
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
@@ -28,7 +29,7 @@ gen_adcm <- function(seed = 123) {
   if (!"CMBASPRF" %in% names(gen)) gen$CMBASPRF <- gen$CMDECOD
 
   # Handle uncoded terms
-  gen <- gen %>%
+  gen <- gen |>
     mutate(
       CMLVL1 = case_when(
         CMLVL1 == "UNCODED" ~ "Uncoded",
@@ -130,7 +131,7 @@ gen_adcm <- function(seed = 123) {
   to_keep_from_adsl <- c("TRT01A", "SAFFL", "TRTSDT", "STUDYID")
 
   # Select only the key and the 'to_keep' variables from ADSL
-  adsl_subset <- adsl %>%
+  adsl_subset <- adsl |>
     select(USUBJID, all_of(to_keep_from_adsl))
 
   if (length(shared) > 0) {
@@ -139,6 +140,18 @@ gen_adcm <- function(seed = 123) {
   }
 
   gen <- dplyr::left_join(gen, adsl_subset, by = "USUBJID")
+
+  gen <- gen |>
+    dplyr::mutate(
+      CMSTRTPT = dplyr::if_else(
+        lubridate::parse_date_time(CMSTDTC, c("ymd", "ym", "y")) <
+          lubridate::parse_date_time(TRTSDT, c("ymd", "ym", "y")),
+        "PRE-TREATMENT",
+        "ON-TREATMENT",
+        NA_character_
+      ),
+      CMSTTPT = CMSTRTPT
+    )
 
   # Additional labels for new variables not in the source dataset
   additional_labels <- list(
@@ -162,7 +175,9 @@ gen_adcm <- function(seed = 123) {
     CQ04NAM = "Customized Query 04 Name",
     CQ05NAM = "Customized Query 05 Name",
     CQ06NAM = "Customized Query 06 Name",
-    CQ07NAM = "Customized Query 07 Name"
+    CQ07NAM = "Customized Query 07 Name",
+    CMSTRTPT = "Start Relative to Reference Time Point",
+    CMSTTPT = "Start Reference Time Point"
   )
 
   # Handle NA values and convert characters to factors
