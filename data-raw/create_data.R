@@ -14,7 +14,7 @@ data_rda <- list.files(
   pattern = "\\.rda$",
   full.names = TRUE
 )
-data_scripts = data_scripts[7]
+
 # Get all dataset scripts (exclude helpers.R and this file)
 data_scripts <- list.files(
   path = "data-raw",
