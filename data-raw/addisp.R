@@ -13,13 +13,24 @@ source(file.path("data-raw", "helpers.R"))
 gen_addisp <- function(seed = 123) {
   set.seed(seed)
 
-  # Source subject-level data
-  adsl <- pharmaverseadam::adsl |> 
+  # Source related datasets
+  source(file.path("data-raw", "adsl.R"))
+
+  adsl <- adsl |>
     mutate(
       DCTDT = if (!("DCTDT" %in% names(pick(everything())))) as.Date(NA) else DCTDT,
       DCTADY = if (!("DCTADY" %in% names(pick(everything())))) as.integer(NA) else as.integer(DCTADY),
       LTVISIT = if (!("LTVISIT" %in% names(pick(everything())))) NA_character_ else as.character(LTVISIT)
     )
+
+  reasons_dcts <- c(
+    "Adverse Event",
+    "Lack of Efficacy",
+    "Withdrawal by Subject",
+    "Protocol Violation",
+    "Death",
+    "Other"
+  )
 
   id_vars <- c(
     "STUDYID", "USUBJID", "SITEID", "SUBJID"
@@ -33,7 +44,22 @@ gen_addisp <- function(seed = 123) {
       TRTEDY_STD  = if ("TRTEDY"  %in% names(pick(everything()))) as.integer(TRTEDY)  else if ("TRT01EDY"  %in% names(pick(everything()))) as.integer(TRT01EDY)  else as.integer(NA),
       TRTSDT_STD  = if ("TRTSDT"  %in% names(pick(everything()))) TRTSDT  else if ("TRT01SDT"  %in% names(pick(everything()))) TRT01SDT  else as.Date(NA),
       TRTSDTM_STD = if ("TRTSDTM" %in% names(pick(everything()))) TRTSDTM else if ("TRT01SDTM" %in% names(pick(everything()))) TRT01SDTM else NA,
-      TRTSDY_STD  = if ("TRTSDY"  %in% names(pick(everything()))) as.integer(TRTSDY)  else if ("TRT01SDY"  %in% names(pick(everything()))) as.integer(TRT01SDY)  else as.integer(NA)
+      TRTSDY_STD  = if ("TRTSDY"  %in% names(pick(everything()))) {
+        as.integer(TRTSDY)
+      } else if ("TRT01SDY"  %in% names(pick(everything()))) {
+        as.integer(TRT01SDY)
+      } else {
+        ifelse(!is.na(TRTSDT_STD), 1L, as.integer(NA))
+      }
+    )
+
+  eots1 <- adsl |>
+    select(any_of(id_vars)) |>
+    mutate(
+      PARAMCD = "EOTS1STT",
+      PARAM = "End of Trt Status for study agent 1",
+      AVALC = sample(c("ONGOING", "DISCONTINUED", "COMPLETED"), n(), replace = TRUE),
+      DSSCAT = "Study Agent 1"
     )
 
   eots2 <- adsl |>
@@ -42,7 +68,27 @@ gen_addisp <- function(seed = 123) {
       PARAMCD = "EOTS2STT",
       PARAM = "End of Trt Status for study agent 2",
       AVALC = sample(c("ONGOING", "DISCONTINUED", "COMPLETED"), n(), replace = TRUE),
-      DSSCAT = "Study Agent 1"
+      DSSCAT = "Study Agent 2"
+    )
+
+  dcts1 <- eots1 |>
+    filter(AVALC == "DISCONTINUED") |>
+    select(any_of(id_vars)) |>
+    left_join(
+      adsl |>
+        transmute(
+          across(all_of(id_vars)),
+          ASTDT = DCTDT,
+          ASTDTC = format(as.Date(DCTDT), "%Y-%m-%d"),
+          ASTDY = as.integer(DCTADY)
+        ),
+      by = id_vars
+    ) |>
+    mutate(
+      PARAMCD = "DCTS1RS",
+      PARAM = "Reason for Treatment Discontinuation for study agent 1",
+      AVALC = sample(reasons_dcts, n(), replace = TRUE),
+      AVALCSP = ifelse(AVALC == "Other", "specify text", NA_character_)
     )
 
   dcts2 <- eots2 |>
@@ -61,8 +107,8 @@ gen_addisp <- function(seed = 123) {
     mutate(
       PARAMCD = "DCTS2RS",
       PARAM = "Reason for Treatment Discontinuation for study agent 2",
-      AVALC = "Other",
-      AVALCSP = "specify text"
+      AVALC = sample(reasons_dcts, n(), replace = TRUE),
+      AVALCSP = ifelse(AVALC == "Other", "specify text", NA_character_)
     )
 
   ltv <- adsl |>
@@ -104,15 +150,14 @@ gen_addisp <- function(seed = 123) {
 
   add_subj_vars <- c(
     "PPROTFL", "SAFFL", "RANDFL", "SCRNFL", "SCRFFL", "RESCRNFL",
-    "FASFL", "ENRLFL", "AGE", "AGEU", "SEX", "RACE", "COUNTRY",
+    "FASFL", "ENRLFL", "ENRFL", "AGE", "AGEU", "SEX", "RACE", "COUNTRY",
     "RFICDT", "SITEID", "SUBJID", "TRT01P", "TRT01PN", "TRT01A", "TRT01AN"
   )
   missing_vars <- setdiff(add_subj_vars, names(adsl))
+  orig_names <- names(adsl)
   subj <- adsl |>
     mutate(
       !!!setNames(rep(list(NA), length(missing_vars)), missing_vars),
-      # Type NA-added variables to expected classes and coerce if present
-      # RFICDT precedence: RFICDT -> RFICDTC -> DMDTC -> NA, output as ISO8601 character
       RFICDT  = if ("RFICDT" %in% names(pick(everything()))) {
         suppressWarnings(format(as.Date(RFICDT), "%Y-%m-%d"))
       } else if ("RFICDTC" %in% names(pick(everything()))) {
@@ -123,34 +168,38 @@ gen_addisp <- function(seed = 123) {
         NA_character_
       },
       PPROTFL = if ("PPROTFL" %in% names(pick(everything()))) {
-        if (is.logical(PPROTFL)) as.integer(PPROTFL) else if (is.character(PPROTFL)) {
-          dplyr::case_when(
-            toupper(PPROTFL) == "Y" ~ 1L,
-            toupper(PPROTFL) == "N" ~ 0L,
-            TRUE ~ as.integer(NA)
-          )
-        } else suppressWarnings(as.integer(PPROTFL))
-      } else as.integer(NA),
+        if (is.factor(PPROTFL)) as.character(PPROTFL)
+        else if (is.logical(PPROTFL)) ifelse(PPROTFL, "Y", "N")
+        else if (is.character(PPROTFL)) toupper(PPROTFL)
+        else as.character(PPROTFL)
+      } else NA_character_,
       RANDFL = if ("RANDFL" %in% names(pick(everything()))) {
-        if (is.logical(RANDFL)) as.integer(RANDFL) else if (is.character(RANDFL)) {
-          dplyr::case_when(
-            toupper(RANDFL) == "Y" ~ 1L,
-            toupper(RANDFL) == "N" ~ 0L,
-            TRUE ~ as.integer(NA)
-          )
-        } else suppressWarnings(as.integer(RANDFL))
-      } else as.integer(NA),
+        if (is.factor(RANDFL)) as.character(RANDFL)
+        else if (is.logical(RANDFL)) ifelse(RANDFL, "Y", "N")
+        else if (is.character(RANDFL)) toupper(RANDFL)
+        else as.character(RANDFL)
+      } else NA_character_,
+      ENRLFL = if ("ENRLFL" %in% names(pick(everything()))) {
+        if (is.factor(ENRLFL)) as.character(ENRLFL)
+        else if (is.character(ENRLFL)) toupper(ENRLFL)
+        else as.character(ENRLFL)
+      } else NA_character_,
+      ENRFL = if ("ENRFL" %in% orig_names) {
+        if (is.factor(ENRFL)) as.character(ENRFL)
+        else if (is.character(ENRFL)) toupper(ENRFL)
+        else as.character(ENRFL)
+      } else if ("ENRLFL" %in% orig_names) {
+        toupper(as.character(ENRLFL))
+      } else NA_character_,
       TRT01PN = if (!"TRT01PN" %in% names(pick(everything()))) as.integer(NA) else as.integer(TRT01PN),
       TRT01AN = if (!"TRT01AN" %in% names(pick(everything()))) as.integer(NA) else as.integer(TRT01AN)
     ) |>
     select(any_of(unique(c(id_vars, add_subj_vars))))
 
-  # Combine all parameter-level records
-  disp_par <- bind_rows(eots2, dcts2, ltv1, ltv2) |>
+  disp_par <- bind_rows(eots1, dcts1, eots2, dcts2, ltv1, ltv2) |>
     left_join(svars, by = id_vars) |>
     left_join(subj, by = id_vars, suffix = c("", ""))
 
-  # Apply labels where feasible
   additional_labels <- list(
     PARAMCD = "Parameter Code",
     PARAM = "Parameter",
