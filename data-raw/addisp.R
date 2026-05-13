@@ -36,7 +36,7 @@ gen_addisp <- function(seed = 123) {
     "STUDYID", "USUBJID", "SITEID", "SUBJID"
   )
   id_vars <- intersect(id_vars, names(adsl))
-
+  # nolint start
   adsl <- adsl |>
     mutate(
       TRTEDT_STD  = if ("TRTEDT"  %in% names(pick(everything()))) TRTEDT  else if ("TRT01EDT"  %in% names(pick(everything()))) TRT01EDT  else as.Date(NA),
@@ -52,7 +52,7 @@ gen_addisp <- function(seed = 123) {
         ifelse(!is.na(TRTSDT_STD), 1L, as.integer(NA))
       }
     )
-
+  # nolint end
   eots1 <- adsl |>
     select(any_of(id_vars)) |>
     mutate(
@@ -155,6 +155,7 @@ gen_addisp <- function(seed = 123) {
   )
   missing_vars <- setdiff(add_subj_vars, names(adsl))
   orig_names <- names(adsl)
+  # nolint start
   subj <- adsl |>
     mutate(
       !!!setNames(rep(list(NA), length(missing_vars)), missing_vars),
@@ -195,6 +196,7 @@ gen_addisp <- function(seed = 123) {
       TRT01AN = if (!"TRT01AN" %in% names(pick(everything()))) as.integer(NA) else as.integer(TRT01AN)
     ) |>
     select(any_of(unique(c(id_vars, add_subj_vars))))
+  # nolint end
 
   disp_par <- bind_rows(eots1, dcts1, eots2, dcts2, ltv1, ltv2) |>
     left_join(svars, by = id_vars) |>
