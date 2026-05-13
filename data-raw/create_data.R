@@ -8,12 +8,7 @@ library(dplyr)
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
 
-# Get all rda
-data_rda <- list.files(
-  path = "data",
-  pattern = "\\.rda$",
-  full.names = TRUE
-)
+
 
 # Get all dataset scripts (exclude helpers.R and this file)
 data_scripts <- list.files(
@@ -118,6 +113,12 @@ walk(data_scripts, run_script)
 
 message("All datasets have been created and documented.")
 
+# Get all rda
+data_rda <- list.files(
+  path = "data",
+  pattern = "\\.rda$",
+  full.names = TRUE
+)
 
 # Run all xpt creation
 
@@ -150,5 +151,5 @@ walk(data_rda, run_xpt)
 
 message("All datasets have been transformed.")
 
-system("air format data-raw/")
+styler::style_dir("data-raw")
 message("All datasets have been formated.")
