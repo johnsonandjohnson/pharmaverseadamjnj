@@ -18,9 +18,9 @@ gen_addisp <- function(seed = 123) {
 
   adsl <- adsl |>
     mutate(
-      DCTDT = if (!("DCTDT" %in% names(pick(everything())))) as.Date(NA) else DCTDT,
-      DCTADY = if (!("DCTADY" %in% names(pick(everything())))) as.integer(NA) else as.integer(DCTADY),
-      LTVISIT = if (!("LTVISIT" %in% names(pick(everything())))) NA_character_ else as.character(LTVISIT)
+      DCTDT   = if ("DCTDT" %in% names(pick(everything()))) DCTDT else as.Date(NA),
+      DCTADY  = if ("DCTADY" %in% names(pick(everything()))) as.integer(DCTADY) else as.integer(NA),
+      LTVISIT = if ("LTVISIT" %in% names(pick(everything()))) as.character(LTVISIT) else NA_character_
     )
 
   reasons_dcts <- c(
@@ -36,23 +36,16 @@ gen_addisp <- function(seed = 123) {
     "STUDYID", "USUBJID", "SITEID", "SUBJID"
   )
   id_vars <- intersect(id_vars, names(adsl))
-  # nolint start
+  nm <- names(adsl)
   adsl <- adsl |>
     mutate(
-      TRTEDT_STD = if ("TRTEDT" %in% names(pick(everything()))) TRTEDT else if ("TRT01EDT" %in% names(pick(everything()))) TRT01EDT else as.Date(NA),
-      TRTEDTM_STD = if ("TRTEDTM" %in% names(pick(everything()))) TRTEDTM else if ("TRT01EDTM" %in% names(pick(everything()))) TRT01EDTM else NA,
-      TRTEDY_STD = if ("TRTEDY" %in% names(pick(everything()))) as.integer(TRTEDY) else if ("TRT01EDY" %in% names(pick(everything()))) as.integer(TRT01EDY) else as.integer(NA),
-      TRTSDT_STD = if ("TRTSDT" %in% names(pick(everything()))) TRTSDT else if ("TRT01SDT" %in% names(pick(everything()))) TRT01SDT else as.Date(NA),
-      TRTSDTM_STD = if ("TRTSDTM" %in% names(pick(everything()))) TRTSDTM else if ("TRT01SDTM" %in% names(pick(everything()))) TRT01SDTM else NA,
-      TRTSDY_STD = if ("TRTSDY" %in% names(pick(everything()))) {
-        as.integer(TRTSDY)
-      } else if ("TRT01SDY" %in% names(pick(everything()))) {
-        as.integer(TRT01SDY)
-      } else {
-        ifelse(!is.na(TRTSDT_STD), 1L, as.integer(NA))
-      }
+      TRTEDT_STD  = if ("TRTEDT" %in% nm) TRTEDT else if ("TRT01EDT" %in% nm) TRT01EDT else as.Date(NA),
+      TRTEDTM_STD = if ("TRTEDTM" %in% nm) TRTEDTM else if ("TRT01EDTM" %in% nm) TRT01EDTM else NA,
+      TRTEDY_STD  = if ("TRTEDY" %in% nm) as.integer(TRTEDY) else if ("TRT01EDY" %in% nm) as.integer(TRT01EDY) else as.integer(NA),
+      TRTSDT_STD  = if ("TRTSDT" %in% nm) TRTSDT else if ("TRT01SDT" %in% nm) TRT01SDT else as.Date(NA),
+      TRTSDTM_STD = if ("TRTSDTM" %in% nm) TRTSDTM else if ("TRT01SDTM" %in% nm) TRT01SDTM else NA,
+      TRTSDY_STD  = if ("TRTSDY" %in% nm) as.integer(TRTSDY) else if ("TRT01SDY" %in% nm) as.integer(TRT01SDY) else ifelse(!is.na(TRTSDT_STD), 1L, as.integer(NA))
     )
-  # nolint end
   eots1 <- adsl |>
     select(any_of(id_vars)) |>
     mutate(
@@ -150,79 +143,30 @@ gen_addisp <- function(seed = 123) {
 
   add_subj_vars <- c(
     "PPROTFL", "SAFFL", "RANDFL", "SCRNFL", "SCRFFL", "RESCRNFL",
-    "FASFL", "ENRLFL", "ENRFL", "AGE", "AGEU", "SEX", "RACE", "COUNTRY",
+    "FASFL", "ENRLFL", "AGE", "AGEU", "SEX", "RACE", "COUNTRY",
     "RFICDT", "SITEID", "SUBJID", "TRT01P", "TRT01PN", "TRT01A", "TRT01AN"
   )
-  missing_vars <- setdiff(add_subj_vars, names(adsl))
-  orig_names <- names(adsl)
-  # nolint start
+  missing_vars <- setdiff(add_subj_vars, nm)
   subj <- adsl |>
     mutate(
       !!!setNames(rep(list(NA), length(missing_vars)), missing_vars),
-      RFICDT = if ("RFICDT" %in% names(pick(everything()))) {
-        suppressWarnings(format(as.Date(RFICDT), "%Y-%m-%d"))
-      } else if ("RFICDTC" %in% names(pick(everything()))) {
-        suppressWarnings(format(as.Date(RFICDTC), "%Y-%m-%d"))
-      } else if ("DMDTC" %in% names(pick(everything()))) {
-        suppressWarnings(format(as.Date(DMDTC), "%Y-%m-%d"))
-      } else {
-        NA_character_
-      },
-      PPROTFL = if ("PPROTFL" %in% names(pick(everything()))) {
-        if (is.factor(PPROTFL)) {
-          as.character(PPROTFL)
-        } else if (is.logical(PPROTFL)) {
-          ifelse(PPROTFL, "Y", "N")
-        } else if (is.character(PPROTFL)) {
-          toupper(PPROTFL)
+      RFICDT = suppressWarnings(
+        if ("RFICDT" %in% nm) {
+          format(as.Date(RFICDT), "%Y-%m-%d")
+        } else if ("RFICDTC" %in% nm) {
+          format(as.Date(RFICDTC), "%Y-%m-%d")
+        } else if ("DMDTC" %in% nm) {
+          format(as.Date(DMDTC), "%Y-%m-%d")
         } else {
-          as.character(PPROTFL)
+          NA_character_
         }
-      } else {
-        NA_character_
-      },
-      RANDFL = if ("RANDFL" %in% names(pick(everything()))) {
-        if (is.factor(RANDFL)) {
-          as.character(RANDFL)
-        } else if (is.logical(RANDFL)) {
-          ifelse(RANDFL, "Y", "N")
-        } else if (is.character(RANDFL)) {
-          toupper(RANDFL)
-        } else {
-          as.character(RANDFL)
-        }
-      } else {
-        NA_character_
-      },
-      ENRLFL = if ("ENRLFL" %in% names(pick(everything()))) {
-        if (is.factor(ENRLFL)) {
-          as.character(ENRLFL)
-        } else if (is.character(ENRLFL)) {
-          toupper(ENRLFL)
-        } else {
-          as.character(ENRLFL)
-        }
-      } else {
-        NA_character_
-      },
-      ENRFL = if ("ENRFL" %in% orig_names) {
-        if (is.factor(ENRFL)) {
-          as.character(ENRFL)
-        } else if (is.character(ENRFL)) {
-          toupper(ENRFL)
-        } else {
-          as.character(ENRFL)
-        }
-      } else if ("ENRLFL" %in% orig_names) {
-        toupper(as.character(ENRLFL))
-      } else {
-        NA_character_
-      },
-      TRT01PN = if (!"TRT01PN" %in% names(pick(everything()))) as.integer(NA) else as.integer(TRT01PN),
-      TRT01AN = if (!"TRT01AN" %in% names(pick(everything()))) as.integer(NA) else as.integer(TRT01AN)
+      ),
+      PPROTFL = if ("PPROTFL" %in% nm) toupper(as.character(PPROTFL)) else NA_character_,
+      RANDFL = if ("RANDFL" %in% nm) toupper(as.character(RANDFL)) else NA_character_,
+      TRT01PN = if ("TRT01PN" %in% nm) as.integer(TRT01PN) else as.integer(NA),
+      TRT01AN = if ("TRT01AN" %in% nm) as.integer(TRT01AN) else as.integer(NA)
     ) |>
     select(any_of(unique(c(id_vars, add_subj_vars))))
-  # nolint end
 
   disp_par <- bind_rows(eots1, dcts1, eots2, dcts2, ltv1, ltv2) |>
     left_join(svars, by = id_vars) |>
@@ -230,18 +174,23 @@ gen_addisp <- function(seed = 123) {
 
   additional_labels <- list(
     PARAMCD = "Parameter Code",
-    PARAM = "Parameter",
-    AVALC = "Analysis Value (C)",
+    PARAM   = "Parameter",
+    AVALC   = "Analysis Value (C)",
     AVALCSP = "Specify text for AVALC",
-    ASTDT = "Analysis Start Date",
-    ASTDTC = "Analysis Start Date",
-    ASTDY = "Study Day of Analysis Start Date",
-    DSSCAT = "Analysis Subcategory",
-    ENRFL = "Enrolled Flag"
+    ASTDT   = "Analysis Start Date",
+    ASTDTC  = "Analysis Start Date",
+    ASTDY   = "Study Day of Analysis Start Date",
+    DSSCAT  = "Analysis Subcategory",
+    S1EDY   = "Study Day of End of Treatment for Study Agent 1",
+    S2EDY   = "Study Day of End of Treatment for Study Agent 2",
+    S1SDY   = "Study Day of Start of Treatment for Study Agent 1",
+    S2SDY   = "Study Day of Start of Treatment for Study Agent 2"
   )
 
   gen <- disp_par |>
     restore_labels(orig_df = adsl, additional_labels = additional_labels, source_dfs = list(adsl))
+
+  attr(gen, "label") <- "Disposition Analysis Dataset"
 
   return(gen)
 }
