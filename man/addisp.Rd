@@ -38,7 +38,7 @@ A data frame with 1417 rows and 42 variables:
 \item{SCRFFL}{Screen Failure Flag}
 \item{RESCRNFL}{Re-screened Flag}
 \item{FASFL}{Full Analysis Set Population Flag}
-\item{ENRFL}{Enrolled Flag}
+\item{ENRLFL}{Enrolled Population Flag}
 \item{AGE}{Age}
 \item{AGEU}{Age Units}
 \item{SEX}{Sex}
