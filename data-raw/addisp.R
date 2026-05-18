@@ -39,14 +39,14 @@ gen_addisp <- function(seed = 123) {
   # nolint start
   adsl <- adsl |>
     mutate(
-      TRTEDT_STD  = if ("TRTEDT"  %in% names(pick(everything()))) TRTEDT  else if ("TRT01EDT"  %in% names(pick(everything()))) TRT01EDT  else as.Date(NA),
+      TRTEDT_STD = if ("TRTEDT" %in% names(pick(everything()))) TRTEDT else if ("TRT01EDT" %in% names(pick(everything()))) TRT01EDT else as.Date(NA),
       TRTEDTM_STD = if ("TRTEDTM" %in% names(pick(everything()))) TRTEDTM else if ("TRT01EDTM" %in% names(pick(everything()))) TRT01EDTM else NA,
-      TRTEDY_STD  = if ("TRTEDY"  %in% names(pick(everything()))) as.integer(TRTEDY)  else if ("TRT01EDY"  %in% names(pick(everything()))) as.integer(TRT01EDY)  else as.integer(NA),
-      TRTSDT_STD  = if ("TRTSDT"  %in% names(pick(everything()))) TRTSDT  else if ("TRT01SDT"  %in% names(pick(everything()))) TRT01SDT  else as.Date(NA),
+      TRTEDY_STD = if ("TRTEDY" %in% names(pick(everything()))) as.integer(TRTEDY) else if ("TRT01EDY" %in% names(pick(everything()))) as.integer(TRT01EDY) else as.integer(NA),
+      TRTSDT_STD = if ("TRTSDT" %in% names(pick(everything()))) TRTSDT else if ("TRT01SDT" %in% names(pick(everything()))) TRT01SDT else as.Date(NA),
       TRTSDTM_STD = if ("TRTSDTM" %in% names(pick(everything()))) TRTSDTM else if ("TRT01SDTM" %in% names(pick(everything()))) TRT01SDTM else NA,
-      TRTSDY_STD  = if ("TRTSDY"  %in% names(pick(everything()))) {
+      TRTSDY_STD = if ("TRTSDY" %in% names(pick(everything()))) {
         as.integer(TRTSDY)
-      } else if ("TRT01SDY"  %in% names(pick(everything()))) {
+      } else if ("TRT01SDY" %in% names(pick(everything()))) {
         as.integer(TRT01SDY)
       } else {
         ifelse(!is.na(TRTSDT_STD), 1L, as.integer(NA))
@@ -159,7 +159,7 @@ gen_addisp <- function(seed = 123) {
   subj <- adsl |>
     mutate(
       !!!setNames(rep(list(NA), length(missing_vars)), missing_vars),
-      RFICDT  = if ("RFICDT" %in% names(pick(everything()))) {
+      RFICDT = if ("RFICDT" %in% names(pick(everything()))) {
         suppressWarnings(format(as.Date(RFICDT), "%Y-%m-%d"))
       } else if ("RFICDTC" %in% names(pick(everything()))) {
         suppressWarnings(format(as.Date(RFICDTC), "%Y-%m-%d"))
@@ -169,29 +169,55 @@ gen_addisp <- function(seed = 123) {
         NA_character_
       },
       PPROTFL = if ("PPROTFL" %in% names(pick(everything()))) {
-        if (is.factor(PPROTFL)) as.character(PPROTFL)
-        else if (is.logical(PPROTFL)) ifelse(PPROTFL, "Y", "N")
-        else if (is.character(PPROTFL)) toupper(PPROTFL)
-        else as.character(PPROTFL)
-      } else NA_character_,
+        if (is.factor(PPROTFL)) {
+          as.character(PPROTFL)
+        } else if (is.logical(PPROTFL)) {
+          ifelse(PPROTFL, "Y", "N")
+        } else if (is.character(PPROTFL)) {
+          toupper(PPROTFL)
+        } else {
+          as.character(PPROTFL)
+        }
+      } else {
+        NA_character_
+      },
       RANDFL = if ("RANDFL" %in% names(pick(everything()))) {
-        if (is.factor(RANDFL)) as.character(RANDFL)
-        else if (is.logical(RANDFL)) ifelse(RANDFL, "Y", "N")
-        else if (is.character(RANDFL)) toupper(RANDFL)
-        else as.character(RANDFL)
-      } else NA_character_,
+        if (is.factor(RANDFL)) {
+          as.character(RANDFL)
+        } else if (is.logical(RANDFL)) {
+          ifelse(RANDFL, "Y", "N")
+        } else if (is.character(RANDFL)) {
+          toupper(RANDFL)
+        } else {
+          as.character(RANDFL)
+        }
+      } else {
+        NA_character_
+      },
       ENRLFL = if ("ENRLFL" %in% names(pick(everything()))) {
-        if (is.factor(ENRLFL)) as.character(ENRLFL)
-        else if (is.character(ENRLFL)) toupper(ENRLFL)
-        else as.character(ENRLFL)
-      } else NA_character_,
+        if (is.factor(ENRLFL)) {
+          as.character(ENRLFL)
+        } else if (is.character(ENRLFL)) {
+          toupper(ENRLFL)
+        } else {
+          as.character(ENRLFL)
+        }
+      } else {
+        NA_character_
+      },
       ENRFL = if ("ENRFL" %in% orig_names) {
-        if (is.factor(ENRFL)) as.character(ENRFL)
-        else if (is.character(ENRFL)) toupper(ENRFL)
-        else as.character(ENRFL)
+        if (is.factor(ENRFL)) {
+          as.character(ENRFL)
+        } else if (is.character(ENRFL)) {
+          toupper(ENRFL)
+        } else {
+          as.character(ENRFL)
+        }
       } else if ("ENRLFL" %in% orig_names) {
         toupper(as.character(ENRLFL))
-      } else NA_character_,
+      } else {
+        NA_character_
+      },
       TRT01PN = if (!"TRT01PN" %in% names(pick(everything()))) as.integer(NA) else as.integer(TRT01PN),
       TRT01AN = if (!"TRT01AN" %in% names(pick(everything()))) as.integer(NA) else as.integer(TRT01AN)
     ) |>
@@ -205,12 +231,13 @@ gen_addisp <- function(seed = 123) {
   additional_labels <- list(
     PARAMCD = "Parameter Code",
     PARAM = "Parameter",
-    AVALC    = "Analysis Value (C)",
+    AVALC = "Analysis Value (C)",
     AVALCSP = "Specify text for AVALC",
     ASTDT = "Analysis Start Date",
     ASTDTC = "Analysis Start Date",
     ASTDY = "Study Day of Analysis Start Date",
-    DSSCAT = "Analysis Subcategory"
+    DSSCAT = "Analysis Subcategory",
+    ENRFL = "Enrolled Flag"
   )
 
   gen <- disp_par |>

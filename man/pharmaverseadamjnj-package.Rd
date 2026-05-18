@@ -13,7 +13,6 @@ A set of Analysis Data Model (ADaM) datasets constructed by modifying the ADaM d
 
 Authors:
 \itemize{
-  \item David Munoz Tord \email{david.munoztord@mailbox.org}
   \item Nicholas Masel \email{nmasel@its.jnj.com}
   \item Joe Kovach \email{jkovach2@its.jnj.com}
 }
