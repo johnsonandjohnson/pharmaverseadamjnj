@@ -5,7 +5,7 @@
 \alias{addisp}
 \title{addisp}
 \format{
-A data frame with 409 rows and 42 variables:
+A data frame with 1417 rows and 43 variables:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{USUBJID}{Unique Subject Identifier}
@@ -13,10 +13,10 @@ A data frame with 409 rows and 42 variables:
 \item{SUBJID}{Subject Identifier for the Study}
 \item{PARAMCD}{Parameter Code}
 \item{PARAM}{Parameter}
-\item{AVALC}{Analysis Value (Character)}
+\item{AVALC}{Analysis Value (C)}
 \item{DSSCAT}{Analysis Subcategory}
 \item{ASTDT}{Analysis Start Date}
-\item{ASTDTC}{Analysis Start Date (Char, ISO8601)}
+\item{ASTDTC}{Analysis Start Date}
 \item{ASTDY}{Study Day of Analysis Start Date}
 \item{AVALCSP}{Specify text for AVALC}
 \item{S1EDT}{Date of Last Exposure to Treatment}
@@ -31,24 +31,25 @@ A data frame with 409 rows and 42 variables:
 \item{S2SDT}{Date of First Exposure to Treatment}
 \item{S2SDTM}{Datetime of First Exposure to Treatment}
 \item{S2SDY}{S2SDY}
-\item{PPROTFL}{PPROTFL}
+\item{PPROTFL}{Per-Protocol Population Flag}
 \item{SAFFL}{Safety Population Flag}
-\item{RANDFL}{RANDFL}
-\item{SCRNFL}{SCRNFL}
-\item{SCRFFL}{SCRFFL}
-\item{RESCRNFL}{RESCRNFL}
-\item{FASFL}{FASFL}
-\item{ENRLFL}{ENRLFL}
+\item{RANDFL}{Randomized Flag}
+\item{SCRNFL}{Screened Population Flag}
+\item{SCRFFL}{Screen Failure Flag}
+\item{RESCRNFL}{Re-screened Flag}
+\item{FASFL}{Full Analysis Set Population Flag}
+\item{ENRLFL}{Enrolled Population Flag}
+\item{ENRFL}{Enrolled Flag}
 \item{AGE}{Age}
 \item{AGEU}{Age Units}
 \item{SEX}{Sex}
 \item{RACE}{Race}
 \item{COUNTRY}{Country}
-\item{RFICDT}{RFICDT}
+\item{RFICDT}{Date of Informed Consent}
 \item{TRT01P}{Planned Treatment for Period 01}
-\item{TRT01PN}{TRT01PN}
+\item{TRT01PN}{Planned Treatment for Period 01 (N)}
 \item{TRT01A}{Actual Treatment for Period 01}
-\item{TRT01AN}{TRT01AN}
+\item{TRT01AN}{Actual Treatment for Period 01 (N)}
 }
 }
 \source{
