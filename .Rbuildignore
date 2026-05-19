@@ -10,3 +10,6 @@
 ^\.github$
 ^CHANGELOG\.md$
 ^_pkgdown\.yml$
+^air\.toml$
+^.revdeprefs\.yaml$
+^revdep$
