@@ -23,6 +23,8 @@ gen_adex <- function(seed = 123) {
 
   gen <- raw
 
+  gen$VISIT <- stringr::str_to_title(as.character(gen$VISIT))
+
   gen$TRT01P <- as.factor(gen$TRT01P)
   gen$TRT01A <- as.factor(gen$TRT01A)
 
@@ -280,11 +282,15 @@ gen_adex <- function(seed = 123) {
       ),
       "Reason during infusion"
     ),
+    ACAT2_rand = sample(
+      c("Dose not administered", "Dose administered"),
+      dplyr::n(),
+      replace = TRUE
+    ),
     ACAT2 = factor(
-      sample(
-        c("Dose not administered", "Dose administered"),
-        dplyr::n(),
-        replace = TRUE
+      case_when(
+        VISIT == "Baseline" ~ "Dose administered",
+        TRUE ~ ACAT2_rand
       ),
       levels = c(
         "Dose not administered",
@@ -470,6 +476,8 @@ gen_adex <- function(seed = 123) {
 
   # Handle NA values and convert characters to factors
   gen <- df_na(gen, char_as_factor = TRUE)
+
+  gen <- dplyr::select(gen, -ACAT2_rand)
 
   # Restore labels
   gen <- restore_labels(
