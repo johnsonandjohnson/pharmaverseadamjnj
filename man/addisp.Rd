@@ -21,16 +21,16 @@ A data frame with 1417 rows and 42 variables:
 \item{AVALCSP}{Specify text for AVALC}
 \item{S1EDT}{Date of Last Exposure to Treatment}
 \item{S1EDTM}{Datetime of Last Exposure to Treatment}
-\item{S1EDY}{Study Day of End of Treatment for Study Agent 1}
+\item{S1EDY}{Study Day of End of Trt for Study Agent 1}
 \item{S2EDT}{Date of Last Exposure to Treatment}
 \item{S2EDTM}{Datetime of Last Exposure to Treatment}
-\item{S2EDY}{Study Day of End of Treatment for Study Agent 2}
+\item{S2EDY}{Study Day of End of Trt for Study Agent 2}
 \item{S1SDT}{Date of First Exposure to Treatment}
 \item{S1SDTM}{Datetime of First Exposure to Treatment}
-\item{S1SDY}{Study Day of Start of Treatment for Study Agent 1}
+\item{S1SDY}{Study Day of Start of Trt for Study Agent 1}
 \item{S2SDT}{Date of First Exposure to Treatment}
 \item{S2SDTM}{Datetime of First Exposure to Treatment}
-\item{S2SDY}{Study Day of Start of Treatment for Study Agent 2}
+\item{S2SDY}{Study Day of Start of Trt for Study Agent 2}
 \item{PPROTFL}{Per-Protocol Population Flag}
 \item{SAFFL}{Safety Population Flag}
 \item{RANDFL}{Randomized Flag}
