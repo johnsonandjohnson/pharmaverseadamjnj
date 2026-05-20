@@ -39,15 +39,18 @@ gen_addisp <- function(seed = 123) {
   nm <- names(adsl)
   adsl <- adsl |>
     mutate(
-      TRTEDT_STD  = if ("TRTEDT" %in% nm) TRTEDT else if ("TRT01EDT" %in% nm) TRT01EDT else as.Date(NA),
+      TRTEDT_STD = if ("TRTEDT" %in% nm) TRTEDT else if ("TRT01EDT" %in% nm) TRT01EDT else as.Date(NA),
       TRTEDTM_STD = if ("TRTEDTM" %in% nm) TRTEDTM else if ("TRT01EDTM" %in% nm) TRT01EDTM else NA,
-      TRTEDY_STD  = if ("TRTEDY" %in% nm) as.integer(TRTEDY) else
-        if ("TRT01EDY" %in% nm) as.integer(TRT01EDY) else as.integer(NA),
-      TRTSDT_STD  = if ("TRTSDT" %in% nm) TRTSDT else if ("TRT01SDT" %in% nm) TRT01SDT else as.Date(NA),
+      TRTEDY_STD = if ("TRTEDY" %in% nm) as.integer(TRTEDY) else if ("TRT01EDY" %in% nm) as.integer(TRT01EDY) else as.integer(NA),
+      TRTSDT_STD = if ("TRTSDT" %in% nm) TRTSDT else if ("TRT01SDT" %in% nm) TRT01SDT else as.Date(NA),
       TRTSDTM_STD = if ("TRTSDTM" %in% nm) TRTSDTM else if ("TRT01SDTM" %in% nm) TRT01SDTM else NA,
-      TRTSDY_STD  = if ("TRTSDY" %in% nm) as.integer(TRTSDY) else
-        if ("TRT01SDY" %in% nm) as.integer(TRT01SDY) else
-          ifelse(!is.na(TRTSDT_STD), 1L, as.integer(NA))
+      TRTSDY_STD = if ("TRTSDY" %in% nm) {
+        as.integer(TRTSDY)
+      } else if ("TRT01SDY" %in% nm) {
+        as.integer(TRT01SDY)
+      } else {
+        ifelse(!is.na(TRTSDT_STD), 1L, as.integer(NA))
+      }
     )
   eots1 <- adsl |>
     select(any_of(id_vars)) |>
@@ -184,10 +187,10 @@ gen_addisp <- function(seed = 123) {
     ASTDTC  = "Analysis Start Date",
     ASTDY   = "Study Day of Analysis Start Date",
     DSSCAT  = "Analysis Subcategory",
-    S1EDY   = "Study Day of End of Treatment for Study Agent 1",
-    S2EDY   = "Study Day of End of Treatment for Study Agent 2",
-    S1SDY   = "Study Day of Start of Treatment for Study Agent 1",
-    S2SDY   = "Study Day of Start of Treatment for Study Agent 2"
+    S1EDY   = "Study Day of End of Trt for Study Agent 1",
+    S2EDY   = "Study Day of End of Trt for Study Agent 2",
+    S1SDY   = "Study Day of Start of Trt for Study Agent 1",
+    S2SDY   = "Study Day of Start of Trt for Study Agent 2"
   )
 
   gen <- disp_par |>
