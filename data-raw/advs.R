@@ -339,7 +339,7 @@ gen_advs <- function(seed = 123) {
         AVISIT == "Week 16" ~ 7,
         AVISIT == "Week 20" ~ 8,
         AVISIT == "Week 24" ~ 9,
-        AVISIT == "Week 26" ~ 24,
+        AVISIT == "Week 26" ~ 10,
       ),
       AVISIT = forcats::fct_reorder(
         as.factor(dplyr::case_when(
@@ -352,7 +352,7 @@ gen_advs <- function(seed = 123) {
           AVISIT == "Week 16" ~ "Cycle 07",
           AVISIT == "Week 20" ~ "Cycle 08",
           AVISIT == "Week 24" ~ "Cycle 09",
-          AVISIT == "Week 26" ~ "End Of Treatment",
+          AVISIT == "Week 26" ~ "Cycle 10",
         )),
         AVISITN
       ),
@@ -369,48 +369,42 @@ gen_advs <- function(seed = 123) {
     dplyr::filter(AVISIT != "Screening") |>
     dplyr::mutate(
       AVISITN = dplyr::case_when(
-        AVISIT == "Cycle 02" ~ 10,
-        AVISIT == "Cycle 03" ~ 11,
-        AVISIT == "Cycle 04" ~ 12,
-        AVISIT == "Cycle 05" ~ 13,
-        AVISIT == "Cycle 06" ~ 14,
-        AVISIT == "Cycle 07" ~ 15,
-        AVISIT == "Cycle 08" ~ 16,
-        AVISIT == "Cycle 09" ~ 17,
-        AVISIT == "End Of Treatment" ~ 18,
+        AVISIT == "Cycle 02" ~ 11,
+        AVISIT == "Cycle 03" ~ 12,
+        AVISIT == "Cycle 04" ~ 13,
+        AVISIT == "Cycle 05" ~ 14,
+        AVISIT == "Cycle 06" ~ 15,
+        AVISIT == "Cycle 07" ~ 16,
+        AVISIT == "Cycle 08" ~ 17,
+        AVISIT == "Cycle 09" ~ 18,
+        AVISIT == "Cycle 10" ~ 19,
       ),
       AVISIT = dplyr::case_when(
-        AVISIT == "Cycle 02" ~ "Cycle 10",
-        AVISIT == "Cycle 03" ~ "Cycle 11",
-        AVISIT == "Cycle 04" ~ "Cycle 12",
-        AVISIT == "Cycle 05" ~ "Cycle 13",
-        AVISIT == "Cycle 06" ~ "Cycle 15",
-        AVISIT == "Cycle 07" ~ "Cycle 17",
-        AVISIT == "Cycle 08" ~ "Cycle 19",
-        AVISIT == "Cycle 09" ~ "Cycle 21",
-        AVISIT == "End Of Treatment" ~ "Cycle 22",
+        AVISIT == "Cycle 02" ~ "Cycle 11",
+        AVISIT == "Cycle 03" ~ "Cycle 12",
+        AVISIT == "Cycle 04" ~ "Cycle 13",
+        AVISIT == "Cycle 05" ~ "Cycle 15",
+        AVISIT == "Cycle 06" ~ "Cycle 17",
+        AVISIT == "Cycle 07" ~ "Cycle 19",
+        AVISIT == "Cycle 08" ~ "Cycle 21",
+        AVISIT == "Cycle 09" ~ "Cycle 23",
+        AVISIT == "Cycle 10" ~ "Cycle 25",
       ),
-      ADT = ADT + 365,
+      ADT = ADT + 196,
     )
 
   gen_add_avisit2 <- gen |>
-    dplyr::filter(
-      AVISIT == "Cycle 08" | AVISIT == "Cycle 09" | AVISIT == "Cycle 29" | AVISIT == "End Of Treatment"
-    ) |>
+    dplyr::filter(AVISIT == "Cycle 08" | AVISIT == "Cycle 09") |>
     dplyr::mutate(
       AVISITN = dplyr::case_when(
-        AVISIT == "Cycle 08" ~ 19,
-        AVISIT == "Cycle 09" ~ 20,
-        AVISIT == "Cycle 29" ~ 21,
-        AVISIT == "End Of Treatment" ~ 22
+        AVISIT == "Cycle 08" ~ 20,
+        AVISIT == "Cycle 09" ~ 23
       ),
       AVISIT = dplyr::case_when(
-        AVISIT == "Cycle 08" ~ "Cycle 23",
-        AVISIT == "Cycle 09" ~ "Cycle 25",
-        AVISIT == "Cycle 29" ~ "Cycle 29",
-        AVISIT == "End Of Treatment" ~ "Cycle 30"
+        AVISIT == "Cycle 08" ~ "Cycle 29",
+        AVISIT == "Cycle 09" ~ "End Of Treatment"
       ),
-      ADT = ADT + 730,
+      ADT = ADT + 392,
     )
 
   gen <- rbind(gen, gen_add_avisit1, gen_add_avisit2) |>
@@ -476,6 +470,14 @@ gen_advs <- function(seed = 123) {
         ADT > TRTSDT & ADT < TRTEDT ~ "Y",
         .default = "N"
       )
+    ) |>
+    dplyr::select(-ADY) |>
+    admiral::derive_vars_dy(
+      reference_date = TRTSDT,
+      source_vars = exprs(ADT)
+    ) |>
+    dplyr::mutate(
+      AVISIT = case_when(ABLFL == "Y" ~ "Baseline", TRUE ~ AVISIT)
     )
 
   source(file.path("data-raw", "adsl.R"))

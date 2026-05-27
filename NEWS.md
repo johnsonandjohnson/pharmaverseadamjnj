@@ -26,6 +26,7 @@
 - Modified ADVS on week 20 and week 24 AVISIT derivation
 - Modified ADVS on AVISITN variable
 - Modified ADVS on CRIT7/CRIT7FL CRIT8/CRIT8FL values of DIABP parameter
+- Modified ADVS AVISIT, AVISITN and added ADY derivation
 
 ## [0.0.5] - 2026-05-25
 ### Added
