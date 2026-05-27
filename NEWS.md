@@ -27,6 +27,8 @@
 - Modified ADVS on AVISITN variable
 - Modified ADVS on CRIT7/CRIT7FL CRIT8/CRIT8FL values of DIABP parameter
 - Modified ADVS AVISIT, AVISITN and added ADY derivation
+- Modified REGION1 to "Northern America"
+- Added DCSREAS and DCTREAS levels
 
 ## [0.0.5] - 2026-05-25
 ### Added

@@ -144,7 +144,7 @@ gen_adsl <- function(seed = 123) {
     gen$BMIBLG1N
   )
   gen$SEX <- as.factor(gen$SEX)
-  gen$REGION1 <- "North America"
+  gen$REGION1 <- "Northern America"
   gen$RACEGR1 <- as.factor(gen$RACEGR1)
   gen$RFICDTC <- gen$DMDTC
   gen$RFICDT <- as.Date(gen$DMDTC)
@@ -201,13 +201,20 @@ gen_adsl <- function(seed = 123) {
     levels = c("ONGOING", "COMPLETED", "DISCONTINUED")
   )
 
-  gen$DCTREAS <- factor(
-    dplyr::case_when(
-      gen$EOTSTT == "DISCONTINUED" ~ "Other",
-      .default = NA
-    ),
-    levels = c("Other")
+  dctreas_levels <- c(
+    "Withdrawal by Subject",
+    "Protocol Violation",
+    "Death",
+    "Pregnancy",
+    "Adverse Event",
+    "Lack of Efficacy",
+    "Lost to Follow-up",
+    "Other"
   )
+  dctreas_vals <- rep(NA_character_, nrow(gen))
+  disc_eot <- !is.na(gen$EOTSTT) & gen$EOTSTT == "DISCONTINUED"
+  dctreas_vals[disc_eot] <- sample(dctreas_levels, sum(disc_eot), replace = TRUE)
+  gen$DCTREAS <- factor(dctreas_vals, levels = dctreas_levels)
   gen$LTVISIT <- as.factor("Last Treatment Visit")
   gen$DCTREASP <- dplyr::case_when(
     gen$DCTREAS == "Other" ~ "specify text",
@@ -218,13 +225,20 @@ gen_adsl <- function(seed = 123) {
     .default = NA
   )
 
-  gen$DCSREAS <- factor(
-    dplyr::case_when(
-      gen$EOSSTT == "DISCONTINUED" ~ "Other",
-      .default = NA
-    ),
-    levels = c("Other")
+  dcsreas_levels <- c(
+    "Withdrawal by Subject",
+    "Protocol Violation",
+    "Death",
+    "Pregnancy",
+    "Adverse Event",
+    "Lack of Efficacy",
+    "Lost to Follow-up",
+    "Other"
   )
+  dcsreas_vals <- rep(NA_character_, nrow(gen))
+  disc_eos <- !is.na(gen$EOSSTT) & gen$EOSSTT == "DISCONTINUED"
+  dcsreas_vals[disc_eos] <- sample(dcsreas_levels, sum(disc_eos), replace = TRUE)
+  gen$DCSREAS <- factor(dcsreas_vals, levels = dcsreas_levels)
   gen$DCSREASP <- dplyr::case_when(
     gen$DCSREAS == "Other" ~ "specify text",
     .default = NA
