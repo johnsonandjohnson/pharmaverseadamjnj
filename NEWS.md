@@ -8,7 +8,7 @@
 - Added ABODSYS1, ABODSYS2, ADECOD1, and ADECOD2 to ADEX
 - Added CRITx (1-8) to ADVS
 - Added VSCLSIG and RACE to ADVS
-- Added AOCTIFL, AESCAT, SMQzzNAM, and CQzzNAM to ADAE
+- Added AOCTIFL, AESCAT, SMQzzNAM, and CQzzNAM, AERELSx, AEACNSx, RELGR1, AEDRGSx, DOSSxDY, DOSSxU, DOSSxON to ADAE
 - Added derived variables `AESHOSPP` and `AESHOSPR`
 - Added ADVS: RESP TEMP and PULSE PARAMCD
 - Added variables `COHORT`, `GROUP`, and `EOTDT` to ADSL.
@@ -28,6 +28,10 @@
 - Modified ADVS on CRIT7/CRIT7FL CRIT8/CRIT8FL values of DIABP parameter
 - Modified REGION1 to "Northern America"
 - Added DCSREAS and DCTREAS levels
+- Modified ADAE to update derivation rules for AEREL, AOCCFL, AOCCPFL, AOCCSFL, TRDISCFL, AESCAT and SMQxxNAM
+- Modified ADAEOCMQ to update derivation rule for OCMQNAM and AEDECOD
+- Modified ADAGOCMQ for AEDECOD merge logic, ACAT1, and used conversion factor GLUC, HBA1C for standard units to conventional units.
+- Modified ADDISP to update labels for SxSDY and SxEDY variables.
 
 ## [0.0.5] - 2026-05-25
 ### Added
