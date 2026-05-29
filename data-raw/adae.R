@@ -160,14 +160,48 @@ gen_adae <- function(seed = 123) {
       dplyr::n(),
       replace = TRUE
     )),
+    AEACNS1 = as.factor(sample(
+      c(
+        "DOSE NOT CHANGED",
+        "NOT APPLICABLE",
+        "DRUG WITHDRAWN",
+        "DOSE REDUCED",
+        "DRUG INTERRUPTED",
+        "DOSE RATE REDUCED",
+        "DOSE INCREASED",
+        "UNKNOWN"
+      ),
+      dplyr::n(),
+      replace = TRUE
+    )),
+    AEACNS2 = as.factor(sample(
+      c(
+        "DOSE NOT CHANGED",
+        "NOT APPLICABLE",
+        "DRUG WITHDRAWN",
+        "DOSE REDUCED",
+        "DRUG INTERRUPTED",
+        "DOSE RATE REDUCED",
+        "DOSE INCREASED",
+        "UNKNOWN"
+      ),
+      dplyr::n(),
+      replace = TRUE
+    )),
     AESEV = dplyr::case_when(
       AESEV == "MILD" ~ "Mild",
       AESEV == "MODERATE" ~ "Moderate",
       AESEV == "SEVERE" ~ "Severe"
     ),
     DOSEDY = as.numeric(37),
+    DOSS1DY = as.numeric(38),
+    DOSS2DY = as.numeric(39),
     DOSEU = as.factor("mg"),
+    DOSS1U = as.factor("mcg"),
+    DOSS2U = as.factor("mL"),
     DOSEON = as.numeric(10),
+    DOSS1ON = as.numeric(11),
+    DOSS2ON = as.numeric(12),
     AECONTRT = as.factor(sample(c("N", "Y", "U"), dplyr::n(), replace = TRUE)),
     CQ01NAM = as.factor(sample(c("Seizure", NA), dplyr::n(), replace = TRUE)),
     CQ02NAM = as.factor(sample(c("Skin rash", NA), dplyr::n(), replace = TRUE)),
@@ -179,12 +213,36 @@ gen_adae <- function(seed = 123) {
     AESMIE = "Y",
     AESER = as.factor(sample(c("N", "Y"), dplyr::n(), replace = TRUE)),
     AEREL = as.factor(dplyr::case_when(
-      AEREL == "PROBABLE" ~ "PROBABLE",
+      AEREL == "PROBABLE" ~ "RELATED",
       AEREL == "REMOTE" ~ "RELATED",
-      AEREL == "POSSIBLE" ~ "POSSIBLE",
+      AEREL == "POSSIBLE" ~ "RELATED",
       AEREL == "NONE" ~ "NOT RELATED",
       is.na(AEREL) ~ NA_character_
     )),
+    AERELS1 = as.factor(sample(
+      c(
+        "RELATED",
+        "NOT RELATED"
+      ),
+      dplyr::n(),
+      replace = TRUE
+    )),
+    AERELS2 = as.factor(sample(
+      c(
+        "RELATED",
+        "NOT RELATED"
+      ),
+      dplyr::n(),
+      replace = TRUE
+    )),
+    RELGR1 = as.factor(dplyr::case_when(
+      if_any(starts_with("AERELS"), ~ . == "RELATED") ~ "RELATED",
+      if_all(starts_with("AERELS"), ~ !is.na(.)) ~ "NOT RELATED",
+      TRUE ~ NA_character_
+    )),
+    AEDRGS1 = "Study agent 1",
+    AEDRGS2 = "Study agent 2",
+    AEDECOD = forcats::fct_relabel(AEDECOD, stringr::str_to_sentence), # Convert AEDECOD levels to sentence
     AEBODSYS = forcats::fct_relabel(AEBODSYS, stringr::str_to_sentence) # Convert AEBODSYS levels to sentence
   )
 
@@ -194,23 +252,35 @@ gen_adae <- function(seed = 123) {
 
   # Apply derivations
   gen <- gen |>
-    derive_var_extreme_flag(
-      new_var = AOCCFL,
-      by_vars = exprs(STUDYID, USUBJID),
-      order = exprs(STUDYID, USUBJID, ASTDY, AESEQ),
-      mode = "first"
+    restrict_derivation(
+      derivation = derive_var_extreme_flag,
+      args = params(
+        by_vars = exprs(STUDYID, USUBJID),
+        order = exprs(STUDYID, !is.na(ASTDT), ASTDT, AESEQ),
+        new_var = AOCCFL,
+        mode = "first"
+      ),
+      filter = TRTEMFL == "Y"
     ) |>
-    derive_var_extreme_flag(
-      new_var = AOCCPFL,
-      by_vars = exprs(STUDYID, USUBJID, AEDECOD),
-      order = exprs(STUDYID, USUBJID, AEDECOD, ASTDY, AESEQ),
-      mode = "first"
+    restrict_derivation(
+      derivation = derive_var_extreme_flag,
+      args = params(
+        by_vars = exprs(STUDYID, USUBJID, AEDECOD),
+        order = exprs(STUDYID, !is.na(ASTDT), ASTDT, AESEQ),
+        new_var = AOCCPFL,
+        mode = "first"
+      ),
+      filter = TRTEMFL == "Y"
     ) |>
-    derive_var_extreme_flag(
-      new_var = AOCCSFL,
-      by_vars = exprs(STUDYID, USUBJID, AEBODSYS),
-      order = exprs(STUDYID, USUBJID, AEDECOD, ASTDY, AESEQ),
-      mode = "first"
+    restrict_derivation(
+      derivation = derive_var_extreme_flag,
+      args = params(
+        by_vars = exprs(STUDYID, USUBJID, AEBODSYS),
+        order = exprs(STUDYID, !is.na(ASTDT), ASTDT, AESEQ),
+        new_var = AOCCSFL,
+        mode = "first"
+      ),
+      filter = TRTEMFL == "Y"
     )
 
 
@@ -276,7 +346,11 @@ gen_adae <- function(seed = 123) {
   # Add TRDISCFL variable: "Y" if AEACN = "DRUG WITHDRAWN", null otherwise
   gen <- gen |>
     mutate(
-      TRDISCFL = ifelse(AEACN == "DRUG WITHDRAWN", "Y", NA_character_)
+      TRDISCFL = case_when(
+        AEACN == "DRUG WITHDRAWN" ~ "Y",
+        AEACN == "MULTIPLE" & if_any(starts_with("AEACNS"), ~ . == "DRUG WITHDRAWN") ~ "Y",
+        TRUE ~ NA_character_
+      )
     )
 
   gen <- gen |>
@@ -290,7 +364,8 @@ gen_adae <- function(seed = 123) {
       AESCAT = case_when(
         AESOC == "GENERAL DISORDERS AND ADMINISTRATION SITE CONDITIONS" ~ "INFUSION RELATED REACTION",
         .default = "NONE OF THE ABOVE"
-      )
+      ),
+      AESCAT = forcats::fct_relabel(AESCAT, stringr::str_to_sentence), # Convert AESCAT levels to sentence
     )
 
   # Derive CQ01/02/03 and SMQ01/02/03 names per mapping from AEDECOD
@@ -302,7 +377,7 @@ gen_adae <- function(seed = 123) {
         .default = NA_character_
       ),
       SMQ01NAM = case_when(
-        .AEDECOD_UP == "HYPERTENSION" ~ "HYPERTENSION",
+        .AEDECOD_UP == "HYPERTENSION" ~ "Hypertension",
         .default = NA_character_
       ),
       CQ02NAM = case_when(
@@ -310,7 +385,7 @@ gen_adae <- function(seed = 123) {
         .default = NA_character_
       ),
       SMQ02NAM = case_when(
-        .AEDECOD_UP %in% c("PRURITUS", "ERYTHEMA", "RASH") ~ "HYPERSENSITIVITY",
+        .AEDECOD_UP %in% c("PRURITUS", "ERYTHEMA", "RASH") ~ "Hypersensitivity",
         .default = NA_character_
       ),
       CQ03NAM = case_when(
@@ -318,7 +393,7 @@ gen_adae <- function(seed = 123) {
         .default = NA_character_
       ),
       SMQ03NAM = case_when(
-        .AEDECOD_UP == "DIZZINESS" ~ "HEARING AND VESTIBULAR DISORDERS",
+        .AEDECOD_UP == "DIZZINESS" ~ "Hearing and vestibular disorders",
         .default = NA_character_
       )
     ) |>
@@ -401,7 +476,20 @@ gen_adae <- function(seed = 123) {
     AOCS01FL = "1st AESI Max Sev./Int. 01 Occur. Flag",
     AOCS02FL = "1st AESI Max Sev./Int. 02 Occur. Flag",
     AOCS03FL = "1st AESI Max Sev./Int. 03 Occur. Flag",
-    AESCAT = "Adverse Event Category"
+    AESCAT = "Adverse Event Category",
+    AERELS1 = "Causality - Sponsor Study Treatment 1",
+    AERELS2 = "Causality - Sponsor Study Treatment 2",
+    AEACNS1 = "Action Taken - Sponsor Study Treatment 1",
+    AEACNS2 = "Action Taken - Sponsor Study Treatment 2",
+    RELGR1 = "Pooled Causality Group 1",
+    AEDRGS1 = "Sponsor Study Treatment 1",
+    AEDRGS2 = "Sponsor Study Treatment 2",
+    DOSS1DY = "Day of Study Drug of study Agent 1",
+    DOSS2DY = "Day of Study Drug of study Agent 2",
+    DOSS1U = "Trt Dose Units for study Agent 1",
+    DOSS2U = "Trt Dose Units for study Agent 2",
+    DOSS1ON = "Treatment Dose for study Agent 1",
+    DOSS2ON = "Treatment Dose for study Agent 2"
   )
 
   # Arrange final data

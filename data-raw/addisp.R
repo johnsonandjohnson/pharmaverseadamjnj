@@ -187,10 +187,10 @@ gen_addisp <- function(seed = 123) {
     ASTDTC  = "Analysis Start Date",
     ASTDY   = "Study Day of Analysis Start Date",
     DSSCAT  = "Analysis Subcategory",
-    S1EDY   = "Study Day of End of Trt for Study Agent 1",
-    S2EDY   = "Study Day of End of Trt for Study Agent 2",
-    S1SDY   = "Study Day of Start of Trt for Study Agent 1",
-    S2SDY   = "Study Day of Start of Trt for Study Agent 2"
+    S1EDY   = "Study Day of End of Trt for Study Agt 1",
+    S2EDY   = "Study Day of End of Trt for Study Agt 2",
+    S1SDY   = "Study Day of Start of Trt for Stdy Agt 1",
+    S2SDY   = "Study Day of Start of Trt for Stdy Agt 2"
   )
 
   gen <- disp_par |>
