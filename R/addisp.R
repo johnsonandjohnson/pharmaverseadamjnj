@@ -1,0 +1,56 @@
+#' @title addisp
+#'
+#' @description addisp modified from pharmaverseadam
+#' @source data from pharmaverseadam.
+#'
+#' @format A data frame with 1411 rows and 42 variables:
+#' \describe{
+#'  \item{STUDYID}{Study Identifier}
+#'  \item{USUBJID}{Unique Subject Identifier}
+#'  \item{SITEID}{Study Site Identifier}
+#'  \item{SUBJID}{Subject Identifier for the Study}
+#'  \item{PARAMCD}{Parameter Code}
+#'  \item{PARAM}{Parameter}
+#'  \item{AVALC}{Analysis Value (C)}
+#'  \item{DSSCAT}{Analysis Subcategory}
+#'  \item{ASTDT}{Analysis Start Date}
+#'  \item{ASTDTC}{Analysis Start Date}
+#'  \item{ASTDY}{Study Day of Analysis Start Date}
+#'  \item{AVALCSP}{Specify text for AVALC}
+#'  \item{S1EDT}{Date of Last Exposure to Treatment}
+#'  \item{S1EDTM}{Datetime of Last Exposure to Treatment}
+#'  \item{S1EDY}{Study Day of End of Trt for Study Agt 1}
+#'  \item{S2EDT}{Date of Last Exposure to Treatment}
+#'  \item{S2EDTM}{Datetime of Last Exposure to Treatment}
+#'  \item{S2EDY}{Study Day of End of Trt for Study Agt 2}
+#'  \item{S1SDT}{Date of First Exposure to Treatment}
+#'  \item{S1SDTM}{Datetime of First Exposure to Treatment}
+#'  \item{S1SDY}{Study Day of Start of Trt for Stdy Agt 1}
+#'  \item{S2SDT}{Date of First Exposure to Treatment}
+#'  \item{S2SDTM}{Datetime of First Exposure to Treatment}
+#'  \item{S2SDY}{Study Day of Start of Trt for Stdy Agt 2}
+#'  \item{PPROTFL}{Per-Protocol Population Flag}
+#'  \item{SAFFL}{Safety Population Flag}
+#'  \item{RANDFL}{Randomized Flag}
+#'  \item{SCRNFL}{Screened Population Flag}
+#'  \item{SCRFFL}{Screen Failure Flag}
+#'  \item{RESCRNFL}{Re-screened Flag}
+#'  \item{FASFL}{Full Analysis Set Population Flag}
+#'  \item{ENRLFL}{Enrolled Population Flag}
+#'  \item{AGE}{Age}
+#'  \item{AGEU}{Age Units}
+#'  \item{SEX}{Sex}
+#'  \item{RACE}{Race}
+#'  \item{COUNTRY}{Country}
+#'  \item{RFICDT}{Date of Informed Consent}
+#'  \item{TRT01P}{Planned Treatment for Period 01}
+#'  \item{TRT01PN}{Planned Treatment for Period 01 (N)}
+#'  \item{TRT01A}{Actual Treatment for Period 01}
+#'  \item{TRT01AN}{Actual Treatment for Period 01 (N)}
+#' }
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @keywords datasets addisp
+#' @name addisp
+#' @examples
+#'  head(data("addisp"))
+"addisp"
