@@ -5,7 +5,7 @@
 \alias{adaecomp}
 \title{adaecomp}
 \format{
-A data frame with 1404 rows and 89 variables:
+A data frame with 1913 rows and 89 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{DOMAIN}{Domain Abbreviation}
