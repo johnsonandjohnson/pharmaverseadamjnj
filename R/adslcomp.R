@@ -3,7 +3,7 @@
 #' @description adslcomp modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 392 rows and 119 variables:
+#' @format A data frame with 476 rows and 119 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -82,7 +82,7 @@
 #'  \item{DCTREAS}{Reason for Discontinuation of Treatment}
 #'  \item{LTVISIT}{Last Treatment Visit}
 #'  \item{DCTREASP}{Reason Specify for Discont of Treatment}
-#'  \item{DCTDT}{End of Study Date}
+#'  \item{DCTDT}{DCTDT}
 #'  \item{DCSREAS}{Reason for Discontinuation from Study}
 #'  \item{DCSREASP}{Reason Spec for Discont from Study}
 #'  \item{LSVISIT}{Last Study Visit}
@@ -125,7 +125,7 @@
 #'  \item{GROUP}{Analysis Group}
 #'  \item{EOTDT}{End-of-Treatment Date}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adslcomp
 #' @name adslcomp
 #' @examples

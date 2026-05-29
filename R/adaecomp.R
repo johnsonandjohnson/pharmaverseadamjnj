@@ -3,7 +3,7 @@
 #' @description adaecomp modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 1404 rows and 89 variables:
+#' @format A data frame with 1913 rows and 89 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}
