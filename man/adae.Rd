@@ -5,70 +5,83 @@
 \alias{adae}
 \title{adae}
 \format{
-A data frame with 1191 rows and 89 variables:
+A data frame with 1191 rows and 102 variables:
 \describe{
-\item{USUBJID}{Unique Subject Identifier}
 \item{DOMAIN}{Domain Abbreviation}
+\item{USUBJID}{Unique Subject Identifier}
 \item{AESEQ}{Sequence Number}
+\item{AESPID}{Sponsor-Defined Identifier}
 \item{AETERM}{Reported Term for the Adverse Event}
-\item{AEDECOD}{Dictionary-Derived Term}
-\item{AEBODSYS}{Body System or Organ Class}
-\item{AEBDSYCD}{Body System or Organ Class Code}
 \item{AELLT}{Lowest Level Term}
 \item{AELLTCD}{Lowest Level Term Code}
+\item{AEDECOD}{Dictionary-Derived Term}
 \item{AEPTCD}{Preferred Term Code}
 \item{AEHLT}{High Level Term}
 \item{AEHLTCD}{High Level Term Code}
 \item{AEHLGT}{High Level Group Term}
 \item{AEHLGTCD}{High Level Group Term Code}
+\item{AEBODSYS}{Body System or Organ Class}
+\item{AEBDSYCD}{Body System or Organ Class Code}
 \item{AESOC}{Primary System Organ Class}
 \item{AESOCCD}{Primary System Organ Class Code}
+\item{AESEV}{Severity/Intensity}
+\item{AESER}{Serious Event}
+\item{AEACN}{Action Taken with Study Treatment}
+\item{AEREL}{Causality}
+\item{AEOUT}{Outcome of Adverse Event}
+\item{AESCAN}{Involves Cancer}
+\item{AESCONG}{Congenital Anomaly or Birth Defect}
+\item{AESDISAB}{Persist or Signif Disability/Incapacity}
+\item{AESDTH}{Results in Death}
+\item{AESHOSP}{Requires or Prolongs Hospitalization}
+\item{AESLIFE}{Is Life Threatening}
+\item{AESOD}{Occurred with Overdose}
+\item{AEDTC}{Date/Time of Collection}
 \item{AESTDTC}{Start Date/Time of Adverse Event}
-\item{ASTDT}{Analysis Start Date}
+\item{AEENDTC}{End Date/Time of Adverse Event}
+\item{AESTDY}{Study Day of Start of Adverse Event}
+\item{AEENDY}{Study Day of End of Adverse Event}
 \item{ASTDTM}{Analysis Start Date/Time}
 \item{ASTDTF}{Analysis Start Date Imputation Flag}
 \item{ASTTMF}{Analysis Start Time Imputation Flag}
-\item{AEENDTC}{End Date/Time of Adverse Event}
-\item{AENDT}{Analysis End Date}
 \item{AENDTM}{Analysis End Date/Time}
 \item{AENDTF}{Analysis End Date Imputation Flag}
 \item{AENTMF}{Analysis End Time Imputation Flag}
+\item{ASTDT}{Analysis Start Date}
+\item{AENDT}{Analysis End Date}
 \item{ASTDY}{Analysis Start Relative Day}
-\item{AESTDY}{Study Day of Start of Adverse Event}
 \item{AENDY}{Analysis End Relative Day}
-\item{AEENDY}{Study Day of End of Adverse Event}
 \item{ADURN}{Analysis Duration (N)}
 \item{ADURU}{Analysis Duration Units}
-\item{TRTEMFL}{Treatment Emergent Analysis Flag}
-\item{AOCCIFL}{1st Max Sev./Int. Occurrence Flag}
-\item{AESER}{Serious Event}
-\item{AESDTH}{Results in Death}
-\item{AESLIFE}{Is Life Threatening}
-\item{AESHOSP}{Requires or Prolongs Hospitalization}
-\item{AESDISAB}{Persist or Signif Disability/Incapacity}
-\item{AESCONG}{Congenital Anomaly or Birth Defect}
-\item{AESEV}{Severity/Intensity}
-\item{ASEV}{Analysis Severity/Intensity}
-\item{ASEVN}{Analysis Severity/Intensity (N)}
-\item{AEREL}{Causality}
-\item{AREL}{Analysis Causality}
-\item{AEACN}{Action Taken with Study Treatment}
-\item{AESPID}{Sponsor-Defined Identifier}
-\item{AEOUT}{Outcome of Adverse Event}
-\item{AESCAN}{Involves Cancer}
-\item{AESOD}{Occurred with Overdose}
-\item{AEDTC}{Date/Time of Collection}
 \item{LDOSEDTM}{End Date/Time of Last Dose}
 \item{DOSEON}{Treatment Dose at Record Start}
 \item{DOSEU}{Treatment Dose Units}
+\item{ASEV}{Analysis Severity/Intensity}
+\item{AREL}{Analysis Causality}
+\item{TRTEMFL}{Treatment Emergent Analysis Flag}
+\item{ASEVN}{Analysis Severity/Intensity (N)}
+\item{AOCCIFL}{1st Max Sev./Int. Occurrence Flag}
 \item{AETOXGR}{Standard Toxicity Grade}
 \item{AETOXGRN}{Standard Toxicity Grade (N)}
+\item{AEACNS1}{Action Taken - Sponsor Study Treatment 1}
+\item{AEACNS2}{Action Taken - Sponsor Study Treatment 2}
 \item{DOSEDY}{Day of Study Drug}
+\item{DOSS1DY}{Day of Study Drug of study Agent 1}
+\item{DOSS2DY}{Day of Study Drug of study Agent 2}
+\item{DOSS1U}{Trt Dose Units for study Agent 1}
+\item{DOSS2U}{Trt Dose Units for study Agent 2}
+\item{DOSS1ON}{Treatment Dose for study Agent 1}
+\item{DOSS2ON}{Treatment Dose for study Agent 2}
 \item{AECONTRT}{Concomitant or Additional Trtmnt Given}
 \item{CQ01NAM}{Customized Query 01 Name}
 \item{CQ02NAM}{Customized Query 02 Name}
 \item{CQ03NAM}{Customized Query 03 Name}
 \item{AESMIE}{Other Medically Important Serious Event}
+\item{AERELS1}{Causality - Sponsor Study Treatment 1}
+\item{AERELS2}{Causality - Sponsor Study Treatment 2}
+\item{RELGR1}{Pooled Causality Group 1}
+\item{AEDRGS1}{Sponsor Study Treatment 1}
+\item{AEDRGS2}{Sponsor Study Treatment 2}
 \item{ACAT1}{Analysis Category 1}
 \item{AOCCFL}{1st Occurrence within Subject Flag}
 \item{AOCCPFL}{1st Occurrence within Pref Term Flag}
@@ -111,7 +124,7 @@ adae modified from pharmaverseadam
  head(data("adae"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 }
 \keyword{adae}
 \keyword{datasets}
