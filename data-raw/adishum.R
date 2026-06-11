@@ -21,7 +21,7 @@ get_adishum <- function(seed = 123) {
   # get source data
   raw <- pharmaverseadam::adis_vaccine
 
-  gen <- raw() |> 
+  gen <- raw |> 
     select(
       STUDYID,
       USUBJID
@@ -33,8 +33,20 @@ get_adishum <- function(seed = 123) {
 }
 
 
-names(raw_df)
-col_name
+
+
+setdiff(col_by_mrinal, colnames(raw))
+
+setdiff(col_name, colnames(raw))
+
+sum(colnames(raw) == "ADSELVARS")
+
+colnames(raw)[
+  duplicated(col_by_mrinal, colnames(raw))
+]
+
+View(raw)
+
 
 col_name <- c(
   'STUDYID',
@@ -58,3 +70,26 @@ col_name <- c(
   'APHASEN',
   'PHSDT'
 )
+
+col_by_mrinal <- c(
+'IMFL',
+'PARQUAL',
+'PARAMCD',
+'AVAL',
+'AVALC',
+'AVALCAT1',
+'IMEVFL',
+'ANL01FL',
+'ANL02FL',
+'ANL03FL',
+'ANL04FL',
+'ANL05FL',
+'ANL06FL',
+'ANL07FL',
+'ANL08FL',
+'ANL09FL',
+'ANL10FL',
+'AVISIT',
+'AVISITN'
+) |> 
+  trimws()
