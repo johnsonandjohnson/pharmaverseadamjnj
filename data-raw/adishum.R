@@ -85,7 +85,18 @@ gen_adishum <- function(seed = 123) {
     "NABNEG",   "Neutralizing ADA Negative",                                "ADA_NAB"
   )
 
+  random_sample_paramcd <- sample(1:20, nrow(sdtm_tbl), replace = TRUE)
 
+  temp_paramcd <- temp_paramcd[
+    random_sample_paramcd,
+  ]
+
+  sdtm_tbl <- sdtm_tbl |> 
+    cbind(temp_paramcd)
+
+
+
+    
 
 
 
