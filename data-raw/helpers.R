@@ -375,3 +375,88 @@ borrow_aes <- function(
 
   rbind(ae_df, newrws)
 }
+
+
+#' Find package datasets that contain specified variable names
+#'
+#' @description
+#' Search all documented datasets in a package (the list returned by
+#' `data(package = pkg)`) and report which datasets contain one or more
+#' variable names you provide.
+#' 
+#' @param pkg Character(1). Name of the installed package to search (e.g. "pharmaverseadam").
+#' @param vars Character vector. One or more variable names to look for (e.g. c("PARAMCD")).
+#' @param match_all Logical(1). If TRUE, only return datasets that contain all variables
+#'   in `vars`. If FALSE (default), return datasets that contain any of the variables.
+#'
+#' @return A tibble with columns:
+#'   - dataset: dataset name in the package
+#'   - matched_vars: list-column of matched variable names found in that dataset
+#'   - data: list-column with the full dataset object (or NULL if load_data = FALSE)
+#'
+#' @examples
+#' \dontrun{
+#' # Find datasets that contain both PARAMCD and PARAM
+#' find_datasets_with_vars("pharmaverseadam", c("PARAMCD", "PARAM"), match_all = TRUE)
+#' }
+#'
+find_datasets_with_vars <- function(pkg, vars, match_all = FALSE, load_data = TRUE) {
+  stopifnot(is.character(pkg), length(pkg) == 1, is.character(vars), length(vars) >= 1)
+  ds <- utils::data(package = pkg)$results[, "Item"]
+
+  out_dataset <- character()
+  out_matched <- list()
+  out_data <- list()
+
+  for (d in ds) {
+    # Try namespace access (fast) then exported value, then fallback to loading via data()
+    obj <- tryCatch(
+      utils::getFromNamespace(d, pkg),
+      error = function(e1) tryCatch(
+        utils::getExportedValue(pkg, d),
+        error = function(e2) {
+          tmp_env <- new.env()
+          tryCatch({
+            utils::data(list = d, package = pkg, envir = tmp_env)
+            get(d, envir = tmp_env)
+          }, error = function(e3) NULL)
+        }
+      )
+    )
+
+    if (is.null(obj)) next
+
+    # Only inspect data.frames or objects with names; treat list-like objects similarly
+    obj_names <- if (is.data.frame(obj)) names(obj) else if (is.list(obj)) names(obj) else NULL
+
+    # If object has no names, skip (cannot match column names)
+    if (is.null(obj_names)) next
+
+    matched <- intersect(vars, obj_names)
+    if (match_all) {
+      if (length(matched) != length(vars)) next
+    } else {
+      if (length(matched) == 0) next
+    }
+
+    out_dataset <- c(out_dataset, d)
+    out_matched[[length(out_matched) + 1]] <- matched
+
+    if (isTRUE(load_data)) {
+      # store the object (safe copy). It is already in memory (namespace) or in tmp_env.
+      out_data[[length(out_data) + 1]] <- list(obj)
+    } else {
+      out_data[[length(out_data) + 1]] <- list(NULL)
+    }
+  }
+
+  if (length(out_dataset) == 0) {
+    return(tibble::tibble(dataset = character(), matched_vars = I(list()), data = I(list())))
+  }
+
+  tibble::tibble(
+    dataset = out_dataset,
+    matched_vars = I(out_matched),
+    data = I(out_data)
+  )
+}
