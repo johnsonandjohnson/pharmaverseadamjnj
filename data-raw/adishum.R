@@ -85,18 +85,18 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
 
 }
 
-# add AVAL, AVALC and AVALCAT1 columns
+# add AVAL, AVALC and AVALCAT1 columns0
 add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
   # add empty columns
   main_tbl <- main_tbl |>
     mutate(
-      AVAL  = as.numeric(NA),
-      AVALC = as.character(NA),
-      AVALCAT1 = as.character(NA)
+      AVAL      = as.numeric(NA),
+      AVALC     = as.character(NA),
+      AVALCAT1  = as.character(NA)
     )
 
   # classification using stringi
-  is_titer  <- stringi::stri_endswith_fixed(str = main_tbl$PARAMCD, pattern = "T")
+  is_titer <- stringi::stri_endswith_fixed(str = main_tbl$PARAMCD, pattern = "T")
   is_nabposneg <- main_tbl$PARAMCD %in% c("NABPOS", "NABNEG")
   is_result_text <- stringi::stri_detect_regex(
     str = main_tbl$PARAM,
@@ -115,7 +115,7 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
   titer_values <- c(10, 20, 40, 80, 160, 320)
 
   # populate AVALC for titers (include some left-censored "<" values)
-  n_t <- sum(is_titer)
+  n_t <- sum(is_titer, na.rm = TRUE)
   if (n_t > 0) {
     vals <- sample(titer_values, size = n_t, replace = TRUE)
     censored <- runif(n_t) < 0.20   # 20% left-censored example
@@ -123,7 +123,7 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
   }
 
   # populate AVALC for result-like rows
-  n_r <- sum(is_result)
+  n_r <- sum(is_result, na.rm = TRUE)
   if (n_r > 0) {
     main_tbl$AVALC[which(is_result)] <- sample(
       c("Positive", "Negative", "Undetermined"),
@@ -133,12 +133,30 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
     )
   }
 
+  # identify TE-positive subjects per active agent (PARQUAL-paired)
+  is_te_result <- is_result & stringi::stri_detect_regex(
+    str = main_tbl$PARAM,
+    pattern = "treatment-\\s*emergent",
+    opts_regex = stringi::stri_opts_regex(case_insensitive = TRUE)
+  )
+
+  te_pos_rows <- which(
+    is_te_result &
+    !is.na(main_tbl$PARQUAL) &
+    !is.na(main_tbl$AVALC) &
+    stringi::stri_trans_tolower(main_tbl$AVALC) == "positive"
+  )
+
+  pos_keys <- unique(paste0(main_tbl$USUBJID[te_pos_rows], "::", main_tbl$PARQUAL[te_pos_rows]))
+  row_keys <- paste0(main_tbl$USUBJID, "::", main_tbl$PARQUAL)
+  is_te_pos_pair <- row_keys %in% pos_keys
+
   # extract numeric part and left-censor marker using stringi
-  numpart <- stringi::stri_extract_first_regex(str = main_tbl$AVALC, pattern = "[0-9]+")
-  numval  <- as.numeric(numpart)
-  is_lt   <- stringi::stri_startswith_fixed(str = main_tbl$AVALC, pattern = "<")
+  numpart   <- stringi::stri_extract_first_regex(str = main_tbl$AVALC, pattern = "[0-9]+")
+  numval    <- as.numeric(numpart)
+  is_lt     <- stringi::stri_startswith_fixed(str = main_tbl$AVALC, pattern = "<")
   is_digits <- stringi::stri_detect_regex(str = main_tbl$AVALC, pattern = "^[0-9]+$")
-  
+
   # derive numeric AVAL and round to 2 significant digits
   main_tbl <- main_tbl |>
     mutate(
@@ -152,19 +170,18 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
       AVAL = ifelse(!is.na(AVAL), signif(AVAL, 2), NA_real_)
     )
 
-  # simple categorical bins for titers and passthrough for results
+  # derive AVALCAT1 only for titer rows of TE-positive subjects to the same active agent (PARQUAL)
   main_tbl <- main_tbl |>
     mutate(
       AVALCAT1 = dplyr::case_when(
-        !is.na(AVAL) & is_titer & AVAL <= 20  ~ "Negative",
-        !is.na(AVAL) & is_titer & AVAL <= 80  ~ "Low",
-        !is.na(AVAL) & is_titer & AVAL <= 320 ~ "Medium",
-        !is.na(AVAL) & is_titer & AVAL > 320  ~ "High",
-        !is.na(AVALC) & is_result ~ AVALC,  # use original text for result rows
+        is_titer & is_te_pos_pair & !is.na(AVAL) & AVAL <= 20  ~ "Negative",
+        is_titer & is_te_pos_pair & !is.na(AVAL) & AVAL <= 80  ~ "Low",
+        is_titer & is_te_pos_pair & !is.na(AVAL) & AVAL <= 320 ~ "Medium",
+        is_titer & is_te_pos_pair & !is.na(AVAL) & AVAL > 320  ~ "High",
         TRUE ~ NA_character_
       )
     )
-  
+
   return(main_tbl)
 }
 
@@ -189,7 +206,13 @@ gen_adishum <- function(seed = 123) {
       by = "USUBJID"
     ) |> 
     select(
-      IMFL, 
+      USUBJID,
+      SITEID, 
+      SUBJID,
+      AGE,
+      SEX,
+      RACE,
+      IMFL,
       SAFFL,
       ISBDAGNT,
       TRTSDT, 
@@ -198,11 +221,6 @@ gen_adishum <- function(seed = 123) {
       TRT01PN, 
       TRT01A, 
       TRT01AN, 
-      AGE, 
-      SEX, 
-      RACE, 
-      SITEID, 
-      SUBJID,
       ISTESTCD
     )
 
