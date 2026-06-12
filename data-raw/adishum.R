@@ -85,99 +85,37 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
 
 }
 
-# add AVAL, AVALC and AVALCAT1 columns0
+# add AVAL, AVALC and AVALCAT1 columns
 add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
-  # add empty columns
+  # Group B parameters (Subject Summary) handled later
+  group_b_paramcd <- c("TMOSADAW", "ADADURW", "PSPDURW", "NABPOS", "NABNEG")
+
+  # Row-wise small noise for numeric AVAL
+  noise <- stats::runif(n = nrow(main_tbl), min = -0.05, max = 0.05)
+
   main_tbl <- main_tbl |>
-    mutate(
-      AVAL      = as.numeric(NA),
-      AVALC     = as.character(NA),
-      AVALCAT1  = as.character(NA)
-    )
-
-  # classification using stringi
-  is_titer <- stringi::stri_endswith_fixed(str = main_tbl$PARAMCD, pattern = "T")
-  is_nabposneg <- main_tbl$PARAMCD %in% c("NABPOS", "NABNEG")
-  is_result_text <- stringi::stri_detect_regex(
-    str = main_tbl$PARAM,
-    pattern = "result|positive|negative|undetermined",
-    opts_regex = stringi::stri_opts_regex(case_insensitive = TRUE)
-  )
-
-  # ensure titers take priority
-  is_result <- ifelse(
-    is_titer,
-    FALSE,
-    (is_nabposneg | is_result_text)
-  )
-
-  # simple titer pool
-  titer_values <- c(10, 20, 40, 80, 160, 320)
-
-  # populate AVALC for titers (include some left-censored "<" values)
-  n_t <- sum(is_titer, na.rm = TRUE)
-  if (n_t > 0) {
-    vals <- sample(titer_values, size = n_t, replace = TRUE)
-    censored <- runif(n_t) < 0.20   # 20% left-censored example
-    main_tbl$AVALC[which(is_titer)] <- paste0(ifelse(censored, "<", ""), vals)
-  }
-
-  # populate AVALC for result-like rows
-  n_r <- sum(is_result, na.rm = TRUE)
-  if (n_r > 0) {
-    main_tbl$AVALC[which(is_result)] <- sample(
-      c("Positive", "Negative", "Undetermined"),
-      size = n_r,
-      replace = TRUE,
-      prob = c(0.25, 0.70, 0.05)
-    )
-  }
-
-  # identify TE-positive subjects per active agent (PARQUAL-paired)
-  is_te_result <- is_result & stringi::stri_detect_regex(
-    str = main_tbl$PARAM,
-    pattern = "treatment-\\s*emergent",
-    opts_regex = stringi::stri_opts_regex(case_insensitive = TRUE)
-  )
-
-  te_pos_rows <- which(
-    is_te_result &
-    !is.na(main_tbl$PARQUAL) &
-    !is.na(main_tbl$AVALC) &
-    stringi::stri_trans_tolower(main_tbl$AVALC) == "positive"
-  )
-
-  pos_keys <- unique(paste0(main_tbl$USUBJID[te_pos_rows], "::", main_tbl$PARQUAL[te_pos_rows]))
-  row_keys <- paste0(main_tbl$USUBJID, "::", main_tbl$PARQUAL)
-  is_te_pos_pair <- row_keys %in% pos_keys
-
-  # extract numeric part and left-censor marker using stringi
-  numpart   <- stringi::stri_extract_first_regex(str = main_tbl$AVALC, pattern = "[0-9]+")
-  numval    <- as.numeric(numpart)
-  is_lt     <- stringi::stri_startswith_fixed(str = main_tbl$AVALC, pattern = "<")
-  is_digits <- stringi::stri_detect_regex(str = main_tbl$AVALC, pattern = "^[0-9]+$")
-
-  # derive numeric AVAL and round to 2 significant digits
-  main_tbl <- main_tbl |>
-    mutate(
+    dplyr::mutate(
+      # Numeric AVAL for ISSTRESN and not Group B, rounded to 2 decimals (spec: 2 significant digits)
       AVAL = dplyr::case_when(
-        !is.na(AVALC) & is_lt ~ numval / 2,
-        !is.na(AVALC) & is_digits ~ numval,
-        !is.na(AVALC) & stringi::stri_trans_tolower(AVALC) == "positive" ~ 1,
-        !is.na(AVALC) & stringi::stri_trans_tolower(AVALC) == "negative" ~ 0,
-        TRUE ~ as.numeric(NA)
+        !is.na(ISSTRESN) & !PARAMCD %in% group_b_paramcd ~ round(ISSTRESN + noise, 2),
+        TRUE ~ NA_real_
       ),
-      AVAL = ifelse(!is.na(AVAL), signif(AVAL, 2), NA_real_)
-    )
-
-  # derive AVALCAT1 only for titer rows of TE-positive subjects to the same active agent (PARQUAL)
-  main_tbl <- main_tbl |>
-    mutate(
+      # AVALC mirrors numeric AVAL as character; else keep character ISSTRESC (upper-case)
+      AVALC = dplyr::case_when(
+        !is.na(AVAL) & !PARAMCD %in% group_b_paramcd ~ as.character(AVAL),
+        is.na(ISSTRESN) & !is.na(ISSTRESC) & !PARAMCD %in% group_b_paramcd ~ toupper(ISSTRESC),
+        TRUE ~ NA_character_
+      )
+    ) |>
+    dplyr::mutate(
+      # AVALCAT1 per spec (Group B set later)
       AVALCAT1 = dplyr::case_when(
-        is_titer & is_te_pos_pair & !is.na(AVAL) & AVAL <= 20  ~ "Negative",
-        is_titer & is_te_pos_pair & !is.na(AVAL) & AVAL <= 80  ~ "Low",
-        is_titer & is_te_pos_pair & !is.na(AVAL) & AVAL <= 320 ~ "Medium",
-        is_titer & is_te_pos_pair & !is.na(AVAL) & AVAL > 320  ~ "High",
+        !PARAMCD %in% group_b_paramcd &
+          ( (!is.na(AVAL) & AVAL <= 0) |
+            (!is.na(AVALC) & AVALC == "NEGATIVE") |
+            (!is.na(AVALC) & grepl("^\\s*<", AVALC)) ) ~ "Negative / BLQ",
+        !PARAMCD %in% group_b_paramcd & !is.na(AVAL) & AVAL > 0 & AVAL <= 2 ~ "Low Positive",
+        !PARAMCD %in% group_b_paramcd & !is.na(AVAL) & AVAL > 2 ~ "High Positive",
         TRUE ~ NA_character_
       )
     )
@@ -220,7 +158,9 @@ gen_adishum <- function(seed = 123) {
       TRT01P, 
       TRT01PN, 
       TRT01A, 
-      TRT01AN, 
+      TRT01AN,
+      ISSTRESN,
+      ISSTRESC,
       ISTESTCD
     )
 
