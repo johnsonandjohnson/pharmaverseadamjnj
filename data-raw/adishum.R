@@ -46,7 +46,8 @@ gen_adishum <- function(seed = 123) {
       SEX, 
       RACE, 
       SITEID, 
-      SUBJID
+      SUBJID,
+      ISTESTCD
     )
   
   sdtm_tbl <- sdtm_tbl |> 
@@ -55,8 +56,8 @@ gen_adishum <- function(seed = 123) {
         is.na(ISBDAGNT), 
         NA_character_,
         ISBDAGNT |> 
-          str_trim() |> 
-          str_to_upper()
+          stringi::stri_trim_both() |> 
+          stringi::stri_trans_toupper()
     )
   )
 
@@ -73,26 +74,34 @@ gen_adishum <- function(seed = 123) {
     "ADATRIPT", "Treatment-Induced ADA, Titer",                             "ADA_BAB",
     "ADATRE",   "Treatment-Enhanced ADA, Result",                           "ADA_BAB",
     "ADATREPT", "Treatment-Enhanced ADA, Titer",                            "ADA_BAB",
-    "ADATREPT", "Treatment-Enhanced ADA, Titer (duplicate entry)",          "ADA_BAB",
     "ADANTRE",  "Treatment-Enhanced Neutralizing ADA, Result",              "ADA_NAB",
     "ADAPSP",   "ADA Persistent Positive, Result",                          "ADA_BAB",
     "ADATSP",   "Neutralizing ADA Persistent Positive",                     "ADA_NAB",
     "ADAUND",   "ADA Undetermined, Result",                                 "ADA_BAB",
-    "TMOSADAW", "Time to Onset of ADA (weeks)",                             NA_character_,
-    "ADADURW",  "Duration of ADA Response (weeks)",                         NA_character_,
-    "PSPDURW",  "Duration of Persistent Positive ADA (weeks)",              NA_character_,
+    "TMOSADAW", "Time to Onset of ADA (weeks)",                             "ADA_BAB",
+    "ADADURW",  "Duration of ADA Response (weeks)",                         "ADA_BAB",
+    "PSPDURW",  "Duration of Persistent Positive ADA (weeks)",              "ADA_BAB",
     "NABPOS",   "Neutralizing ADA Positive",                                "ADA_NAB",
     "NABNEG",   "Neutralizing ADA Negative",                                "ADA_NAB"
-  )
+  ) |> 
+    arrange(PARAMCD)
 
-  random_sample_paramcd <- sample(1:20, nrow(sdtm_tbl), replace = TRUE)
-
-  temp_paramcd <- temp_paramcd[
-    random_sample_paramcd,
-  ]
-
+  # initialize columns
   sdtm_tbl <- sdtm_tbl |> 
-    cbind(temp_paramcd)
+    mutate(
+      PARAMCD = NA_character_,
+      PARAM   = NA_character_
+    )
+
+  for (key in c("ADA_BAB", "ADA_NAB")) {
+    idx  <- which(as.character(sdtm_tbl$ISTESTCD) == key)     # rows to fill
+    pool <- temp_paramcd %>% filter(ISTESTCD == key)          # candidate PARAM rows
+    
+    sel <- sample(seq_len(nrow(pool)), size = length(idx), replace = TRUE)
+    sdtm_tbl$PARAMCD[idx] <- pool$PARAMCD[sel]
+    sdtm_tbl$PARAM[idx]   <- pool$PARAM[sel]
+  }
+
 
 
 
