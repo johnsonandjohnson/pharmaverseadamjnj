@@ -123,35 +123,44 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
   return(main_tbl)
 }
 
-# add IMEVFL column (one-parameter, no extras)
+# add IMEVFL column
 add_adishum_col_funcs$imevfl <- function(main_tbl) {
-  # infer active agent from PARQUAL (most frequent non-missing)
-  agent <- main_tbl |>
-    dplyr::filter(!is.na(PARQUAL)) |>
-    dplyr::count(PARQUAL, sort = TRUE) |>
-    dplyr::slice(1) |>
-    dplyr::pull(PARQUAL)
-  if (length(agent) == 0) agent <- NA_character_
-
-  flg <- main_tbl |>
-    dplyr::mutate(
-      .qual = !is.na(TRTSDTM) & !is.na(ADTM) & (ADTM > TRTSDTM) &
-              (PARQUAL == agent) &
-              (!is.na(AVAL) | !is.na(AVALC))
-    ) |>
+  # Subject-level eligibility from IMFL
+  subj <- main_tbl |>
     dplyr::group_by(USUBJID) |>
-    dplyr::summarise(IMEVFL = ifelse(any(.qual, na.rm = TRUE), "Y", "N")) |>
-    dplyr::ungroup()
+    dplyr::summarise(
+      eligible = any(as.character(IMFL) == "Y", na.rm = TRUE),
+      .groups = "drop"
+    )
 
-  out <- main_tbl |>
-    dplyr::select(-dplyr::any_of("IMEVFL")) |>
-    dplyr::left_join(flg, by = "USUBJID")
+  # Sample ~70% of eligible subjects as Y
+  eligible_ids <- subj |> 
+    dplyr::filter(eligible) |> 
+    dplyr::pull(USUBJID)
 
-  attr(out$IMEVFL, "label") <- "IS Evaluable Population Flag"
-  out$IMEVFL <- factor(out$IMEVFL, levels = c("N","Y"))
-  out
+  n_y <- floor(length(eligible_ids) * 0.70)
+  sampled_ids <- if (n_y > 0) {
+    sample(eligible_ids, size = n_y)
+  } else {
+    character(0)
+  }
+
+  # Build subject-level flag
+  subj_flag <- subj |>
+    dplyr::mutate(
+      IMEVFL = ifelse(USUBJID %in% sampled_ids, "Y", "N")
+    ) |>
+    dplyr::select(USUBJID, IMEVFL)
+
+  # Attach to main table, adding only IMEVFL
+  main_tbl <- main_tbl |>
+    dplyr::left_join(
+      subj_flag,
+      by = "USUBJID"
+    )
+
+  return(main_tbl)
 }
-
 
 # core function ------------------------------
 # Generate adishum dataset
@@ -160,15 +169,7 @@ gen_adishum <- function(seed = 123) {
   set.seed(seed)
 
   # get source data
-  sdtm_tbl <- pharmaverseadam::adface_vaccine |> 
-    select(
-      USUBJID,
-      ADTM
-    ) |> 
-    left_join(
-      pharmaversesdtm::is_ada,
-      by = "USUBJID"
-    ) |> 
+  sdtm_tbl <- pharmaversesdtm::is_ada |> 
     left_join(
       pharmaverseadamjnj::adsl,
       by = "USUBJID"
@@ -191,8 +192,8 @@ gen_adishum <- function(seed = 123) {
       TRT01AN,
       ISSTRESN,
       ISSTRESC,
-      ADTM,
-      ISTESTCD
+      ISTESTCD,
+      ISDTC
     )
 
   # add PARQUAL column - refer function
