@@ -123,6 +123,36 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
   return(main_tbl)
 }
 
+# add IMEVFL column (one-parameter, no extras)
+add_adishum_col_funcs$imevfl <- function(main_tbl) {
+  # infer active agent from PARQUAL (most frequent non-missing)
+  agent <- main_tbl |>
+    dplyr::filter(!is.na(PARQUAL)) |>
+    dplyr::count(PARQUAL, sort = TRUE) |>
+    dplyr::slice(1) |>
+    dplyr::pull(PARQUAL)
+  if (length(agent) == 0) agent <- NA_character_
+
+  flg <- main_tbl |>
+    dplyr::mutate(
+      .qual = !is.na(TRTSDTM) & !is.na(ADTM) & (ADTM > TRTSDTM) &
+              (PARQUAL == agent) &
+              (!is.na(AVAL) | !is.na(AVALC))
+    ) |>
+    dplyr::group_by(USUBJID) |>
+    dplyr::summarise(IMEVFL = ifelse(any(.qual, na.rm = TRUE), "Y", "N")) |>
+    dplyr::ungroup()
+
+  out <- main_tbl |>
+    dplyr::select(-dplyr::any_of("IMEVFL")) |>
+    dplyr::left_join(flg, by = "USUBJID")
+
+  attr(out$IMEVFL, "label") <- "IS Evaluable Population Flag"
+  out$IMEVFL <- factor(out$IMEVFL, levels = c("N","Y"))
+  out
+}
+
+
 # core function ------------------------------
 # Generate adishum dataset
 gen_adishum <- function(seed = 123) {
@@ -130,15 +160,15 @@ gen_adishum <- function(seed = 123) {
   set.seed(seed)
 
   # get source data
-  raw <- pharmaverseadam::adis_vaccine
-
-  gen <- raw |> 
+  sdtm_tbl <- pharmaverseadam::adface_vaccine |> 
     select(
-      STUDYID,
-      USUBJID
-    )
-
-  sdtm_tbl <- pharmaversesdtm::is_ada |> 
+      USUBJID,
+      ADTM
+    ) |> 
+    left_join(
+      pharmaversesdtm::is_ada,
+      by = "USUBJID"
+    ) |> 
     left_join(
       pharmaverseadamjnj::adsl,
       by = "USUBJID"
@@ -161,6 +191,7 @@ gen_adishum <- function(seed = 123) {
       TRT01AN,
       ISSTRESN,
       ISSTRESC,
+      ADTM,
       ISTESTCD
     )
 
@@ -176,6 +207,9 @@ gen_adishum <- function(seed = 123) {
   sdtm_tbl <- sdtm_tbl |> 
     add_adishum_col_funcs$aval_avalc_avalcat1()
 
+  # add IMEVFL column - refer function
+  sdtm_tbl <- sdtm_tbl |> 
+    add_adishum_col_funcs$imevfl()
 
 
 
