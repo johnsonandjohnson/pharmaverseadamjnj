@@ -14,8 +14,10 @@ source(file.path("data-raw", "helpers.R"))
 # helper functions ----------------------------
 # functions to keep the code readable and tidy
 
+add_adishum_col_funcs <- list()
+
 # function for adding PARQUAL col
-add_adishum_parqual_col <- function(main_tbl) {
+add_adishum_col_funcs$parqual <- function(main_tbl) {
   main_tbl <- main_tbl |> 
     mutate(
       PARQUAL = if_else(
@@ -32,7 +34,7 @@ add_adishum_parqual_col <- function(main_tbl) {
 }
 
 # function for adding PARAM and PARAMCD col
-add_adishum_param_n_paramcd_col <- function(main_tbl) {
+add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
    # tribble of PARAMCD, PARAM, ISTESTCD
   temp_paramcd <- tibble::tribble(
     ~PARAMCD,  ~PARAM,                                                      ~ISTESTCD,
@@ -84,7 +86,7 @@ add_adishum_param_n_paramcd_col <- function(main_tbl) {
 }
 
 # add AVAL, AVALC and AVALCAT1 columns
-add_adishum_aval_avalc_avalcat1_col <- function(main_tbl) {
+add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
   # add empty columns
   main_tbl <- main_tbl |>
     mutate(
@@ -206,15 +208,15 @@ gen_adishum <- function(seed = 123) {
 
   # add PARQUAL column - refer function
   sdtm_tbl <- sdtm_tbl |> 
-    add_adishum_parqual_col()
+    add_adishum_col_funcs$parqual()
 
   # add PARAM and PARAMCD column - refer function
   sdtm_tbl <- sdtm_tbl |> 
-    add_adishum_param_n_paramcd_col()
+    add_adishum_col_funcs$param_n_paramcd()
 
   # add AVAL, AVALC and AVALCAT1 column - refer function
   sdtm_tbl <- sdtm_tbl |> 
-    add_adishum_aval_avalc_avalcat1_col()
+    add_adishum_col_funcs$aval_avalc_avalcat1()
 
 
 
