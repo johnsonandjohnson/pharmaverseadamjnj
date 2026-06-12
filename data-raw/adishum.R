@@ -96,8 +96,13 @@ gen_adishum <- function(seed = 123) {
   for (val in c("ADA_BAB", "ADA_NAB")) {
     idx  <- which(as.character(sdtm_tbl$ISTESTCD) == val)     # rows to fill
     pool <- temp_paramcd |> filter(ISTESTCD == val)          # candidate PARAM rows
-    
-    sel <- sample(seq_along(pool$ISTESTCD), size = length(idx), replace = TRUE)
+
+    sel <- sample(
+      seq_along(pool$PARAMCD),
+      size = length(idx),
+      replace = TRUE
+    )
+
     sdtm_tbl$PARAMCD[idx] <- pool$PARAMCD[sel]
     sdtm_tbl$PARAM[idx]   <- pool$PARAM[sel]
   }
