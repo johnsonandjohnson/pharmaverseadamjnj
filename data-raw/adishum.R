@@ -122,9 +122,11 @@ gen_adishum <- function(seed = 123) {
       ISTESTCD
     )
 
+  # add PARQUAL column - refer function
   sdtm_tbl <- sdtm_tbl |> 
     add_parqual_col()
 
+  # add PARAM and PARAMCD column - refer function
   sdtm_tbl <- sdtm_tbl |> 
     add_param_n_paramcd_col()
 
