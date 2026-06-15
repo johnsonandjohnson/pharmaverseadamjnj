@@ -16,27 +16,26 @@ source(file.path("data-raw", "helpers.R"))
 
 add_adishum_col_funcs <- list()
 
-# function for adding PARQUAL col
-add_adishum_col_funcs$parqual <- function(main_tbl) {
-  main_tbl <- main_tbl |> 
-    mutate(
-      PARQUAL = if_else(
-        is.na(ISBDAGNT), 
-        NA_character_,
-        ISBDAGNT |> 
-          stringi::stri_trim_both() |> 
-          stringi::stri_trans_toupper()
-    )
+# function for adding sample visits
+add_adishum_col_funcs$sample_visits <- function() {
+  visit_map <- tibble::tribble(
+    ~AVISITN, ~AVISIT,    ~VISITDY,
+    1L,       "Baseline", 1,
+    2L,       "Week 2",   15,
+    3L,       "Week 4",   29,
+    4L,       "Week 8",   57,
+    5L,       "Week 12",  85,
+    6L,       "Week 24",  169
   )
 
-  return(main_tbl)
+  return(visit_map)
 
 }
 
-# function for adding PARAM and PARAMCD col
-add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
-   # tribble of PARAMCD, PARAM, ISTESTCD
-  temp_paramcd <- tibble::tribble(
+# function for adding sample paramcd
+add_adishum_col_funcs$sample_paramcd <- function() {
+     # tribble of PARAMCD, PARAM, ISTESTCD
+  sample_paramcd <- tibble::tribble(
     ~PARAMCD,  ~PARAM,                                                      ~ISTESTCD,
     "ADABL",    "Binding ADA, Last Result",                                 "ADA_BAB",
     "ADABLT",   "Binding ADA, Titer",                                       "ADA_BAB",
@@ -60,6 +59,30 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
   ) |> 
     arrange(PARAMCD)
 
+  return(sample_paramcd)
+
+}
+
+# function for adding PARQUAL col
+add_adishum_col_funcs$parqual <- function(main_tbl) {
+  main_tbl <- main_tbl |> 
+    mutate(
+      PARQUAL = if_else(
+        is.na(ISBDAGNT), 
+        NA_character_,
+        ISBDAGNT |> 
+          stringi::stri_trim_both() |> 
+          stringi::stri_trans_toupper()
+    )
+  )
+
+  return(main_tbl)
+
+}
+
+# function for adding PARAM and PARAMCD col
+add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
+  sample_paramcd <- add_adishum_col_funcs$sample_paramcd()
   # initialize columns
   main_tbl <- main_tbl |> 
     mutate(
@@ -69,7 +92,7 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
 
   for (val in c("ADA_BAB", "ADA_NAB")) {
     idx  <- which(as.character(main_tbl$ISTESTCD) == val)     # rows to fill
-    pool <- temp_paramcd |> filter(ISTESTCD == val)          # candidate PARAM rows
+    pool <- sample_paramcd |> filter(ISTESTCD == val)          # candidate PARAM rows
 
     sel <- sample(
       seq_along(pool$PARAMCD),
