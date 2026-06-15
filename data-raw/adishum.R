@@ -174,8 +174,8 @@ add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn <- function(main_tbl) {
   # add adt, ady, ablfl
   main_tbl <- main_tbl |>
     dplyr::mutate(
-      ADT   = as.Date(substr(ISDTC, 1, 10)),
-      ADY   = dplyr::if_else(
+      ADT = as.Date(substr(ISDTC, 1, 10)),
+      ADY = dplyr::if_else(
         ADT >= TRTSDT,
         as.integer(ADT - TRTSDT + 1L),
         as.integer(ADT - TRTSDT)
@@ -193,10 +193,60 @@ add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn <- function(main_tbl) {
         AVISITN == 2  ~ "Week 4",
         AVISITN == 3  ~ "Week 8",
         AVISITN == 4  ~ "Week 12",
-        AVISITN >= 5  ~ "Week 24",
+        AVISITN == 5  ~ "Week 16",
+        AVISITN == 6  ~ "Week 20",
+        AVISITN >= 7  ~ "Week 24",
         TRUE          ~ NA_character_
       )
     )
+
+  return(main_tbl)
+}
+
+# add ANL01FL and ANL02FL columns
+add_adishum_col_funcs$anl01fl_anl02fl <- function(main_tbl) {
+
+  # target study days per visit number (proxy: every visit ~2 weeks apart)
+  # covers up to AVISITN = 20 to be safe since AVISITN is row_number() per subject
+  visitdy_map <- setNames(
+    as.numeric(seq(15, by = 14, length.out = 19)),  # day 15, 29, 43 ... up to visit 20
+    as.character(2:20)                               # visit 2 to 20 (visit 1 = baseline)
+  )
+
+  main_tbl <- main_tbl |>
+    # ensure consistent row order before any row_number() logic
+    dplyr::arrange(USUBJID, PARAMCD, ADT, ADTM) |>
+
+    # ANL01FL: last non-missing record per subject + parameter + date
+    dplyr::group_by(USUBJID, PARAMCD, ADT) |>
+    dplyr::mutate(
+      ANL01FL = dplyr::if_else(
+        (!is.na(AVAL) | !is.na(AVALC)) & dplyr::row_number() == dplyr::n(),
+        "Y",
+        NA_character_
+      )
+    ) |>
+    dplyr::ungroup() |>
+
+    # ANL02FL: one record per scheduled post-baseline visit,
+    #          closest actual day (ADY) to the visit target day
+    dplyr::mutate(
+      .tgt = dplyr::recode(as.character(AVISITN), !!!visitdy_map, .default = NA_real_)
+    ) |>
+    dplyr::group_by(USUBJID, PARAMCD, AVISITN) |>
+    dplyr::mutate(
+      .eligible = ANL01FL == "Y" & AVISITN > 1 & !is.na(.tgt),
+      .min_diff = if (any(.eligible, na.rm = TRUE))
+                    min(abs(ADY[.eligible] - .tgt), na.rm = TRUE)
+                  else
+                    NA_real_,
+      ANL02FL = dplyr::if_else(
+        .eligible & abs(ADY - .tgt) == .min_diff,
+        "Y", NA_character_
+      )
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::select(-.tgt, -.eligible, -.min_diff)
 
   return(main_tbl)
 }
@@ -264,6 +314,10 @@ gen_adishum <- function(seed = 123) {
   # add ADT, ADY, ABLFL, AVISIT and AVISITN column - refer function
   sdtm_tbl <- sdtm_tbl |> 
     add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn()
+
+  # add ANL01FL and ANL02FL column - refer function
+  sdtm_tbl <- sdtm_tbl |> 
+    add_adishum_col_funcs$anl01fl_anl02fl()
 
 }
 
