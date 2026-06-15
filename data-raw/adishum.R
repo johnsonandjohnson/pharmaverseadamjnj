@@ -180,7 +180,9 @@ add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn <- function(main_tbl) {
         as.integer(ADT - TRTSDT + 1L),
         as.integer(ADT - TRTSDT)
       ),
-      ABLFL = dplyr::if_else(AVISITN == 1, "Y", NA_character_)
+      ABLFL = dplyr::if_else(
+        AVISITN == 1, "Y", NA_character_
+      )
     )
 
   main_tbl <- main_tbl |>
