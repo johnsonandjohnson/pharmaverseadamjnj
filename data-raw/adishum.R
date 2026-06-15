@@ -187,6 +187,11 @@ add_adishum_col_funcs$imevfl <- function(main_tbl) {
 
 # add AVISIT and AVISITN columns
 add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn <- function(main_tbl) {
+  
+  # get sample visit mapping
+  vm <- add_adishum_col_funcs$sample_visits()
+  avisit_map <- setNames(vm$AVISIT, as.character(vm$AVISITN))
+
   # add avisitn
   main_tbl <- main_tbl |>
     dplyr::arrange(USUBJID, ISDTC) |>
@@ -210,16 +215,10 @@ add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn <- function(main_tbl) {
 
   main_tbl <- main_tbl |>
     dplyr::mutate(
-      AVISIT = dplyr::case_when(
-        ABLFL == "Y"  ~ "Baseline",
-        AVISITN == 1  ~ "Week 2",
-        AVISITN == 2  ~ "Week 4",
-        AVISITN == 3  ~ "Week 8",
-        AVISITN == 4  ~ "Week 12",
-        AVISITN == 5  ~ "Week 16",
-        AVISITN == 6  ~ "Week 20",
-        AVISITN >= 7  ~ "Week 24",
-        TRUE          ~ NA_character_
+      AVISIT = dplyr::recode(
+        as.character(AVISITN),
+        !!!avisit_map,
+        .default = NA_character_
       )
     )
 
@@ -228,13 +227,9 @@ add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn <- function(main_tbl) {
 
 # add ANL01FL and ANL02FL columns
 add_adishum_col_funcs$anl01fl_anl02fl <- function(main_tbl) {
-
-  # target study days per visit number (proxy: every visit ~2 weeks apart)
-  # covers up to AVISITN = 20 to be safe since AVISITN is row_number() per subject
-  visitdy_map <- setNames(
-    as.numeric(seq(15, by = 14, length.out = 19)),  # day 15, 29, 43 ... up to visit 20
-    as.character(2:20)                               # visit 2 to 20 (visit 1 = baseline)
-  )
+  # get sample visit mapping
+  vm <- add_adishum_col_funcs$sample_visits()
+  visitdy_map <- setNames(as.numeric(vm$VISITDY), as.character(vm$AVISITN))
 
   main_tbl <- main_tbl |>
     # ensure consistent row order before any row_number() logic
@@ -299,7 +294,7 @@ gen_adishum <- function(seed = 123) {
       ISBDAGNT,
       TRTSDT, 
       TRTSDTM,
-      TRT01P, 
+      TRT01P,
       TRT01PN, 
       TRT01A, 
       TRT01AN,
