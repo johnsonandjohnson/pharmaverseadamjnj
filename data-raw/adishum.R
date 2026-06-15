@@ -268,6 +268,72 @@ add_adishum_col_funcs$anl01fl_anl02fl <- function(main_tbl) {
   return(main_tbl)
 }
 
+# add ANL03FL, ANL04FL, ANL05FL, ANL06FL, ANL07FL, ANL08FL, ANL09FL and ANL10FL columns
+add_adishum_col_funcs$anl03fl_to_anl10fl <- function(main_tbl) {
+  group_b_paramcd <- c("TMOSADAW", "ADADURW", "PSPDURW", "NABPOS", "NABNEG")
+
+  # subject-level flags — built once, joined back
+  subj_flags <- main_tbl |>
+    dplyr::filter(!is.na(TRTSDT)) |>
+    dplyr::distinct(USUBJID) |>
+    dplyr::mutate(
+      # base flags — sampled from all treated subjects
+      ANL03FL = dplyr::if_else(
+        dplyr::row_number() <= floor(dplyr::n() * 0.12),
+        "Y",
+        NA_character_
+      ),
+      # cascade off ANL03FL
+      ANL04FL = dplyr::if_else(
+        ANL03FL == "Y" & dplyr::row_number() <= floor(sum(ANL03FL == "Y", na.rm = TRUE) * 0.35),
+        "Y",
+        NA_character_
+      ),
+      ANL05FL = dplyr::if_else(
+        ANL03FL == "Y" & dplyr::row_number() <= floor(sum(ANL03FL == "Y", na.rm = TRUE) * 0.25),
+        "Y",
+        NA_character_
+      ),
+      ANL06FL = dplyr::if_else(
+        ANL03FL == "Y" & dplyr::row_number() <= floor(sum(ANL03FL == "Y", na.rm = TRUE) * 0.15),
+        "Y",
+        NA_character_
+      ),
+      ANL07FL = dplyr::if_else(
+        dplyr::row_number() <= floor(dplyr::n() * 0.10),
+        "Y",
+        NA_character_
+      ),
+      # cascade off ANL07FL
+      ANL08FL = dplyr::if_else(
+        ANL07FL == "Y" & dplyr::row_number() <= floor(sum(ANL07FL == "Y", na.rm = TRUE) * 0.35),
+        "Y",
+        NA_character_
+      ),
+      ANL09FL = dplyr::if_else(
+        ANL07FL == "Y" & dplyr::row_number() <= floor(sum(ANL07FL == "Y", na.rm = TRUE) * 0.25),
+        "Y",
+        NA_character_
+      ),
+      ANL10FL = dplyr::if_else(
+        ANL07FL == "Y" & dplyr::row_number() <= floor(sum(ANL07FL == "Y", na.rm = TRUE) * 0.15),
+        "Y",
+        NA_character_
+      )
+    )
+
+  main_tbl <- main_tbl |>
+    dplyr::left_join(subj_flags, by = "USUBJID") |>
+    # group B (subject summary) rows get NA for all reaction flags
+    dplyr::mutate(
+      dplyr::across(
+        ANL03FL:ANL10FL,
+        ~ dplyr::if_else(PARAMCD %in% group_b_paramcd, NA_character_, .x)
+      )
+    )
+
+  return(main_tbl)
+}
 
 # core function ------------------------------
 # Generate adishum dataset
@@ -312,29 +378,33 @@ gen_adishum <- function(seed = 123) {
       by = "USUBJID"
     )
 
-  # add PARQUAL column - refer function
+  # add PARQUAL columns - refer function
   sdtm_tbl <- sdtm_tbl |>
     add_adishum_col_funcs$parqual()
 
-  # add PARAM and PARAMCD column - refer function
+  # add PARAM and PARAMCD columns - refer function
   sdtm_tbl <- sdtm_tbl |>
     add_adishum_col_funcs$param_n_paramcd()
 
-  # add AVAL, AVALC and AVALCAT1 column - refer function
+  # add AVAL, AVALC and AVALCAT1 columns - refer function
   sdtm_tbl <- sdtm_tbl |>
     add_adishum_col_funcs$aval_avalc_avalcat1()
 
-  # add IMEVFL column - refer function
+  # add IMEVFL columns - refer function
   sdtm_tbl <- sdtm_tbl |>
     add_adishum_col_funcs$imevfl()
 
-  # add ADT, ADY, ABLFL, AVISIT and AVISITN column - refer function
+  # add ADT, ADY, ABLFL, AVISIT and AVISITN columns - refer function
   sdtm_tbl <- sdtm_tbl |>
     add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn()
 
-  # add ANL01FL and ANL02FL column - refer function
+  # add ANL01FL and ANL02FL columns - refer function
   sdtm_tbl <- sdtm_tbl |>
     add_adishum_col_funcs$anl01fl_anl02fl()
+
+  # add ANL03FL, ANL04FL, ANL05FL, ANL06FL, ANL07FL, ANL08FL, ANL09FL and ANL10FL columns - refer function
+  sdtm_tbl <- sdtm_tbl |>
+    add_adishum_col_funcs$anl03fl_to_anl10fl()
 }
 
 
