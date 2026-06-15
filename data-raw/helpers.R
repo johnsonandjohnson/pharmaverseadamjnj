@@ -406,10 +406,9 @@ find_datasets_with_vars <- function(pkg, vars, match_all = FALSE, load_data = TR
 
   out_dataset <- character()
   out_matched <- list()
-  out_data <- list()
+  out_data    <- list()
 
   for (d in ds) {
-    # Try namespace access (fast) then exported value, then fallback to loading via data()
     obj <- tryCatch(
       utils::getFromNamespace(d, pkg),
       error = function(e1) tryCatch(
@@ -426,28 +425,16 @@ find_datasets_with_vars <- function(pkg, vars, match_all = FALSE, load_data = TR
 
     if (is.null(obj)) next
 
-    # Only inspect data.frames or objects with names; treat list-like objects similarly
-    obj_names <- if (is.data.frame(obj)) names(obj) else if (is.list(obj)) names(obj) else NULL
-
-    # If object has no names, skip (cannot match column names)
+    obj_names <- names(obj)  # works for both data.frame and list; NULL for atomic
     if (is.null(obj_names)) next
 
     matched <- intersect(vars, obj_names)
-    if (match_all) {
-      if (length(matched) != length(vars)) next
-    } else {
-      if (length(matched) == 0) next
-    }
+    keep <- if (match_all) length(matched) == length(vars) else length(matched) > 0
+    if (!keep) next
 
     out_dataset <- c(out_dataset, d)
     out_matched[[length(out_matched) + 1]] <- matched
-
-    if (isTRUE(load_data)) {
-      # store the object (safe copy). It is already in memory (namespace) or in tmp_env.
-      out_data[[length(out_data) + 1]] <- list(obj)
-    } else {
-      out_data[[length(out_data) + 1]] <- list(NULL)
-    }
+    out_data[[length(out_data) + 1]]       <- if (load_data) obj else NULL
   }
 
   if (length(out_dataset) == 0) {
@@ -457,11 +444,10 @@ find_datasets_with_vars <- function(pkg, vars, match_all = FALSE, load_data = TR
     ))
   }
 
-  all_datasets <- lapply(out_data, `[[`, 1)
-  names(all_datasets) <- out_dataset
+  names(out_data) <- out_dataset
 
   list(
-    all_datasets = all_datasets,
+    all_datasets = out_data,
     summary = tibble::tibble(
       dataset_name = out_dataset,
       matched_vars = vapply(out_matched, paste, character(1), collapse = ", ")
