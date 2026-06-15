@@ -162,6 +162,44 @@ add_adishum_col_funcs$imevfl <- function(main_tbl) {
   return(main_tbl)
 }
 
+# add AVISIT and AVISITN columns
+add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn <- function(main_tbl) {
+  # add avisitn
+  main_tbl <- main_tbl |>
+    dplyr::arrange(USUBJID, ISDTC) |>
+    dplyr::group_by(USUBJID) |>
+    dplyr::mutate(AVISITN = dplyr::row_number()) |>
+    dplyr::ungroup()
+
+  # add adt, ady, ablfl
+  main_tbl <- main_tbl |>
+    dplyr::mutate(
+      ADT   = as.Date(substr(ISDTC, 1, 10)),
+      ADY   = dplyr::if_else(
+        ADT >= TRTSDT,
+        as.integer(ADT - TRTSDT + 1L),
+        as.integer(ADT - TRTSDT)
+      ),
+      ABLFL = dplyr::if_else(AVISITN == 1, "Y", NA_character_)
+    )
+
+  main_tbl <- main_tbl |>
+    dplyr::mutate(
+      AVISIT = dplyr::case_when(
+        ABLFL == "Y"  ~ "Baseline",
+        AVISITN == 1  ~ "Week 2",
+        AVISITN == 2  ~ "Week 4",
+        AVISITN == 3  ~ "Week 8",
+        AVISITN == 4  ~ "Week 12",
+        AVISITN >= 5  ~ "Week 24",
+        TRUE          ~ NA_character_
+      )
+    )
+
+  return(main_tbl)
+}
+
+
 # core function ------------------------------
 # Generate adishum dataset
 gen_adishum <- function(seed = 123) {
@@ -195,6 +233,15 @@ gen_adishum <- function(seed = 123) {
       ISTESTCD,
       ISDTC
     )
+  
+  sdtm_tbl <- sdtm_tbl |> 
+    left_join(
+      pharmaverseadam::adab |>
+        filter(ABLFL == "Y") |>
+        select(USUBJID, ADTM) |>
+        distinct(USUBJID, .keep_all = TRUE),
+      by = "USUBJID"
+    )
 
   # add PARQUAL column - refer function
   sdtm_tbl <- sdtm_tbl |> 
@@ -212,7 +259,9 @@ gen_adishum <- function(seed = 123) {
   sdtm_tbl <- sdtm_tbl |> 
     add_adishum_col_funcs$imevfl()
 
-
+  # add ADT, ADY, ABLFL, AVISIT and AVISITN column - refer function
+  sdtm_tbl <- sdtm_tbl |> 
+    add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn()
 
 }
 
