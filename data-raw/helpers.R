@@ -451,12 +451,20 @@ find_datasets_with_vars <- function(pkg, vars, match_all = FALSE, load_data = TR
   }
 
   if (length(out_dataset) == 0) {
-    return(tibble::tibble(dataset = character(), matched_vars = I(list()), data = I(list())))
+    return(list(
+      all_datasets = list(),
+      summary = tibble::tibble(dataset_name = character(), matched_vars = character())
+    ))
   }
 
-  tibble::tibble(
-    dataset = out_dataset,
-    matched_vars = I(out_matched),
-    data = I(out_data)
+  all_datasets <- lapply(out_data, `[[`, 1)
+  names(all_datasets) <- out_dataset
+
+  list(
+    all_datasets = all_datasets,
+    summary = tibble::tibble(
+      dataset_name = out_dataset,
+      matched_vars = vapply(out_matched, paste, character(1), collapse = ", ")
+    )
   )
 }
