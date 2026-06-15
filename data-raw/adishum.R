@@ -19,80 +19,77 @@ add_adishum_col_funcs <- list()
 # function for adding sample visits
 add_adishum_col_funcs$sample_visits <- function() {
   visit_map <- tibble::tribble(
-    ~AVISITN, ~AVISIT,    ~VISITDY,
-    1L,       "Baseline", 1,
-    2L,       "Week 2",   15,
-    3L,       "Week 4",   29,
-    4L,       "Week 8",   57,
-    5L,       "Week 12",  85,
-    6L,       "Week 24",  169
+    ~AVISITN , ~AVISIT    , ~VISITDY ,
+    1L       , "Baseline" ,        1 ,
+    2L       , "Week 2"   ,       15 ,
+    3L       , "Week 4"   ,       29 ,
+    4L       , "Week 8"   ,       57 ,
+    5L       , "Week 12"  ,       85 ,
+    6L       , "Week 24"  ,      169
   )
 
   return(visit_map)
-
 }
 
 # function for adding sample paramcd
 add_adishum_col_funcs$sample_paramcd <- function() {
-     # tribble of PARAMCD, PARAM, ISTESTCD
+  # tribble of PARAMCD, PARAM, ISTESTCD
   sample_paramcd <- tibble::tribble(
-    ~PARAMCD,  ~PARAM,                                                      ~ISTESTCD,
-    "ADABL",    "Binding ADA, Last Result",                                 "ADA_BAB",
-    "ADABLT",   "Binding ADA, Titer",                                       "ADA_BAB",
-    "ADATRB",   "Treatment-Emergent ADA, Result",                           "ADA_BAB",
-    "ADATRBT",  "Treatment-Emergent ADA, Titer",                            "ADA_BAB",
-    "ADANTRB",  "Neutralizing ADA, Result",                                 "ADA_NAB",
-    "ADANTRBT", "Neutralizing ADA, Titer",                                  "ADA_NAB",
-    "ADATRI",   "Treatment-Induced ADA, Result",                            "ADA_BAB",
-    "ADATRIPT", "Treatment-Induced ADA, Titer",                             "ADA_BAB",
-    "ADATRE",   "Treatment-Enhanced ADA, Result",                           "ADA_BAB",
-    "ADATREPT", "Treatment-Enhanced ADA, Titer",                            "ADA_BAB",
-    "ADANTRE",  "Treatment-Enhanced Neutralizing ADA, Result",              "ADA_NAB",
-    "ADAPSP",   "ADA Persistent Positive, Result",                          "ADA_BAB",
-    "ADATSP",   "Neutralizing ADA Persistent Positive",                     "ADA_NAB",
-    "ADAUND",   "ADA Undetermined, Result",                                 "ADA_BAB",
-    "TMOSADAW", "Time to Onset of ADA (weeks)",                             "ADA_BAB",
-    "ADADURW",  "Duration of ADA Response (weeks)",                         "ADA_BAB",
-    "PSPDURW",  "Duration of Persistent Positive ADA (weeks)",              "ADA_BAB",
-    "NABPOS",   "Neutralizing ADA Positive",                                "ADA_NAB",
-    "NABNEG",   "Neutralizing ADA Negative",                                "ADA_NAB"
-  ) |> 
+    ~PARAMCD   , ~PARAM                                        , ~ISTESTCD ,
+    "ADABL"    , "Binding ADA, Last Result"                    , "ADA_BAB" ,
+    "ADABLT"   , "Binding ADA, Titer"                          , "ADA_BAB" ,
+    "ADATRB"   , "Treatment-Emergent ADA, Result"              , "ADA_BAB" ,
+    "ADATRBT"  , "Treatment-Emergent ADA, Titer"               , "ADA_BAB" ,
+    "ADANTRB"  , "Neutralizing ADA, Result"                    , "ADA_NAB" ,
+    "ADANTRBT" , "Neutralizing ADA, Titer"                     , "ADA_NAB" ,
+    "ADATRI"   , "Treatment-Induced ADA, Result"               , "ADA_BAB" ,
+    "ADATRIPT" , "Treatment-Induced ADA, Titer"                , "ADA_BAB" ,
+    "ADATRE"   , "Treatment-Enhanced ADA, Result"              , "ADA_BAB" ,
+    "ADATREPT" , "Treatment-Enhanced ADA, Titer"               , "ADA_BAB" ,
+    "ADANTRE"  , "Treatment-Enhanced Neutralizing ADA, Result" , "ADA_NAB" ,
+    "ADAPSP"   , "ADA Persistent Positive, Result"             , "ADA_BAB" ,
+    "ADATSP"   , "Neutralizing ADA Persistent Positive"        , "ADA_NAB" ,
+    "ADAUND"   , "ADA Undetermined, Result"                    , "ADA_BAB" ,
+    "TMOSADAW" , "Time to Onset of ADA (weeks)"                , "ADA_BAB" ,
+    "ADADURW"  , "Duration of ADA Response (weeks)"            , "ADA_BAB" ,
+    "PSPDURW"  , "Duration of Persistent Positive ADA (weeks)" , "ADA_BAB" ,
+    "NABPOS"   , "Neutralizing ADA Positive"                   , "ADA_NAB" ,
+    "NABNEG"   , "Neutralizing ADA Negative"                   , "ADA_NAB"
+  ) |>
     arrange(PARAMCD)
 
   return(sample_paramcd)
-
 }
 
 # function for adding PARQUAL col
 add_adishum_col_funcs$parqual <- function(main_tbl) {
-  main_tbl <- main_tbl |> 
+  main_tbl <- main_tbl |>
     mutate(
       PARQUAL = if_else(
-        is.na(ISBDAGNT), 
+        is.na(ISBDAGNT),
         NA_character_,
-        ISBDAGNT |> 
-          stringi::stri_trim_both() |> 
+        ISBDAGNT |>
+          stringi::stri_trim_both() |>
           stringi::stri_trans_toupper()
+      )
     )
-  )
 
   return(main_tbl)
-
 }
 
 # function for adding PARAM and PARAMCD col
 add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
   sample_paramcd <- add_adishum_col_funcs$sample_paramcd()
   # initialize columns
-  main_tbl <- main_tbl |> 
+  main_tbl <- main_tbl |>
     mutate(
       PARAMCD = NA_character_,
-      PARAM   = NA_character_
+      PARAM = NA_character_
     )
 
   for (val in c("ADA_BAB", "ADA_NAB")) {
-    idx  <- which(as.character(main_tbl$ISTESTCD) == val)     # rows to fill
-    pool <- sample_paramcd |> filter(ISTESTCD == val)          # candidate PARAM rows
+    idx <- which(as.character(main_tbl$ISTESTCD) == val) # rows to fill
+    pool <- sample_paramcd |> filter(ISTESTCD == val) # candidate PARAM rows
 
     sel <- sample(
       seq_along(pool$PARAMCD),
@@ -101,11 +98,10 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
     )
 
     main_tbl$PARAMCD[idx] <- pool$PARAMCD[sel]
-    main_tbl$PARAM[idx]   <- pool$PARAM[sel]
+    main_tbl$PARAM[idx] <- pool$PARAM[sel]
   }
 
   return(main_tbl)
-
 }
 
 # add AVAL, AVALC and AVALCAT1 columns
@@ -134,9 +130,9 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
       # AVALCAT1 per spec (Group B set later)
       AVALCAT1 = dplyr::case_when(
         !PARAMCD %in% group_b_paramcd &
-          ( (!is.na(AVAL) & AVAL <= 0) |
+          ((!is.na(AVAL) & AVAL <= 0) |
             (!is.na(AVALC) & AVALC == "NEGATIVE") |
-            (!is.na(AVALC) & grepl("^\\s*<", AVALC)) ) ~ "Negative / BLQ",
+            (!is.na(AVALC) & grepl("^\\s*<", AVALC))) ~ "Negative / BLQ",
         !PARAMCD %in% group_b_paramcd & !is.na(AVAL) & AVAL > 0 & AVAL <= 2 ~ "Low Positive",
         !PARAMCD %in% group_b_paramcd & !is.na(AVAL) & AVAL > 2 ~ "High Positive",
         TRUE ~ NA_character_
@@ -157,8 +153,8 @@ add_adishum_col_funcs$imevfl <- function(main_tbl) {
     )
 
   # Sample ~70% of eligible subjects as Y
-  eligible_ids <- subj |> 
-    dplyr::filter(eligible) |> 
+  eligible_ids <- subj |>
+    dplyr::filter(eligible) |>
     dplyr::pull(USUBJID)
 
   n_y <- floor(length(eligible_ids) * 0.70)
@@ -187,7 +183,6 @@ add_adishum_col_funcs$imevfl <- function(main_tbl) {
 
 # add AVISIT and AVISITN columns
 add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn <- function(main_tbl) {
-  
   # get sample visit mapping
   vm <- add_adishum_col_funcs$sample_visits()
   avisit_map <- setNames(vm$AVISIT, as.character(vm$AVISITN))
@@ -209,7 +204,9 @@ add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn <- function(main_tbl) {
         as.integer(ADT - TRTSDT)
       ),
       ABLFL = dplyr::if_else(
-        AVISITN == 1, "Y", NA_character_
+        AVISITN == 1,
+        "Y",
+        NA_character_
       )
     )
 
@@ -254,13 +251,15 @@ add_adishum_col_funcs$anl01fl_anl02fl <- function(main_tbl) {
     dplyr::group_by(USUBJID, PARAMCD, AVISITN) |>
     dplyr::mutate(
       .eligible = ANL01FL == "Y" & AVISITN > 1 & !is.na(.tgt),
-      .min_diff = if (any(.eligible, na.rm = TRUE))
-                    min(abs(ADY[.eligible] - .tgt), na.rm = TRUE)
-                  else
-                    NA_real_,
+      .min_diff = if (any(.eligible, na.rm = TRUE)) {
+        min(abs(ADY[.eligible] - .tgt), na.rm = TRUE)
+      } else {
+        NA_real_
+      },
       ANL02FL = dplyr::if_else(
         .eligible & abs(ADY - .tgt) == .min_diff,
-        "Y", NA_character_
+        "Y",
+        NA_character_
       )
     ) |>
     dplyr::ungroup() |>
@@ -277,14 +276,14 @@ gen_adishum <- function(seed = 123) {
   set.seed(seed)
 
   # get source data
-  sdtm_tbl <- pharmaversesdtm::is_ada |> 
+  sdtm_tbl <- pharmaversesdtm::is_ada |>
     left_join(
       pharmaverseadamjnj::adsl,
       by = "USUBJID"
-    ) |> 
+    ) |>
     select(
       USUBJID,
-      SITEID, 
+      SITEID,
       SUBJID,
       AGE,
       SEX,
@@ -292,19 +291,19 @@ gen_adishum <- function(seed = 123) {
       IMFL,
       SAFFL,
       ISBDAGNT,
-      TRTSDT, 
+      TRTSDT,
       TRTSDTM,
       TRT01P,
-      TRT01PN, 
-      TRT01A, 
+      TRT01PN,
+      TRT01A,
       TRT01AN,
       ISSTRESN,
       ISSTRESC,
       ISTESTCD,
       ISDTC
     )
-  
-  sdtm_tbl <- sdtm_tbl |> 
+
+  sdtm_tbl <- sdtm_tbl |>
     left_join(
       pharmaverseadam::adab |>
         filter(ABLFL == "Y") |>
@@ -314,29 +313,28 @@ gen_adishum <- function(seed = 123) {
     )
 
   # add PARQUAL column - refer function
-  sdtm_tbl <- sdtm_tbl |> 
+  sdtm_tbl <- sdtm_tbl |>
     add_adishum_col_funcs$parqual()
 
   # add PARAM and PARAMCD column - refer function
-  sdtm_tbl <- sdtm_tbl |> 
+  sdtm_tbl <- sdtm_tbl |>
     add_adishum_col_funcs$param_n_paramcd()
 
   # add AVAL, AVALC and AVALCAT1 column - refer function
-  sdtm_tbl <- sdtm_tbl |> 
+  sdtm_tbl <- sdtm_tbl |>
     add_adishum_col_funcs$aval_avalc_avalcat1()
 
   # add IMEVFL column - refer function
-  sdtm_tbl <- sdtm_tbl |> 
+  sdtm_tbl <- sdtm_tbl |>
     add_adishum_col_funcs$imevfl()
 
   # add ADT, ADY, ABLFL, AVISIT and AVISITN column - refer function
-  sdtm_tbl <- sdtm_tbl |> 
+  sdtm_tbl <- sdtm_tbl |>
     add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn()
 
   # add ANL01FL and ANL02FL column - refer function
-  sdtm_tbl <- sdtm_tbl |> 
+  sdtm_tbl <- sdtm_tbl |>
     add_adishum_col_funcs$anl01fl_anl02fl()
-
 }
 
 
