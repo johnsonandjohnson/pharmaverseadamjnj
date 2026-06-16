@@ -311,7 +311,11 @@ add_adishum_col_funcs$anl03fl_to_anl10fl <- function(main_tbl) {
     dplyr::mutate(
       dplyr::across(
         ANL03FL:ANL10FL,
-        ~ dplyr::if_else(PARAMCD %in% group_b_paramcd, NA_character_, .x)
+        ~ dplyr::if_else(
+          PARAMCD %in% group_b_paramcd,
+          NA_character_,
+          .x
+        )
       )
     )
 
@@ -330,7 +334,10 @@ gen_adishum <- function(seed = 123) {
   gen <- raw |>
     left_join(
       pharmaverseadamjnj::adsl,
-      by = "USUBJID"
+      by = c(
+        "STUDYID" = "STUDYID",
+        "USUBJID" = "USUBJID"
+      )
     ) |>
     select(
       STUDYID,
@@ -406,7 +413,33 @@ gen_adishum <- function(seed = 123) {
     )
 
   # Define additional labels for new variables not in source dataset
-  additional_labels <- list()
+  # Mrinal's labels take precedence — these override all other sources
+  additional_labels <- list(
+    IMFL = "Immunogenicity Population Flag",
+    PARQUAL = "Parameter Qualifier",
+    PARAMCD = "Parameter Code",
+    AVAL = "Analysis Value",
+    AVALC = "Analysis Value (C)",
+    AVALCAT1 = "Analysis Value Category 1",
+    IMEVFL = "IS Evaluable Population Flag",
+    ANL01FL = "Analysis Flag 01",
+    ANL02FL = "Analysis Flag 02",
+    ANL03FL = "Analysis Flag 03-Inf SR",
+    ANL04FL = "Analysis Flag 04-Severe Inf SR",
+    ANL05FL = "Analysis Flag 05-Serious Inf SR",
+    ANL06FL = "Analysis Flag 06-Infus SR - DC",
+    ANL07FL = "Analysis Flag 07-Inj SR",
+    ANL08FL = "Analysis Flag 08-Severe Inj SR",
+    ANL09FL = "Analysis Flag 09-Serious Inj SR",
+    ANL10FL = "Analysis Flag 10-Inject SR - DC",
+    AVISIT = "Analysis Visit",
+    AVISITN = "Analysis Visit (N)",
+    PARAM = "Parameter Description",
+    ADT = "Analysis Date",
+    ADY = "Analysis Relative Day",
+    ABLFL = "Baseline Record Flag",
+    ADTM = "Analysis Datetime"
+  )
 
   # Restore labels
   gen <- restore_labels(
@@ -422,4 +455,4 @@ gen_adishum <- function(seed = 123) {
 
 # run function ------------------------------
 # generate dataset
-adishum <- gen_adishum()
+adishum <- gen_adishum(seed = 123)
