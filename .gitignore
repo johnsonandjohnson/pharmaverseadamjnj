@@ -1,3 +1,4 @@
+.Renviron
 .Rproj.user
 .Rhistory
 .RData
@@ -5,6 +6,3 @@
 .idea
 docs/
 revdep/
-
-# environment variable
-.Renviron
