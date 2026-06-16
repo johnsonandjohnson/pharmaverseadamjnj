@@ -329,6 +329,7 @@ gen_adishum <- function(seed = 123) {
   set.seed(seed)
 
   # get source data
+  # raw <- pharmaverseadam::adis_vaccine
   raw <- pharmaversesdtm::is_ada
 
   gen <- raw |>
