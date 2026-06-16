@@ -5,3 +5,11 @@
 .idea
 docs/
 revdep/
+
+# renv folders
+renv/**
+renv.lock
+.Rprofile
+
+# environment variable
+.Renviron
