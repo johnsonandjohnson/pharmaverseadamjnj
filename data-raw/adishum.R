@@ -183,39 +183,22 @@ add_adishum_col_funcs$imevfl <- function(main_tbl) {
 
 # add AVISIT and AVISITN columns
 add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn <- function(main_tbl) {
-  # get sample visit mapping
-  vm <- add_adishum_col_funcs$sample_visits()
-  avisit_map <- setNames(vm$AVISIT, as.character(vm$AVISITN))
-
-  # add avisitn
-  main_tbl <- main_tbl |>
-    dplyr::arrange(USUBJID, ISDTC) |>
-    dplyr::group_by(USUBJID) |>
-    dplyr::mutate(AVISITN = dplyr::row_number()) |>
-    dplyr::ungroup()
-
-  # add adt, ady, ablfl
   main_tbl <- main_tbl |>
     dplyr::mutate(
-      ADT = as.Date(substr(ISDTC, 1, 10)),
+      AVISITN = VISITNUM,
+      AVISIT = stringr::str_to_title(VISIT),
+      ADT = as.Date(substr(ISDTC, 1, 10))
+    ) |>
+    dplyr::mutate(
       ADY = dplyr::if_else(
         ADT >= TRTSDT,
         as.integer(ADT - TRTSDT + 1L),
         as.integer(ADT - TRTSDT)
       ),
       ABLFL = dplyr::if_else(
-        AVISITN == 1,
+        VISITNUM == min(VISITNUM, na.rm = TRUE),
         "Y",
         NA_character_
-      )
-    )
-
-  main_tbl <- main_tbl |>
-    dplyr::mutate(
-      AVISIT = dplyr::recode(
-        as.character(AVISITN),
-        !!!avisit_map,
-        .default = NA_character_
       )
     )
 
