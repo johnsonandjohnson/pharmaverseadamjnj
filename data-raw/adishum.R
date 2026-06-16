@@ -342,7 +342,9 @@ gen_adishum <- function(seed = 123) {
   set.seed(seed)
 
   # get source data
-  sdtm_tbl <- pharmaversesdtm::is_ada |>
+  raw <- pharmaversesdtm::is_ada
+
+  gen <- raw |>
     left_join(
       pharmaverseadamjnj::adsl,
       by = "USUBJID"
@@ -369,7 +371,7 @@ gen_adishum <- function(seed = 123) {
       ISDTC
     )
 
-  sdtm_tbl <- sdtm_tbl |>
+  gen <- gen |>
     left_join(
       pharmaverseadam::adab |>
         filter(ABLFL == "Y") |>
@@ -379,32 +381,51 @@ gen_adishum <- function(seed = 123) {
     )
 
   # add PARQUAL columns - refer function
-  sdtm_tbl <- sdtm_tbl |>
+  gen <- gen |>
     add_adishum_col_funcs$parqual()
 
   # add PARAM and PARAMCD columns - refer function
-  sdtm_tbl <- sdtm_tbl |>
+  gen <- gen |>
     add_adishum_col_funcs$param_n_paramcd()
 
   # add AVAL, AVALC and AVALCAT1 columns - refer function
-  sdtm_tbl <- sdtm_tbl |>
+  gen <- gen |>
     add_adishum_col_funcs$aval_avalc_avalcat1()
 
   # add IMEVFL columns - refer function
-  sdtm_tbl <- sdtm_tbl |>
+  gen <- gen |>
     add_adishum_col_funcs$imevfl()
 
   # add ADT, ADY, ABLFL, AVISIT and AVISITN columns - refer function
-  sdtm_tbl <- sdtm_tbl |>
+  gen <- gen |>
     add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn()
 
   # add ANL01FL and ANL02FL columns - refer function
-  sdtm_tbl <- sdtm_tbl |>
+  gen <- gen |>
     add_adishum_col_funcs$anl01fl_anl02fl()
 
   # add ANL03FL, ANL04FL, ANL05FL, ANL06FL, ANL07FL, ANL08FL, ANL09FL and ANL10FL columns - refer function
-  sdtm_tbl <- sdtm_tbl |>
+  gen <- gen |>
     add_adishum_col_funcs$anl03fl_to_anl10fl()
+
+  # Handle NA values and convert characters to factors
+  gen <- gen |>
+    df_na(
+      char_as_factor = TRUE
+    )
+
+  # Define additional labels for new variables not in source dataset
+  additional_labels <- list()
+
+  # Restore labels
+  gen <- restore_labels(
+    df = gen,
+    orig_df = raw,
+    additional_labels = additional_labels
+  )
+
+  # Return Gen
+  return(gen)
 }
 
 
