@@ -238,7 +238,11 @@ add_adishum_col_funcs$anl01fl_anl02fl <- function(main_tbl) {
     # ANL02FL: one record per scheduled post-baseline visit,
     #          closest actual day (ADY) to the visit target day
     dplyr::mutate(
-      .tgt = dplyr::recode(as.character(AVISITN), !!!visitdy_map, .default = NA_real_)
+      .tgt = dplyr::recode(
+        as.character(AVISITN),
+        !!!visitdy_map,
+        .default = NA_real_
+      )
     ) |>
     dplyr::group_by(USUBJID, PARAMCD, AVISITN) |>
     dplyr::mutate(
