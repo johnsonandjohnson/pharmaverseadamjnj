@@ -350,14 +350,22 @@ gen_adishum <- function(seed = 123) {
       by = "USUBJID"
     ) |>
     select(
+      STUDYID,
       USUBJID,
       SITEID,
       SUBJID,
       AGE,
       SEX,
       RACE,
+      ISTEST,
+      ISSPEC,
+      ISNAM,
+      ISSEQ,
+      ISCAT,
       IMFL,
       SAFFL,
+      VISITNUM,
+      VISIT,
       ISBDAGNT,
       TRTSDT,
       TRTSDTM,
