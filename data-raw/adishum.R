@@ -19,22 +19,22 @@ add_adishum_col_funcs <- list()
 # function for adding sample visits
 add_adishum_col_funcs$sample_visits <- function() {
   visit_map <- tibble::tribble(
-    ~VISITNUM , ~AVISITN , ~AVISIT     , ~VISITDY ,
-     1L       ,  1L      , "Screening" ,      -14 ,
-     2L       ,  2L      , "Day 1"     ,        1 ,
-     3L       ,  3L      , "Baseline"  ,        1 ,
-     4L       ,  4L      , "Week 2"    ,       15 ,
-     5L       ,  5L      , "Week 4"    ,       29 ,
-     6L       ,  6L      , "Week 6"    ,       43 ,
-     7L       ,  7L      , "Week 8"    ,       57 ,
-     8L       ,  8L      , "Week 10"   ,       71 ,
-     9L       ,  9L      , "Week 12"   ,       85 ,
-    10L       , 10L      , "Week 16"   ,      113 ,
-    11L       , 11L      , "Week 20"   ,      141 ,
-    12L       , 12L      , "Week 24"   ,      169 ,
-    13L       , 13L      , "Week 32"   ,      225 ,
-    14L       , 14L      , "Week 40"   ,      281 ,
-    15L       , 15L      , "Week 48"   ,      337
+    ~VISITNUM, ~AVISITN, ~AVISIT, ~VISITDY,
+    1L, 1L, "Screening", -14,
+    2L, 2L, "Day 1", 1,
+    3L, 3L, "Baseline", 1,
+    4L, 4L, "Week 2", 15,
+    5L, 5L, "Week 4", 29,
+    6L, 6L, "Week 6", 43,
+    7L, 7L, "Week 8", 57,
+    8L, 8L, "Week 10", 71,
+    9L, 9L, "Week 12", 85,
+    10L, 10L, "Week 16", 113,
+    11L, 11L, "Week 20", 141,
+    12L, 12L, "Week 24", 169,
+    13L, 13L, "Week 32", 225,
+    14L, 14L, "Week 40", 281,
+    15L, 15L, "Week 48", 337
   )
 
   return(visit_map)
@@ -44,26 +44,26 @@ add_adishum_col_funcs$sample_visits <- function() {
 add_adishum_col_funcs$sample_paramcd <- function() {
   # tribble of PARAMCD, PARAM, ISTESTCD
   sample_paramcd <- tibble::tribble(
-    ~PARAMCD   , ~PARAM                                        , ~ISTESTCD ,
-    "ADABL"    , "Binding ADA, Last Result"                    , "ADA_BAB" ,
-    "ADABLT"   , "Binding ADA, Titer"                          , "ADA_BAB" ,
-    "ADATRB"   , "Treatment-Emergent ADA, Result"              , "ADA_BAB" ,
-    "ADATRBT"  , "Treatment-Emergent ADA, Titer"               , "ADA_BAB" ,
-    "ADANTRB"  , "Neutralizing ADA, Result"                    , "ADA_NAB" ,
-    "ADANTRBT" , "Neutralizing ADA, Titer"                     , "ADA_NAB" ,
-    "ADATRI"   , "Treatment-Induced ADA, Result"               , "ADA_BAB" ,
-    "ADATRIPT" , "Treatment-Induced ADA, Titer"                , "ADA_BAB" ,
-    "ADATRE"   , "Treatment-Enhanced ADA, Result"              , "ADA_BAB" ,
-    "ADATREPT" , "Treatment-Enhanced ADA, Titer"               , "ADA_BAB" ,
-    "ADANTRE"  , "Treatment-Enhanced Neutralizing ADA, Result" , "ADA_NAB" ,
-    "ADAPSP"   , "ADA Persistent Positive, Result"             , "ADA_BAB" ,
-    "ADATSP"   , "Neutralizing ADA Persistent Positive"        , "ADA_NAB" ,
-    "ADAUND"   , "ADA Undetermined, Result"                    , "ADA_BAB" ,
-    "TMOSADAW" , "Time to Onset of ADA (weeks)"                , "ADA_BAB" ,
-    "ADADURW"  , "Duration of ADA Response (weeks)"            , "ADA_BAB" ,
-    "PSPDURW"  , "Duration of Persistent Positive ADA (weeks)" , "ADA_BAB" ,
-    "NABPOS"   , "Neutralizing ADA Positive"                   , "ADA_NAB" ,
-    "NABNEG"   , "Neutralizing ADA Negative"                   , "ADA_NAB"
+    ~PARAMCD, ~PARAM, ~ISTESTCD,
+    "ADABL", "Binding ADA, Last Result", "ADA_BAB",
+    "ADABLT", "Binding ADA, Titer", "ADA_BAB",
+    "ADATRB", "Treatment-Emergent ADA, Result", "ADA_BAB",
+    "ADATRBT", "Treatment-Emergent ADA, Titer", "ADA_BAB",
+    "ADANTRB", "Neutralizing ADA, Result", "ADA_NAB",
+    "ADANTRBT", "Neutralizing ADA, Titer", "ADA_NAB",
+    "ADATRI", "Treatment-Induced ADA, Result", "ADA_BAB",
+    "ADATRIPT", "Treatment-Induced ADA, Titer", "ADA_BAB",
+    "ADATRE", "Treatment-Enhanced ADA, Result", "ADA_BAB",
+    "ADATREPT", "Treatment-Enhanced ADA, Titer", "ADA_BAB",
+    "ADANTRE", "Treatment-Enhanced Neutralizing ADA, Result", "ADA_NAB",
+    "ADAPSP", "ADA Persistent Positive, Result", "ADA_BAB",
+    "ADATSP", "Neutralizing ADA Persistent Positive", "ADA_NAB",
+    "ADAUND", "ADA Undetermined, Result", "ADA_BAB",
+    "TMOSADAW", "Time to Onset of ADA (weeks)", "ADA_BAB",
+    "ADADURW", "Duration of ADA Response (weeks)", "ADA_BAB",
+    "PSPDURW", "Duration of Persistent Positive ADA (weeks)", "ADA_BAB",
+    "NABPOS", "Neutralizing ADA Positive", "ADA_NAB",
+    "NABNEG", "Neutralizing ADA Negative", "ADA_NAB"
   ) |>
     arrange(PARAMCD)
 
@@ -223,7 +223,6 @@ add_adishum_col_funcs$anl01fl_anl02fl <- function(main_tbl) {
   main_tbl <- main_tbl |>
     # ensure consistent row order before any row_number() logic
     dplyr::arrange(USUBJID, PARAMCD, ADT, ADTM) |>
-
     # ANL01FL: last non-missing record per subject + parameter + date
     dplyr::group_by(USUBJID, PARAMCD, ADT) |>
     dplyr::mutate(
@@ -234,7 +233,6 @@ add_adishum_col_funcs$anl01fl_anl02fl <- function(main_tbl) {
       )
     ) |>
     dplyr::ungroup() |>
-
     # ANL02FL: one record per scheduled post-baseline visit,
     #          closest actual day (ADY) to the visit target day
     dplyr::mutate(
