@@ -96,6 +96,7 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
       PARAM = NA_character_
     )
 
+  # for ADA_BAB and ADA_NAB in ISTESTCD
   for (val in c("ADA_BAB", "ADA_NAB")) {
     idx <- which(as.character(main_tbl$ISTESTCD) == val) # rows to fill
     pool <- sample_paramcd |> filter(ISTESTCD == val) # candidate PARAM rows
@@ -108,6 +109,35 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
 
     main_tbl$PARAMCD[idx] <- pool$PARAMCD[sel]
     main_tbl$PARAM[idx] <- pool$PARAM[sel]
+  }
+
+  # For NA values in ISTESTCD
+  na_paramcd <- sample_paramcd |> 
+    dplyr::filter(is.na(ISTESTCD))
+
+  if(nrow(na_paramcd) > 0) {
+    sel_na <- sample(
+      x = seq_along(main_tbl$USUBJID),
+      size = floor(nrow(main_tbl) * 0.2), 
+      replace = FALSE
+    )
+
+    na_paramcd <- na_paramcd[
+      rep(
+        na_paramcd$PARAMCD |> seq_along(), 
+        (nrow(main_tbl)/nrow(na_paramcd)) |> 
+          ceiling()
+      ),
+    ]
+
+    na_rows_tbl <- main_tbl[sel_na, ]
+
+    na_rows_tbl$ISTESTCD <- NA_character_
+    na_rows_tbl$PARAMCD <- na_paramcd$PARAMCD[sel_na]
+    na_rows_tbl$PARAM <- na_paramcd$PARAM[sel_na] 
+
+    main_tbl <- main_tbl |> 
+      dplyr::bind_rows(na_rows_tbl)
   }
 
   return(main_tbl)
