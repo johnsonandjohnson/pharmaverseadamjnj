@@ -327,43 +327,45 @@ add_adishum_col_funcs$anl03fl_to_anl10fl <- function(main_tbl) {
       )
     )
 
-  # all derived flags
-  subj_flags <- subj_flags |>
-    dplyr::mutate(
-      # cascade off ANL03FL
-      ANL04FL = dplyr::if_else(
-        ANL03FL == "Y" & dplyr::row_number() <= floor(sum(ANL03FL == "Y", na.rm = TRUE) * 0.35),
-        "Y",
-        NA_character_
-      ),
-      ANL05FL = dplyr::if_else(
-        ANL03FL == "Y" & dplyr::row_number() <= floor(sum(ANL03FL == "Y", na.rm = TRUE) * 0.25),
-        "Y",
-        NA_character_
-      ),
-      ANL06FL = dplyr::if_else(
-        ANL03FL == "Y" & dplyr::row_number() <= floor(sum(ANL03FL == "Y", na.rm = TRUE) * 0.15),
-        "Y",
-        NA_character_
-      ),
-      # cascade off ANL07FL
-      ANL08FL = dplyr::if_else(
-        ANL07FL == "Y" & dplyr::row_number() <= floor(sum(ANL07FL == "Y", na.rm = TRUE) * 0.35),
-        "Y",
-        NA_character_
-      ),
-      ANL09FL = dplyr::if_else(
-        ANL07FL == "Y" & dplyr::row_number() <= floor(sum(ANL07FL == "Y", na.rm = TRUE) * 0.25),
-        "Y",
-        NA_character_
-      ),
-      ANL10FL = dplyr::if_else(
-        ANL07FL == "Y" & dplyr::row_number() <= floor(sum(ANL07FL == "Y", na.rm = TRUE) * 0.15),
-        "Y",
-        NA_character_
-      )
-    )
+# all derived flags
+anl03_y_idx <- which(subj_flags$ANL03FL == "Y")
+anl07_y_idx <- which(subj_flags$ANL07FL == "Y")
 
+subj_flags <- subj_flags |>
+  dplyr::mutate(
+    ANL04FL = dplyr::if_else(
+      row_number() %in% sample(anl03_y_idx, floor(length(anl03_y_idx) * 0.35)),
+      "Y",
+      NA_character_
+    ),
+    ANL05FL = dplyr::if_else(
+      row_number() %in% sample(anl03_y_idx, floor(length(anl03_y_idx) * 0.25)),
+      "Y",
+      NA_character_
+    ),
+    ANL06FL = dplyr::if_else(
+      row_number() %in% sample(anl03_y_idx, floor(length(anl03_y_idx) * 0.15)),
+      "Y",
+      NA_character_
+    ),
+    ANL08FL = dplyr::if_else(
+      row_number() %in% sample(anl07_y_idx, floor(length(anl07_y_idx) * 0.35)),
+      "Y",
+      NA_character_
+    ),
+    ANL09FL = dplyr::if_else(
+      row_number() %in% sample(anl07_y_idx, floor(length(anl07_y_idx) * 0.25)),
+      "Y",
+      NA_character_
+    ),
+    ANL10FL = dplyr::if_else(
+      row_number() %in% sample(anl07_y_idx, floor(length(anl07_y_idx) * 0.15)),
+      "Y",
+      NA_character_
+    )
+  )
+
+  # join back to main table
   main_tbl <- main_tbl |>
     dplyr::left_join(subj_flags, by = "USUBJID") |>
     # group B (subject summary) rows get NA for all reaction flags
