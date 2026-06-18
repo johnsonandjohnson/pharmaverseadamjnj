@@ -431,7 +431,7 @@ gen_adishum <- function(seed = 123) {
 
   gen <- gen |>
     dplyr::mutate(
-      ADTM = convert_dtc_to_dtm(ISDTC)
+      ADTM = admiral::convert_dtc_to_dtm(ISDTC)
     )
 
   # add PARQUAL columns - refer function
