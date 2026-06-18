@@ -432,12 +432,8 @@ gen_adishum <- function(seed = 123) {
     )
 
   gen <- gen |>
-    left_join(
-      pharmaverseadam::adab |>
-        filter(ABLFL == "Y") |>
-        select(USUBJID, ADTM) |>
-        distinct(USUBJID, .keep_all = TRUE),
-      by = "USUBJID"
+    dplyr::mutate(
+      ADTM = convert_dtc_to_dtm(ISDTC)
     )
 
   # add PARQUAL columns - refer function
@@ -513,7 +509,6 @@ gen_adishum <- function(seed = 123) {
   # Return Gen
   return(gen)
 }
-
 
 # run function ------------------------------
 # generate dataset
