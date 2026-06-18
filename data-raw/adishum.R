@@ -59,11 +59,11 @@ add_adishum_col_funcs$sample_paramcd <- function() {
     "ADAPSP"   , "ADA Persistent Positive, Result"             , "ADA_BAB" ,
     "ADATSP"   , "Neutralizing ADA Persistent Positive"        , "ADA_NAB" ,
     "ADAUND"   , "ADA Undetermined, Result"                    , "ADA_BAB" ,
-    "TMOSADAW" , "Time to Onset of ADA (weeks)"                , "ADA_BAB" ,
-    "ADADURW"  , "Duration of ADA Response (weeks)"            , "ADA_BAB" ,
-    "PSPDURW"  , "Duration of Persistent Positive ADA (weeks)" , "ADA_BAB" ,
-    "NABPOS"   , "Neutralizing ADA Positive"                   , "ADA_NAB" ,
-    "NABNEG"   , "Neutralizing ADA Negative"                   , "ADA_NAB"
+    "TMOSADAW" , "Time to Onset of ADA (weeks)"                , NA_character_ ,
+    "ADADURW"  , "Duration of ADA Response (weeks)"            , NA_character_ ,
+    "PSPDURW"  , "Duration of Persistent Positive ADA (weeks)" , NA_character_ ,
+    "NABPOS"   , "Neutralizing ADA Positive"                   , NA_character_ ,
+    "NABNEG"   , "Neutralizing ADA Negative"                   , NA_character_
   ) |>
     arrange(PARAMCD)
 
