@@ -311,14 +311,27 @@ add_adishum_col_funcs$anl03fl_to_anl10fl <- function(main_tbl) {
   # subject-level flags — built once, joined back
   subj_flags <- main_tbl |>
     dplyr::filter(!is.na(TRTSDT)) |>
-    dplyr::distinct(USUBJID) |>
+    dplyr::distinct(USUBJID)
+
+  subj_flags <- subj_flags |> 
     dplyr::mutate(
-      # base flags — sampled from all treated subjects
+      # random 12% sampling for the column
       ANL03FL = dplyr::if_else(
-        dplyr::row_number() <= floor(dplyr::n() * 0.12),
+        dplyr::row_number() %in% sample(dplyr::n(), floor(dplyr::n() * 0.12)),
         "Y",
         NA_character_
       ),
+      # random 10% sampling for the column
+      ANL07FL = dplyr::if_else(
+        dplyr::row_number() %in% sample(dplyr::n(), floor(dplyr::n() * 0.10)),
+        "Y",
+        NA_character_
+      )
+    )
+
+  # all derived flags
+  subj_flags <- subj_flags |> 
+    dplyr::mutate(
       # cascade off ANL03FL
       ANL04FL = dplyr::if_else(
         ANL03FL == "Y" & dplyr::row_number() <= floor(sum(ANL03FL == "Y", na.rm = TRUE) * 0.35),
@@ -332,11 +345,6 @@ add_adishum_col_funcs$anl03fl_to_anl10fl <- function(main_tbl) {
       ),
       ANL06FL = dplyr::if_else(
         ANL03FL == "Y" & dplyr::row_number() <= floor(sum(ANL03FL == "Y", na.rm = TRUE) * 0.15),
-        "Y",
-        NA_character_
-      ),
-      ANL07FL = dplyr::if_else(
-        dplyr::row_number() <= floor(dplyr::n() * 0.10),
         "Y",
         NA_character_
       ),
