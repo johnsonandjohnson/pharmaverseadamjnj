@@ -84,7 +84,7 @@ A data frame with 306 rows and 119 variables:
 \item{DCTREAS}{Reason for Discontinuation of Treatment}
 \item{LTVISIT}{Last Treatment Visit}
 \item{DCTREASP}{Reason Specify for Discont of Treatment}
-\item{DCTDT}{End of Study Date}
+\item{DCTDT}{DCTDT}
 \item{DCSREAS}{Reason for Discontinuation from Study}
 \item{DCSREASP}{Reason Spec for Discont from Study}
 \item{LSVISIT}{Last Study Visit}
@@ -141,7 +141,7 @@ adsl modified from pharmaverseadam
  head(data("adsl"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 }
 \keyword{adsl}
 \keyword{datasets}
