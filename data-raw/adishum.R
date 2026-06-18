@@ -227,19 +227,29 @@ add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn <- function(main_tbl) {
       AVISITN = VISITNUM,
       AVISIT = stringr::str_to_title(VISIT),
       ADT = as.Date(substr(ISDTC, 1, 10))
-    ) |>
+    )
+
+  # added ADY
+  main_tbl <- main_tbl |>
     dplyr::mutate(
       ADY = dplyr::if_else(
         ADT >= TRTSDT,
         as.integer(ADT - TRTSDT + 1L),
         as.integer(ADT - TRTSDT)
-      ),
+      )
+    )
+  
+  # added ABLFL
+  main_tbl <- main_tbl |>
+    dplyr::group_by(USUBJID, PARAMCD) |>
+    dplyr::mutate(
       ABLFL = dplyr::if_else(
         VISITNUM == min(VISITNUM, na.rm = TRUE),
         "Y",
         NA_character_
       )
-    )
+    ) |>
+    dplyr::ungroup()
 
   return(main_tbl)
 }
