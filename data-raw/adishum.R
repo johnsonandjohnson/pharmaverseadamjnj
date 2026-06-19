@@ -148,19 +148,20 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
   # Group B parameters (Subject Summary) handled later
   group_b_paramcd <- c("TMOSADAW", "ADADURW", "PSPDURW", "NABPOS", "NABNEG")
 
+  # initialize columns
+  main_tbl <- main_tbl |>
+    dplyr::mutate(
+      AVAL = NA_real_,
+      AVALC = NA_character_,
+      AVALCAT1 = NA_character_
+    )
+
   # override AVAL for ADATREPT to ensure all 4 titer AVALCAT1 tiers are covered
   adatrept_idx <- which(main_tbl$PARAMCD == "ADATREPT")
 
   if (length(adatrept_idx) > 0) {
     main_tbl$AVAL[adatrept_idx] <- sample(
-      c(
-        1:10,
-        40:50,
-        90:100,
-        490:500,
-        990:1000,
-        1100:1110
-      ),
+      c(1:9, 91:99, 991:999, 1001:1009),
       length(adatrept_idx),
       replace = TRUE
     )
@@ -173,13 +174,11 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
     dplyr::mutate(
       AVAL = dplyr::case_when(
         PARAMCD == "ADATREPT" ~ AVAL,
-        !is.na(ISSTRESN) & !PARAMCD %in% group_b_paramcd ~ round(ISSTRESN + noise, 2),
-        TRUE ~ NA_real_
+        !is.na(ISSTRESN) & !PARAMCD %in% group_b_paramcd ~ round(ISSTRESN + noise, 2)
       ),
       AVALC = dplyr::case_when(
         !is.na(AVAL) & !PARAMCD %in% group_b_paramcd ~ as.character(AVAL),
-        is.na(ISSTRESN) & !is.na(ISSTRESC) & !PARAMCD %in% group_b_paramcd ~ toupper(ISSTRESC),
-        TRUE ~ NA_character_
+        is.na(ISSTRESN) & !is.na(ISSTRESC) & !PARAMCD %in% group_b_paramcd ~ toupper(ISSTRESC)
       )
     ) |>
     dplyr::mutate(
@@ -193,8 +192,7 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
             (!is.na(AVALC) & AVALC == "NEGATIVE") |
             (!is.na(AVALC) & grepl("^\\s*<", AVALC))) ~ "Negative / BLQ",
         !PARAMCD %in% group_b_paramcd & !is.na(AVAL) & AVAL > 0 & AVAL <= 2 ~ "Low Positive",
-        !PARAMCD %in% group_b_paramcd & !is.na(AVAL) & AVAL > 2 ~ "High Positive",
-        TRUE ~ NA_character_
+        !PARAMCD %in% group_b_paramcd & !is.na(AVAL) & AVAL > 2 ~ "High Positive"
       )
     )
 
