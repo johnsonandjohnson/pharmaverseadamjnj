@@ -164,10 +164,28 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
         is.na(ISSTRESN) & !is.na(ISSTRESC) & !PARAMCD %in% group_b_paramcd ~ toupper(ISSTRESC),
         TRUE ~ NA_character_
       )
-    ) |>
+    )
+
+  # override AVAL for ADATREPT to ensure all 4 titer AVALCAT1 tiers are covered
+  adatrept_idx <- which(main_tbl$PARAMCD == "ADATREPT")
+  if (length(adatrept_idx) > 0) {
+    # one representative value per tier, cycled randomly across rows
+    tier_vals <- c(5, 50, 500, 1500)  # <10, 10-<100, 100-<1000, >=1000
+    main_tbl$AVAL[adatrept_idx] <- sample(tier_vals, length(adatrept_idx), replace = TRUE)
+    main_tbl$AVALC[adatrept_idx] <- as.character(main_tbl$AVAL[adatrept_idx])
+  }
+
+  main_tbl <- main_tbl |>
     dplyr::mutate(
-      # AVALCAT1 per spec (Group B set later)
       AVALCAT1 = dplyr::case_when(
+        # For PARAMCD= ADATREPT the variable AVALCAT1 should have 
+        # values "<10", "10 to < 100", "100 to <1000", ">= 1000"
+        PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL < 10 ~ "<10",
+        PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL < 100 ~ "10 to < 100",
+        PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL < 1000 ~ "100 to <1000",
+        PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL >= 1000 ~ ">= 1000",
+
+        # AVALCAT1 per spec (Group B set later)
         !PARAMCD %in% group_b_paramcd &
           ((!is.na(AVAL) & AVAL <= 0) |
             (!is.na(AVALC) & AVALC == "NEGATIVE") |
@@ -386,6 +404,36 @@ subj_flags <- subj_flags |>
   return(main_tbl)
 }
 
+# ensure required AVALC values are present per PARAMCD spec
+add_adishum_col_funcs$pp_ensure_required_avalc <- function(
+  main_tbl,
+  min_rows = 5
+) {
+  y_paramcds <- c(
+    "ADABL", "ADATRB", "ADANTRB", "ADATRI", "ADATRE",
+    "ADANTRE", "ADAPSP", "ADATSP", "ADAUND", "NABPOS", "NABNEG"
+  )
+  adatrept_cats <- c("<10", "10 to < 100", "100 to <1000", ">= 1000")
+
+  # For each PARAMCD requiring AVALC="Y", force min_rows random rows to "Y"
+  main_tbl <- main_tbl |>
+    dplyr::group_by(USUBJID, PARAMCD) |>
+    dplyr::mutate(
+      AVALC = dplyr::if_else(
+        {
+          PARAMCD %in% y_paramcds &
+            dplyr::row_number() %in% 
+              sample(dplyr::n(), min(min_rows, dplyr::n()))
+        },
+        "Y",
+        AVALC
+      )
+    ) |>
+    dplyr::ungroup()
+
+  return(main_tbl)
+}
+
 # core function ------------------------------
 # Generate adishum dataset
 gen_adishum <- function(seed = 123) {
@@ -479,6 +527,10 @@ gen_adishum <- function(seed = 123) {
   # add ANL03FL, ANL04FL, ANL05FL, ANL06FL, ANL07FL, ANL08FL, ANL09FL and ANL10FL columns - refer function
   gen <- gen |>
     add_adishum_col_funcs$anl03fl_to_anl10fl()
+
+  # ensure required AVALC values are present per PARAMCD spec
+  gen <- gen |>
+    add_adishum_col_funcs$pp_ensure_required_avalc()
 
   # Handle NA values and convert characters to factors
   gen <- gen |>
