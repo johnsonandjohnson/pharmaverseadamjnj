@@ -5,33 +5,33 @@
 #'
 #' @format A data frame with 829 rows and 50 variables:
 #' \describe{
-#'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
-#'  \item{SITEID}{SITEID}
-#'  \item{SUBJID}{SUBJID}
-#'  \item{AGE}{AGE}
-#'  \item{SEX}{SEX}
-#'  \item{RACE}{RACE}
-#'  \item{ISTEST}{Immunogenicity Test or Examination Name}
-#'  \item{ISSPEC}{Specimen Type}
-#'  \item{ISNAM}{Vendor Name}
 #'  \item{ISSEQ}{Sequence Number}
+#'  \item{ISTESTCD}{Immunogenicity Test/Exam Short Name}
+#'  \item{ISTEST}{Immunogenicity Test or Examination Name}
+#'  \item{ISBDAGNT}{Binding Agent}
 #'  \item{ISCAT}{Category for Immunogenicity Test}
-#'  \item{IMFL}{Immunogenicity Population Flag}
-#'  \item{SAFFL}{SAFFL}
+#'  \item{ISSTRESC}{Character Result/Finding in Std Format}
+#'  \item{ISSTRESN}{Numeric Results/Findings in Std. Units}
+#'  \item{ISNAM}{Vendor Name}
+#'  \item{ISSPEC}{Specimen Type}
 #'  \item{VISITNUM}{Visit Number}
 #'  \item{VISIT}{Visit Name}
-#'  \item{ISBDAGNT}{Binding Agent}
-#'  \item{TRTSDT}{TRTSDT}
-#'  \item{TRTSDTM}{TRTSDTM}
-#'  \item{TRT01P}{TRT01P}
-#'  \item{TRT01PN}{TRT01PN}
-#'  \item{TRT01A}{TRT01A}
-#'  \item{TRT01AN}{TRT01AN}
-#'  \item{ISSTRESN}{Numeric Results/Findings in Std. Units}
-#'  \item{ISSTRESC}{Character Result/Finding in Std Format}
-#'  \item{ISTESTCD}{Immunogenicity Test/Exam Short Name}
 #'  \item{ISDTC}{Date/Time of Collection}
+#'  \item{STUDYID}{Study Identifier}
+#'  \item{SUBJID}{Subject Identifier for the Study}
+#'  \item{SITEID}{Study Site Identifier}
+#'  \item{AGE}{Age}
+#'  \item{SEX}{Sex}
+#'  \item{RACE}{Race}
+#'  \item{IMFL}{Immunogenicity Population Flag}
+#'  \item{SAFFL}{Safety Population Flag}
+#'  \item{TRTSDT}{Date of First Exposure to Treatment}
+#'  \item{TRTSDTM}{Datetime of First Exposure to Treatment}
+#'  \item{TRT01P}{Planned Treatment for Period 01}
+#'  \item{TRT01PN}{Planned Treatment for Period 01 (N)}
+#'  \item{TRT01A}{Actual Treatment for Period 01}
+#'  \item{TRT01AN}{Actual Treatment for Period 01 (N)}
 #'  \item{ADTM}{Analysis Datetime}
 #'  \item{PARQUAL}{Parameter Qualifier}
 #'  \item{PARAMCD}{Parameter Code}
