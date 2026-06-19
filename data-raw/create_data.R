@@ -111,6 +111,9 @@ run_script <- function(script_path) {
 # Run all other data creation scripts
 walk(data_scripts, run_script)
 
+# # run manually
+# run_script("data-raw/adishum.R")
+
 message("All datasets have been created and documented.")
 
 # Get all rda
@@ -148,6 +151,9 @@ run_xpt <- function(script_path) {
 }
 
 walk(data_rda, run_xpt)
+
+# # run_manually
+# run_xpt("data/adishum.rda")
 
 message("All datasets have been transformed.")
 

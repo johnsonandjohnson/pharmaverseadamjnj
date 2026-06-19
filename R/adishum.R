@@ -3,31 +3,31 @@
 #' @description adishum modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 691 rows and 50 variables:
+#' @format A data frame with 829 rows and 50 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
-#'  \item{SITEID}{Study Site Identifier}
-#'  \item{SUBJID}{Subject Identifier for the Study}
-#'  \item{AGE}{Age}
-#'  \item{SEX}{Sex}
-#'  \item{RACE}{Race}
+#'  \item{SITEID}{SITEID}
+#'  \item{SUBJID}{SUBJID}
+#'  \item{AGE}{AGE}
+#'  \item{SEX}{SEX}
+#'  \item{RACE}{RACE}
 #'  \item{ISTEST}{Immunogenicity Test or Examination Name}
 #'  \item{ISSPEC}{Specimen Type}
 #'  \item{ISNAM}{Vendor Name}
 #'  \item{ISSEQ}{Sequence Number}
 #'  \item{ISCAT}{Category for Immunogenicity Test}
 #'  \item{IMFL}{Immunogenicity Population Flag}
-#'  \item{SAFFL}{Safety Population Flag}
+#'  \item{SAFFL}{SAFFL}
 #'  \item{VISITNUM}{Visit Number}
 #'  \item{VISIT}{Visit Name}
 #'  \item{ISBDAGNT}{Binding Agent}
-#'  \item{TRTSDT}{Date of First Exposure to Treatment}
-#'  \item{TRTSDTM}{Datetime of First Exposure to Treatment}
-#'  \item{TRT01P}{Planned Treatment for Period 01}
-#'  \item{TRT01PN}{Planned Treatment for Period 01 (N)}
-#'  \item{TRT01A}{Actual Treatment for Period 01}
-#'  \item{TRT01AN}{Actual Treatment for Period 01 (N)}
+#'  \item{TRTSDT}{TRTSDT}
+#'  \item{TRTSDTM}{TRTSDTM}
+#'  \item{TRT01P}{TRT01P}
+#'  \item{TRT01PN}{TRT01PN}
+#'  \item{TRT01A}{TRT01A}
+#'  \item{TRT01AN}{TRT01AN}
 #'  \item{ISSTRESN}{Numeric Results/Findings in Std. Units}
 #'  \item{ISSTRESC}{Character Result/Finding in Std Format}
 #'  \item{ISTESTCD}{Immunogenicity Test/Exam Short Name}
@@ -48,10 +48,10 @@
 #'  \item{ANL01FL}{Analysis Flag 01}
 #'  \item{ANL02FL}{Analysis Flag 02}
 #'  \item{ANL03FL}{Analysis Flag 03-Inf SR}
+#'  \item{ANL07FL}{Analysis Flag 07-Inj SR}
 #'  \item{ANL04FL}{Analysis Flag 04-Severe Inf SR}
 #'  \item{ANL05FL}{Analysis Flag 05-Serious Inf SR}
 #'  \item{ANL06FL}{Analysis Flag 06-Infus SR - DC}
-#'  \item{ANL07FL}{Analysis Flag 07-Inj SR}
 #'  \item{ANL08FL}{Analysis Flag 08-Severe Inj SR}
 #'  \item{ANL09FL}{Analysis Flag 09-Serious Inj SR}
 #'  \item{ANL10FL}{Analysis Flag 10-Inject SR - DC}
