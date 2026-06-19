@@ -329,49 +329,11 @@ add_adishum_col_funcs$anl03fl_to_anl10fl <- function(main_tbl) {
       )
     )
 
-<<<<<<< HEAD
 # all derived flags
 anl03_y_idx <- which(subj_flags$ANL03FL == "Y")
 anl07_y_idx <- which(subj_flags$ANL07FL == "Y")
-=======
-  # all derived flags
-  subj_flags <- subj_flags |> 
-    dplyr::mutate(
-      # cascade off ANL03FL
-      ANL04FL = dplyr::if_else(
-        ANL03FL == "Y" & dplyr::row_number() <= floor(sum(ANL03FL == "Y", na.rm = TRUE) * 0.35),
-        "Y",
-        NA_character_
-      ),
-      ANL05FL = dplyr::if_else(
-        ANL03FL == "Y" & dplyr::row_number() <= floor(sum(ANL03FL == "Y", na.rm = TRUE) * 0.25),
-        "Y",
-        NA_character_
-      ),
-      ANL06FL = dplyr::if_else(
-        ANL03FL == "Y" & dplyr::row_number() <= floor(sum(ANL03FL == "Y", na.rm = TRUE) * 0.15),
-        "Y",
-        NA_character_
-      ),
-      # cascade off ANL07FL
-      ANL08FL = dplyr::if_else(
-        ANL07FL == "Y" & dplyr::row_number() <= floor(sum(ANL07FL == "Y", na.rm = TRUE) * 0.35),
-        "Y",
-        NA_character_
-      ),
-      ANL09FL = dplyr::if_else(
-        ANL07FL == "Y" & dplyr::row_number() <= floor(sum(ANL07FL == "Y", na.rm = TRUE) * 0.25),
-        "Y",
-        NA_character_
-      ),
-      ANL10FL = dplyr::if_else(
-        ANL07FL == "Y" & dplyr::row_number() <= floor(sum(ANL07FL == "Y", na.rm = TRUE) * 0.15),
-        "Y",
-        NA_character_
-      )
-    )
->>>>>>> parent of 4644767 (update datasets)
 
+# take percetages of rows in random order.
 subj_flags <- subj_flags |>
   dplyr::mutate(
     ANL04FL = dplyr::if_else(
