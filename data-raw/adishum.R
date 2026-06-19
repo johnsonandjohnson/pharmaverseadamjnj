@@ -44,21 +44,21 @@ add_adishum_col_funcs$sample_visits <- function() {
 add_adishum_col_funcs$sample_paramcd <- function() {
   # tribble of PARAMCD, PARAM, ISTESTCD
   sample_paramcd <- tibble::tribble(
-    ~PARAMCD   , ~PARAM                                        , ~ISTESTCD ,
-    "ADABL"    , "Binding ADA, Last Result"                    , "ADA_BAB" ,
-    "ADABLT"   , "Binding ADA, Titer"                          , "ADA_BAB" ,
-    "ADATRB"   , "Treatment-Emergent ADA, Result"              , "ADA_BAB" ,
-    "ADATRBT"  , "Treatment-Emergent ADA, Titer"               , "ADA_BAB" ,
-    "ADANTRB"  , "Neutralizing ADA, Result"                    , "ADA_NAB" ,
-    "ADANTRBT" , "Neutralizing ADA, Titer"                     , "ADA_NAB" ,
-    "ADATRI"   , "Treatment-Induced ADA, Result"               , "ADA_BAB" ,
-    "ADATRIPT" , "Treatment-Induced ADA, Titer"                , "ADA_BAB" ,
-    "ADATRE"   , "Treatment-Enhanced ADA, Result"              , "ADA_BAB" ,
-    "ADATREPT" , "Treatment-Enhanced ADA, Titer"               , "ADA_BAB" ,
-    "ADANTRE"  , "Treatment-Enhanced Neutralizing ADA, Result" , "ADA_NAB" ,
-    "ADAPSP"   , "ADA Persistent Positive, Result"             , "ADA_BAB" ,
-    "ADATSP"   , "Neutralizing ADA Persistent Positive"        , "ADA_NAB" ,
-    "ADAUND"   , "ADA Undetermined, Result"                    , "ADA_BAB" ,
+    ~PARAMCD   , ~PARAM                                        , ~ISTESTCD     ,
+    "ADABL"    , "Binding ADA, Last Result"                    , "ADA_BAB"     ,
+    "ADABLT"   , "Binding ADA, Titer"                          , "ADA_BAB"     ,
+    "ADATRB"   , "Treatment-Emergent ADA, Result"              , "ADA_BAB"     ,
+    "ADATRBT"  , "Treatment-Emergent ADA, Titer"               , "ADA_BAB"     ,
+    "ADANTRB"  , "Neutralizing ADA, Result"                    , "ADA_NAB"     ,
+    "ADANTRBT" , "Neutralizing ADA, Titer"                     , "ADA_NAB"     ,
+    "ADATRI"   , "Treatment-Induced ADA, Result"               , "ADA_BAB"     ,
+    "ADATRIPT" , "Treatment-Induced ADA, Titer"                , "ADA_BAB"     ,
+    "ADATRE"   , "Treatment-Enhanced ADA, Result"              , "ADA_BAB"     ,
+    "ADATREPT" , "Treatment-Enhanced ADA, Titer"               , "ADA_BAB"     ,
+    "ADANTRE"  , "Treatment-Enhanced Neutralizing ADA, Result" , "ADA_NAB"     ,
+    "ADAPSP"   , "ADA Persistent Positive, Result"             , "ADA_BAB"     ,
+    "ADATSP"   , "Neutralizing ADA Persistent Positive"        , "ADA_NAB"     ,
+    "ADAUND"   , "ADA Undetermined, Result"                    , "ADA_BAB"     ,
     "TMOSADAW" , "Time to Onset of ADA (weeks)"                , NA_character_ ,
     "ADADURW"  , "Duration of ADA Response (weeks)"            , NA_character_ ,
     "PSPDURW"  , "Duration of Persistent Positive ADA (weeks)" , NA_character_ ,
@@ -112,20 +112,20 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
   }
 
   # For NA values in ISTESTCD
-  na_paramcd <- sample_paramcd |> 
+  na_paramcd <- sample_paramcd |>
     dplyr::filter(is.na(ISTESTCD))
 
-  if(nrow(na_paramcd) > 0) {
+  if (nrow(na_paramcd) > 0) {
     sel_na <- sample(
       x = seq_along(main_tbl$USUBJID),
-      size = floor(nrow(main_tbl) * 0.2), 
+      size = floor(nrow(main_tbl) * 0.2),
       replace = FALSE
     )
 
     na_paramcd <- na_paramcd[
       rep(
-        na_paramcd$PARAMCD |> seq_along(), 
-        (nrow(main_tbl)/nrow(na_paramcd)) |> 
+        na_paramcd$PARAMCD |> seq_along(),
+        (nrow(main_tbl) / nrow(na_paramcd)) |>
           ceiling()
       ),
     ]
@@ -134,9 +134,9 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
 
     na_rows_tbl$ISTESTCD <- NA_character_
     na_rows_tbl$PARAMCD <- na_paramcd$PARAMCD[sel_na]
-    na_rows_tbl$PARAM <- na_paramcd$PARAM[sel_na] 
+    na_rows_tbl$PARAM <- na_paramcd$PARAM[sel_na]
 
-    main_tbl <- main_tbl |> 
+    main_tbl <- main_tbl |>
       dplyr::bind_rows(na_rows_tbl)
   }
 
@@ -148,44 +148,46 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
   # Group B parameters (Subject Summary) handled later
   group_b_paramcd <- c("TMOSADAW", "ADADURW", "PSPDURW", "NABPOS", "NABNEG")
 
+  # override AVAL for ADATREPT to ensure all 4 titer AVALCAT1 tiers are covered
+  adatrept_idx <- which(main_tbl$PARAMCD == "ADATREPT")
+
+  if (length(adatrept_idx) > 0) {
+    main_tbl$AVAL[adatrept_idx] <- sample(
+      c(
+        1:10,
+        40:50,
+        90:100,
+        490:500,
+        990:1000,
+        1100:1110
+      ),
+      length(adatrept_idx),
+      replace = TRUE
+    )
+  }
+
   # Row-wise small noise for numeric AVAL
   noise <- stats::runif(n = nrow(main_tbl), min = -0.05, max = 0.05)
 
   main_tbl <- main_tbl |>
     dplyr::mutate(
-      # Numeric AVAL for ISSTRESN and not Group B, rounded to 2 decimals (spec: 2 significant digits)
       AVAL = dplyr::case_when(
+        PARAMCD == "ADATREPT" ~ AVAL,
         !is.na(ISSTRESN) & !PARAMCD %in% group_b_paramcd ~ round(ISSTRESN + noise, 2),
         TRUE ~ NA_real_
       ),
-      # AVALC mirrors numeric AVAL as character; else keep character ISSTRESC (upper-case)
       AVALC = dplyr::case_when(
         !is.na(AVAL) & !PARAMCD %in% group_b_paramcd ~ as.character(AVAL),
         is.na(ISSTRESN) & !is.na(ISSTRESC) & !PARAMCD %in% group_b_paramcd ~ toupper(ISSTRESC),
         TRUE ~ NA_character_
       )
-    )
-
-  # override AVAL for ADATREPT to ensure all 4 titer AVALCAT1 tiers are covered
-  adatrept_idx <- which(main_tbl$PARAMCD == "ADATREPT")
-  if (length(adatrept_idx) > 0) {
-    # one representative value per tier, cycled randomly across rows
-    tier_vals <- c(5, 50, 500, 1500)  # <10, 10-<100, 100-<1000, >=1000
-    main_tbl$AVAL[adatrept_idx] <- sample(tier_vals, length(adatrept_idx), replace = TRUE)
-    main_tbl$AVALC[adatrept_idx] <- as.character(main_tbl$AVAL[adatrept_idx])
-  }
-
-  main_tbl <- main_tbl |>
+    ) |>
     dplyr::mutate(
       AVALCAT1 = dplyr::case_when(
-        # For PARAMCD= ADATREPT the variable AVALCAT1 should have 
-        # values "<10", "10 to < 100", "100 to <1000", ">= 1000"
         PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL < 10 ~ "<10",
         PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL < 100 ~ "10 to < 100",
         PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL < 1000 ~ "100 to <1000",
         PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL >= 1000 ~ ">= 1000",
-
-        # AVALCAT1 per spec (Group B set later)
         !PARAMCD %in% group_b_paramcd &
           ((!is.na(AVAL) & AVAL <= 0) |
             (!is.na(AVALC) & AVALC == "NEGATIVE") |
@@ -198,6 +200,7 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
 
   return(main_tbl)
 }
+
 
 # add IMEVFL column
 add_adishum_col_funcs$imevfl <- function(main_tbl) {
@@ -256,7 +259,7 @@ add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn <- function(main_tbl) {
         as.integer(ADT - TRTSDT)
       )
     )
-  
+
   # added ABLFL
   main_tbl <- main_tbl |>
     dplyr::group_by(USUBJID, PARAMCD) |>
@@ -331,7 +334,7 @@ add_adishum_col_funcs$anl03fl_to_anl10fl <- function(main_tbl) {
     dplyr::filter(!is.na(TRTSDT)) |>
     dplyr::distinct(USUBJID)
 
-  subj_flags <- subj_flags |> 
+  subj_flags <- subj_flags |>
     dplyr::mutate(
       # random 12% sampling for the column
       ANL03FL = dplyr::if_else(
@@ -347,44 +350,44 @@ add_adishum_col_funcs$anl03fl_to_anl10fl <- function(main_tbl) {
       )
     )
 
-# all derived flags
-anl03_y_idx <- which(subj_flags$ANL03FL == "Y")
-anl07_y_idx <- which(subj_flags$ANL07FL == "Y")
+  # all derived flags
+  anl03_y_idx <- which(subj_flags$ANL03FL == "Y")
+  anl07_y_idx <- which(subj_flags$ANL07FL == "Y")
 
-# take percetages of rows in random order.
-subj_flags <- subj_flags |>
-  dplyr::mutate(
-    ANL04FL = dplyr::if_else(
-      row_number() %in% sample(anl03_y_idx, floor(length(anl03_y_idx) * 0.35)),
-      "Y",
-      NA_character_
-    ),
-    ANL05FL = dplyr::if_else(
-      row_number() %in% sample(anl03_y_idx, floor(length(anl03_y_idx) * 0.25)),
-      "Y",
-      NA_character_
-    ),
-    ANL06FL = dplyr::if_else(
-      row_number() %in% sample(anl03_y_idx, floor(length(anl03_y_idx) * 0.15)),
-      "Y",
-      NA_character_
-    ),
-    ANL08FL = dplyr::if_else(
-      row_number() %in% sample(anl07_y_idx, floor(length(anl07_y_idx) * 0.35)),
-      "Y",
-      NA_character_
-    ),
-    ANL09FL = dplyr::if_else(
-      row_number() %in% sample(anl07_y_idx, floor(length(anl07_y_idx) * 0.25)),
-      "Y",
-      NA_character_
-    ),
-    ANL10FL = dplyr::if_else(
-      row_number() %in% sample(anl07_y_idx, floor(length(anl07_y_idx) * 0.15)),
-      "Y",
-      NA_character_
+  # take percetages of rows in random order.
+  subj_flags <- subj_flags |>
+    dplyr::mutate(
+      ANL04FL = dplyr::if_else(
+        row_number() %in% sample(anl03_y_idx, floor(length(anl03_y_idx) * 0.35)),
+        "Y",
+        NA_character_
+      ),
+      ANL05FL = dplyr::if_else(
+        row_number() %in% sample(anl03_y_idx, floor(length(anl03_y_idx) * 0.25)),
+        "Y",
+        NA_character_
+      ),
+      ANL06FL = dplyr::if_else(
+        row_number() %in% sample(anl03_y_idx, floor(length(anl03_y_idx) * 0.15)),
+        "Y",
+        NA_character_
+      ),
+      ANL08FL = dplyr::if_else(
+        row_number() %in% sample(anl07_y_idx, floor(length(anl07_y_idx) * 0.35)),
+        "Y",
+        NA_character_
+      ),
+      ANL09FL = dplyr::if_else(
+        row_number() %in% sample(anl07_y_idx, floor(length(anl07_y_idx) * 0.25)),
+        "Y",
+        NA_character_
+      ),
+      ANL10FL = dplyr::if_else(
+        row_number() %in% sample(anl07_y_idx, floor(length(anl07_y_idx) * 0.15)),
+        "Y",
+        NA_character_
+      )
     )
-  )
 
   # join back to main table
   main_tbl <- main_tbl |>
@@ -410,8 +413,17 @@ add_adishum_col_funcs$pp_ensure_required_avalc <- function(
   min_rows = 5
 ) {
   y_paramcds <- c(
-    "ADABL", "ADATRB", "ADANTRB", "ADATRI", "ADATRE",
-    "ADANTRE", "ADAPSP", "ADATSP", "ADAUND", "NABPOS", "NABNEG"
+    "ADABL",
+    "ADATRB",
+    "ADANTRB",
+    "ADATRI",
+    "ADATRE",
+    "ADANTRE",
+    "ADAPSP",
+    "ADATSP",
+    "ADAUND",
+    "NABPOS",
+    "NABNEG"
   )
   adatrept_cats <- c("<10", "10 to < 100", "100 to <1000", ">= 1000")
 
@@ -421,8 +433,9 @@ add_adishum_col_funcs$pp_ensure_required_avalc <- function(
     dplyr::mutate(
       AVALC = dplyr::if_else(
         {
-          PARAMCD %in% y_paramcds &
-            dplyr::row_number() %in% 
+          PARAMCD %in%
+            y_paramcds &
+            dplyr::row_number() %in%
               sample(dplyr::n(), min(min_rows, dplyr::n()))
         },
         "Y",
