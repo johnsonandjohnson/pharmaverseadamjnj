@@ -393,45 +393,56 @@ gen_adishum <- function(seed = 123) {
   set.seed(seed)
 
   # get source data
-  # raw <- pharmaverseadam::adis_vaccine
   raw <- pharmaversesdtm::is_ada
 
-  gen <- raw |>
-    left_join(
-      pharmaverseadamjnj::adsl,
-      by = c(
-        "STUDYID" = "STUDYID",
-        "USUBJID" = "USUBJID"
-      )
-    ) |>
-    select(
-      STUDYID,
+  # Variables to keep from IS source
+  is_ada_vars <- c(
+    "USUBJID",
+    "ISSEQ",
+    "ISTESTCD",
+    "ISTEST",
+    "ISBDAGNT",
+    "ISCAT",
+    "ISSTRESC",
+    "ISSTRESN",
+    "ISNAM",
+    "ISSPEC",
+    "VISITNUM",
+    "VISIT",
+    "ISDTC"
+  )
+
+  # Variables to keep exclusively from ADSL
+  adsl_vars <- c(
+    "STUDYID",
+    "SUBJID",
+    "SITEID",
+    "AGE",
+    "SEX",
+    "RACE",
+    "IMFL",
+    "SAFFL",
+    "TRTSDT",
+    "TRTSDTM",
+    "TRT01P",
+    "TRT01PN",
+    "TRT01A",
+    "TRT01AN"
+  )
+
+  adsl_subset <- pharmaverseadamjnj::adsl |>
+    dplyr::select(
       USUBJID,
-      SITEID,
-      SUBJID,
-      AGE,
-      SEX,
-      RACE,
-      ISTEST,
-      ISSPEC,
-      ISNAM,
-      ISSEQ,
-      ISCAT,
-      IMFL,
-      SAFFL,
-      VISITNUM,
-      VISIT,
-      ISBDAGNT,
-      TRTSDT,
-      TRTSDTM,
-      TRT01P,
-      TRT01PN,
-      TRT01A,
-      TRT01AN,
-      ISSTRESN,
-      ISSTRESC,
-      ISTESTCD,
-      ISDTC
+      dplyr::all_of(adsl_vars)
+    )
+
+  gen <- raw |>
+    dplyr::select(
+      dplyr::all_of(is_ada_vars)
+    ) |>
+    dplyr::left_join(
+      adsl_subset,
+      by = "USUBJID"
     )
 
   gen <- gen |>
@@ -499,7 +510,19 @@ gen_adishum <- function(seed = 123) {
     ADT = "Analysis Date",
     ADY = "Analysis Relative Day",
     ABLFL = "Baseline Record Flag",
-    ADTM = "Analysis Datetime"
+    ADTM = "Analysis Datetime",
+    SUBJID = "Subject Identifier for the Study",
+    SITEID = "Study Site Identifier",
+    AGE = "Age",
+    SEX = "Sex",
+    RACE = "Race",
+    SAFFL = "Safety Population Flag",
+    TRTSDT = "Date of First Exposure to Treatment",
+    TRTSDTM = "Datetime of First Exposure to Treatment",
+    TRT01P = "Planned Treatment for Period 01",
+    TRT01PN = "Planned Treatment for Period 01 (N)",
+    TRT01A = "Actual Treatment for Period 01",
+    TRT01AN = "Actual Treatment for Period 01 (N)"
   )
 
   # Restore labels
