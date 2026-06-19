@@ -19,22 +19,22 @@ add_adishum_col_funcs <- list()
 # function for adding sample visits
 add_adishum_col_funcs$sample_visits <- function() {
   visit_map <- tibble::tribble(
-    ~VISITNUM, ~AVISITN, ~AVISIT, ~VISITDY,
-    1L, 1L, "Screening", -14,
-    2L, 2L, "Day 1", 1,
-    3L, 3L, "Baseline", 1,
-    4L, 4L, "Week 2", 15,
-    5L, 5L, "Week 4", 29,
-    6L, 6L, "Week 6", 43,
-    7L, 7L, "Week 8", 57,
-    8L, 8L, "Week 10", 71,
-    9L, 9L, "Week 12", 85,
-    10L, 10L, "Week 16", 113,
-    11L, 11L, "Week 20", 141,
-    12L, 12L, "Week 24", 169,
-    13L, 13L, "Week 32", 225,
-    14L, 14L, "Week 40", 281,
-    15L, 15L, "Week 48", 337
+    ~VISITNUM , ~AVISITN , ~AVISIT     , ~VISITDY ,
+     1L       ,  1L      , "Screening" ,      -14 ,
+     2L       ,  2L      , "Day 1"     ,        1 ,
+     3L       ,  3L      , "Baseline"  ,        1 ,
+     4L       ,  4L      , "Week 2"    ,       15 ,
+     5L       ,  5L      , "Week 4"    ,       29 ,
+     6L       ,  6L      , "Week 6"    ,       43 ,
+     7L       ,  7L      , "Week 8"    ,       57 ,
+     8L       ,  8L      , "Week 10"   ,       71 ,
+     9L       ,  9L      , "Week 12"   ,       85 ,
+    10L       , 10L      , "Week 16"   ,      113 ,
+    11L       , 11L      , "Week 20"   ,      141 ,
+    12L       , 12L      , "Week 24"   ,      169 ,
+    13L       , 13L      , "Week 32"   ,      225 ,
+    14L       , 14L      , "Week 40"   ,      281 ,
+    15L       , 15L      , "Week 48"   ,      337
   )
 
   return(visit_map)
@@ -44,26 +44,26 @@ add_adishum_col_funcs$sample_visits <- function() {
 add_adishum_col_funcs$sample_paramcd <- function() {
   # tribble of PARAMCD, PARAM, ISTESTCD
   sample_paramcd <- tibble::tribble(
-    ~PARAMCD, ~PARAM, ~ISTESTCD,
-    "ADABL", "Binding ADA, Last Result", "ADA_BAB",
-    "ADABLT", "Binding ADA, Titer", "ADA_BAB",
-    "ADATRB", "Treatment-Emergent ADA, Result", "ADA_BAB",
-    "ADATRBT", "Treatment-Emergent ADA, Titer", "ADA_BAB",
-    "ADANTRB", "Neutralizing ADA, Result", "ADA_NAB",
-    "ADANTRBT", "Neutralizing ADA, Titer", "ADA_NAB",
-    "ADATRI", "Treatment-Induced ADA, Result", "ADA_BAB",
-    "ADATRIPT", "Treatment-Induced ADA, Titer", "ADA_BAB",
-    "ADATRE", "Treatment-Enhanced ADA, Result", "ADA_BAB",
-    "ADATREPT", "Treatment-Enhanced ADA, Titer", "ADA_BAB",
-    "ADANTRE", "Treatment-Enhanced Neutralizing ADA, Result", "ADA_NAB",
-    "ADAPSP", "ADA Persistent Positive, Result", "ADA_BAB",
-    "ADATSP", "Neutralizing ADA Persistent Positive", "ADA_NAB",
-    "ADAUND", "ADA Undetermined, Result", "ADA_BAB",
-    "TMOSADAW", "Time to Onset of ADA (weeks)", NA_character_,
-    "ADADURW", "Duration of ADA Response (weeks)", NA_character_,
-    "PSPDURW", "Duration of Persistent Positive ADA (weeks)", NA_character_,
-    "NABPOS", "Neutralizing ADA Positive", NA_character_,
-    "NABNEG", "Neutralizing ADA Negative", NA_character_
+    ~PARAMCD   , ~PARAM                                        , ~ISTESTCD ,
+    "ADABL"    , "Binding ADA, Last Result"                    , "ADA_BAB" ,
+    "ADABLT"   , "Binding ADA, Titer"                          , "ADA_BAB" ,
+    "ADATRB"   , "Treatment-Emergent ADA, Result"              , "ADA_BAB" ,
+    "ADATRBT"  , "Treatment-Emergent ADA, Titer"               , "ADA_BAB" ,
+    "ADANTRB"  , "Neutralizing ADA, Result"                    , "ADA_NAB" ,
+    "ADANTRBT" , "Neutralizing ADA, Titer"                     , "ADA_NAB" ,
+    "ADATRI"   , "Treatment-Induced ADA, Result"               , "ADA_BAB" ,
+    "ADATRIPT" , "Treatment-Induced ADA, Titer"                , "ADA_BAB" ,
+    "ADATRE"   , "Treatment-Enhanced ADA, Result"              , "ADA_BAB" ,
+    "ADATREPT" , "Treatment-Enhanced ADA, Titer"               , "ADA_BAB" ,
+    "ADANTRE"  , "Treatment-Enhanced Neutralizing ADA, Result" , "ADA_NAB" ,
+    "ADAPSP"   , "ADA Persistent Positive, Result"             , "ADA_BAB" ,
+    "ADATSP"   , "Neutralizing ADA Persistent Positive"        , "ADA_NAB" ,
+    "ADAUND"   , "ADA Undetermined, Result"                    , "ADA_BAB" ,
+    "TMOSADAW" , "Time to Onset of ADA (weeks)"                , NA_character_ ,
+    "ADADURW"  , "Duration of ADA Response (weeks)"            , NA_character_ ,
+    "PSPDURW"  , "Duration of Persistent Positive ADA (weeks)" , NA_character_ ,
+    "NABPOS"   , "Neutralizing ADA Positive"                   , NA_character_ ,
+    "NABNEG"   , "Neutralizing ADA Negative"                   , NA_character_
   ) |>
     arrange(PARAMCD)
 
@@ -112,20 +112,20 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
   }
 
   # For NA values in ISTESTCD
-  na_paramcd <- sample_paramcd |>
+  na_paramcd <- sample_paramcd |> 
     dplyr::filter(is.na(ISTESTCD))
 
-  if (nrow(na_paramcd) > 0) {
+  if(nrow(na_paramcd) > 0) {
     sel_na <- sample(
       x = seq_along(main_tbl$USUBJID),
-      size = floor(nrow(main_tbl) * 0.2),
+      size = floor(nrow(main_tbl) * 0.2), 
       replace = FALSE
     )
 
     na_paramcd <- na_paramcd[
       rep(
-        na_paramcd$PARAMCD |> seq_along(),
-        (nrow(main_tbl) / nrow(na_paramcd)) |>
+        na_paramcd$PARAMCD |> seq_along(), 
+        (nrow(main_tbl)/nrow(na_paramcd)) |> 
           ceiling()
       ),
     ]
@@ -134,9 +134,9 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
 
     na_rows_tbl$ISTESTCD <- NA_character_
     na_rows_tbl$PARAMCD <- na_paramcd$PARAMCD[sel_na]
-    na_rows_tbl$PARAM <- na_paramcd$PARAM[sel_na]
+    na_rows_tbl$PARAM <- na_paramcd$PARAM[sel_na] 
 
-    main_tbl <- main_tbl |>
+    main_tbl <- main_tbl |> 
       dplyr::bind_rows(na_rows_tbl)
   }
 
@@ -238,7 +238,7 @@ add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn <- function(main_tbl) {
         as.integer(ADT - TRTSDT)
       )
     )
-
+  
   # added ABLFL
   main_tbl <- main_tbl |>
     dplyr::group_by(USUBJID, PARAMCD) |>
@@ -263,6 +263,7 @@ add_adishum_col_funcs$anl01fl_anl02fl <- function(main_tbl) {
   main_tbl <- main_tbl |>
     # ensure consistent row order before any row_number() logic
     dplyr::arrange(USUBJID, PARAMCD, ADT, ADTM) |>
+
     # ANL01FL: last non-missing record per subject + parameter + date
     dplyr::group_by(USUBJID, PARAMCD, ADT) |>
     dplyr::mutate(
@@ -273,6 +274,7 @@ add_adishum_col_funcs$anl01fl_anl02fl <- function(main_tbl) {
       )
     ) |>
     dplyr::ungroup() |>
+
     # ANL02FL: one record per scheduled post-baseline visit,
     #          closest actual day (ADY) to the visit target day
     dplyr::mutate(
@@ -311,7 +313,7 @@ add_adishum_col_funcs$anl03fl_to_anl10fl <- function(main_tbl) {
     dplyr::filter(!is.na(TRTSDT)) |>
     dplyr::distinct(USUBJID)
 
-  subj_flags <- subj_flags |>
+  subj_flags <- subj_flags |> 
     dplyr::mutate(
       # random 12% sampling for the column
       ANL03FL = dplyr::if_else(
@@ -327,9 +329,48 @@ add_adishum_col_funcs$anl03fl_to_anl10fl <- function(main_tbl) {
       )
     )
 
+<<<<<<< HEAD
 # all derived flags
 anl03_y_idx <- which(subj_flags$ANL03FL == "Y")
 anl07_y_idx <- which(subj_flags$ANL07FL == "Y")
+=======
+  # all derived flags
+  subj_flags <- subj_flags |> 
+    dplyr::mutate(
+      # cascade off ANL03FL
+      ANL04FL = dplyr::if_else(
+        ANL03FL == "Y" & dplyr::row_number() <= floor(sum(ANL03FL == "Y", na.rm = TRUE) * 0.35),
+        "Y",
+        NA_character_
+      ),
+      ANL05FL = dplyr::if_else(
+        ANL03FL == "Y" & dplyr::row_number() <= floor(sum(ANL03FL == "Y", na.rm = TRUE) * 0.25),
+        "Y",
+        NA_character_
+      ),
+      ANL06FL = dplyr::if_else(
+        ANL03FL == "Y" & dplyr::row_number() <= floor(sum(ANL03FL == "Y", na.rm = TRUE) * 0.15),
+        "Y",
+        NA_character_
+      ),
+      # cascade off ANL07FL
+      ANL08FL = dplyr::if_else(
+        ANL07FL == "Y" & dplyr::row_number() <= floor(sum(ANL07FL == "Y", na.rm = TRUE) * 0.35),
+        "Y",
+        NA_character_
+      ),
+      ANL09FL = dplyr::if_else(
+        ANL07FL == "Y" & dplyr::row_number() <= floor(sum(ANL07FL == "Y", na.rm = TRUE) * 0.25),
+        "Y",
+        NA_character_
+      ),
+      ANL10FL = dplyr::if_else(
+        ANL07FL == "Y" & dplyr::row_number() <= floor(sum(ANL07FL == "Y", na.rm = TRUE) * 0.15),
+        "Y",
+        NA_character_
+      )
+    )
+>>>>>>> parent of 4644767 (update datasets)
 
 subj_flags <- subj_flags |>
   dplyr::mutate(

@@ -82,7 +82,7 @@
 #'  \item{DCTREAS}{Reason for Discontinuation of Treatment}
 #'  \item{LTVISIT}{Last Treatment Visit}
 #'  \item{DCTREASP}{Reason Specify for Discont of Treatment}
-#'  \item{DCTDT}{DCTDT}
+#'  \item{DCTDT}{End of Study Date}
 #'  \item{DCSREAS}{Reason for Discontinuation from Study}
 #'  \item{DCSREASP}{Reason Spec for Discont from Study}
 #'  \item{LSVISIT}{Last Study Visit}
@@ -125,7 +125,7 @@
 #'  \item{GROUP}{Analysis Group}
 #'  \item{EOTDT}{End-of-Treatment Date}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adsl
 #' @name adsl
 #' @examples

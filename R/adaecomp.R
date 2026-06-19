@@ -3,7 +3,7 @@
 #' @description adaecomp modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 1926 rows and 102 variables:
+#' @format A data frame with 1913 rows and 89 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}
@@ -61,25 +61,12 @@
 #'  \item{DOSEU}{Treatment Dose Units}
 #'  \item{AETOXGR}{Standard Toxicity Grade}
 #'  \item{AETOXGRN}{Standard Toxicity Grade (N)}
-#'  \item{AEACNS1}{Action Taken - Sponsor Study Treatment 1}
-#'  \item{AEACNS2}{Action Taken - Sponsor Study Treatment 2}
 #'  \item{DOSEDY}{Day of Study Drug}
-#'  \item{DOSS1DY}{Day of Study Drug of study Agent 1}
-#'  \item{DOSS2DY}{Day of Study Drug of study Agent 2}
-#'  \item{DOSS1U}{Trt Dose Units for study Agent 1}
-#'  \item{DOSS2U}{Trt Dose Units for study Agent 2}
-#'  \item{DOSS1ON}{Treatment Dose for study Agent 1}
-#'  \item{DOSS2ON}{Treatment Dose for study Agent 2}
 #'  \item{AECONTRT}{Concomitant or Additional Trtmnt Given}
 #'  \item{CQ01NAM}{Customized Query 01 Name}
 #'  \item{CQ02NAM}{Customized Query 02 Name}
 #'  \item{CQ03NAM}{Customized Query 03 Name}
 #'  \item{AESMIE}{Other Medically Important Serious Event}
-#'  \item{AERELS1}{Causality - Sponsor Study Treatment 1}
-#'  \item{AERELS2}{Causality - Sponsor Study Treatment 2}
-#'  \item{RELGR1}{Pooled Causality Group 1}
-#'  \item{AEDRGS1}{Sponsor Study Treatment 1}
-#'  \item{AEDRGS2}{Sponsor Study Treatment 2}
 #'  \item{ACAT1}{Analysis Category 1}
 #'  \item{AOCCFL}{1st Occurrence within Subject Flag}
 #'  \item{AOCCPFL}{1st Occurrence within Pref Term Flag}
@@ -108,7 +95,7 @@
 #'  \item{AOCS02FL}{1st AESI Max Sev./Int. 02 Occur. Flag}
 #'  \item{AOCS03FL}{1st AESI Max Sev./Int. 03 Occur. Flag}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adaecomp
 #' @name adaecomp
 #' @examples
