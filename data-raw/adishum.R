@@ -392,6 +392,7 @@ gen_adishum <- function(seed = 123) {
   # Set seed for reproducibility
   set.seed(seed)
 
+  # get available data --------------
   # get source data
   raw <- pharmaversesdtm::is_ada
 
@@ -450,6 +451,7 @@ gen_adishum <- function(seed = 123) {
       ADTM = admiral::convert_dtc_to_dtm(ISDTC)
     )
 
+  # add new variables --------------
   # add PARQUAL columns - refer function
   gen <- gen |>
     add_adishum_col_funcs$parqual()
