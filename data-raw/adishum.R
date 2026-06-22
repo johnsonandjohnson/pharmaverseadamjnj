@@ -45,6 +45,7 @@ add_adishum_col_funcs$sample_paramcd <- function() {
   # tribble of PARAMCD, PARAM, ISTESTCD
   sample_paramcd <- tibble::tribble(
     ~PARAMCD, ~PARAM, ~ISTESTCD,
+    "TITER", "Titer", "ADA_BAB",
     "ADABL", "Binding ADA, Last Result", "ADA_BAB",
     "ADABLT", "Binding ADA, Titer", "ADA_BAB",
     "ADATRB", "Treatment-Emergent ADA, Result", "ADA_BAB",
