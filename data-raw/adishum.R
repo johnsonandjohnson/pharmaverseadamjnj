@@ -449,24 +449,24 @@ add_adishum_col_funcs$pp_ensure_anl09fl_anl05fl <- function(main_tbl) {
 
   idx <- which(
     main_tbl$IMFL == "Y" &
-    main_tbl$PARAMCD == "ADATRE" &
-    main_tbl$AVALC == "Y"
+      main_tbl$PARAMCD == "ADATRE" &
+      main_tbl$AVALC == "Y"
   )
 
-  pick05 <- idx |> 
+  pick05 <- idx |>
     sample(
-      random_values |> 
+      random_values |>
         min(length(idx))
     )
 
-  pick09 <- idx |> 
+  pick09 <- idx |>
     sample(
-      random_values |> 
+      random_values |>
         min(length(idx))
     )
 
   main_tbl$ANL05FL[pick05] <- "Y"
-  main_tbl$ANL09FL[pick09]  <- "Y"
+  main_tbl$ANL09FL[pick09] <- "Y"
 
   return(main_tbl)
 }
