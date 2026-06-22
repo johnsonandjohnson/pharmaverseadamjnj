@@ -443,6 +443,34 @@ add_adishum_col_funcs$pp_ensure_required_avalc <- function(
   return(main_tbl)
 }
 
+# ensure required ANL09FL and ANAL05FL
+add_adishum_col_funcs$pp_ensure_anl09fl_anl05fl <- function(main_tbl) {
+  random_values <- 5
+
+  idx <- which(
+    main_tbl$IMFL == "Y" &
+    main_tbl$PARAMCD == "ADATRE" &
+    main_tbl$AVALC == "Y"
+  )
+
+  pick05 <- idx |> 
+    sample(
+      random_values |> 
+        min(length(idx))
+    )
+
+  pick09 <- idx |> 
+    sample(
+      random_values |> 
+        min(length(idx))
+    )
+
+  main_tbl$ANL05FL[pick05] <- "Y"
+  main_tbl$ANL09FL[pick09]  <- "Y"
+
+  return(main_tbl)
+}
+
 # core function ------------------------------
 # Generate adishum dataset
 gen_adishum <- function(seed = 123) {
@@ -537,9 +565,14 @@ gen_adishum <- function(seed = 123) {
   gen <- gen |>
     add_adishum_col_funcs$anl03fl_to_anl10fl()
 
+  # POST PROCESSING for inserting random values to meet standards -------------
   # ensure required AVALC values are present per PARAMCD spec
   gen <- gen |>
     add_adishum_col_funcs$pp_ensure_required_avalc()
+
+  # ensure required ANL09FL and ANAL05FL are there
+  gen <- gen |>
+    add_adishum_col_funcs$pp_ensure_anl09fl_anl05fl()
 
   # Handle NA values and convert characters to factors
   gen <- gen |>
