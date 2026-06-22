@@ -108,11 +108,11 @@ run_script <- function(script_path) {
   )
 }
 
-# Run all other data creation scripts
-walk(data_scripts, run_script)
-
 # # run manually
 # run_script("data-raw/adishum.R")
+
+# Run all other data creation scripts
+walk(data_scripts, run_script)
 
 message("All datasets have been created and documented.")
 
@@ -150,10 +150,10 @@ run_xpt <- function(script_path) {
     xportr_write(path = paste0("inst/extdata/", dataset_name, ".xpt"))
 }
 
-walk(data_rda, run_xpt)
-
 # # run_manually
 # run_xpt("data/adishum.rda")
+
+walk(data_rda, run_xpt)
 
 message("All datasets have been transformed.")
 
