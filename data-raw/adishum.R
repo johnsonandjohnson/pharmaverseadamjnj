@@ -46,6 +46,7 @@ add_adishum_col_funcs$sample_paramcd <- function() {
   sample_paramcd <- tibble::tribble(
     ~PARAMCD, ~PARAM, ~ISTESTCD,
     "TITER", "Titer", "ADA_BAB",
+    "CNRRSLT", "Confirmed Neutralizing ADA, Result", "ADA_NAB",
     "ADABL", "Binding ADA, Last Result", "ADA_BAB",
     "ADABLT", "Binding ADA, Titer", "ADA_BAB",
     "ADATRB", "Treatment-Emergent ADA, Result", "ADA_BAB",
@@ -534,7 +535,8 @@ gen_adishum <- function(seed = 123) {
 
   gen <- gen |>
     dplyr::mutate(
-      ADTM = admiral::convert_dtc_to_dtm(ISDTC)
+      ADTM = admiral::convert_dtc_to_dtm(ISDTC),
+      TRTA = TRT01A
     )
 
   # add new variables --------------
