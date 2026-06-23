@@ -3,7 +3,7 @@
 #' @description adishum modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 829 rows and 50 variables:
+#' @format A data frame with 829 rows and 51 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{ISSEQ}{Sequence Number}
@@ -33,6 +33,7 @@
 #'  \item{TRT01A}{Actual Treatment for Period 01}
 #'  \item{TRT01AN}{Actual Treatment for Period 01 (N)}
 #'  \item{ADTM}{Analysis Datetime}
+#'  \item{TRTA}{TRTA}
 #'  \item{PARQUAL}{Parameter Qualifier}
 #'  \item{PARAMCD}{Parameter Code}
 #'  \item{PARAM}{Parameter Description}
