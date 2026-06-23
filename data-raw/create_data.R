@@ -92,12 +92,14 @@ run_script <- function(script_path) {
           }
         )
       } else {
-        warning(paste0(
-          "Expected dataset '",
-          dataset_name,
-          "' not found after running ",
-          script_name
-        ))
+        warning(
+          paste0(
+            "Expected dataset '",
+            dataset_name,
+            "' not found after running ",
+            script_name
+          )
+        )
       }
     },
     error = function(e) {
@@ -105,9 +107,6 @@ run_script <- function(script_path) {
     }
   )
 }
-
-# # run manually
-# run_script("data-raw/adishum.R")
 
 # Run all other data creation scripts
 walk(data_scripts, run_script)
@@ -135,7 +134,6 @@ run_xpt <- function(script_path) {
 
   raw <- get(dataset_name, envir = env)
 
-
   df <- raw |>
     mutate(across(where(is.factor), as.character))
 
@@ -147,9 +145,6 @@ run_xpt <- function(script_path) {
   df |>
     xportr_write(path = paste0("inst/extdata/", dataset_name, ".xpt"))
 }
-
-# # run_manually
-# run_xpt("data/adishum.rda")
 
 walk(data_rda, run_xpt)
 
