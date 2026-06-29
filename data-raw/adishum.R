@@ -584,26 +584,13 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
   }
 
   rule2 <- main_tbl |>
-    count(
-      across(
-        all_of(
-          starts_with("ANL")
-        )
-      )
+    dplyr::select(
+      dplyr::starts_with("ANL")
     ) |>
-    select(-n) |>
-    lapply(
-      \(x) {
-        count_y <- x |>
-          stringi::stri_trans_tolower() |>
-          stringi::stri_detect_fixed("y") |>
-          sum(na.rm = TRUE)
-        count_y > 0
-      }
-    )
+    lapply(\(x) any(x == "Y", na.rm = TRUE))
 
   if (!all(unlist(rule2))) {
-    message(r"{FALSE -- No "Y" Value in any of the ANL__FL Column}")
+    message('FALSE -- No "Y" value in one or more ANL__FL columns')
   }
 
   rule3 <- main_tbl |>
