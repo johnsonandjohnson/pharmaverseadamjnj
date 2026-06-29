@@ -102,22 +102,77 @@ add_adishum_col_funcs$parqual <- function(main_tbl) {
 add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
   sample_paramcd <- add_adishum_col_funcs$sample_paramcd()
 
-  # initialize columns
+  # initialize PARAMCD / PARAM
   main_tbl <- main_tbl |>
-    mutate(
+    dplyr::mutate(
       PARAMCD = NA_character_,
       PARAM = NA_character_
     )
 
-  # Collection rows: ADA_BAB and ADA_NAB
-  for (val in c("ADA_BAB", "ADA_NAB")) {
-    idx <- which(as.character(main_tbl$ISTESTCD) == val)
-    pool <- sample_paramcd |> dplyr::filter(ISTESTCD == val)
-    sel <- sample(nrow(pool), size = length(idx), replace = TRUE)
-    main_tbl$PARAMCD[idx] <- pool$PARAMCD[sel]
-    main_tbl$PARAM[idx] <- pool$PARAM[sel]
-  }
+  # all columns from sample_paramcd that will be overwritten (excl. SEQ)
+  paramcd_cols <- c(
+    "ISTESTCD",
+    "ISTEST",
+    "ISSPEC",
+    "ISCAT",
+    "ISSCAT",
+    "ISTSTDTL",
+    "PARCAT1",
+    "PARAMCON",
+    "PARAMCD",
+    "PARAM"
+  )
 
+  # for Collection: ----------------------------------
+  # Collection lookup: SEQ 1-8, one row per SEQ
+  collection_seq <- sample_paramcd |>
+    dplyr::filter(
+      PARCAT1 |>
+        stringi::stri_trans_tolower() |>
+        stringi::stri_detect_fixed("collection")
+    ) |>
+    dplyr::select(SEQ, dplyr::all_of(paramcd_cols))
+
+  # --- Step 1: artificial rows for 12 sampled subjects x visitnum 1:8 ---
+  # Done BEFORE PARAMCD assignment so the join below covers them too.
+  # Clone one existing row per subject per visit, overwrite VISITNUM + VISIT.
+  select_subj_n <- 100L
+  art_subjects <- main_tbl$USUBJID |>
+    unique() |>
+    sample(select_subj_n)
+
+  art_rows <- lapply(art_subjects, function(subj) {
+    donor <- main_tbl[main_tbl$USUBJID == subj, ]
+    out <- donor[sample(nrow(donor), 8L, replace = TRUE), ]
+    rownames(out) <- NULL
+    out$VISITNUM <- 1:8
+    return(out)
+  }) |>
+    dplyr::bind_rows()
+
+  # bind and keep 1 row per subject x visitnum; existing rows take priority
+  main_tbl <- dplyr::bind_rows(main_tbl, art_rows) |>
+    dplyr::distinct(
+      USUBJID,
+      VISITNUM,
+      .keep_all = TRUE
+    ) |>
+    filter(
+      VISITNUM <= 9
+    )
+
+  # --- Step 2: Collection rows ---
+  # Join on VISITNUM = SEQ and overwrite ALL paramcd_cols from collection_seq.
+  # Rows with VISITNUM outside 1:8 find no match and keep NA.
+  main_tbl <- main_tbl |>
+    dplyr::left_join(
+      collection_seq,
+      by = c("VISITNUM" = "SEQ"),
+      suffix = c("_old", "")
+    ) |>
+    dplyr::select(-dplyr::ends_with("_old"))
+
+  # for Subject Summary: ----------------------------------
   # Subject Summary rows: one row per subject × PARAMCD combination
   subj_summary_pool <- sample_paramcd |>
     dplyr::filter(
@@ -126,67 +181,65 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
         stringi::stri_detect_fixed("subject summary")
     )
 
-  if (nrow(subj_summary_pool) > 0) {
-    # columns whose values come from sample_paramcd (excl. SEQ)
-    paramcd_cols <- c(
-      "ISTESTCD",
-      "ISTEST",
-      "ISSPEC",
-      "ISCAT",
-      "ISSCAT",
-      "ISTSTDTL",
-      "PARCAT1",
-      "PARAMCON",
-      "PARAMCD",
-      "PARAM"
-    )
+  # columns whose values come from sample_paramcd (excl. SEQ)
+  paramcd_cols <- c(
+    "ISTESTCD",
+    "ISTEST",
+    "ISSPEC",
+    "ISCAT",
+    "ISSCAT",
+    "ISTSTDTL",
+    "PARCAT1",
+    "PARAMCON",
+    "PARAMCD",
+    "PARAM"
+  )
 
-    # columns to sample from main_tbl (excl. subject, visit, and paramcd_cols)
-    visit_cols <- c("VISITNUM", "VISIT", "AVISITN", "AVISIT")
-    fixed_cols <- c("USUBJID", visit_cols, paramcd_cols)
-    sample_cols <- setdiff(names(main_tbl), fixed_cols)
+  # columns to sample from main_tbl (excl. subject, visit, and paramcd_cols)
+  visit_cols <- c("VISITNUM", "VISIT", "AVISITN", "AVISIT")
+  fixed_cols <- c("USUBJID", visit_cols, paramcd_cols)
+  sample_cols <- setdiff(names(main_tbl), fixed_cols)
 
-    n_ss <- nrow(subj_summary_pool) # total Subject Summary PARAMCDs
+  n_ss <- nrow(subj_summary_pool) # total Subject Summary PARAMCDs
 
-    # build per-subject blocks vectorized via lapply, then bind once
-    subjects <- unique(main_tbl$USUBJID)
+  # build per-subject blocks vectorized via lapply, then bind once
+  subjects <- unique(main_tbl$USUBJID)
 
-    ss_rows <- lapply(subjects, function(subj) {
-      n_pick <- sample(2L:n_ss, 1L) # random count [2, n_ss]
-      picked <- subj_summary_pool[sample(n_ss, n_pick), ] # unique PARAMCDs
+  ss_rows <- lapply(subjects, function(subj) {
+    n_pick <- sample(2L:n_ss, 1L) # random count [2, n_ss]
+    picked <- subj_summary_pool[sample(n_ss, n_pick), ] # unique PARAMCDs
 
-      # one donor row from main_tbl for this subject to copy non-key cols from
-      donor <- main_tbl |>
-        filter(USUBJID == subj)
+    # one donor row from main_tbl for this subject to copy non-key cols from
+    donor <- main_tbl |>
+      filter(USUBJID == subj)
 
-      # build skeleton: n_pick rows with subject fixed
-      out <- donor[sample(nrow(donor), n_pick, replace = TRUE), ]
-      rownames(out) <- NULL
+    # build skeleton: n_pick rows with subject fixed
+    out <- donor[sample(nrow(donor), n_pick, replace = TRUE), ]
+    rownames(out) <- NULL
 
-      # overwrite paramcd_cols from the picked Subject Summary rows
-      for (col in paramcd_cols) {
-        out[[col]] <- picked[[col]]
+    # overwrite paramcd_cols from the picked Subject Summary rows
+    for (col in paramcd_cols) {
+      out[[col]] <- picked[[col]]
+    }
+
+    # blank out visit columns (Subject Summary has no visit context)
+    for (col in intersect(visit_cols, names(out))) {
+      out[[col]] <- NA
+    }
+
+    # sample each remaining column from all non-NA values in main_tbl
+    for (col in sample_cols) {
+      pool_vals <- main_tbl[[col]][!is.na(main_tbl[[col]])]
+      if (length(pool_vals) > 0) {
+        out[[col]] <- sample(pool_vals, n_pick, replace = TRUE)
       }
+    }
 
-      # blank out visit columns (Subject Summary has no visit context)
-      for (col in intersect(visit_cols, names(out))) {
-        out[[col]] <- NA
-      }
+    out
+  })
 
-      # sample each remaining column from all non-NA values in main_tbl
-      for (col in sample_cols) {
-        pool_vals <- main_tbl[[col]][!is.na(main_tbl[[col]])]
-        if (length(pool_vals) > 0) {
-          out[[col]] <- sample(pool_vals, n_pick, replace = TRUE)
-        }
-      }
-
-      out
-    })
-
-    main_tbl <- main_tbl |>
-      dplyr::bind_rows(ss_rows)
-  }
+  main_tbl <- main_tbl |>
+    dplyr::bind_rows(ss_rows)
 
   return(main_tbl)
 }
