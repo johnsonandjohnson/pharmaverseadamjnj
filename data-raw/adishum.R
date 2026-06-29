@@ -18,26 +18,18 @@ add_adishum_col_funcs <- list()
 
 # function for adding sample visits
 add_adishum_col_funcs$sample_visits <- function() {
-  visit_map <- tibble::tribble(
-    ~VISITNUM , ~AVISITN , ~AVISIT     , ~VISITDY ,
-     1L       ,  1L      , "Screening" ,      -14 ,
-     2L       ,  2L      , "Day 1"     ,        1 ,
-     3L       ,  3L      , "Baseline"  ,        1 ,
-     4L       ,  4L      , "Week 2"    ,       15 ,
-     5L       ,  5L      , "Week 4"    ,       29 ,
-     6L       ,  6L      , "Week 6"    ,       43 ,
-     7L       ,  7L      , "Week 8"    ,       57 ,
-     8L       ,  8L      , "Week 10"   ,       71 ,
-     9L       ,  9L      , "Week 12"   ,       85 ,
-    10L       , 10L      , "Week 16"   ,      113 ,
-    11L       , 11L      , "Week 20"   ,      141 ,
-    12L       , 12L      , "Week 24"   ,      169 ,
-    13L       , 13L      , "Week 32"   ,      225 ,
-    14L       , 14L      , "Week 40"   ,      281 ,
-    15L       , 15L      , "Week 48"   ,      337
+  tibble::tribble(
+    ~AVISITN , ~VISITDY ,
+     1L      ,      -14 ,
+     2L      ,        1 ,
+     3L      ,        1 ,
+     4L      ,       15 ,
+     5L      ,       29 ,
+     6L      ,       43 ,
+     7L      ,       57 ,
+     8L      ,       71 ,
+    12L      ,      169
   )
-
-  return(visit_map)
 }
 
 # function for adding sample paramcd
