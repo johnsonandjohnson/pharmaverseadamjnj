@@ -79,7 +79,7 @@ add_adishum_col_funcs$sample_paramcd <- function() {
       PARAMCD
     )
 
-  return(sample_paramcd)
+  return(sample_param_tbl)
 }
 
 # function for adding PARQUAL col
@@ -101,6 +101,7 @@ add_adishum_col_funcs$parqual <- function(main_tbl) {
 # function for adding PARAM and PARAMCD col
 add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
   sample_paramcd <- add_adishum_col_funcs$sample_paramcd()
+
   # initialize columns
   main_tbl <- main_tbl |>
     mutate(
@@ -108,48 +109,83 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
       PARAM = NA_character_
     )
 
-  # for ADA_BAB and ADA_NAB in ISTESTCD
+  # Collection rows: ADA_BAB and ADA_NAB
   for (val in c("ADA_BAB", "ADA_NAB")) {
-    idx <- which(as.character(main_tbl$ISTESTCD) == val) # rows to fill
-    pool <- sample_paramcd |> filter(ISTESTCD == val) # candidate PARAM rows
-
-    sel <- sample(
-      seq_along(pool$PARAMCD),
-      size = length(idx),
-      replace = TRUE
-    )
-
+    idx <- which(as.character(main_tbl$ISTESTCD) == val)
+    pool <- sample_paramcd |> dplyr::filter(ISTESTCD == val)
+    sel <- sample(nrow(pool), size = length(idx), replace = TRUE)
     main_tbl$PARAMCD[idx] <- pool$PARAMCD[sel]
     main_tbl$PARAM[idx] <- pool$PARAM[sel]
   }
 
-  # For NA values in ISTESTCD
-  na_paramcd <- sample_paramcd |>
-    dplyr::filter(is.na(ISTESTCD))
-
-  if (nrow(na_paramcd) > 0) {
-    sel_na <- sample(
-      x = seq_along(main_tbl$USUBJID),
-      size = floor(nrow(main_tbl) * 0.2),
-      replace = FALSE
+  # Subject Summary rows: one row per subject × PARAMCD combination
+  subj_summary_pool <- sample_paramcd |>
+    dplyr::filter(
+      PARCAT1 |>
+        stringi::stri_trans_tolower() |>
+        stringi::stri_detect_fixed("subject summary")
     )
 
-    na_paramcd <- na_paramcd[
-      rep(
-        na_paramcd$PARAMCD |> seq_along(),
-        (nrow(main_tbl) / nrow(na_paramcd)) |>
-          ceiling()
-      ),
-    ]
+  if (nrow(subj_summary_pool) > 0) {
+    # columns whose values come from sample_paramcd (excl. SEQ)
+    paramcd_cols <- c(
+      "ISTESTCD",
+      "ISTEST",
+      "ISSPEC",
+      "ISCAT",
+      "ISSCAT",
+      "ISTSTDTL",
+      "PARCAT1",
+      "PARAMCON",
+      "PARAMCD",
+      "PARAM"
+    )
 
-    na_rows_tbl <- main_tbl[sel_na, ]
+    # columns to sample from main_tbl (excl. subject, visit, and paramcd_cols)
+    visit_cols <- c("VISITNUM", "VISIT", "AVISITN", "AVISIT")
+    fixed_cols <- c("USUBJID", visit_cols, paramcd_cols)
+    sample_cols <- setdiff(names(main_tbl), fixed_cols)
 
-    na_rows_tbl$ISTESTCD <- NA_character_
-    na_rows_tbl$PARAMCD <- na_paramcd$PARAMCD[sel_na]
-    na_rows_tbl$PARAM <- na_paramcd$PARAM[sel_na]
+    n_ss <- nrow(subj_summary_pool) # total Subject Summary PARAMCDs
+
+    # build per-subject blocks vectorized via lapply, then bind once
+    subjects <- unique(main_tbl$USUBJID)
+
+    ss_rows <- lapply(subjects, function(subj) {
+      n_pick <- sample(2L:n_ss, 1L) # random count [2, n_ss]
+      picked <- subj_summary_pool[sample(n_ss, n_pick), ] # unique PARAMCDs
+
+      # one donor row from main_tbl for this subject to copy non-key cols from
+      donor <- main_tbl |>
+        filter(USUBJID == subj)
+
+      # build skeleton: n_pick rows with subject fixed
+      out <- donor[sample(nrow(donor), n_pick, replace = TRUE), ]
+      rownames(out) <- NULL
+
+      # overwrite paramcd_cols from the picked Subject Summary rows
+      for (col in paramcd_cols) {
+        out[[col]] <- picked[[col]]
+      }
+
+      # blank out visit columns (Subject Summary has no visit context)
+      for (col in intersect(visit_cols, names(out))) {
+        out[[col]] <- NA
+      }
+
+      # sample each remaining column from all non-NA values in main_tbl
+      for (col in sample_cols) {
+        pool_vals <- main_tbl[[col]][!is.na(main_tbl[[col]])]
+        if (length(pool_vals) > 0) {
+          out[[col]] <- sample(pool_vals, n_pick, replace = TRUE)
+        }
+      }
+
+      out
+    })
 
     main_tbl <- main_tbl |>
-      dplyr::bind_rows(na_rows_tbl)
+      dplyr::bind_rows(ss_rows)
   }
 
   return(main_tbl)
