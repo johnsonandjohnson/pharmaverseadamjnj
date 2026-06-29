@@ -159,7 +159,8 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
       .keep_all = TRUE
     ) |>
     filter(
-      VISITNUM <= 9
+      VISITNUM <= 9 |
+        VISITNUM == 12
     )
 
   # --- Step 2: Collection rows ---
