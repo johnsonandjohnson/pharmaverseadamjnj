@@ -567,6 +567,61 @@ add_adishum_col_funcs$pp_ensure_anl09fl_anl05fl <- function(main_tbl) {
   return(main_tbl)
 }
 
+# add tests to my dataset
+add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
+  rule1 <- main_tbl |>
+    count(
+      USUBJID,
+      VISITNUM,
+      PARAMCD
+    ) |>
+    filter(
+      n > 1
+    )
+
+  if (nrow(rule1) != 0) {
+    message("FALSE -- Each USUBJID should have 1 row per VISITNUM per PARAMCD")
+  }
+
+  rule2 <- main_tbl |>
+    count(
+      across(
+        all_of(
+          starts_with("ANL")
+        )
+      )
+    ) |>
+    select(-n) |>
+    lapply(
+      \(x) {
+        count_y <- x |>
+          stringi::stri_trans_tolower() |>
+          stringi::stri_detect_fixed("y") |>
+          sum(na.rm = TRUE)
+        count_y > 0
+      }
+    )
+
+  if (!all(unlist(rule2))) {
+    message(r"{FALSE -- No "Y" Value in any of the ANL__FL Column}")
+  }
+
+  rule3 <- main_tbl |>
+    filter(
+      PARAMCD == "ADATREPT"
+    ) |>
+    count(
+      AVALCAT1
+    )
+
+  avalcat_values <- c("<10", "10 to < 100", "100 to <1000", ">= 1000")
+
+  if (!all(rule3$AVALCAT1 %in% avalcat_values) & any(rule3$n != 0)) {
+    message(r"{FALSE -- AVALCAT1 has some values when PARAMCD == "ADATREPT"}")
+  }
+
+  return(TRUE)
+}
 # core function ------------------------------
 # Generate adishum dataset
 gen_adishum <- function(seed = 123) {
@@ -671,6 +726,10 @@ gen_adishum <- function(seed = 123) {
   gen <- gen |>
     add_adishum_col_funcs$pp_ensure_anl09fl_anl05fl()
 
+  # ensure Dataset is valid for working
+  gen <- gen |>
+    add_adishum_col_funcs$dataset_tests()
+
   # Handle NA values and convert characters to factors
   gen <- gen |>
     df_na(
@@ -728,6 +787,7 @@ gen_adishum <- function(seed = 123) {
   # Return Gen
   return(gen)
 }
+
 
 # run function ------------------------------
 # generate dataset
