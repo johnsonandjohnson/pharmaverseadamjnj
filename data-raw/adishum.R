@@ -19,16 +19,16 @@ add_adishum_col_funcs <- list()
 # function for adding sample visits
 add_adishum_col_funcs$sample_visits <- function() {
   tibble::tribble(
-    ~VISITNUM , ~AVISITN , ~AVISIT , ~VISITDY ,
-     1L       , 1L       , "Day 1" ,      -14 ,
-     2L       , 2L       , "Day 2" ,        1 ,
-     3L       , 3L       , "Day 3" ,        1 ,
-     4L       , 1L       , "Day 1" ,       15 ,
-     5L       , 2L       , "Day 2" ,       29 ,
-     6L       , 3L       , "Day 3" ,       43 ,
-     7L       , 1L       , "Day 1" ,       57 ,
-     8L       , 2L       , "Day 2" ,       71 ,
-    12L       , 3L       , "Day 3" ,      169
+    ~VISITNUM, ~AVISITN, ~AVISIT, ~VISITDY,
+    1L, 1L, "Day 1", -14,
+    2L, 2L, "Day 2", 1,
+    3L, 3L, "Day 3", 1,
+    4L, 1L, "Day 1", 15,
+    5L, 2L, "Day 2", 29,
+    6L, 3L, "Day 3", 43,
+    7L, 1L, "Day 1", 57,
+    8L, 2L, "Day 2", 71,
+    12L, 3L, "Day 3", 169
   )
 }
 
@@ -36,35 +36,34 @@ add_adishum_col_funcs$sample_visits <- function() {
 add_adishum_col_funcs$sample_paramcd <- function() {
   # tribble of PARAMCD, PARAM, ISTESTCD
   sample_param_tbl <- tibble::tribble(
-    ~VISITNUM , ~ISTESTCD     , ~ISTEST                                  , ~ISSPEC       , ~ISCAT                , ~ISSCAT       , ~ISTSTDTL            , ~PARCAT1          , ~PARAMCD   , ~PARAM                                                 , ~PARAMCON     ,
-            1 , "ADA_BAB"     , "Binding Antidrug Antibody"              , NA_character_ , "ANTIDRUG ANTIBODIES" , NA_character_ , "SCREENING TEST"     , "Collection"      , "SCRRSLT"  , "Screening Result"                                     , NA_character_ ,
-            2 , "ADA_BAB"     , "Binding Antidrug Antibody"              , NA_character_ , "ANTIDRUG ANTIBODIES" , NA_character_ , "CONFIRMATORY TEST"  , "Collection"      , "CNRRSLT"  , "Confirmatory Result"                                  , NA_character_ ,
-            3 , "ADA_BAB"     , "Binding Antidrug Antibody"              , NA_character_ , "ANTIDRUG ANTIBODIES" , NA_character_ , "TITER"              , "Collection"      , "TITER"    , "Titer"                                                , NA_character_ ,
-            4 , "ADA_BAB"     , "Binding Antidrug Antibody"              , NA_character_ , "ANTIDRUG ANTIBODIES" , NA_character_ , "SUBJECT PEAK TITER" , "Collection"      , "SUADAPT"  , "Subject Peak Titer"                                   , NA_character_ ,
-            5 , "ADA_BAB"     , "Binding Antidrug Antibody"              , NA_character_ , "ANTIDRUG ANTIBODIES" , NA_character_ , "SUBJECT ADA STATUS" , "Collection"      , "SUADAST"  , "Subject ADA Status"                                   , NA_character_ ,
-            6 , "ADA_NAB"     , "Neutralizing Binding Antidrug Antibody" , NA_character_ , "ANTIDRUG ANTIBODIES" , NA_character_ , "SCREENING TEST"     , "Collection"      , "NABSCR"   , "Neutralizing Screening Result"                        , NA_character_ ,
-            7 , "ADA_NAB"     , "Neutralizing Binding Antidrug Antibody" , NA_character_ , "ANTIDRUG ANTIBODIES" , NA_character_ , "CONFIRMATORY TEST"  , "Collection"      , "NABCNR"   , "Neutralizing Confirmatory Result"                     , NA_character_ ,
-            8 , "ADA_NAB"     , "Neutralizing Binding Antidrug Antibody" , NA_character_ , "ANTIDRUG ANTIBODIES" , NA_character_ , "SUBJECT NAB STATUS" , "Collection"      , "SUNABST"  , "Subject NAB Status"                                   , NA_character_ ,
-
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "ADABL"    , "Baseline ADA Positive"                                , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "ADABLT"   , "Baseline ADA Positive Titers"                         , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "ADATRB"   , "Treatment-boosted ADA Positive"                       , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "ADATRBT"  , "Treatment-boosted ADA Positive Titers"                , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "ADANTRB"  , "Not Treatment-boosted ADA Positive"                   , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "ADANTRBT" , "Not Treatment-boosted ADA Positive Titers"            , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "ADATRI"   , "Treatment-induced ADA Positive"                       , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "ADATRIPT" , "Treatment-induced ADA Positive Peak Titers"           , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "ADATRE"   , "Treatment-emergent ADA Positive"                      , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "ADATREPT" , "Treatment-emergent ADA Positive Peak Titers"          , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "ADANTRE"  , "Treatment-emergent ADA Negative"                      , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "ADAPSP"   , "Persistent ADA Response"                              , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "ADATSP"   , "Transient ADA Response"                               , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "ADAUND"   , "Undetermined ADA Response"                            , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "TMOSADAW" , "Time to onset of treatment-induced ADA (weeks)"       , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "ADADURW"  , "Duration of treatment-induced ADA (weeks)"            , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "PSPDURW"  , "Duration of persistent treatment-induced ADA (weeks)" , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "NABPOS"   , "NAB Positive"                                         , NA_character_ ,
-            0 , NA_character_ , NA_character_                            , NA_character_ , NA_character_         , NA_character_ , NA_character_        , "Subject Summary" , "NABNEG"   , "NAB Negative"                                         , NA_character_
+    ~VISITNUM, ~ISTESTCD, ~ISTEST, ~ISSPEC, ~ISCAT, ~ISSCAT, ~ISTSTDTL, ~PARCAT1, ~PARAMCD, ~PARAM, ~PARAMCON,
+    1, "ADA_BAB", "Binding Antidrug Antibody", NA_character_, "ANTIDRUG ANTIBODIES", NA_character_, "SCREENING TEST", "Collection", "SCRRSLT", "Screening Result", NA_character_,
+    2, "ADA_BAB", "Binding Antidrug Antibody", NA_character_, "ANTIDRUG ANTIBODIES", NA_character_, "CONFIRMATORY TEST", "Collection", "CNRRSLT", "Confirmatory Result", NA_character_,
+    3, "ADA_BAB", "Binding Antidrug Antibody", NA_character_, "ANTIDRUG ANTIBODIES", NA_character_, "TITER", "Collection", "TITER", "Titer", NA_character_,
+    4, "ADA_BAB", "Binding Antidrug Antibody", NA_character_, "ANTIDRUG ANTIBODIES", NA_character_, "SUBJECT PEAK TITER", "Collection", "SUADAPT", "Subject Peak Titer", NA_character_,
+    5, "ADA_BAB", "Binding Antidrug Antibody", NA_character_, "ANTIDRUG ANTIBODIES", NA_character_, "SUBJECT ADA STATUS", "Collection", "SUADAST", "Subject ADA Status", NA_character_,
+    6, "ADA_NAB", "Neutralizing Binding Antidrug Antibody", NA_character_, "ANTIDRUG ANTIBODIES", NA_character_, "SCREENING TEST", "Collection", "NABSCR", "Neutralizing Screening Result", NA_character_,
+    7, "ADA_NAB", "Neutralizing Binding Antidrug Antibody", NA_character_, "ANTIDRUG ANTIBODIES", NA_character_, "CONFIRMATORY TEST", "Collection", "NABCNR", "Neutralizing Confirmatory Result", NA_character_,
+    8, "ADA_NAB", "Neutralizing Binding Antidrug Antibody", NA_character_, "ANTIDRUG ANTIBODIES", NA_character_, "SUBJECT NAB STATUS", "Collection", "SUNABST", "Subject NAB Status", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "ADABL", "Baseline ADA Positive", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "ADABLT", "Baseline ADA Positive Titers", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "ADATRB", "Treatment-boosted ADA Positive", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "ADATRBT", "Treatment-boosted ADA Positive Titers", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "ADANTRB", "Not Treatment-boosted ADA Positive", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "ADANTRBT", "Not Treatment-boosted ADA Positive Titers", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "ADATRI", "Treatment-induced ADA Positive", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "ADATRIPT", "Treatment-induced ADA Positive Peak Titers", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "ADATRE", "Treatment-emergent ADA Positive", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "ADATREPT", "Treatment-emergent ADA Positive Peak Titers", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "ADANTRE", "Treatment-emergent ADA Negative", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "ADAPSP", "Persistent ADA Response", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "ADATSP", "Transient ADA Response", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "ADAUND", "Undetermined ADA Response", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "TMOSADAW", "Time to onset of treatment-induced ADA (weeks)", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "ADADURW", "Duration of treatment-induced ADA (weeks)", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "PSPDURW", "Duration of persistent treatment-induced ADA (weeks)", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "NABPOS", "NAB Positive", NA_character_,
+    0, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, NA_character_, "Subject Summary", "NABNEG", "NAB Negative", NA_character_
   ) |>
     arrange(
       VISITNUM,

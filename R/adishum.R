@@ -3,18 +3,14 @@
 #' @description adishum modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 829 rows and 51 variables:
+#' @format A data frame with 3856 rows and 56 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{ISSEQ}{Sequence Number}
-#'  \item{ISTESTCD}{Immunogenicity Test/Exam Short Name}
-#'  \item{ISTEST}{Immunogenicity Test or Examination Name}
 #'  \item{ISBDAGNT}{Binding Agent}
-#'  \item{ISCAT}{Category for Immunogenicity Test}
 #'  \item{ISSTRESC}{Character Result/Finding in Std Format}
 #'  \item{ISSTRESN}{Numeric Results/Findings in Std. Units}
 #'  \item{ISNAM}{Vendor Name}
-#'  \item{ISSPEC}{Specimen Type}
 #'  \item{VISITNUM}{Visit Number}
 #'  \item{VISIT}{Visit Name}
 #'  \item{ISDTC}{Date/Time of Collection}
@@ -35,6 +31,14 @@
 #'  \item{ADTM}{Analysis Datetime}
 #'  \item{TRTA}{TRTA}
 #'  \item{PARQUAL}{Parameter Qualifier}
+#'  \item{ISTESTCD}{Immunogenicity Test/Exam Short Name}
+#'  \item{ISTEST}{Immunogenicity Test or Examination Name}
+#'  \item{ISSPEC}{Specimen Type}
+#'  \item{ISCAT}{Category for Immunogenicity Test}
+#'  \item{ISSCAT}{ISSCAT}
+#'  \item{ISTSTDTL}{ISTSTDTL}
+#'  \item{PARCAT1}{PARCAT1}
+#'  \item{PARAMCON}{PARAMCON}
 #'  \item{PARAMCD}{Parameter Code}
 #'  \item{PARAM}{Parameter Description}
 #'  \item{AVAL}{Analysis Value}
@@ -43,6 +47,7 @@
 #'  \item{IMEVFL}{IS Evaluable Population Flag}
 #'  \item{AVISITN}{Analysis Visit (N)}
 #'  \item{AVISIT}{Analysis Visit}
+#'  \item{VISITDY}{Planned Study Day of Visit}
 #'  \item{ADT}{Analysis Date}
 #'  \item{ADY}{Analysis Relative Day}
 #'  \item{ABLFL}{Baseline Record Flag}
