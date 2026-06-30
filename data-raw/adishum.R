@@ -120,9 +120,7 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
   # Collection lookup: SEQ 1-8, one row per SEQ
   collection_seq <- sample_paramcd |>
     dplyr::filter(
-      PARCAT1 |>
-        stringi::stri_trans_tolower() |>
-        stringi::stri_detect_fixed("collection")
+      stringi::stri_trans_tolower(PARCAT1) == "collection"
     ) |>
     dplyr::select(VISITNUM, dplyr::all_of(paramcd_cols))
 
@@ -170,9 +168,7 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
   # Subject Summary rows: one row per subject × PARAMCD combination
   subj_summary_pool <- sample_paramcd |>
     dplyr::filter(
-      PARCAT1 |>
-        stringi::stri_trans_tolower() |>
-        stringi::stri_detect_fixed("subject summary")
+      stringi::stri_trans_tolower(PARCAT1) == "subject summary"
     )
 
   # columns whose values come from sample_paramcd (excl. SEQ)
