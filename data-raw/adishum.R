@@ -333,10 +333,14 @@ add_adishum_col_funcs$imevfl <- function(main_tbl) {
 
 # add AVISIT and AVISITN columns
 add_adishum_col_funcs$adt_ady_ablfl_avisit_avisitn <- function(main_tbl) {
+  visit_map <- add_adishum_col_funcs$sample_visits()
+
   main_tbl <- main_tbl |>
+    dplyr::left_join(
+      visit_map,
+      by = "VISITNUM"
+    ) |>
     dplyr::mutate(
-      AVISITN = VISITNUM,
-      AVISIT = stringr::str_to_title(VISIT),
       ADT = as.Date(substr(ISDTC, 1, 10))
     )
 
@@ -770,7 +774,6 @@ gen_adishum <- function(seed = 123) {
   # Return Gen
   return(gen)
 }
-
 
 # run function ------------------------------
 # generate dataset
