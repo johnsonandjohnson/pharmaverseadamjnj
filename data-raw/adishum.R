@@ -19,16 +19,16 @@ add_adishum_col_funcs <- list()
 # function for adding sample visits
 add_adishum_col_funcs$sample_visits <- function() {
   tibble::tribble(
-    ~AVISITN , ~VISITDY ,
-     1L      ,      -14 ,
-     2L      ,        1 ,
-     3L      ,        1 ,
-     4L      ,       15 ,
-     5L      ,       29 ,
-     6L      ,       43 ,
-     7L      ,       57 ,
-     8L      ,       71 ,
-    12L      ,      169
+    ~VISITNUM , ~AVISITN , ~AVISIT , ~VISITDY ,
+     1L       , 1L       , "Day 1" ,      -14 ,
+     2L       , 2L       , "Day 2" ,        1 ,
+     3L       , 3L       , "Day 3" ,        1 ,
+     4L       , 1L       , "Day 1" ,       15 ,
+     5L       , 2L       , "Day 2" ,       29 ,
+     6L       , 3L       , "Day 3" ,       43 ,
+     7L       , 1L       , "Day 1" ,       57 ,
+     8L       , 2L       , "Day 2" ,       71 ,
+    12L       , 3L       , "Day 3" ,      169
   )
 }
 
