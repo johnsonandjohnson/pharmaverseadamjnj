@@ -590,7 +590,10 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
 
   avalcat_values <- c("<10", "10 to < 100", "100 to <1000", ">= 1000")
 
-  if (!all(rule3$AVALCAT1 %in% avalcat_values) & any(rule3$n != 0)) {
+  if (
+    !all(rule3$AVALCAT1 %in% avalcat_values) &&
+      any(rule3$n != 0)
+  ) {
     message(r"{FALSE -- AVALCAT1 has some values when PARAMCD == "ADATREPT"}")
   }
 
