@@ -285,7 +285,10 @@ add_adishum_col_funcs$imevfl <- function(main_tbl) {
   subj <- main_tbl |>
     dplyr::group_by(USUBJID) |>
     dplyr::summarise(
-      eligible = any(as.character(IMFL) == "Y", na.rm = TRUE),
+      eligible = any(
+        as.character(IMFL) == "Y",
+        na.rm = TRUE
+      ),
       .groups = "drop"
     )
 
