@@ -710,6 +710,7 @@ gen_adishum <- function(seed = 123) {
   # Define additional labels for new variables
   additional_labels <- list(
     IMFL = "Immunogenicity Population Flag",
+    PARCAT1 = "Parameter Category 1",
     PARQUAL = "Parameter Qualifier",
     PARAMCD = "Parameter Code",
     AVAL = "Analysis Value",
