@@ -268,8 +268,8 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
         PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL >= 1000 ~ ">= 1000",
         !PARAMCD %in% group_b_paramcd &
           ((!is.na(AVAL) & AVAL <= 0) |
-            (!is.na(AVALC) & AVALC == "NEGATIVE") |
-            (!is.na(AVALC) & grepl("^\\s*<", AVALC))) ~ "Negative / BLQ",
+             (!is.na(AVALC) & AVALC == "NEGATIVE") |
+             (!is.na(AVALC) & grepl("^\\s*<", AVALC))) ~ "Negative / BLQ",
         !PARAMCD %in% group_b_paramcd & !is.na(AVAL) & AVAL > 0 & AVAL <= 2 ~ "Low Positive",
         !PARAMCD %in% group_b_paramcd & !is.na(AVAL) & AVAL > 2 ~ "High Positive"
       )
