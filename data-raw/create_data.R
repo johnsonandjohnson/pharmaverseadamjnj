@@ -8,8 +8,6 @@ library(dplyr)
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
 
-
-
 # Get all dataset scripts (exclude helpers.R and this file)
 data_scripts <- list.files(
   path = "data-raw",
@@ -94,12 +92,14 @@ run_script <- function(script_path) {
           }
         )
       } else {
-        warning(paste0(
-          "Expected dataset '",
-          dataset_name,
-          "' not found after running ",
-          script_name
-        ))
+        warning(
+          paste0(
+            "Expected dataset '",
+            dataset_name,
+            "' not found after running ",
+            script_name
+          )
+        )
       }
     },
     error = function(e) {
@@ -133,7 +133,6 @@ run_xpt <- function(script_path) {
   load(script_path, envir = env)
 
   raw <- get(dataset_name, envir = env)
-
 
   df <- raw |>
     mutate(across(where(is.factor), as.character))

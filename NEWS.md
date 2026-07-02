@@ -1,4 +1,9 @@
-# pharmaverseadamjnj 0.0.6
+# pharmaverseadamjnj 0.0.6.1
+
+### Added
+- Added ADISHUM Dataset
+
+## [0.0.6] - 2026-06-16
 
 ### Added
 - Added vars to ADSL: LASTCTDT, UNBLNDDT, IMFL, SAFEXRS, FASEXRS, PPREXRS, PKEXRES, and IMEXRES
