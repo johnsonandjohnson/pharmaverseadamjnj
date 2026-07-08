@@ -229,6 +229,17 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
   dilution_levels <- c(10, 20, 40, 80, 160, 320, 640)
   aval_val_pool <- c(1:9, 91:99, 991:999, 1001:1009)
 
+  # a small function to categorize aval values
+  to_dilution_bucket <- function(x, levels = c(10, 20, 40, 80, 160, 320, 640)) {
+    breaks <- c(0, levels, Inf)
+    labels <- c(
+      paste0("0:", levels[1]),
+      paste0(levels[-length(levels)], ":", levels[-1]),
+      paste0(">", levels[length(levels)])
+    )
+    labels[findInterval(x, breaks)]
+  }
+
   # initialize columns
   main_tbl <- main_tbl |>
     dplyr::mutate(
@@ -268,7 +279,7 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
         .default = AVAL
       ),
       AVALC = dplyr::case_when(
-        PARAMCD %in% titer_paramcds & !is.na(AVAL) ~ paste0("1:", as.integer(floor(AVAL))),
+        PARAMCD %in% titer_paramcds & !is.na(AVAL) ~ to_dilution_bucket(AVAL),
         !is.na(AVAL) & !PARAMCD %in% group_b_paramcd ~ as.character(floor(AVAL)),
         is.na(ISSTRESN) & !is.na(ISSTRESC) & !PARAMCD %in% group_b_paramcd ~ toupper(ISSTRESC),
         .default = AVALC
@@ -279,9 +290,9 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
         PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL < 1000 ~ "100 to <1000",
         PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL >= 1000 ~ ">= 1000",
         !PARAMCD %in% group_b_paramcd &
-          ((!is.na(AVAL) & AVAL <= 0) |
-            (!is.na(AVALC) & AVALC == "NEGATIVE") |
-            (!is.na(AVALC) & grepl("^\\s*<", AVALC))) ~ "Negative / BLQ",
+          (!is.na(AVAL) & AVAL <= 0) |
+          (!is.na(AVALC) & AVALC == "NEGATIVE") |
+          (!is.na(AVALC) & grepl("^\\s*<", AVALC)) ~ "Negative / BLQ",
         !PARAMCD %in% group_b_paramcd & !is.na(AVAL) & AVAL > 0 & AVAL <= 2 ~ "Low Positive",
         !PARAMCD %in% group_b_paramcd & !is.na(AVAL) & AVAL > 2 ~ "High Positive",
         .default = AVALCAT1
@@ -293,7 +304,7 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
   main_tbl <- main_tbl |>
     dplyr::mutate(
       AVAL = dplyr::coalesce(AVAL, as.numeric(fallback_vals)),
-      AVALC = dplyr::coalesce(AVALC, as.character(floor(AVAL)))
+      AVALC = dplyr::coalesce(AVALC, to_dilution_bucket(AVAL))
     )
 
   return(main_tbl)
