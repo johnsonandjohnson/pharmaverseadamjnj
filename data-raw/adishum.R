@@ -285,9 +285,9 @@ add_adishum_col_funcs$aval_avalc_avalcat1 <- function(main_tbl) {
       ),
       AVALCAT1 = dplyr::case_when(
         PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL < 10 ~ "<10",
-        PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL < 100 ~ "10 to < 100",
+        PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL < 100 ~ "10 to <100",
         PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL < 1000 ~ "100 to <1000",
-        PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL >= 1000 ~ ">= 1000",
+        PARAMCD == "ADATREPT" & !is.na(AVAL) & AVAL >= 1000 ~ ">=1000",
         !PARAMCD %in% group_b_paramcd &
           (!is.na(AVAL) & AVAL <= 0) |
           (!is.na(AVALC) & AVALC == "NEGATIVE") |
