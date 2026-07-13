@@ -655,6 +655,13 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
     message(r"{FALSE -- AVALCAT1 has some values when PARAMCD == "ADATREPT"}")
   }
 
+  rule4 <- main_tbl |>
+    dplyr::distinct(TRT01A, TRT01AN)
+
+  if (any(duplicated(rule4$TRT01A))) {
+    message("FALSE -- Treatment columns have different values")
+  }
+
   return(TRUE)
 }
 
