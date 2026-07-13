@@ -3,7 +3,7 @@
 #' @description adishum modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 3714 rows and 53 variables:
+#' @format A data frame with 3714 rows and 61 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{ISSEQ}{Sequence Number}
@@ -58,6 +58,14 @@
 #'  \item{ANL11FL}{Analysis Flag 11-grade >=3 Inf SR}
 #'  \item{ANL12FL}{Analysis Flag 12-grade >=3 Inj SR}
 #'  \item{ATPT}{Analysis Timepoint}
+#'  \item{INFUSPN}{Number of Placebo infusions}
+#'  \item{INFUSPRN}{Placebo infusions with reaction}
+#'  \item{INFUSAN}{Number of Active Drug infusions}
+#'  \item{INFUSARN}{Active Drug infusions with reaction}
+#'  \item{INJECPN}{Number of Placebo injections}
+#'  \item{INJECPRN}{Placebo injections with reaction}
+#'  \item{INJECAN}{Number of Active Drug injections}
+#'  \item{INJECARN}{Active Drug injections with reaction}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adishum
