@@ -3,7 +3,7 @@
 #' @description adishum modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 3856 rows and 51 variables:
+#' @format A data frame with 3714 rows and 53 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{ISSEQ}{Sequence Number}
@@ -55,6 +55,8 @@
 #'  \item{ANL08FL}{Analysis Flag 08-Severe Inj SR}
 #'  \item{ANL09FL}{Analysis Flag 09-Serious Inj SR}
 #'  \item{ANL10FL}{Analysis Flag 10-Inject SR - DC}
+#'  \item{ANL11FL}{Analysis Flag 11-grade >=3 Inf SR}
+#'  \item{ANL12FL}{Analysis Flag 12-grade >=3 Inj SR}
 #'  \item{ATPT}{Analysis Timepoint}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
