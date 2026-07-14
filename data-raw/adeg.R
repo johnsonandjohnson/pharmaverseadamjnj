@@ -118,20 +118,20 @@ gen_adeg <- function(seed = 123) {
       .default = NA
     ),
     CRIT1 = dplyr::case_when(
-      PARAMCD == "EGHRMN" ~ "<50",
-      PARAMCD == "PRAG" ~ "<120"
-    ),
-    CRIT1FL = dplyr::case_when(
-      PARAMCD == "EGHRMN" & AVAL < 50 ~ "Y",
-      PARAMCD == "PRAG" & AVAL < 120 ~ "Y"
-    ),
-    CRIT2 = dplyr::case_when(
       PARAMCD == "EGHRMN" ~ ">100",
       PARAMCD == "PRAG" ~ ">200"
     ),
-    CRIT2FL = dplyr::case_when(
+    CRIT1FL = dplyr::case_when(
       PARAMCD == "EGHRMN" & AVAL > 100 ~ "Y",
       PARAMCD == "PRAG" & AVAL > 200 ~ "Y"
+    ),
+    CRIT2 = dplyr::case_when(
+      PARAMCD == "EGHRMN" ~ "<50",
+      PARAMCD == "PRAG" ~ "<120"
+    ),
+    CRIT2FL = dplyr::case_when(
+      PARAMCD == "EGHRMN" & AVAL < 50 ~ "Y",
+      PARAMCD == "PRAG" & AVAL < 120 ~ "Y"
     ),
     EGCLSIG = as.factor(dplyr::case_when(
       AVAL > 500 & (PARAMCD == "QTC" | PARAMCD == "QTCBAG" | PARAMCD == "QTCFAG") ~ "Y",
@@ -269,6 +269,12 @@ gen_adeg <- function(seed = 123) {
 
     # Categorization variable
     BASECAT1 = "Baseline Category 1"
+  )
+
+  gen <- dplyr::mutate(
+    gen,
+    CRIT1 = factor(CRIT1, levels = c(">200", ">100")),
+    CRIT2 = factor(CRIT2, levels = c("<50", "<120"))
   )
 
   # Handle NA values and convert characters to factors
