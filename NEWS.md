@@ -1,11 +1,7 @@
-# pharmaverseadamjnj 0.0.6.1
+# pharmaverseadamjnj 0.0.6
 
 ### Added
 - Added ADISHUM Dataset
-
-## [0.0.6] - 2026-06-16
-
-### Added
 - Added vars to ADSL: LASTCTDT, UNBLNDDT, IMFL, SAFEXRS, FASEXRS, PPREXRS, PKEXRES, and IMEXRES
 - Added restord labels to xpt
 - Change ONTRFl for ADVS to first dose within 30 days
@@ -40,6 +36,8 @@
 - Modified ADAEOCMQ to update derivation rule for OCMQNAM and AEDECOD
 - Modified ADAGOCMQ for AEDECOD merge logic, ACAT1, and used conversion factor GLUC, HBA1C for standard units to conventional units.
 - Modified ADDISP to update labels for SxSDY and SxEDY variables.
+- Fix adeg CRIT1FL and CRIT2FL factor order
+
 
 ## [0.0.5] - 2026-05-25
 ### Added
