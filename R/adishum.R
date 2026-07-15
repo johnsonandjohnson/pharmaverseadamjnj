@@ -3,7 +3,7 @@
 #' @description adishum modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 3714 rows and 61 variables:
+#' @format A data frame with 3714 rows and 62 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{ISSEQ}{Sequence Number}
@@ -58,6 +58,7 @@
 #'  \item{ANL11FL}{Analysis Flag 11-grade >=3 Inf SR}
 #'  \item{ANL12FL}{Analysis Flag 12-grade >=3 Inj SR}
 #'  \item{ATPT}{Analysis Timepoint}
+#'  \item{ATPTN}{Analysis Timepoint (N)}
 #'  \item{INFUSPN}{Number of Placebo infusions}
 #'  \item{INFUSPRN}{Placebo infusions with reaction}
 #'  \item{INFUSAN}{Number of Active Drug infusions}
