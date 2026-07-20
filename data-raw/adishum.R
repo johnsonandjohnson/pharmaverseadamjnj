@@ -444,89 +444,45 @@ add_adishum_col_funcs$anl01fl_anl02fl <- function(main_tbl) {
 add_adishum_col_funcs$anl03fl_to_anl12fl <- function(main_tbl) {
   group_b_paramcd <- c("TMOSADAW", "ADADURW", "PSPDURW", "NABPOS", "NABNEG")
 
-  # subject-level flags — built once, joined back
-  subj_flags <- main_tbl |>
+  pick_pct_03 <- 0.20
+  pick_pct_07 <- 0.18
+
+  # all treated subjects — one row per subject
+  all_subj <- main_tbl |>
     dplyr::filter(!is.na(TRTSDT)) |>
-    dplyr::distinct(USUBJID)
+    dplyr::distinct(USUBJID) |>
+    dplyr::pull(USUBJID)
 
-  subj_flags <- subj_flags |>
-    dplyr::mutate(
-      # random 12% sampling for the column
-      ANL03FL = dplyr::if_else(
-        dplyr::row_number() %in% sample(dplyr::n(), floor(dplyr::n() * 0.12)),
-        "Y",
-        NA_character_
-      ),
-      # random 10% sampling for the column
-      ANL07FL = dplyr::if_else(
-        dplyr::row_number() %in% sample(dplyr::n(), floor(dplyr::n() * 0.10)),
-        "Y",
-        NA_character_
-      )
-    )
+  # helper: pick a random fraction of a subject vector
+  pick <- function(pool, pct) sample(pool, floor(length(pool) * pct))
 
-  # all derived flags
-  anl03_y_idx <- which(subj_flags$ANL03FL == "Y")
-  anl07_y_idx <- which(subj_flags$ANL07FL == "Y")
+  # ANL03FL: pick_pct_03 of all subjects; ANL07FL: pick_pct_07 of all subjects
+  anl03_subj <- pick(all_subj, pick_pct_03)
+  anl07_subj <- pick(all_subj, pick_pct_07)
 
-  # take percetages of rows in random order.
-  subj_flags <- subj_flags |>
-    dplyr::mutate(
-      ANL04FL = dplyr::if_else(
-        row_number() %in% sample(anl03_y_idx, floor(length(anl03_y_idx) * 0.35)),
-        "Y",
-        NA_character_
-      ),
-      ANL05FL = dplyr::if_else(
-        row_number() %in% sample(anl03_y_idx, floor(length(anl03_y_idx) * 0.30)),
-        "Y",
-        NA_character_
-      ),
-      ANL06FL = dplyr::if_else(
-        row_number() %in% sample(anl03_y_idx, floor(length(anl03_y_idx) * 0.25)),
-        "Y",
-        NA_character_
-      ),
-      ANL08FL = dplyr::if_else(
-        row_number() %in% sample(anl07_y_idx, floor(length(anl07_y_idx) * 0.35)),
-        "Y",
-        NA_character_
-      ),
-      ANL09FL = dplyr::if_else(
-        row_number() %in% sample(anl07_y_idx, floor(length(anl07_y_idx) * 0.30)),
-        "Y",
-        NA_character_
-      ),
-      ANL10FL = dplyr::if_else(
-        row_number() %in% sample(anl07_y_idx, floor(length(anl07_y_idx) * 0.25)),
-        "Y",
-        NA_character_
-      ),
-      ANL11FL = dplyr::if_else(
-        row_number() %in% sample(anl03_y_idx, floor(length(anl03_y_idx) * 0.40)),
-        "Y",
-        NA_character_
-      ),
-      ANL12FL = dplyr::if_else(
-        row_number() %in% sample(anl07_y_idx, floor(length(anl07_y_idx) * 0.40)),
-        "Y",
-        NA_character_
-      )
-    )
+  # derived flags — subsets of ANL03FL or ANL07FL subjects
+  anl04_subj <- pick(anl03_subj, 0.35)
+  anl05_subj <- pick(anl03_subj, 0.30)
+  anl06_subj <- pick(anl03_subj, 0.25)
+  anl08_subj <- pick(anl07_subj, 0.35)
+  anl09_subj <- pick(anl07_subj, 0.30)
+  anl10_subj <- pick(anl07_subj, 0.25)
+  anl11_subj <- pick(anl03_subj, 0.40)
+  anl12_subj <- pick(anl07_subj, 0.40)
 
-  # join back to main table
+  # join back: every row of a subject gets the same flag
   main_tbl <- main_tbl |>
-    dplyr::left_join(subj_flags, by = "USUBJID") |>
-    # group B (subject summary) rows get NA for all reaction flags
     dplyr::mutate(
-      dplyr::across(
-        ANL03FL:ANL12FL,
-        ~ dplyr::if_else(
-          PARAMCD %in% group_b_paramcd,
-          NA_character_,
-          .x
-        )
-      )
+      ANL03FL = dplyr::if_else(USUBJID %in% anl03_subj, "Y", NA_character_),
+      ANL04FL = dplyr::if_else(USUBJID %in% anl04_subj, "Y", NA_character_),
+      ANL05FL = dplyr::if_else(USUBJID %in% anl05_subj, "Y", NA_character_),
+      ANL06FL = dplyr::if_else(USUBJID %in% anl06_subj, "Y", NA_character_),
+      ANL07FL = dplyr::if_else(USUBJID %in% anl07_subj, "Y", NA_character_),
+      ANL08FL = dplyr::if_else(USUBJID %in% anl08_subj, "Y", NA_character_),
+      ANL09FL = dplyr::if_else(USUBJID %in% anl09_subj, "Y", NA_character_),
+      ANL10FL = dplyr::if_else(USUBJID %in% anl10_subj, "Y", NA_character_),
+      ANL11FL = dplyr::if_else(USUBJID %in% anl11_subj, "Y", NA_character_),
+      ANL12FL = dplyr::if_else(USUBJID %in% anl12_subj, "Y", NA_character_)
     )
 
   return(main_tbl)
@@ -656,26 +612,23 @@ add_adishum_col_funcs$pp_ensure_required_avalc <- function(
 add_adishum_col_funcs$pp_ensure_anl09fl_anl05fl <- function(main_tbl) {
   random_values <- 5
 
-  idx <- which(
-    main_tbl$IMFL == "Y" &
-      main_tbl$PARAMCD == "ADATRE" &
-      main_tbl$AVALC == "Y"
-  )
+  eligible_subj <- main_tbl |>
+    dplyr::filter(
+      IMFL == "Y",
+      PARAMCD == "ADATRE",
+      AVALC == "Y"
+    ) |>
+    dplyr::distinct(USUBJID) |>
+    dplyr::pull(USUBJID)
 
-  pick05 <- idx |>
-    sample(
-      random_values |>
-        min(length(idx))
+  pick05 <- sample(eligible_subj, min(random_values, length(eligible_subj)))
+  pick09 <- sample(eligible_subj, min(random_values, length(eligible_subj)))
+
+  main_tbl <- main_tbl |>
+    dplyr::mutate(
+      ANL05FL = dplyr::if_else(USUBJID %in% pick05, "Y", ANL05FL),
+      ANL09FL = dplyr::if_else(USUBJID %in% pick09, "Y", ANL09FL)
     )
-
-  pick09 <- idx |>
-    sample(
-      random_values |>
-        min(length(idx))
-    )
-
-  main_tbl$ANL05FL[pick05] <- "Y"
-  main_tbl$ANL09FL[pick09] <- "Y"
 
   return(main_tbl)
 }
@@ -685,25 +638,39 @@ add_adishum_col_funcs$pp_ensure_anl07fl_anl10fl <- function(main_tbl) {
   random_values <- 5
 
   # ensure ANL07FL has Y for some ADATRE positive subjects
-  idx_07 <- which(
-    main_tbl$SAFFL == "Y" &
-      main_tbl$PARAMCD == "ADATRE" &
-      main_tbl$AVALC == "Y"
-  )
+  eligible_07 <- main_tbl |>
+    dplyr::filter(
+      SAFFL == "Y",
+      PARAMCD == "ADATRE",
+      AVALC == "Y"
+    ) |>
+    dplyr::distinct(USUBJID) |>
+    dplyr::pull(USUBJID)
 
-  pick07 <- sample(idx_07, min(random_values, length(idx_07)))
-  main_tbl$ANL07FL[pick07] <- "Y"
+  pick07 <- sample(eligible_07, min(random_values, length(eligible_07)))
+
+  main_tbl <- main_tbl |>
+    dplyr::mutate(
+      ANL07FL = dplyr::if_else(USUBJID %in% pick07, "Y", ANL07FL)
+    )
 
   # ensure ANL10FL has Y — only from ANL07FL=Y subjects
-  idx_10 <- which(
-    main_tbl$SAFFL == "Y" &
-      main_tbl$PARAMCD == "ADATRE" &
-      main_tbl$AVALC == "Y" &
-      main_tbl$ANL07FL == "Y"
-  )
+  eligible_10 <- main_tbl |>
+    dplyr::filter(
+      SAFFL == "Y",
+      PARAMCD == "ADATRE",
+      AVALC == "Y",
+      ANL07FL == "Y"
+    ) |>
+    dplyr::distinct(USUBJID) |>
+    dplyr::pull(USUBJID)
 
-  pick10 <- sample(idx_10, min(random_values, length(idx_10)))
-  main_tbl$ANL10FL[pick10] <- "Y"
+  pick10 <- sample(eligible_10, min(random_values, length(eligible_10)))
+
+  main_tbl <- main_tbl |>
+    dplyr::mutate(
+      ANL10FL = dplyr::if_else(USUBJID %in% pick10, "Y", ANL10FL)
+    )
 
   return(main_tbl)
 }
