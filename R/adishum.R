@@ -48,10 +48,10 @@
 #'  \item{ANL01FL}{Analysis Flag 01}
 #'  \item{ANL02FL}{Analysis Flag 02}
 #'  \item{ANL03FL}{Analysis Flag 03-Inf SR}
-#'  \item{ANL07FL}{Analysis Flag 07-Inj SR}
 #'  \item{ANL04FL}{Analysis Flag 04-Severe Inf SR}
 #'  \item{ANL05FL}{Analysis Flag 05-Serious Inf SR}
 #'  \item{ANL06FL}{Analysis Flag 06-Infus SR - DC}
+#'  \item{ANL07FL}{Analysis Flag 07-Inj SR}
 #'  \item{ANL08FL}{Analysis Flag 08-Severe Inj SR}
 #'  \item{ANL09FL}{Analysis Flag 09-Serious Inj SR}
 #'  \item{ANL10FL}{Analysis Flag 10-Inject SR - DC}
