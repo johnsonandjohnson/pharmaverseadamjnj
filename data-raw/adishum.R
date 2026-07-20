@@ -750,6 +750,22 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
     message(paste(rep("-", 80)))
   }
 
+  anl_flags <- paste0("ANL", sprintf("%02d", 3:12), "FL")
+
+  rule5 <- main_tbl |>
+    dplyr::count(
+      USUBJID,
+      dplyr::across(dplyr::all_of(anl_flags))
+    ) |>
+    dplyr::count(USUBJID) |>
+    dplyr::filter(n > 1)
+
+  if (nrow(rule5) != 0) {
+    message(paste(rep("-", 80)))
+    message("FALSE -- ANL03FL to ANL12FL are not consistent at subject level")
+    message(paste(rep("-", 80)))
+  }
+
   return(TRUE)
 }
 
