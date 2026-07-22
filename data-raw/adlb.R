@@ -21,6 +21,70 @@ gen_adlb <- function(seed = 123) {
   gen$TRT01P <- as.factor(gen$TRT01P)
   gen$TRT01A <- as.factor(gen$TRT01A)
 
+  # Added Toxicity grade lookup table as per latest version
+  toxterm_lookup <- tibble::tribble(
+    ~PARAMCD,    ~ATOXDSCL,                   ~ATOXDSCH,                                          ~ATOXDIR,
+    "ALB",       "Albumin, low",               NA,                                                 "LOW",
+    "ALP",       NA,                           "Alkaline Phosphatase, high",                       "HIGH",
+    "ALT",       NA,                           "Alanine Aminotransferase, high",                   "HIGH",
+    "AMYLASE",   NA,                           "Amylase, high",                                    "HIGH",
+    "APTT",      NA,                           "Activated Partial Thromboplastin Time, high",      "HIGH",
+    "AST",       NA,                           "Aspartate Aminotransferase, high",                 "HIGH",
+    "BILI",      NA,                           "Bilirubin, high",                                  "HIGH",
+    "CACRALB",   NA,                           "Calcium Corrected, high",                          "HIGH",
+    "CACRALB",   "Calcium Corrected, low",     NA,                                                 "LOW",
+    "CACR",      NA,                           "Calcium Corrected, high",                          "HIGH",
+    "CACR",      "Calcium Corrected, low",     NA,                                                 "LOW",
+    "CAION",     NA,                           "Calcium, Ionized, high",                           "HIGH",
+    "CAION",     "Calcium, Ionized, low",      NA,                                                 "LOW",
+    "CD4",       "CD4, low",                   NA,                                                 "LOW",
+    "CHOL",      NA,                           "Cholesterol, high",                                "HIGH",
+    "CK",        NA,                           "Creatine Kinase, high",                            "HIGH",
+    "CREAT",     NA,                           "Creatinine, high",                                 "HIGH",
+    "FIBRINO",   "Fibrinogen, decreased",      NA,                                                 "LOW",
+    "GGT",       NA,                           "Gamma Glutamyl Transferase, high",                 "HIGH",
+    "GLUC",      "Glucose, low",               NA,                                                 "LOW",
+    "HAPTOG",    "Haptoglobin, low",           NA,                                                 "LOW",
+    "HGB",       NA,                           "Hemoglobin, high",                                 "HIGH",
+    "HGB",       "Hemoglobin, low",            NA,                                                 "LOW",
+    "INR",       NA,                           "Prothrombin Intl. Normalized Ratio, high",         "HIGH",
+    "K",         NA,                           "Potassium, high",                                  "HIGH",
+    "K",         "Potassium, low",             NA,                                                 "LOW",
+    "LIPASET",   NA,                           "Lipase, high",                                     "HIGH",
+    "LYM",       NA,                           "Lymphocytes, high",                                "HIGH",
+    "LYM",       "Lymphocytes, low",           NA,                                                 "LOW",
+    "MG",        NA,                           "Magnesium, high",                                  "HIGH",
+    "MG",        "Magnesium, low",             NA,                                                 "LOW",
+    "NEUT",      "Neutrophils, low",           NA,                                                 "LOW",
+    "NEUTSG",    "Neutrophils, low",           NA,                                                 "LOW",
+    "NEUTSGB",   "Neutrophils, low",           NA,                                                 "LOW",
+    "NEUTSGBP",  "Neutrophils, low",           NA,                                                 "LOW",
+    "PH",        NA,                           "pH, high",                                         "HIGH",
+    "PH",        "pH, low",                    NA,                                                 "LOW",
+    "PLAT",      "Platelets, low",             NA,                                                 "LOW",
+    "PROT",      NA,                           "Urinary Protein, high",                            "HIGH",
+    "PROTCRT",   NA,                           "Urinary Protein, high",                            "HIGH",
+    "SODIUM",    NA,                           "Sodium, high",                                     "HIGH",
+    "SODIUM",    "Sodium, low",                NA,                                                 "LOW",
+    "TRIG",      NA,                           "Triglycerides, high",                              "HIGH",
+    "WBC",       NA,                           "Leukocytes, high",                                 "HIGH",
+    "WBC",       "Leukocytes, low",            NA,                                                 "LOW"
+  )
+
+  # Adding latest ATOXDSCL & ATOXDSCH based on LBTESTCD from toxterm lookup table and removed the existing variables
+  gen <- gen %>%
+    select(-c(ATOXDSCL, ATOXDSCH)) %>%
+    admiral::derive_vars_merged(
+      dataset_add = dplyr::filter(toxterm_lookup, ATOXDIR == "LOW") %>%
+        dplyr::select(PARAMCD, ATOXDSCL),
+      by_vars = exprs(PARAMCD)
+    ) %>%
+    admiral::derive_vars_merged(
+      dataset_add = dplyr::filter(toxterm_lookup, ATOXDIR == "HIGH") %>%
+        dplyr::select(PARAMCD, ATOXDSCH),
+      by_vars = exprs(PARAMCD)
+    )
+
   gen <- dplyr::mutate(
     gen,
     # adjust AVAL and ANRHI for ALKPH to ensure ratio > 3 when calculated on-the-fly
