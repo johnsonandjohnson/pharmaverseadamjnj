@@ -692,22 +692,28 @@ add_adishum_col_funcs$pp_ensure_anl02fl <- function(main_tbl) {
   return(main_tbl)
 }
 
-# ensure that we have a few rows where AVALC="Y" when PARAMCD="SUADAST"
+# ensure that we have a few rows where AVALC="POSITIVE" when PARAMCD="SUADAST"
 add_adishum_col_funcs$pp_ensure_suadast_avalc <- function(
   main_tbl,
-  min_rows = 20
+  n_positive = 12,
+  n_negative = 12
 ) {
-  main_tbl <- main_tbl |>
-    dplyr::group_by(USUBJID) |>
-    dplyr::mutate(
-      AVALC = dplyr::if_else(
-        PARAMCD == "SUADAST" &
-          dplyr::row_number() %in% sample(dplyr::n(), min(min_rows, dplyr::n())),
-        "Y",
-        AVALC
-      )
-    ) |>
-    dplyr::ungroup()
+  main_tbl$AVALC <- as.character(main_tbl$AVALC)
+
+  suadast_idx <- which(main_tbl$PARAMCD == "SUADAST")
+  subjects <- unique(main_tbl$USUBJID[suadast_idx])
+
+  n_pos_subj <- min(n_positive, length(subjects))
+  n_neg_subj <- min(n_negative, length(subjects) - n_pos_subj)
+
+  pos_subjects <- sample(subjects, n_pos_subj)
+  neg_subjects <- sample(setdiff(subjects, pos_subjects), n_neg_subj)
+
+  main_tbl$AVALC[suadast_idx] <- dplyr::case_when(
+    main_tbl$USUBJID[suadast_idx] %in% pos_subjects ~ "POSITIVE",
+    main_tbl$USUBJID[suadast_idx] %in% neg_subjects ~ "NEGATIVE",
+    .default = NA_character_
+  )
 
   return(main_tbl)
 }
