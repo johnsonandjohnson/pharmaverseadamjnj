@@ -5,7 +5,7 @@
 \alias{adishum}
 \title{adishum}
 \format{
-A data frame with 3856 rows and 50 variables:
+A data frame with 3714 rows and 62 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{ISSEQ}{Sequence Number}
@@ -50,13 +50,25 @@ A data frame with 3856 rows and 50 variables:
 \item{ANL01FL}{Analysis Flag 01}
 \item{ANL02FL}{Analysis Flag 02}
 \item{ANL03FL}{Analysis Flag 03-Inf SR}
-\item{ANL07FL}{Analysis Flag 07-Inj SR}
 \item{ANL04FL}{Analysis Flag 04-Severe Inf SR}
 \item{ANL05FL}{Analysis Flag 05-Serious Inf SR}
 \item{ANL06FL}{Analysis Flag 06-Infus SR - DC}
+\item{ANL07FL}{Analysis Flag 07-Inj SR}
 \item{ANL08FL}{Analysis Flag 08-Severe Inj SR}
 \item{ANL09FL}{Analysis Flag 09-Serious Inj SR}
 \item{ANL10FL}{Analysis Flag 10-Inject SR - DC}
+\item{ANL11FL}{Analysis Flag 11-grade >=3 Inf SR}
+\item{ANL12FL}{Analysis Flag 12-grade >=3 Inj SR}
+\item{ATPT}{Analysis Timepoint}
+\item{ATPTN}{Analysis Timepoint (N)}
+\item{INFUSPN}{Number of Placebo infusions}
+\item{INFUSPRN}{Placebo infusions with reaction}
+\item{INFUSAN}{Number of Active Drug infusions}
+\item{INFUSARN}{Active Drug infusions with reaction}
+\item{INJECPN}{Number of Placebo injections}
+\item{INJECPRN}{Placebo injections with reaction}
+\item{INJECAN}{Number of Active Drug injections}
+\item{INJECARN}{Active Drug injections with reaction}
 }
 }
 \source{
