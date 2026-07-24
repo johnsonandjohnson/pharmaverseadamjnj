@@ -809,6 +809,16 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
     message(paste(rep("-", 80)))
   }
 
+  rule6 <- main_tbl |>
+    dplyr::filter(TRT01A == "Placebo") |>
+    dplyr::filter(IMFL == "Y")
+
+  if (nrow(rule6) != 0) {
+    message(paste(rep("-", 80)))
+    message("FALSE -- Placebo subjects should have IMFL = N")
+    message(paste(rep("-", 80)))
+  }
+
   return(TRUE)
 }
 
