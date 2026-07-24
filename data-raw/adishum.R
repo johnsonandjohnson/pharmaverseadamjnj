@@ -725,14 +725,14 @@ add_adishum_col_funcs$pp_ensure_anl02fl <- function(main_tbl) {
   return(main_tbl)
 }
 
-
 # ensure SUADAST rows cover all 9 AVISIT+ATPT combos with min POSITIVE and NEGATIVE per combo
 add_adishum_col_funcs$pp_ensure_suadast_avalc <- function(
   main_tbl,
   n_day1 = 40,
   n_day3 = 40,
-  n_per_atpt = 13,
-  min_per_combo = 2
+  n_per_atpt = 12,
+  pos_range = 2:6,
+  neg_range = 1:3
 ) {
   main_tbl$AVALC <- as.character(main_tbl$AVALC)
   atpt_choices <- c("Pre-dose", "Dose", "8h Post-dose")
@@ -757,17 +757,13 @@ add_adishum_col_funcs$pp_ensure_suadast_avalc <- function(
     main_tbl$ATPTN[idx] <- match(atpt_vec, atpt_choices)
   }
 
-  # step 3: assign random POSITIVE/NEGATIVE to all SUADAST rows
-  main_tbl$AVALC[suadast_idx] <- sample(
-    c("POSITIVE", "NEGATIVE"),
-    length(suadast_idx),
-    replace = TRUE
+  # step 3: for each non-NA AVISIT+ATPT combo, insert min 2 to max 6 POSITIVE and min 1 to max 3 NEGATIVE
+  valid_idx <- which(
+    main_tbl$PARAMCD == "SUADAST" &
+      !is.na(main_tbl$AVISIT) &
+      !is.na(main_tbl$ATPT)
   )
 
-  # step 4: guarantee min_per_combo of each in every non-NA AVISIT+ATPT combo
-  valid_idx <- suadast_idx[
-    !is.na(main_tbl$AVISIT[suadast_idx]) & !is.na(main_tbl$ATPT[suadast_idx])
-  ]
   combos <- unique(main_tbl[valid_idx, c("AVISIT", "ATPT")])
 
   for (i in seq_len(nrow(combos))) {
@@ -775,20 +771,11 @@ add_adishum_col_funcs$pp_ensure_suadast_avalc <- function(
       main_tbl$AVISIT[valid_idx] == combos$AVISIT[i] &
         main_tbl$ATPT[valid_idx] == combos$ATPT[i]
     ]
-
-    pos <- cidx[main_tbl$AVALC[cidx] == "POSITIVE"]
-    if (length(pos) < min_per_combo) {
-      main_tbl$AVALC[
-        sample(cidx[main_tbl$AVALC[cidx] == "NEGATIVE"], min_per_combo - length(pos))
-      ] <- "POSITIVE"
-    }
-
-    neg <- cidx[main_tbl$AVALC[cidx] == "NEGATIVE"]
-    if (length(neg) < min_per_combo) {
-      main_tbl$AVALC[
-        sample(cidx[main_tbl$AVALC[cidx] == "POSITIVE"], min_per_combo - length(neg))
-      ] <- "NEGATIVE"
-    }
+    n_pos <- min(sample(pos_range, 1), length(cidx))
+    n_neg <- min(sample(neg_range, 1), length(cidx) - n_pos)
+    chosen <- sample(cidx, n_pos + n_neg)
+    main_tbl$AVALC[chosen[seq_len(n_pos)]] <- "POSITIVE"
+    main_tbl$AVALC[chosen[seq(n_pos + 1, n_pos + n_neg)]] <- "NEGATIVE"
   }
 
   return(main_tbl)
