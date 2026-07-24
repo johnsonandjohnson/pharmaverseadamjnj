@@ -16,22 +16,7 @@ A data frame with 3714 rows and 62 variables:
 \item{VISITNUM}{Visit Number}
 \item{VISIT}{Visit Name}
 \item{ISDTC}{Date/Time of Collection}
-\item{STUDYID}{Study Identifier}
-\item{SUBJID}{Subject Identifier for the Study}
-\item{SITEID}{Study Site Identifier}
-\item{AGE}{Age}
-\item{SEX}{Sex}
-\item{RACE}{Race}
-\item{IMFL}{Immunogenicity Population Flag}
-\item{SAFFL}{Safety Population Flag}
-\item{TRTSDT}{Date of First Exposure to Treatment}
-\item{TRTSDTM}{Datetime of First Exposure to Treatment}
-\item{TRT01P}{Planned Treatment for Period 01}
-\item{TRT01PN}{Planned Treatment for Period 01 (N)}
-\item{TRT01A}{Actual Treatment for Period 01}
-\item{TRT01AN}{Actual Treatment for Period 01 (N)}
 \item{ADTM}{Analysis Datetime}
-\item{TRTA}{Actual Treatment}
 \item{PARQUAL}{Parameter Qualifier}
 \item{ISTESTCD}{Immunogenicity Test/Exam Short Name}
 \item{PARCAT1}{Parameter Category 1}
@@ -69,6 +54,21 @@ A data frame with 3714 rows and 62 variables:
 \item{INJECPRN}{Placebo injections with reaction}
 \item{INJECAN}{Number of Active Drug injections}
 \item{INJECARN}{Active Drug injections with reaction}
+\item{STUDYID}{Study Identifier}
+\item{SUBJID}{Subject Identifier for the Study}
+\item{SITEID}{Study Site Identifier}
+\item{AGE}{Age}
+\item{SEX}{Sex}
+\item{RACE}{Race}
+\item{IMFL}{Immunogenicity Population Flag}
+\item{SAFFL}{Safety Population Flag}
+\item{TRTSDT}{Date of First Exposure to Treatment}
+\item{TRTSDTM}{Datetime of First Exposure to Treatment}
+\item{TRT01P}{Planned Treatment for Period 01}
+\item{TRT01PN}{Planned Treatment for Period 01 (N)}
+\item{TRT01A}{Actual Treatment for Period 01}
+\item{TRT01AN}{Actual Treatment for Period 01 (N)}
+\item{TRTA}{Actual Treatment}
 }
 }
 \source{
