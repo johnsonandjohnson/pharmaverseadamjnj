@@ -568,7 +568,6 @@ add_adishum_col_funcs$infus_injec_counts <- function(main_tbl) {
 }
 
 # add DTL (Drug Tolerance Limit) column - float in [0, 40] with noise to avoid perfect integers
-# add DTL (Drug Tolerance Limit) column - float in [0, 40] with noise to avoid perfect integers
 add_adishum_col_funcs$dtl <- function(
   main_tbl,
   min_n = 0,
