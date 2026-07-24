@@ -137,7 +137,7 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
   # --- Step 1: artificial rows for 12 sampled subjects x visitnum 1:8 ---
   # Done BEFORE PARAMCD assignment so the join below covers them too.
   # Clone one existing row per subject per visit, overwrite VISITNUM + VISIT.
-  select_subj_n <- 100L
+  select_subj_n <- 180L
   art_subjects <- main_tbl$USUBJID |>
     unique() |>
     sample(select_subj_n)
