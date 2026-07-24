@@ -725,28 +725,71 @@ add_adishum_col_funcs$pp_ensure_anl02fl <- function(main_tbl) {
   return(main_tbl)
 }
 
-# ensure that we have a few rows where AVALC="POSITIVE" when PARAMCD="SUADAST"
+
+# ensure SUADAST rows cover all 9 AVISIT+ATPT combos with min POSITIVE and NEGATIVE per combo
 add_adishum_col_funcs$pp_ensure_suadast_avalc <- function(
   main_tbl,
-  n_positive = 12,
-  n_negative = 12
+  n_day1 = 40,
+  n_day3 = 40,
+  n_per_atpt = 13,
+  min_per_combo = 2
 ) {
   main_tbl$AVALC <- as.character(main_tbl$AVALC)
+  atpt_choices <- c("Pre-dose", "Dose", "8h Post-dose")
 
   suadast_idx <- which(main_tbl$PARAMCD == "SUADAST")
-  subjects <- unique(main_tbl$USUBJID[suadast_idx])
 
-  n_pos_subj <- min(n_positive, length(subjects))
-  n_neg_subj <- min(n_negative, length(subjects) - n_pos_subj)
+  # step 1: pick ~n_day1 existing SUADAST rows, update AVISIT to Day 1; ~n_day3 to Day 3
+  day1_idx <- sample(suadast_idx, min(n_day1, length(suadast_idx)))
+  remaining <- setdiff(suadast_idx, day1_idx)
+  day3_idx <- sample(remaining, min(n_day3, length(remaining)))
 
-  pos_subjects <- sample(subjects, n_pos_subj)
-  neg_subjects <- sample(setdiff(subjects, pos_subjects), n_neg_subj)
+  main_tbl$AVISIT[day1_idx] <- "Day 1"
+  main_tbl$AVISITN[day1_idx] <- 1L
+  main_tbl$AVISIT[day3_idx] <- "Day 3"
+  main_tbl$AVISITN[day3_idx] <- 3L
 
-  main_tbl$AVALC[suadast_idx] <- dplyr::case_when(
-    main_tbl$USUBJID[suadast_idx] %in% pos_subjects ~ "POSITIVE",
-    main_tbl$USUBJID[suadast_idx] %in% neg_subjects ~ "NEGATIVE",
-    .default = NA_character_
+  # step 2: assign ATPT within day1 and day3 rows so each choice gets ~n_per_atpt rows
+  for (idx in list(day1_idx, day3_idx)) {
+    n <- length(idx)
+    atpt_vec <- sample(rep(atpt_choices, each = n_per_atpt)[seq_len(n)])
+    main_tbl$ATPT[idx] <- atpt_vec
+    main_tbl$ATPTN[idx] <- match(atpt_vec, atpt_choices)
+  }
+
+  # step 3: assign random POSITIVE/NEGATIVE to all SUADAST rows
+  main_tbl$AVALC[suadast_idx] <- sample(
+    c("POSITIVE", "NEGATIVE"),
+    length(suadast_idx),
+    replace = TRUE
   )
+
+  # step 4: guarantee min_per_combo of each in every non-NA AVISIT+ATPT combo
+  valid_idx <- suadast_idx[
+    !is.na(main_tbl$AVISIT[suadast_idx]) & !is.na(main_tbl$ATPT[suadast_idx])
+  ]
+  combos <- unique(main_tbl[valid_idx, c("AVISIT", "ATPT")])
+
+  for (i in seq_len(nrow(combos))) {
+    cidx <- valid_idx[
+      main_tbl$AVISIT[valid_idx] == combos$AVISIT[i] &
+        main_tbl$ATPT[valid_idx] == combos$ATPT[i]
+    ]
+
+    pos <- cidx[main_tbl$AVALC[cidx] == "POSITIVE"]
+    if (length(pos) < min_per_combo) {
+      main_tbl$AVALC[
+        sample(cidx[main_tbl$AVALC[cidx] == "NEGATIVE"], min_per_combo - length(pos))
+      ] <- "POSITIVE"
+    }
+
+    neg <- cidx[main_tbl$AVALC[cidx] == "NEGATIVE"]
+    if (length(neg) < min_per_combo) {
+      main_tbl$AVALC[
+        sample(cidx[main_tbl$AVALC[cidx] == "POSITIVE"], min_per_combo - length(neg))
+      ] <- "NEGATIVE"
+    }
+  }
 
   return(main_tbl)
 }
