@@ -3,7 +3,7 @@
 #' @description adishum modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 4203 rows and 63 variables:
+#' @format A data frame with 4203 rows and 64 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{ISSEQ}{Sequence Number}
@@ -53,6 +53,7 @@
 #'  \item{INJECAN}{Number of Active Drug injections}
 #'  \item{INJECARN}{Active Drug injections with reaction}
 #'  \item{DTL}{Drug Tolerance Limit}
+#'  \item{ADATRES}{Treatment-emergent ADA Subject Status}
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{SUBJID}{Subject Identifier for the Study}
 #'  \item{SITEID}{Study Site Identifier}

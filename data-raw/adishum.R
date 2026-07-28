@@ -588,7 +588,7 @@ add_adishum_col_funcs$adatres <- function(main_tbl) {
   main_tbl |>
     dplyr::mutate(
       ADATRES = dplyr::case_when(
-        PARAMCD == "ADATRE"  & AVALC == "Y" ~ "POSITIVE",
+        PARAMCD == "ADATRE" & AVALC == "Y" ~ "POSITIVE",
         PARAMCD == "ADANTRE" & AVALC == "Y" ~ "NEGATIVE",
         .default = NA_character_
       )
