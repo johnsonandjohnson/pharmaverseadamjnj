@@ -583,13 +583,25 @@ add_adishum_col_funcs$dtl <- function(
   return(main_tbl)
 }
 
-# add ADATRES column - Y for ADATRE positive, N for ADANTRE positive
+# add ADATRES column - POSITIVE for ADATRE, NEGATIVE for ADANTRE
 add_adishum_col_funcs$adatres <- function(main_tbl) {
   main_tbl |>
     dplyr::mutate(
       ADATRES = dplyr::case_when(
         PARAMCD == "ADATRE" & AVALC == "Y" ~ "POSITIVE",
         PARAMCD == "ADANTRE" & AVALC == "Y" ~ "NEGATIVE",
+        .default = NA_character_
+      )
+    )
+}
+
+# add NABSTAT column - POSITIVE for NABPOS, NEGATIVE for NABNEG
+add_adishum_col_funcs$nabstat <- function(main_tbl) {
+  main_tbl |>
+    dplyr::mutate(
+      NABSTAT = dplyr::case_when(
+        PARAMCD == "NABPOS" & AVALC == "Y" ~ "POSITIVE",
+        PARAMCD == "NABNEG" & AVALC == "Y" ~ "NEGATIVE",
         .default = NA_character_
       )
     )
@@ -1005,6 +1017,10 @@ gen_adishum <- function(seed = 123) {
   gen <- gen |>
     add_adishum_col_funcs$adatres()
 
+  # add NABSTAT column - depends on final AVALC values post pp_ensure
+  gen <- gen |>
+    add_adishum_col_funcs$nabstat()
+
   # sync adsl vars at the end to fix any corruption from row sampling
   gen <- gen |>
     add_adishum_col_funcs$sync_adsl_vars(adsl_vars, adsl)
@@ -1071,7 +1087,8 @@ gen_adishum <- function(seed = 123) {
     INJECAN = "Number of Active Drug injections",
     INJECARN = "Active Drug injections with reaction",
     DTL = "Drug Tolerance Limit",
-    ADATRES = "Treatment-emergent ADA Subject Status"
+    ADATRES = "Treatment-emergent ADA Subject Status",
+    NABSTAT = "NAB Status"
   )
 
   # Restore labels
