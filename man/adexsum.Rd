@@ -5,7 +5,7 @@
 \alias{adexsum}
 \title{adexsum}
 \format{
-A data frame with 2794 rows and 25 variables:
+A data frame with 2794 rows and 26 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{PARAMCD}{Parameter Code}
@@ -32,6 +32,7 @@ A data frame with 2794 rows and 25 variables:
 \item{TRT01A}{Actual Treatment for Period 01}
 \item{SAFFL}{Safety Population Flag}
 \item{STUDYID}{Study Identifier}
+\item{ADATRES}{Treatment-emergent ADA Subject Status}
 }
 }
 \source{
@@ -47,7 +48,7 @@ adex modified from pharmaverseadam
  head(data("adexsum"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 }
 \keyword{adexsum}
 \keyword{datasets}
