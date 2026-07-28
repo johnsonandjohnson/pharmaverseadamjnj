@@ -3,7 +3,7 @@
 #' @description adae modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 1191 rows and 103 variables:
+#' @format A data frame with 1191 rows and 104 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}
@@ -108,6 +108,7 @@
 #'  \item{AOCS02FL}{1st AESI Max Sev./Int. 02 Occur. Flag}
 #'  \item{AOCS03FL}{1st AESI Max Sev./Int. 03 Occur. Flag}
 #'  \item{ADATRES}{Treatment-emergent ADA Subject Status}
+#'  \item{NABSTAT}{NAB Status}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adae

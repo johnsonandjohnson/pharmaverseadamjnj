@@ -3,7 +3,7 @@
 #' @description adex modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 591 rows and 131 variables:
+#' @format A data frame with 591 rows and 132 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -136,6 +136,7 @@
 #'  \item{ADECOD1}{AE PT Driving Study Drug Action (1)}
 #'  \item{ADECOD2}{AE PT Driving Study Drug Action (2)}
 #'  \item{ADATRES}{Treatment-emergent ADA Subject Status}
+#'  \item{NABSTAT}{NAB Status}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adex
