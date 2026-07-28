@@ -327,7 +327,7 @@ gen_adexsum <- function(seed = 123) {
 
   gen <- dplyr::left_join(gen, adsl_subset, by = "USUBJID")
 
-  # Join ADATRES from ADISHUM - one row per subject, POSITIVE takes priority
+  # Join ADATRES and NABSTAT from ADISHUM - each collapsed separately, POSITIVE takes priority
   adatres_map <- adishum |>
     dplyr::filter(!is.na(ADATRES)) |>
     dplyr::mutate(.priority = dplyr::if_else(ADATRES == "POSITIVE", 1L, 2L)) |>
@@ -335,9 +335,18 @@ gen_adexsum <- function(seed = 123) {
     dplyr::distinct(USUBJID, .keep_all = TRUE) |>
     dplyr::select(USUBJID, ADATRES)
 
-  gen <- gen |>
-    dplyr::left_join(adatres_map, by = "USUBJID")
+  nabstat_map <- adishum |>
+    dplyr::filter(!is.na(NABSTAT)) |>
+    dplyr::mutate(.priority = dplyr::if_else(NABSTAT == "POSITIVE", 1L, 2L)) |>
+    dplyr::arrange(USUBJID, .priority) |>
+    dplyr::distinct(USUBJID, .keep_all = TRUE) |>
+    dplyr::select(USUBJID, NABSTAT)
 
+  gen <- gen |>
+    dplyr::left_join(adatres_map, by = "USUBJID") |>
+    dplyr::left_join(nabstat_map, by = "USUBJID")
+
+  # Additional labels for all relevant variables
   additional_labels <- list(
     AVISIT = "Analysis Visit",
     AVISITN = "Analysis Visit (N)",
@@ -361,7 +370,8 @@ gen_adexsum <- function(seed = 123) {
     CRIT7 = "Analysis Criterion 7",
     CRIT7FL = "Criterion 7 Evaluation Result Flag",
     PARAMCD = "Parameter Code",
-    ADATRES = "Treatment-emergent ADA Subject Status"
+    ADATRES = "Treatment-emergent ADA Subject Status",
+    NABSTAT = "NAB Status"
   )
 
   # Handle NA values and convert characters to factors

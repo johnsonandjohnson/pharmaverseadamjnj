@@ -342,7 +342,6 @@ gen_adex <- function(seed = 123) {
     }
   )
 
-
   # Derive ABODSYSy and ADECODy
   #  - ABODSYSy: AE System Organ Class (AE.AEBODSYS)
   #  - ADECODy:  AE Preferred Term    (AE.AEDECOD)
@@ -355,7 +354,6 @@ gen_adex <- function(seed = 123) {
     "DOSE RATE REDUCED"
   )
 
-
   ex_key <- gen |>
     dplyr::mutate(
       .row_id = dplyr::row_number(),
@@ -363,14 +361,12 @@ gen_adex <- function(seed = 123) {
     ) |>
     dplyr::select(.row_id, USUBJID, EXASTDT)
 
-
   ae_sub <- adae |>
     dplyr::mutate(
       AEASTDT = as.Date(sub(" .*", "", ASTDTM))
     ) |>
     dplyr::filter(AEACN %in% ae_actions) |>
     dplyr::select(USUBJID, AEASTDT, AEBODSYS, AEDECOD, AESEQ)
-
 
   ex_ae <- dplyr::left_join(
     ex_key,
@@ -389,7 +385,6 @@ gen_adex <- function(seed = 123) {
       .groups = "drop"
     )
 
-
   gen <- gen |>
     dplyr::mutate(.row_id = dplyr::row_number()) |>
     dplyr::left_join(soc_summ, by = ".row_id") |>
@@ -398,10 +393,11 @@ gen_adex <- function(seed = 123) {
   gen <- gen |>
     dplyr::mutate(
       AREASOC = dplyr::case_when(
-        ABODSYS1 %in% c(
-          "General disorders and administration site conditions",
-          "Gastrointestinal disorders"
-        ) ~ "Adverse Event",
+        ABODSYS1 %in%
+          c(
+            "General disorders and administration site conditions",
+            "Gastrointestinal disorders"
+          ) ~ "Adverse Event",
         .default = AREASOC
       ),
       ABODSYS1 = dplyr::case_when(
@@ -414,7 +410,7 @@ gen_adex <- function(seed = 123) {
       )
     )
 
-  # Join ADATRES from ADISHUM - one row per subject, POSITIVE takes priority
+  # Join ADATRES and NABSTAT from ADISHUM - each collapsed separately, POSITIVE takes priority
   adatres_map <- adishum |>
     dplyr::filter(!is.na(ADATRES)) |>
     dplyr::mutate(.priority = dplyr::if_else(ADATRES == "POSITIVE", 1L, 2L)) |>
@@ -422,9 +418,16 @@ gen_adex <- function(seed = 123) {
     dplyr::distinct(USUBJID, .keep_all = TRUE) |>
     dplyr::select(USUBJID, ADATRES)
 
-  gen <- gen |>
-    dplyr::left_join(adatres_map, by = "USUBJID")
+  nabstat_map <- adishum |>
+    dplyr::filter(!is.na(NABSTAT)) |>
+    dplyr::mutate(.priority = dplyr::if_else(NABSTAT == "POSITIVE", 1L, 2L)) |>
+    dplyr::arrange(USUBJID, .priority) |>
+    dplyr::distinct(USUBJID, .keep_all = TRUE) |>
+    dplyr::select(USUBJID, NABSTAT)
 
+  gen <- gen |>
+    dplyr::left_join(adatres_map, by = "USUBJID") |>
+    dplyr::left_join(nabstat_map, by = "USUBJID")
 
   # Additional labels for all relevant variables
   additional_labels <- list(
@@ -480,7 +483,8 @@ gen_adex <- function(seed = 123) {
     ABODSYS2 = "AE SOC Driving Study Drug Action (2)",
     ADECOD1 = "AE PT Driving Study Drug Action (1)",
     ADECOD2 = "AE PT Driving Study Drug Action (2)",
-    ADATRES = "Treatment-emergent ADA Subject Status"
+    ADATRES = "Treatment-emergent ADA Subject Status",
+    NABSTAT = "NAB Status"
   )
 
   # Handle NA values and convert characters to factors

@@ -466,7 +466,7 @@ gen_adae <- function(seed = 123) {
     ) |>
     ungroup()
 
-  # Join ADATRES from ADISHUM - one row per subject, POSITIVE takes priority
+  # Join ADATRES and NABSTAT from ADISHUM - each collapsed separately, POSITIVE takes priority
   adatres_map <- adishum |>
     dplyr::filter(!is.na(ADATRES)) |>
     dplyr::mutate(priority_flag = dplyr::if_else(ADATRES == "POSITIVE", 1L, 2L)) |>
@@ -474,8 +474,16 @@ gen_adae <- function(seed = 123) {
     dplyr::distinct(USUBJID, .keep_all = TRUE) |>
     dplyr::select(USUBJID, ADATRES)
 
+  nabstat_map <- adishum |>
+    dplyr::filter(!is.na(NABSTAT)) |>
+    dplyr::mutate(.priority = dplyr::if_else(NABSTAT == "POSITIVE", 1L, 2L)) |>
+    dplyr::arrange(USUBJID, .priority) |>
+    dplyr::distinct(USUBJID, .keep_all = TRUE) |>
+    dplyr::select(USUBJID, NABSTAT)
+
   gen <- gen |>
-    dplyr::left_join(adatres_map, by = "USUBJID")
+    dplyr::left_join(adatres_map, by = "USUBJID") |>
+    dplyr::left_join(nabstat_map, by = "USUBJID")
 
   # Add labels
   additional_labels <- list(
@@ -522,7 +530,8 @@ gen_adae <- function(seed = 123) {
     DOSS2U = "Trt Dose Units for study Agent 2",
     DOSS1ON = "Treatment Dose for study Agent 1",
     DOSS2ON = "Treatment Dose for study Agent 2",
-    ADATRES = "Treatment-emergent ADA Subject Status"
+    ADATRES = "Treatment-emergent ADA Subject Status",
+    NABSTAT = "NAB Status"
   )
 
   # Arrange final data
