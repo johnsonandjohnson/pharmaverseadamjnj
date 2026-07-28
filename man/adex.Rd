@@ -5,7 +5,7 @@
 \alias{adex}
 \title{adex}
 \format{
-A data frame with 591 rows and 131 variables:
+A data frame with 591 rows and 132 variables:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{USUBJID}{Unique Subject Identifier}
@@ -138,6 +138,7 @@ A data frame with 591 rows and 131 variables:
 \item{ADECOD1}{AE PT Driving Study Drug Action (1)}
 \item{ADECOD2}{AE PT Driving Study Drug Action (2)}
 \item{ADATRES}{Treatment-emergent ADA Subject Status}
+\item{NABSTAT}{NAB Status}
 }
 }
 \source{

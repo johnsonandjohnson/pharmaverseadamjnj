@@ -5,7 +5,7 @@
 \alias{adae}
 \title{adae}
 \format{
-A data frame with 1191 rows and 103 variables:
+A data frame with 1191 rows and 104 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{DOMAIN}{Domain Abbreviation}
@@ -110,6 +110,7 @@ A data frame with 1191 rows and 103 variables:
 \item{AOCS02FL}{1st AESI Max Sev./Int. 02 Occur. Flag}
 \item{AOCS03FL}{1st AESI Max Sev./Int. 03 Occur. Flag}
 \item{ADATRES}{Treatment-emergent ADA Subject Status}
+\item{NABSTAT}{NAB Status}
 }
 }
 \source{
