@@ -583,6 +583,18 @@ add_adishum_col_funcs$dtl <- function(
   return(main_tbl)
 }
 
+# add ADATRES column - Y for ADATRE positive, N for ADANTRE positive
+add_adishum_col_funcs$adatres <- function(main_tbl) {
+  main_tbl |>
+    dplyr::mutate(
+      ADATRES = dplyr::case_when(
+        PARAMCD == "ADATRE"  & AVALC == "Y" ~ "POSITIVE",
+        PARAMCD == "ADANTRE" & AVALC == "Y" ~ "NEGATIVE",
+        .default = NA_character_
+      )
+    )
+}
+
 # ensure required AVALC values are present per PARAMCD spec
 add_adishum_col_funcs$pp_ensure_required_avalc <- function(
   main_tbl,
@@ -989,6 +1001,10 @@ gen_adishum <- function(seed = 123) {
   gen <- gen |>
     add_adishum_col_funcs$pp_ensure_suadast_avalc()
 
+  # add ADATRES column - depends on final AVALC values post pp_ensure
+  gen <- gen |>
+    add_adishum_col_funcs$adatres()
+
   # sync adsl vars at the end to fix any corruption from row sampling
   gen <- gen |>
     add_adishum_col_funcs$sync_adsl_vars(adsl_vars, adsl)
@@ -1054,7 +1070,8 @@ gen_adishum <- function(seed = 123) {
     INJECPRN = "Placebo injections with reaction",
     INJECAN = "Number of Active Drug injections",
     INJECARN = "Active Drug injections with reaction",
-    DTL = "Drug Tolerance Limit"
+    DTL = "Drug Tolerance Limit",
+    ADATRES = "Treatment-emergent ADA Subject Status"
   )
 
   # Restore labels
