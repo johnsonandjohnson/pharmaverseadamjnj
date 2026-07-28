@@ -466,6 +466,17 @@ gen_adae <- function(seed = 123) {
     ) |>
     ungroup()
 
+  # Join ADATRES from ADISHUM - one row per subject, POSITIVE takes priority
+  adatres_map <- adishum |>
+    dplyr::filter(!is.na(ADATRES)) |>
+    dplyr::mutate(priority_flag = dplyr::if_else(ADATRES == "POSITIVE", 1L, 2L)) |>
+    dplyr::arrange(USUBJID, priority_flag) |>
+    dplyr::distinct(USUBJID, .keep_all = TRUE) |>
+    dplyr::select(USUBJID, ADATRES)
+
+  gen <- gen |>
+    dplyr::left_join(adatres_map, by = "USUBJID")
+
   # Add labels
   additional_labels <- list(
     SAFFL = "Safety Population Flag",
@@ -513,17 +524,6 @@ gen_adae <- function(seed = 123) {
     DOSS2ON = "Treatment Dose for study Agent 2",
     ADATRES = "Treatment-emergent ADA Subject Status"
   )
-
-  # Join ADATRES from ADISHUM - one row per subject, POSITIVE takes priority
-  adatres_map <- adishum |>
-    dplyr::filter(!is.na(ADATRES)) |>
-    dplyr::mutate(priority_flag = dplyr::if_else(ADATRES == "POSITIVE", 1L, 2L)) |>
-    dplyr::arrange(USUBJID, priority_flag) |>
-    dplyr::distinct(USUBJID, .keep_all = TRUE) |>
-    dplyr::select(USUBJID, ADATRES)
-
-  gen <- gen |>
-    dplyr::left_join(adatres_map, by = "USUBJID")
 
   # Arrange final data
   gen <- gen |> arrange(USUBJID, AESEQ)

@@ -12,6 +12,9 @@ source(file.path("data-raw", "helpers.R"))
 # Ensure ADAE is available for cross-domain derivations
 source(file.path("data-raw", "adae.R"))
 
+# Source ADISHUM to get ADATRES
+source(file.path("data-raw", "adishum.R"))
+
 # Generate ADEX dataset
 gen_adex <- function(seed = 123) {
   # Set seed for reproducibility
@@ -411,6 +414,17 @@ gen_adex <- function(seed = 123) {
       )
     )
 
+  # Join ADATRES from ADISHUM - one row per subject, POSITIVE takes priority
+  adatres_map <- adishum |>
+    dplyr::filter(!is.na(ADATRES)) |>
+    dplyr::mutate(.priority = dplyr::if_else(ADATRES == "POSITIVE", 1L, 2L)) |>
+    dplyr::arrange(USUBJID, .priority) |>
+    dplyr::distinct(USUBJID, .keep_all = TRUE) |>
+    dplyr::select(USUBJID, ADATRES)
+
+  gen <- gen |>
+    dplyr::left_join(adatres_map, by = "USUBJID")
+
 
   # Additional labels for all relevant variables
   additional_labels <- list(
@@ -465,7 +479,8 @@ gen_adex <- function(seed = 123) {
     ABODSYS1 = "AE SOC Driving Study Drug Action (1)",
     ABODSYS2 = "AE SOC Driving Study Drug Action (2)",
     ADECOD1 = "AE PT Driving Study Drug Action (1)",
-    ADECOD2 = "AE PT Driving Study Drug Action (2)"
+    ADECOD2 = "AE PT Driving Study Drug Action (2)",
+    ADATRES = "Treatment-emergent ADA Subject Status"
   )
 
   # Handle NA values and convert characters to factors
