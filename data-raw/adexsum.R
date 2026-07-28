@@ -10,6 +10,9 @@ library(labelled)
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
 
+# Source ADISHUM to get ADATRES
+source(file.path("data-raw", "adishum.R"))
+
 # Generate ADEXSUM dataset
 gen_adexsum <- function(seed = 123) {
   # Set seed for reproducibility
@@ -324,7 +327,17 @@ gen_adexsum <- function(seed = 123) {
 
   gen <- dplyr::left_join(gen, adsl_subset, by = "USUBJID")
 
-  # Define additional labels
+  # Join ADATRES from ADISHUM - one row per subject, POSITIVE takes priority
+  adatres_map <- adishum |>
+    dplyr::filter(!is.na(ADATRES)) |>
+    dplyr::mutate(.priority = dplyr::if_else(ADATRES == "POSITIVE", 1L, 2L)) |>
+    dplyr::arrange(USUBJID, .priority) |>
+    dplyr::distinct(USUBJID, .keep_all = TRUE) |>
+    dplyr::select(USUBJID, ADATRES)
+
+  gen <- gen |>
+    dplyr::left_join(adatres_map, by = "USUBJID")
+
   additional_labels <- list(
     AVISIT = "Analysis Visit",
     AVISITN = "Analysis Visit (N)",
@@ -347,7 +360,8 @@ gen_adexsum <- function(seed = 123) {
     CRIT6FL = "Criterion 6 Evaluation Result Flag",
     CRIT7 = "Analysis Criterion 7",
     CRIT7FL = "Criterion 7 Evaluation Result Flag",
-    PARAMCD = "Parameter Code"
+    PARAMCD = "Parameter Code",
+    ADATRES = "Treatment-emergent ADA Subject Status"
   )
 
   # Handle NA values and convert characters to factors
