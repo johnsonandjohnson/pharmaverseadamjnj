@@ -5,7 +5,7 @@
 \alias{adae}
 \title{adae}
 \format{
-A data frame with 1191 rows and 104 variables:
+A data frame with 1191 rows and 105 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{DOMAIN}{Domain Abbreviation}
@@ -65,6 +65,7 @@ A data frame with 1191 rows and 104 variables:
 \item{AETOXGRN}{Standard Toxicity Grade (N)}
 \item{AEACNS1}{Action Taken - Sponsor Study Treatment 1}
 \item{AEACNS2}{Action Taken - Sponsor Study Treatment 2}
+\item{DOSEDT}{Date of Study Drug}
 \item{DOSEDY}{Day of Study Drug}
 \item{DOSS1DY}{Day of Study Drug of study Agent 1}
 \item{DOSS2DY}{Day of Study Drug of study Agent 2}
