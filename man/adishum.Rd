@@ -5,7 +5,7 @@
 \alias{adishum}
 \title{adishum}
 \format{
-A data frame with 4203 rows and 65 variables:
+A data frame with 4203 rows and 66 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{ISSEQ}{Sequence Number}
@@ -57,6 +57,7 @@ A data frame with 4203 rows and 65 variables:
 \item{DTL}{Drug Tolerance Limit}
 \item{ADATRES}{Treatment-emergent ADA Subject Status}
 \item{NABSTAT}{NAB Status}
+\item{ADATREPT}{TE ADA Positive Subject Peak Titer}
 \item{STUDYID}{Study Identifier}
 \item{SUBJID}{Subject Identifier for the Study}
 \item{SITEID}{Study Site Identifier}
