@@ -210,6 +210,9 @@ gen_adae <- function(seed = 123) {
       AESEV == "MODERATE" ~ "Moderate",
       AESEV == "SEVERE" ~ "Severe"
     ),
+    DOSEDT = as.integer(
+      ASTDT - sample(1:14, dplyr::n(), replace = TRUE)
+    ),
     DOSEDY = as.numeric(37),
     DOSS1DY = as.numeric(38),
     DOSS2DY = as.numeric(39),
@@ -530,6 +533,7 @@ gen_adae <- function(seed = 123) {
     DOSS2U = "Trt Dose Units for study Agent 2",
     DOSS1ON = "Treatment Dose for study Agent 1",
     DOSS2ON = "Treatment Dose for study Agent 2",
+    DOSEDT = "Date of Study Drug",
     ADATRES = "Treatment-emergent ADA Subject Status",
     NABSTAT = "NAB Status"
   )
