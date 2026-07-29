@@ -301,7 +301,11 @@ gen_adex <- function(seed = 123) {
           "INFUSION DELAYED WITHIN THE CYCLE",
           "DOSE REDUCED COMPARED TO PRIOR INFUSION",
           "SAME DOSE AS PRIOR INFUSION",
-          "STUDY DRUG PERMANENTLY DISCONTINUED"
+          "STUDY DRUG PERMANENTLY DISCONTINUED",
+          "DOSE REDUCED",
+          "DOSE REDUCED COMPARED TO PRIOR INJECTION",
+          "REDUCED [TARGET/TREATMENT]",
+          "FULL DOSE ADMINISTERED WITH INTERRUPTION"
         ),
         dplyr::n(),
         replace = TRUE
@@ -313,7 +317,11 @@ gen_adex <- function(seed = 123) {
         "INFUSION DELAYED WITHIN THE CYCLE",
         "DOSE REDUCED COMPARED TO PRIOR INFUSION",
         "SAME DOSE AS PRIOR INFUSION",
-        "STUDY DRUG PERMANENTLY DISCONTINUED"
+        "STUDY DRUG PERMANENTLY DISCONTINUED",
+        "DOSE REDUCED",
+        "DOSE REDUCED COMPARED TO PRIOR INJECTION",
+        "REDUCED [TARGET/TREATMENT]",
+        "FULL DOSE ADMINISTERED WITH INTERRUPTION"
       )
     ),
     ASCHDOSE = EXDOSE,
@@ -321,7 +329,25 @@ gen_adex <- function(seed = 123) {
     ADOSFRM = EXDOSFRM,
     ADOSU = EXDOSU,
     ADOSFRQ = EXDOSFRQ,
-    AROUTE = EXROUTE,
+    ECMOOD = "Scheduled",
+    AROUTE = factor(
+      sample(
+        c(
+          unique(na.omit(EXROUTE)),
+          "Oral",
+          "Injection",
+          "Infusion"
+        ),
+        dplyr::n(),
+        replace = TRUE
+      ),
+      levels = c(
+        unique(na.omit(EXROUTE)),
+        "Oral",
+        "Injection",
+        "Infusion"
+      )
+    ),
     ATVINF = ADOSE,
     ATVINFU = ADOSU,
     AINFRAT = ADOSE,
@@ -408,6 +434,56 @@ gen_adex <- function(seed = 123) {
       ADECOD1 = dplyr::case_when(
         AADJ == "Adverse Event" ~ "VOMITING",
         .default = ADECOD1
+      ),
+      ANL01FL = dplyr::case_when(
+        AROUTE == "Oral" & toupper(AACTPR) == "DOSE REDUCED" & ECMOOD == "Scheduled" ~ "Y",
+        AROUTE == "Injection" & toupper(AACTPR) %in% c("DOSE REDUCED COMPARED TO PRIOR INJECTION", "REDUCED [TARGET/TREATMENT]") & ECMOOD == "Scheduled" ~ "Y",
+        AROUTE == "Infusion" & toupper(AACTPR) %in% c("DOSE REDUCED COMPARED TO PRIOR INFUSION", "REDUCED [TARGET/TREATMENT]") & ECMOOD == "Scheduled" ~ "Y",
+        .default = "N"
+      ),
+      ANL02FL = dplyr::case_when(
+        ANL01FL == "Y" & AADJ == "Adverse Event" & ECMOOD == "Scheduled" ~ "Y",
+        .default = "N"
+      ),
+      ANL03FL = dplyr::case_when(
+        AROUTE == "Injection" & toupper(AACTPR) == "FULL DOSE ADMINISTERED WITH INTERRUPTION" ~ "Y",
+        AROUTE == "Infusion" & (toupper(AACTDU) == "INFUSION INTERRUPTED" | toupper(AACTDU3) == "INFUSION INTERRUPTED") ~ "Y",
+        .default = "N"
+      ),
+      ANL04FL = dplyr::case_when(
+        AROUTE == "Injection" & toupper(AACTPR) == "INJECTION SKIPPED (AND NOT MADE UP)" ~ "Y",
+        AROUTE == "Infusion" & toupper(AACTPR) == "INFUSION SKIPPED (AND NOT MADE UP)" ~ "Y",
+        .default = "N"
+      )
+    )
+
+  gen <- gen |>
+    dplyr::group_by(USUBJID, TRT01A) |>
+    dplyr::mutate(
+      INTN = sum(ANL03FL == "Y", na.rm = TRUE)
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(
+      INTCAT = dplyr::case_when(
+        INTN == 1 ~ "1",
+        INTN == 2 ~ "2",
+        INTN >= 3 ~ ">=3",
+        .default = NA_character_
+      )
+    )
+
+  gen <- gen |>
+    dplyr::group_by(USUBJID, TRT01A) |>
+    dplyr::mutate(
+      SKPN = sum(ANL04FL == "Y", na.rm = TRUE)
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(
+      SKPCAT = dplyr::case_when(
+        SKPN == 1 ~ "1",
+        SKPN == 2 ~ "2",
+        SKPN >= 3 ~ ">=3",
+        .default = NA_character_
       )
     )
 
@@ -420,6 +496,14 @@ gen_adex <- function(seed = 123) {
     AADJOTH = "Other Anal Reason for Dose Adjustment",
     ACAT2 = "Analysis Category 2",
     AACTPR = "Action Taken Prior to Infusion Start",
+    ANL01FL = "Analysis Flag 01-Dose reduction",
+    ANL02FL = "Analysis Flag 02-Dose reductn due to AE",
+    ANL03FL = "Analysis Flag 03-Dose interruption",
+    ANL04FL = "Analysis Flag 04-Dose skip not made up",
+    INTN = "Number of Dose Interruptions",
+    INTCAT = "Dose Interruption Category",
+    SKPN = "Number of Dose Skipped",
+    SKPCAT = "Dose Skipped Category",
     AREASOC = "Analysis Reason for Occur Value",
     AADJ = "Analysis Reason for Dose Adjustment",
     AADJP = "Analysis Reason for Prior Dose Adjust",

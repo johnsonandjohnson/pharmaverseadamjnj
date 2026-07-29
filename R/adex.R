@@ -3,7 +3,7 @@
 #' @description adex modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 591 rows and 130 variables:
+#' @format A data frame with 591 rows and 139 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -126,6 +126,7 @@
 #'  \item{ADOSFRM}{Analysis Dose Form}
 #'  \item{ADOSU}{Analysis Dose Units}
 #'  \item{ADOSFRQ}{Analysis Dosing Frequency per Interval}
+#'  \item{ECMOOD}{ECMOOD}
 #'  \item{AROUTE}{Analysis Route of Administration}
 #'  \item{ATVINF}{Analysis Total Volume Infused}
 #'  \item{ATVINFU}{Analysis Total Volume Infused Units}
@@ -135,8 +136,16 @@
 #'  \item{ABODSYS2}{AE SOC Driving Study Drug Action (2)}
 #'  \item{ADECOD1}{AE PT Driving Study Drug Action (1)}
 #'  \item{ADECOD2}{AE PT Driving Study Drug Action (2)}
+#'  \item{ANL01FL}{Analysis Flag 01-Dose reduction}
+#'  \item{ANL02FL}{Analysis Flag 02-Dose reductn due to AE}
+#'  \item{ANL03FL}{Analysis Flag 03-Dose interruption}
+#'  \item{ANL04FL}{Analysis Flag 04-Dose skip not made up}
+#'  \item{INTN}{Number of Dose Interruptions}
+#'  \item{INTCAT}{Dose Interruption Category}
+#'  \item{SKPN}{Number of Dose Skipped}
+#'  \item{SKPCAT}{Dose Skipped Category}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adex
 #' @name adex
 #' @examples
