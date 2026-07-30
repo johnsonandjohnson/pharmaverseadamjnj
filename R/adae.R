@@ -63,7 +63,6 @@
 #'  \item{AETOXGRN}{Standard Toxicity Grade (N)}
 #'  \item{AEACNS1}{Action Taken - Sponsor Study Treatment 1}
 #'  \item{AEACNS2}{Action Taken - Sponsor Study Treatment 2}
-#'  \item{DOSEDT}{Date of Study Drug}
 #'  \item{DOSEDY}{Day of Study Drug}
 #'  \item{DOSS1DY}{Day of Study Drug of study Agent 1}
 #'  \item{DOSS2DY}{Day of Study Drug of study Agent 2}
@@ -108,6 +107,7 @@
 #'  \item{AOCS01FL}{1st AESI Max Sev./Int. 01 Occur. Flag}
 #'  \item{AOCS02FL}{1st AESI Max Sev./Int. 02 Occur. Flag}
 #'  \item{AOCS03FL}{1st AESI Max Sev./Int. 03 Occur. Flag}
+#'  \item{DOSEDT}{Date of Study Drug}
 #'  \item{ADATRES}{Treatment-emergent ADA Subject Status}
 #'  \item{NABSTAT}{NAB Status}
 #' }
