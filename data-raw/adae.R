@@ -380,10 +380,16 @@ gen_adae <- function(seed = 123) {
       AESHOSPR = ifelse(AESHOSP == "Y", "Y", NA_character_)
     )
 
+  # Identify row indices where AESCAT would be "None of the above", then randomly
+  # assign 35% of them to "Injection site reaction"
+  none_idx <- which(gen$AESOC != "GENERAL DISORDERS AND ADMINISTRATION SITE CONDITIONS")
+  inject_idx <- sample(none_idx, size = round(0.30 * length(none_idx)))
+
   gen <- gen |>
     mutate(
       AESCAT = case_when(
         AESOC == "GENERAL DISORDERS AND ADMINISTRATION SITE CONDITIONS" ~ "INFUSION RELATED REACTION",
+        row_number() %in% inject_idx ~ "INJECTION SITE REACTION",
         .default = "NONE OF THE ABOVE"
       ),
       AESCAT = forcats::fct_relabel(AESCAT, stringr::str_to_sentence), # Convert AESCAT levels to sentence
