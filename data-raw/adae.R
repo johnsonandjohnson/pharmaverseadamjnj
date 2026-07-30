@@ -210,9 +210,6 @@ gen_adae <- function(seed = 123) {
       AESEV == "MODERATE" ~ "Moderate",
       AESEV == "SEVERE" ~ "Severe"
     ),
-    DOSEDT = as.integer(
-      ASTDT - sample(1:14, dplyr::n(), replace = TRUE)
-    ),
     DOSEDY = as.numeric(37),
     DOSS1DY = as.numeric(38),
     DOSS2DY = as.numeric(39),
@@ -468,6 +465,22 @@ gen_adae <- function(seed = 123) {
       )
     ) |>
     ungroup()
+
+  # Derive DOSEDT: most recent EX dose date prior to or on AE start date (rolling join)
+  ex_lookup <- pharmaverseadam::adex |>
+    dplyr::filter(PARAMCD == "DOSE") |>
+    dplyr::mutate(EXSTDT = as.Date(EXSTDTC)) |>
+    dplyr::select(USUBJID, EXSTDT) |>
+    dplyr::distinct() |>
+    dplyr::arrange(USUBJID, EXSTDT)
+
+  gen <- gen |>
+    dplyr::left_join(
+      ex_lookup,
+      by = dplyr::join_by(USUBJID, closest(ASTDT >= EXSTDT))
+    ) |>
+    dplyr::mutate(DOSEDT = as.integer(EXSTDT)) |>
+    dplyr::select(-EXSTDT)
 
   # Join ADATRES and NABSTAT from ADISHUM - each collapsed separately, POSITIVE takes priority
   adatres_map <- adishum |>
