@@ -620,19 +620,23 @@ add_adishum_col_funcs$adatrept <- function(main_tbl) {
   return(main_tbl)
 }
 
-# ensure exactly one of ADATRE/ADANTRE has AVALC = Y per subject
-# prob_y: proportion of subjects to assign ADATRE=Y (e.g. 0.6 = 60%) — use in gen_adishum
-# min_y:  minimum count of subjects that must have ADATRE=Y — use in pp_ensure_required_avalc
+# ensure exactly one of a paramcd pair has AVALC = Y per subject
+# paramcd_y:  the paramcd that gets Y for selected subjects
+# paramcd_n:  the paramcd that gets N for those same subjects (and vice versa)
+# prob_y: proportion of subjects to assign paramcd_y=Y (e.g. 0.6 = 60%) — use in gen_adishum
+# min_y:  minimum count of subjects that must have paramcd_y=Y — use in pp_ensure_required_avalc
 # if both NULL, splits 50/50
-add_adishum_col_funcs$pp_enforce_adatre_adantre <- function(
+add_adishum_col_funcs$pp_enforce_exclusive_pair <- function(
   main_tbl,
+  paramcd_y,
+  paramcd_n,
   prob_y = NULL,
   min_y = NULL
 ) {
   all_subj <- unique(main_tbl$USUBJID)
   total_subj <- length(all_subj)
 
-  n_adatre_y <- if (!is.null(prob_y)) {
+  n_y <- if (!is.null(prob_y)) {
     round(total_subj * prob_y)
   } else if (!is.null(min_y)) {
     max(min_y, floor(total_subj / 2L))
@@ -640,19 +644,48 @@ add_adishum_col_funcs$pp_enforce_adatre_adantre <- function(
     floor(total_subj / 2L)
   }
 
-  adatre_y_subj <- sample(all_subj, n_adatre_y)
+  y_subj <- sample(all_subj, n_y)
 
   main_tbl <- main_tbl |>
     dplyr::mutate(
       AVALC = dplyr::case_when(
-        PARAMCD == "ADATRE" & USUBJID %in% adatre_y_subj ~ "Y",
-        PARAMCD == "ADATRE" & !USUBJID %in% adatre_y_subj ~ "N",
-        PARAMCD == "ADANTRE" & USUBJID %in% adatre_y_subj ~ "N",
-        PARAMCD == "ADANTRE" & !USUBJID %in% adatre_y_subj ~ "Y",
+        PARAMCD == paramcd_y & USUBJID %in% y_subj ~ "Y",
+        PARAMCD == paramcd_y & !USUBJID %in% y_subj ~ "N",
+        PARAMCD == paramcd_n & USUBJID %in% y_subj ~ "N",
+        PARAMCD == paramcd_n & !USUBJID %in% y_subj ~ "Y",
         .default = AVALC
       )
     )
 
+  return(main_tbl)
+}
+
+# ensure exactly one of a paramcd pair has AVALC = Y per subject
+# if paramcd has adatre and avalc = y then paramcd adantre row should
+# not have avalc = y
+add_adishum_col_funcs$pp_enforce_adatre_adantre <- function(main_tbl, prob_y = NULL, min_y = NULL) {
+  main_tbl <- main_tbl |>
+    add_adishum_col_funcs$pp_enforce_exclusive_pair(
+      paramcd_y = "ADATRE",
+      paramcd_n = "ADANTRE",
+      prob_y = prob_y,
+      min_y = min_y
+    )
+
+  return(main_tbl)
+}
+
+# ensure exactly one of a paramcd pair has AVALC = Y per subject
+# if paramcd has nabpos and avalc = y then paramcd nabneg row should
+# not have avalc = y
+add_adishum_col_funcs$pp_enforce_nabpos_nabneg <- function(main_tbl, prob_y = NULL, min_y = NULL) {
+  main_tbl <- main_tbl |>
+    add_adishum_col_funcs$pp_enforce_exclusive_pair(
+      paramcd_y = "NABPOS",
+      paramcd_n = "NABNEG",
+      prob_y = prob_y,
+      min_y = min_y
+    )
   return(main_tbl)
 }
 
@@ -709,25 +742,23 @@ add_adishum_col_funcs$pp_ensure_required_avalc <- function(
     )
   }
 
-  # NABPOS/NABNEG: AVALC="Y" only for subjects who have ADATRE with AVALC="Y"
-  adatre_y_subjects <- main_tbl |>
-    dplyr::filter(PARAMCD == "ADATRE", AVALC == "Y") |>
+  # NABPOS/NABNEG: check if Y count < threshold, fix only if needed
+  nabpos_y_n <- main_tbl |>
+    dplyr::filter(PARAMCD == "NABPOS", AVALC == "Y") |>
     dplyr::distinct(USUBJID) |>
-    dplyr::pull(USUBJID)
+    nrow()
 
-  main_tbl <- main_tbl |>
-    dplyr::group_by(USUBJID, PARAMCD) |>
-    dplyr::mutate(
-      AVALC = dplyr::if_else(
-        PARAMCD %in%
-          c("NABPOS", "NABNEG") &
-          USUBJID %in% adatre_y_subjects &
-          dplyr::row_number() %in% sample(dplyr::n(), min(min_rows, dplyr::n())),
-        "Y",
-        AVALC
-      )
-    ) |>
-    dplyr::ungroup()
+  nabneg_y_n <- main_tbl |>
+    dplyr::filter(PARAMCD == "NABNEG", AVALC == "Y") |>
+    dplyr::distinct(USUBJID) |>
+    nrow()
+
+  if (nabpos_y_n < min_adatre || nabneg_y_n < min_adatre) {
+    main_tbl <- add_adishum_col_funcs$pp_enforce_nabpos_nabneg(
+      main_tbl,
+      min_y = min_adatre
+    )
+  }
 
   return(main_tbl)
 }
@@ -958,7 +989,7 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
 
   rule7 <- main_tbl |>
     dplyr::filter(PARAMCD %in% c("ADATRE", "ADANTRE")) |>
-    dplyr::select(USUBJID, PARAMCD, AVALC) |>
+    dplyr::distinct(USUBJID, PARAMCD, AVALC) |>
     tidyr::pivot_wider(names_from = PARAMCD, values_from = AVALC) |>
     dplyr::filter(
       (ADATRE == "Y" & ADANTRE == "Y") |
@@ -968,6 +999,21 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
   if (nrow(rule7) != 0) {
     message(paste(rep("-", 80)))
     message("FALSE -- ADATRE and ADANTRE must have opposite AVALC values per subject")
+    message(paste(rep("-", 80)))
+  }
+
+  rule8 <- main_tbl |>
+    dplyr::filter(PARAMCD %in% c("NABPOS", "NABNEG")) |>
+    dplyr::distinct(USUBJID, PARAMCD, AVALC) |>
+    tidyr::pivot_wider(names_from = PARAMCD, values_from = AVALC) |>
+    dplyr::filter(
+      (NABPOS == "Y" & NABNEG == "Y") |
+        (NABPOS == "N" & NABNEG == "N")
+    )
+
+  if (nrow(rule8) != 0) {
+    message(paste(rep("-", 80)))
+    message("FALSE -- NABPOS and NABNEG must have opposite AVALC values per subject")
     message(paste(rep("-", 80)))
   }
 
@@ -1077,7 +1123,11 @@ gen_adishum <- function(seed = 123) {
   # POST PROCESSING for inserting random values to meet standards -------------
   # enforce exactly one of ADATRE/ADANTRE has AVALC = Y per subject (60% get ADATRE=Y)
   gen <- gen |>
-    add_adishum_col_funcs$pp_enforce_adatre_adantre(prob_y = 0.6)
+    add_adishum_col_funcs$pp_enforce_adatre_adantre(prob_y = 0.4)
+
+  # enforce exactly one of NABPOS/NABNEG has AVALC = Y per subject (60% get NABPOS=Y)
+  gen <- gen |>
+    add_adishum_col_funcs$pp_enforce_nabpos_nabneg(prob_y = 0.4)
 
   # ensure required AVALC values are present per PARAMCD spec
   gen <- gen |>
