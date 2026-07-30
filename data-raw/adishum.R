@@ -19,16 +19,16 @@ add_adishum_col_funcs <- list()
 # function for adding sample visits
 add_adishum_col_funcs$sample_visits <- function() {
   tibble::tribble(
-    ~VISITNUM, ~AVISITN, ~AVISIT, ~VISITDY,
-    1L, 1L, "Day 1", -14,
-    2L, 2L, "Day 2", 1,
-    3L, 3L, "Day 3", 1,
-    4L, 1L, "Day 1", 15,
-    5L, 2L, "Day 2", 29,
-    6L, 3L, "Day 3", 43,
-    7L, 1L, "Day 1", 57,
-    8L, 2L, "Day 2", 71,
-    12L, 3L, "Day 3", 169
+    ~VISITNUM , ~AVISITN , ~AVISIT , ~VISITDY ,
+     1L       , 1L       , "Day 1" ,      -14 ,
+     2L       , 2L       , "Day 2" ,        1 ,
+     3L       , 3L       , "Day 3" ,        1 ,
+     4L       , 1L       , "Day 1" ,       15 ,
+     5L       , 2L       , "Day 2" ,       29 ,
+     6L       , 3L       , "Day 3" ,       43 ,
+     7L       , 1L       , "Day 1" ,       57 ,
+     8L       , 2L       , "Day 2" ,       71 ,
+    12L       , 3L       , "Day 3" ,      169
   )
 }
 
@@ -36,34 +36,34 @@ add_adishum_col_funcs$sample_visits <- function() {
 add_adishum_col_funcs$sample_paramcd <- function() {
   # tribble of PARAMCD, PARAM, ISTESTCD
   sample_param_tbl <- tibble::tribble(
-    ~VISITNUM, ~ISTESTCD, ~PARCAT1, ~PARAMCD, ~PARAM,
-    1, "ADA_BAB", "Collection", "SCRRSLT", "Screening Result",
-    2, "ADA_BAB", "Collection", "CNRRSLT", "Confirmatory Result",
-    3, "ADA_BAB", "Collection", "TITER", "Titer",
-    4, "ADA_BAB", "Collection", "SUADAPT", "Subject Peak Titer",
-    5, "ADA_BAB", "Collection", "SUADAST", "Subject ADA Status",
-    6, "ADA_NAB", "Collection", "NABSCR", "Neutralizing Screening Result",
-    7, "ADA_NAB", "Collection", "NABCNR", "Neutralizing Confirmatory Result",
-    8, "ADA_NAB", "Collection", "SUNABST", "Subject NAB Status",
-    0, NA_character_, "Subject Summary", "ADABL", "Baseline ADA Positive",
-    0, NA_character_, "Subject Summary", "ADABLT", "Baseline ADA Positive Titers",
-    0, NA_character_, "Subject Summary", "ADATRB", "Treatment-boosted ADA Positive",
-    0, NA_character_, "Subject Summary", "ADATRBT", "Treatment-boosted ADA Positive Titers",
-    0, NA_character_, "Subject Summary", "ADANTRB", "Not Treatment-boosted ADA Positive",
-    0, NA_character_, "Subject Summary", "ADANTRBT", "Not Treatment-boosted ADA Positive Titers",
-    0, NA_character_, "Subject Summary", "ADATRI", "Treatment-induced ADA Positive",
-    0, NA_character_, "Subject Summary", "ADATRIPT", "Treatment-induced ADA Positive Peak Titers",
-    0, NA_character_, "Subject Summary", "ADATRE", "Treatment-emergent ADA Positive",
-    0, NA_character_, "Subject Summary", "ADATREPT", "Treatment-emergent ADA Positive Peak Titers",
-    0, NA_character_, "Subject Summary", "ADANTRE", "Treatment-emergent ADA Negative",
-    0, NA_character_, "Subject Summary", "ADAPSP", "Persistent ADA Response",
-    0, NA_character_, "Subject Summary", "ADATSP", "Transient ADA Response",
-    0, NA_character_, "Subject Summary", "ADAUND", "Undetermined ADA Response",
-    0, NA_character_, "Subject Summary", "TMOSADAW", "Time to onset of treatment-induced ADA (weeks)",
-    0, NA_character_, "Subject Summary", "ADADURW", "Duration of treatment-induced ADA (weeks)",
-    0, NA_character_, "Subject Summary", "PSPDURW", "Duration of persistent treatment-induced ADA (weeks)",
-    0, NA_character_, "Subject Summary", "NABPOS", "NAB Positive",
-    0, NA_character_, "Subject Summary", "NABNEG", "NAB Negative",
+    ~VISITNUM , ~ISTESTCD     , ~PARCAT1          , ~PARAMCD   , ~PARAM                                                 ,
+            1 , "ADA_BAB"     , "Collection"      , "SCRRSLT"  , "Screening Result"                                     ,
+            2 , "ADA_BAB"     , "Collection"      , "CNRRSLT"  , "Confirmatory Result"                                  ,
+            3 , "ADA_BAB"     , "Collection"      , "TITER"    , "Titer"                                                ,
+            4 , "ADA_BAB"     , "Collection"      , "SUADAPT"  , "Subject Peak Titer"                                   ,
+            5 , "ADA_BAB"     , "Collection"      , "SUADAST"  , "Subject ADA Status"                                   ,
+            6 , "ADA_NAB"     , "Collection"      , "NABSCR"   , "Neutralizing Screening Result"                        ,
+            7 , "ADA_NAB"     , "Collection"      , "NABCNR"   , "Neutralizing Confirmatory Result"                     ,
+            8 , "ADA_NAB"     , "Collection"      , "SUNABST"  , "Subject NAB Status"                                   ,
+            0 , NA_character_ , "Subject Summary" , "ADABL"    , "Baseline ADA Positive"                                ,
+            0 , NA_character_ , "Subject Summary" , "ADABLT"   , "Baseline ADA Positive Titers"                         ,
+            0 , NA_character_ , "Subject Summary" , "ADATRB"   , "Treatment-boosted ADA Positive"                       ,
+            0 , NA_character_ , "Subject Summary" , "ADATRBT"  , "Treatment-boosted ADA Positive Titers"                ,
+            0 , NA_character_ , "Subject Summary" , "ADANTRB"  , "Not Treatment-boosted ADA Positive"                   ,
+            0 , NA_character_ , "Subject Summary" , "ADANTRBT" , "Not Treatment-boosted ADA Positive Titers"            ,
+            0 , NA_character_ , "Subject Summary" , "ADATRI"   , "Treatment-induced ADA Positive"                       ,
+            0 , NA_character_ , "Subject Summary" , "ADATRIPT" , "Treatment-induced ADA Positive Peak Titers"           ,
+            0 , NA_character_ , "Subject Summary" , "ADATRE"   , "Treatment-emergent ADA Positive"                      ,
+            0 , NA_character_ , "Subject Summary" , "ADATREPT" , "Treatment-emergent ADA Positive Peak Titers"          ,
+            0 , NA_character_ , "Subject Summary" , "ADANTRE"  , "Treatment-emergent ADA Negative"                      ,
+            0 , NA_character_ , "Subject Summary" , "ADAPSP"   , "Persistent ADA Response"                              ,
+            0 , NA_character_ , "Subject Summary" , "ADATSP"   , "Transient ADA Response"                               ,
+            0 , NA_character_ , "Subject Summary" , "ADAUND"   , "Undetermined ADA Response"                            ,
+            0 , NA_character_ , "Subject Summary" , "TMOSADAW" , "Time to onset of treatment-induced ADA (weeks)"       ,
+            0 , NA_character_ , "Subject Summary" , "ADADURW"  , "Duration of treatment-induced ADA (weeks)"            ,
+            0 , NA_character_ , "Subject Summary" , "PSPDURW"  , "Duration of persistent treatment-induced ADA (weeks)" ,
+            0 , NA_character_ , "Subject Summary" , "NABPOS"   , "NAB Positive"                                         ,
+            0 , NA_character_ , "Subject Summary" , "NABNEG"   , "NAB Negative"                                         ,
   ) |>
     arrange(
       VISITNUM,
@@ -202,8 +202,8 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
   subjects <- unique(main_tbl$USUBJID)
 
   ss_rows <- lapply(subjects, function(subj) {
-    n_pick <- sample(2L:n_ss, 1L) # random count [2, n_ss]
-    picked <- subj_summary_pool[sample(n_ss, n_pick), ] # unique PARAMCDs
+    picked <- subj_summary_pool # all Subject Summary PARAMCDs
+    n_pick <- n_ss
 
     # one donor row from main_tbl for this subject to copy non-key cols from
     donor <- main_tbl |>
@@ -620,6 +620,42 @@ add_adishum_col_funcs$adatrept <- function(main_tbl) {
   return(main_tbl)
 }
 
+# ensure exactly one of ADATRE/ADANTRE has AVALC = Y per subject
+# prob_y: proportion of subjects to assign ADATRE=Y (e.g. 0.6 = 60%) — use in gen_adishum
+# min_y:  minimum count of subjects that must have ADATRE=Y — use in pp_ensure_required_avalc
+# if both NULL, splits 50/50
+add_adishum_col_funcs$pp_enforce_adatre_adantre <- function(
+  main_tbl,
+  prob_y = NULL,
+  min_y = NULL
+) {
+  all_subj <- unique(main_tbl$USUBJID)
+  total_subj <- length(all_subj)
+
+  n_adatre_y <- if (!is.null(prob_y)) {
+    round(total_subj * prob_y)
+  } else if (!is.null(min_y)) {
+    max(min_y, floor(total_subj / 2L))
+  } else {
+    floor(total_subj / 2L)
+  }
+
+  adatre_y_subj <- sample(all_subj, n_adatre_y)
+
+  main_tbl <- main_tbl |>
+    dplyr::mutate(
+      AVALC = dplyr::case_when(
+        PARAMCD == "ADATRE" & USUBJID %in% adatre_y_subj ~ "Y",
+        PARAMCD == "ADATRE" & !USUBJID %in% adatre_y_subj ~ "N",
+        PARAMCD == "ADANTRE" & USUBJID %in% adatre_y_subj ~ "N",
+        PARAMCD == "ADANTRE" & !USUBJID %in% adatre_y_subj ~ "Y",
+        .default = AVALC
+      )
+    )
+
+  return(main_tbl)
+}
+
 # ensure required AVALC values are present per PARAMCD spec
 add_adishum_col_funcs$pp_ensure_required_avalc <- function(
   main_tbl,
@@ -630,13 +666,10 @@ add_adishum_col_funcs$pp_ensure_required_avalc <- function(
     "ADATRB",
     "ADANTRB",
     "ADATRI",
-    "ADATRE",
-    "ADANTRE",
     "ADAPSP",
     "ADATSP",
     "ADAUND"
   )
-  adatrept_cats <- c("<10", "10 to < 100", "100 to <1000", ">= 1000")
 
   # For each PARAMCD requiring AVALC="Y", force min_rows random rows to "Y"
   main_tbl <- main_tbl |>
@@ -654,6 +687,27 @@ add_adishum_col_funcs$pp_ensure_required_avalc <- function(
       )
     ) |>
     dplyr::ungroup()
+
+  # ADATRE/ADANTRE: check if Y count < threshold, fix only if needed
+  total_subj <- dplyr::n_distinct(main_tbl$USUBJID)
+  min_adatre <- if (total_subj > 20) 10L else floor(total_subj / 2L)
+
+  adatre_y_n <- main_tbl |>
+    dplyr::filter(PARAMCD == "ADATRE", AVALC == "Y") |>
+    dplyr::distinct(USUBJID) |>
+    nrow()
+
+  adantre_y_n <- main_tbl |>
+    dplyr::filter(PARAMCD == "ADANTRE", AVALC == "Y") |>
+    dplyr::distinct(USUBJID) |>
+    nrow()
+
+  if (adatre_y_n < min_adatre || adantre_y_n < min_adatre) {
+    main_tbl <- add_adishum_col_funcs$pp_enforce_adatre_adantre(
+      main_tbl,
+      min_y = min_adatre
+    )
+  }
 
   # NABPOS/NABNEG: AVALC="Y" only for subjects who have ADATRE with AVALC="Y"
   adatre_y_subjects <- main_tbl |>
@@ -902,6 +956,21 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
     message(paste(rep("-", 80)))
   }
 
+  rule7 <- main_tbl |>
+    dplyr::filter(PARAMCD %in% c("ADATRE", "ADANTRE")) |>
+    dplyr::select(USUBJID, PARAMCD, AVALC) |>
+    tidyr::pivot_wider(names_from = PARAMCD, values_from = AVALC) |>
+    dplyr::filter(
+      (ADATRE == "Y" & ADANTRE == "Y") |
+        (ADATRE == "N" & ADANTRE == "N")
+    )
+
+  if (nrow(rule7) != 0) {
+    message(paste(rep("-", 80)))
+    message("FALSE -- ADATRE and ADANTRE must have opposite AVALC values per subject")
+    message(paste(rep("-", 80)))
+  }
+
   return(TRUE)
 }
 
@@ -1006,6 +1075,10 @@ gen_adishum <- function(seed = 123) {
     add_adishum_col_funcs$dtl()
 
   # POST PROCESSING for inserting random values to meet standards -------------
+  # enforce exactly one of ADATRE/ADANTRE has AVALC = Y per subject (60% get ADATRE=Y)
+  gen <- gen |>
+    add_adishum_col_funcs$pp_enforce_adatre_adantre(prob_y = 0.6)
+
   # ensure required AVALC values are present per PARAMCD spec
   gen <- gen |>
     add_adishum_col_funcs$pp_ensure_required_avalc()
