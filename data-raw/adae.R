@@ -507,6 +507,20 @@ gen_adae <- function(seed = 123) {
     dplyr::left_join(adatres_map, by = "USUBJID") |>
     dplyr::left_join(nabstat_map, by = "USUBJID")
 
+  # Force some ADANTRE subjects to have SEVERE IRR for testing
+  neg_subj <- adishum |>
+    dplyr::filter(!is.na(ADATRES), ADATRES == "NEGATIVE") |>
+    dplyr::distinct(USUBJID) |>
+    dplyr::pull(USUBJID)
+
+  irr_neg_idx <- which(
+    gen$USUBJID %in% neg_subj & toupper(as.character(gen$AESCAT)) == "INFUSION RELATED REACTION"
+  )
+
+  force_idx <- sample(irr_neg_idx, size = min(20L, length(irr_neg_idx)))
+  gen$AESEV <- as.character(gen$AESEV)
+  gen$AESEV[force_idx] <- "Severe"
+
   # Add labels
   additional_labels <- list(
     SAFFL = "Safety Population Flag",
