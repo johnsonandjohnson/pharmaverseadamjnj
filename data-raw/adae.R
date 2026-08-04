@@ -523,11 +523,16 @@ gen_adae <- function(seed = 123) {
     dplyr::distinct(USUBJID) |>
     dplyr::pull(USUBJID)
 
-  irr_neg_idx <- which(
-    gen$USUBJID %in% neg_subj & toupper(as.character(gen$AESCAT)) == "INFUSION RELATED REACTION"
-  )
-
-  force_idx <- sample(irr_neg_idx, size = min(20L, length(irr_neg_idx)))
+  force_idx <- c("INFUSION RELATED REACTION", "INJECTION RELATED REACTION") |>
+    lapply(
+      function(cat) {
+        idx <- which(
+          gen$USUBJID %in% neg_subj & toupper(as.character(gen$AESCAT)) == cat
+        )
+        sample(idx, size = min(25L, length(idx)))
+      }
+    ) |>
+    unlist()
   gen$AESEV <- as.character(gen$AESEV)
   gen$AESEV[force_idx] <- "Severe"
   gen$AESEVN[force_idx] <- 3L
