@@ -205,6 +205,11 @@ gen_adae <- function(seed = 123) {
       dplyr::n(),
       replace = TRUE
     )),
+    AESEVN = dplyr::case_when(
+      AESEV == "MILD" ~ 1L,
+      AESEV == "MODERATE" ~ 2L,
+      AESEV == "SEVERE" ~ 3L
+    ),
     AESEV = dplyr::case_when(
       AESEV == "MILD" ~ "Mild",
       AESEV == "MODERATE" ~ "Moderate",
@@ -525,6 +530,7 @@ gen_adae <- function(seed = 123) {
   force_idx <- sample(irr_neg_idx, size = min(20L, length(irr_neg_idx)))
   gen$AESEV <- as.character(gen$AESEV)
   gen$AESEV[force_idx] <- "Severe"
+  gen$AESEVN[force_idx] <- 3L
 
   # Add labels
   additional_labels <- list(
@@ -533,6 +539,7 @@ gen_adae <- function(seed = 123) {
     ACAT1 = "Analysis Category 1",
     AETOXGR = "Standard Toxicity Grade",
     AETOXGRN = "Standard Toxicity Grade (N)",
+    AESEVN = "Severity/Intensity (N)",
     AOCTIFL = "1st TE Max Toxicity Grade Flag",
     DOSEDY = "Day of Study Drug",
     DOSEU = "Treatment Dose Units",
