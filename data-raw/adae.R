@@ -491,8 +491,7 @@ gen_adae <- function(seed = 123) {
       ex_lookup,
       by = dplyr::join_by(USUBJID, closest(ASTDT >= EXSTDT))
     ) |>
-    dplyr::mutate(DOSEDT = as.integer(EXSTDT)) |>
-    dplyr::select(-EXSTDT)
+    dplyr::mutate(DOSEDT = as.integer(EXSTDT))
 
   # Join ADATRES and NABSTAT from ADISHUM - each collapsed separately, POSITIVE takes priority
   adatres_map <- adishum |>
@@ -573,6 +572,7 @@ gen_adae <- function(seed = 123) {
     DOSS1ON = "Treatment Dose for study Agent 1",
     DOSS2ON = "Treatment Dose for study Agent 2",
     DOSEDT = "Date of Study Drug",
+    EXSTDT = "Exposure Start Date",
     ADATRES = "Treatment-emergent ADA Subject Status",
     NABSTAT = "NAB Status"
   )
