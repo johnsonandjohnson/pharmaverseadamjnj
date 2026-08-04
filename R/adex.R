@@ -3,7 +3,7 @@
 #' @description adex modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 591 rows and 132 variables:
+#' @format A data frame with 591 rows and 133 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -131,6 +131,7 @@
 #'  \item{ATVINFU}{Analysis Total Volume Infused Units}
 #'  \item{AINFRAT}{Analysis Infusion Rate}
 #'  \item{AINFRAU}{Analysis Infusion Rate Unit}
+#'  \item{EXSTDT}{Exposure Start Date}
 #'  \item{ABODSYS1}{AE SOC Driving Study Drug Action (1)}
 #'  \item{ABODSYS2}{AE SOC Driving Study Drug Action (2)}
 #'  \item{ADECOD1}{AE PT Driving Study Drug Action (1)}
