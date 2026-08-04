@@ -329,6 +329,7 @@ gen_adex <- function(seed = 123) {
     ATVINFU = ADOSU,
     AINFRAT = ADOSE,
     AINFRAU = ADOSU,
+    EXSTDT = as.Date(EXSTDTC),
     # Add random hour times to ASTDTM
     ASTDTM = {
       # Extract the date part from ASTDTM
@@ -484,7 +485,8 @@ gen_adex <- function(seed = 123) {
     ADECOD1 = "AE PT Driving Study Drug Action (1)",
     ADECOD2 = "AE PT Driving Study Drug Action (2)",
     ADATRES = "Treatment-emergent ADA Subject Status",
-    NABSTAT = "NAB Status"
+    NABSTAT = "NAB Status",
+    EXSTDT = "Exposure Start Date"
   )
 
   # Handle NA values and convert characters to factors
