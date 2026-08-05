@@ -37,6 +37,7 @@
 - Modified ADAGOCMQ for AEDECOD merge logic, ACAT1, and used conversion factor GLUC, HBA1C for standard units to conventional units.
 - Modified ADDISP to update labels for SxSDY and SxEDY variables.
 - Fix adeg CRIT1FL and CRIT2FL factor order
+- Updated PARAMN values in ADVS domain
 
 
 ## [0.0.5] - 2026-05-25
