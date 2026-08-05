@@ -430,6 +430,50 @@ gen_adex <- function(seed = 123) {
     dplyr::left_join(adatres_map, by = "USUBJID") |>
     dplyr::left_join(nabstat_map, by = "USUBJID")
 
+  # SECTION ---- Need specific value for EXSTDT for a Listing ------------
+  # Get USUBJIDs that pass the ADISHUM filter and also exist in ADAE
+  qualified_usubjids <- adishum |>
+    dplyr::filter(
+      IMFL == "Y",
+      PARAMCD == "ADATRE",
+      AVALC == "Y"
+    ) |>
+    dplyr::distinct(USUBJID) |>
+    dplyr::filter(USUBJID %in% adae$USUBJID) |>
+    dplyr::pull(USUBJID)
+
+  # For each qualified subject, get one DOSEDT from ADAE and convert to Date
+  # DOSEDT in ADAE is stored as integer (SAS date, origin 1960-01-01)
+  # Result: one row per USUBJID with their DOSEDT_date
+  dosedt_per_subj <- adae |>
+    dplyr::filter(
+      USUBJID %in% qualified_usubjids,
+      !is.na(DOSEDT)
+    ) |>
+    dplyr::group_by(USUBJID) |>
+    dplyr::slice_head(n = 1) |>
+    dplyr::ungroup() |>
+    dplyr::transmute(
+      USUBJID,
+      DOSEDT_date = as.Date(DOSEDT, origin = "1960-01-01")
+    ) |>
+    head(30)
+
+  # Join DOSEDT_date onto ADEX by USUBJID, then set EXSTDT = DOSEDT_date
+  # for the FIRST matching row per subject only (1 subject = 1 row updated)
+  gen <- gen |>
+    dplyr::left_join(dosedt_per_subj, by = "USUBJID") |>
+    dplyr::group_by(USUBJID) |>
+    dplyr::mutate(
+      EXSTDT = dplyr::if_else(
+        !is.na(DOSEDT_date) & dplyr::row_number() == 1,
+        DOSEDT_date,
+        EXSTDT
+      )
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::select(-DOSEDT_date)
+
   # Additional labels for all relevant variables
   additional_labels <- list(
     EXTRT = "Planned Treatment",
