@@ -3,7 +3,7 @@
 #' @description adex modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 591 rows and 139 variables:
+#' @format A data frame with 591 rows and 153 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -86,7 +86,7 @@
 #'  \item{AENDTM}{Analysis End Datetime}
 #'  \item{AENDTF}{Analysis End Date Imputation Flag}
 #'  \item{AENTMF}{Analysis End Time Imputation Flag}
-#'  \item{ASTDY}{Analysis Start Relative Day}
+#'  \item{ASTDY}{Analysis Study Day}
 #'  \item{AENDY}{Analysis End Relative Day}
 #'  \item{DOSEO}{Dose O}
 #'  \item{PDOSEO}{PDose O}
@@ -126,6 +126,7 @@
 #'  \item{ADOSFRM}{Analysis Dose Form}
 #'  \item{ADOSU}{Analysis Dose Units}
 #'  \item{ADOSFRQ}{Analysis Dosing Frequency per Interval}
+#'  \item{ADOSFRQP}{Analysis Scheduled Dosing Frequency}
 #'  \item{ECMOOD}{ECMOOD}
 #'  \item{AROUTE}{Analysis Route of Administration}
 #'  \item{ATVINF}{Analysis Total Volume Infused}
@@ -140,10 +141,23 @@
 #'  \item{ANL02FL}{Analysis Flag 02-Dose reductn due to AE}
 #'  \item{ANL03FL}{Analysis Flag 03-Dose interruption}
 #'  \item{ANL04FL}{Analysis Flag 04-Dose skip not made up}
+#'  \item{ECOCCUR}{ECOCCUR}
+#'  \item{ECDOSE}{ECDOSE}
+#'  \item{ACDOSE}{Analysis Dose Collected}
+#'  \item{ACDOSU}{Analysis Dose Collected Units}
+#'  \item{ECRSDOSD}{ECRSDOSD}
+#'  \item{ARSDOSD}{Analysis Reason for Dose Delayed}
+#'  \item{ADOSDLY}{Analysis Dose Delayed}
+#'  \item{ECAVAMT}{ECAVAMT}
+#'  \item{AVAMT}{Analysis Injection Vol Prescribed}
+#'  \item{ECAVAMTU}{ECAVAMTU}
+#'  \item{AVAMTU}{Analysis Injection Vol Prescribed Units}
 #'  \item{INTN}{Number of Dose Interruptions}
 #'  \item{INTCAT}{Dose Interruption Category}
 #'  \item{SKPN}{Number of Dose Skipped}
 #'  \item{SKPCAT}{Dose Skipped Category}
+#'  \item{DLYN}{Number of Dose Delay}
+#'  \item{DLYCAT}{Dose Delay Category}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adex

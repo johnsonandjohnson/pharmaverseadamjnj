@@ -19,6 +19,7 @@ gen_adex <- function(seed = 123) {
   # Get source data
   raw <- pharmaverseadam::adex
 
+
   raw <- dplyr::filter(raw, PARAMCD == "DOSE")
 
   gen <- raw
@@ -329,6 +330,8 @@ gen_adex <- function(seed = 123) {
     ADOSFRM = EXDOSFRM,
     ADOSU = EXDOSU,
     ADOSFRQ = EXDOSFRQ,
+    ADOSFRQP = EXDOSFRQ,
+    ASTDY = ASTDY,
     ECMOOD = "Scheduled",
     AROUTE = factor(
       sample(
@@ -454,11 +457,103 @@ gen_adex <- function(seed = 123) {
         AROUTE == "Injection" & toupper(AACTPR) == "INJECTION SKIPPED (AND NOT MADE UP)" ~ "Y",
         AROUTE == "Infusion" & toupper(AACTPR) == "INFUSION SKIPPED (AND NOT MADE UP)" ~ "Y",
         .default = "N"
-      )
+      ),
+      ECOCCUR = factor(
+        sample(
+          c("Y", "N", NA_character_),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        levels = c(
+          "Y",
+          "N"
+        )
+      ),
+      ECDOSE = factor(
+        sample(
+          c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        levels = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
+      ),
+      ACDOSE = ifelse(!is.na(ECOCCUR), ECDOSE, NA_real_),
+      ACDOSU = factor(
+        sample(
+          c("mL"),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        levels = c("mL")
+      ),
+      ECRSDOSD = factor(
+        sample(
+          c(
+            "ADVERSE EVENT",
+            "LOW NEUTROPHIL COUNT",
+            "THROMBOCYTOPENIA",
+            "ANEMIA",
+            "INFECTION",
+            "NON-HEMATOLOGIC TOXICITY",
+            "RECOVERY FROM TOXICITY",
+            "PENDING LAB RESULTS",
+            "PHYSICIAN DECISION",
+            "SUBJECT REQUEST",
+            "MISSED VISIT",
+            "OTHER"
+          ),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        levels = c(
+          "ADVERSE EVENT",
+          "LOW NEUTROPHIL COUNT",
+          "THROMBOCYTOPENIA",
+          "ANEMIA",
+          "INFECTION",
+          "NON-HEMATOLOGIC TOXICITY",
+          "RECOVERY FROM TOXICITY",
+          "PENDING LAB RESULTS",
+          "PHYSICIAN DECISION",
+          "SUBJECT REQUEST",
+          "MISSED VISIT",
+          "OTHER"
+        )
+      ),
+      ARSDOSD = ifelse(ECMOOD == "Scheduled", as.character(ECRSDOSD), NA_character_),
+      ADOSDLY = factor(
+        sample(
+          c("Y", "N", NA_character_),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        levels = c(
+          "Y",
+          "N"
+        )
+      ),
+      ECAVAMT = factor(
+        sample(
+          c(1, 1.5, 1.7, 2.0, 5.0, 3.0, 4.0),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        levels = c(1, 1.5, 1.7, 2.0, 5.0, 3.0, 4.0)
+      ),
+      AVAMT = ifelse(is.na(ECOCCUR), ECAVAMT, NA_real_),
+      ECAVAMTU = factor(
+        sample(
+          c("mL"),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        levels = c("mL")
+      ),
+      AVAMTU = ifelse(is.na(ECOCCUR), as.character(ECAVAMTU), NA_character_),
     )
 
   gen <- gen |>
-    dplyr::group_by(USUBJID, TRT01A) |>
+    dplyr::group_by(USUBJID, ATRT) |>
     dplyr::mutate(
       INTN = sum(ANL03FL == "Y", na.rm = TRUE)
     ) |>
@@ -473,7 +568,7 @@ gen_adex <- function(seed = 123) {
     )
 
   gen <- gen |>
-    dplyr::group_by(USUBJID, TRT01A) |>
+    dplyr::group_by(USUBJID, ATRT) |>
     dplyr::mutate(
       SKPN = sum(ANL04FL == "Y", na.rm = TRUE)
     ) |>
@@ -483,6 +578,21 @@ gen_adex <- function(seed = 123) {
         SKPN == 1 ~ "1",
         SKPN == 2 ~ "2",
         SKPN >= 3 ~ ">=3",
+        .default = NA_character_
+      )
+    )
+
+  gen <- gen |>
+    dplyr::group_by(USUBJID, ATRT) |>
+    dplyr::mutate(
+      DLYN = sum(ADOSDLY == "Y", na.rm = TRUE)
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(
+      DLYCAT = dplyr::case_when(
+        DLYN == 1 ~ "1",
+        DLYN == 2 ~ "2",
+        DLYN >= 3 ~ ">=3",
         .default = NA_character_
       )
     )
@@ -527,7 +637,6 @@ gen_adex <- function(seed = 123) {
     ADOSE = "Analysis Dose",
     AVISITN = "Visit Number",
     AVISIT = "Visit Label",
-    ADOSE = "Analysis Dose",
     AGEGR1 = "Age Group",
     AOCCUR = "Analysis Occurrence",
     SEX = "Sex",
@@ -549,7 +658,17 @@ gen_adex <- function(seed = 123) {
     ABODSYS1 = "AE SOC Driving Study Drug Action (1)",
     ABODSYS2 = "AE SOC Driving Study Drug Action (2)",
     ADECOD1 = "AE PT Driving Study Drug Action (1)",
-    ADECOD2 = "AE PT Driving Study Drug Action (2)"
+    ADECOD2 = "AE PT Driving Study Drug Action (2)",
+    ASTDY = "Analysis Study Day",
+    ARSDOSD = "Analysis Reason for Dose Delayed",
+    ACDOSE = "Analysis Dose Collected",
+    ACDOSU = "Analysis Dose Collected Units",
+    ADOSDLY = "Analysis Dose Delayed",
+    DLYN = "Number of Dose Delay",
+    DLYCAT = "Dose Delay Category",
+    ADOSFRQP = "Analysis Scheduled Dosing Frequency",
+    AVAMT = "Analysis Injection Vol Prescribed",
+    AVAMTU = "Analysis Injection Vol Prescribed Units"
   )
 
   # Handle NA values and convert characters to factors
