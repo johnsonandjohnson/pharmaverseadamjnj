@@ -327,15 +327,15 @@ gen_adex <- function(seed = 123) {
     ),
     ATPTN = dplyr::case_when(
       VISIT == "Baseline" ~ 0,
-      VISIT == "Week 2"   ~ 1,
-      VISIT == "Week 4"   ~ 2,
-      VISIT == "Week 6"   ~ 3,
-      VISIT == "Week 8"   ~ 4,
-      VISIT == "Week 12"  ~ 5,
-      VISIT == "Week 16"  ~ 6,
-      VISIT == "Week 20"  ~ 7,
-      VISIT == "Week 24"  ~ 8,
-      VISIT == "Week 26"  ~ 9
+      VISIT == "Week 2" ~ 1,
+      VISIT == "Week 4" ~ 2,
+      VISIT == "Week 6" ~ 3,
+      VISIT == "Week 8" ~ 4,
+      VISIT == "Week 12" ~ 5,
+      VISIT == "Week 16" ~ 6,
+      VISIT == "Week 20" ~ 7,
+      VISIT == "Week 24" ~ 8,
+      VISIT == "Week 26" ~ 9
     ),
     ATPT = dplyr::case_when(
       ATPTN == 0 ~ "Pre-dose",
