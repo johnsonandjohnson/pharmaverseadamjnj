@@ -5,7 +5,7 @@
 \alias{adex}
 \title{adex}
 \format{
-A data frame with 591 rows and 153 variables:
+A data frame with 591 rows and 158 variables:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{USUBJID}{Unique Subject Identifier}
@@ -123,6 +123,8 @@ A data frame with 591 rows and 153 variables:
 \item{AADJOTH}{Other Anal Reason for Dose Adjustment}
 \item{ACAT2}{Analysis Category 2}
 \item{AACTPR}{Action Taken Prior to Infusion Start}
+\item{ATPTN}{Analysis Timepoint (N)}
+\item{ATPT}{Analysis Timepoint}
 \item{ASCHDOSE}{Analysis Scheduled Dose}
 \item{ASCHDOSU}{Analysis Scheduled Dose Units}
 \item{ADOSFRM}{Analysis Dose Form}
@@ -154,6 +156,9 @@ A data frame with 591 rows and 153 variables:
 \item{AVAMT}{Analysis Injection Vol Prescribed}
 \item{ECAVAMTU}{ECAVAMTU}
 \item{AVAMTU}{Analysis Injection Vol Prescribed Units}
+\item{ATDPRP}{Analysis Total Dose Prepared}
+\item{ATDPRPU}{Analysis Total Dose Prepared Units}
+\item{ADURC}{Analysis Duration (C)}
 \item{INTN}{Number of Dose Interruptions}
 \item{INTCAT}{Dose Interruption Category}
 \item{SKPN}{Number of Dose Skipped}
