@@ -719,6 +719,7 @@ gen_adex <- function(seed = 123) {
     ADECOD2 = "AE PT Driving Study Drug Action (2)",
     ASTDY = "Analysis Study Day",
     ARSDOSD = "Analysis Reason for Dose Delayed",
+    ARSDSDO = "Other Analysis Reason for Dose Delayed",
     ACDOSE = "Analysis Dose Collected",
     ACDOSU = "Analysis Dose Collected Units",
     ADOSDLY = "Analysis Dose Delayed",
