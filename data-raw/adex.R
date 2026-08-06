@@ -86,29 +86,29 @@ gen_adex <- function(seed = 123) {
       .default = TRT01A
     )),
     AVISITN = case_when(
-      VISIT == "Baseline" ~ 1,
-      VISIT == "Week 2" ~ 2,
-      VISIT == "Week 4" ~ 3,
-      VISIT == "Week 6" ~ 4,
-      VISIT == "Week 8" ~ 5,
-      VISIT == "Week 12" ~ 6,
-      VISIT == "Week 16" ~ 7,
-      VISIT == "Week 20" ~ 8,
-      VISIT == "Week 24" ~ 9,
-      VISIT == "Week 26" ~ 10,
+      toupper(VISIT) == "BASELINE" ~ 1,
+      toupper(VISIT) == "WEEK 2" ~ 2,
+      toupper(VISIT) == "WEEK 4" ~ 3,
+      toupper(VISIT) == "WEEK 6" ~ 4,
+      toupper(VISIT) == "WEEK 8" ~ 5,
+      toupper(VISIT) == "WEEK 12" ~ 6,
+      toupper(VISIT) == "WEEK 16" ~ 7,
+      toupper(VISIT) == "WEEK 20" ~ 8,
+      toupper(VISIT) == "WEEK 24" ~ 9,
+      toupper(VISIT) == "WEEK 26" ~ 10,
     ),
     AVISIT = fct_reorder(
       as.factor(case_when(
-        VISIT == "Baseline" ~ "Screening",
-        VISIT == "Week 2" ~ "Cycle 02",
-        VISIT == "Week 4" ~ "Cycle 03",
-        VISIT == "Week 6" ~ "Cycle 04",
-        VISIT == "Week 8" ~ "Cycle 05",
-        VISIT == "Week 12" ~ "Cycle 06",
-        VISIT == "Week 16" ~ "Cycle 07",
-        VISIT == "Week 20" ~ "Cycle 08",
-        VISIT == "Week 24" ~ "Cycle 09",
-        VISIT == "Week 26" ~ "End Of Treatment",
+        toupper(VISIT) == "BASELINE" ~ "Screening",
+        toupper(VISIT) == "WEEK 2" ~ "Cycle 02",
+        toupper(VISIT) == "WEEK 4" ~ "Cycle 03",
+        toupper(VISIT) == "WEEK 6" ~ "Cycle 04",
+        toupper(VISIT) == "WEEK 8" ~ "Cycle 05",
+        toupper(VISIT) == "WEEK 12" ~ "Cycle 06",
+        toupper(VISIT) == "WEEK 16" ~ "Cycle 07",
+        toupper(VISIT) == "WEEK 20" ~ "Cycle 08",
+        toupper(VISIT) == "WEEK 24" ~ "Cycle 09",
+        toupper(VISIT) == "WEEK 26" ~ "End Of Treatment",
         TRUE ~ as.character(VISIT) # Other values remain unchanged
       )),
       AVISITN,
@@ -326,16 +326,16 @@ gen_adex <- function(seed = 123) {
       )
     ),
     ATPTN = dplyr::case_when(
-      VISIT == "Baseline" ~ 0,
-      VISIT == "Week 2" ~ 1,
-      VISIT == "Week 4" ~ 2,
-      VISIT == "Week 6" ~ 3,
-      VISIT == "Week 8" ~ 4,
-      VISIT == "Week 12" ~ 5,
-      VISIT == "Week 16" ~ 6,
-      VISIT == "Week 20" ~ 7,
-      VISIT == "Week 24" ~ 8,
-      VISIT == "Week 26" ~ 9
+      toupper(VISIT) == "BASELINE" ~ 0,
+      toupper(VISIT) == "WEEK 2" ~ 1,
+      toupper(VISIT) == "WEEK 4" ~ 2,
+      toupper(VISIT) == "WEEK 6" ~ 3,
+      toupper(VISIT) == "WEEK 8" ~ 4,
+      toupper(VISIT) == "WEEK 12" ~ 5,
+      toupper(VISIT) == "WEEK 16" ~ 6,
+      toupper(VISIT) == "WEEK 20" ~ 7,
+      toupper(VISIT) == "WEEK 24" ~ 8,
+      toupper(VISIT) == "WEEK 26" ~ 9,
     ),
     ATPT = dplyr::case_when(
       ATPTN == 0 ~ "Pre-dose",
@@ -550,7 +550,22 @@ gen_adex <- function(seed = 123) {
           "OTHER"
         )
       ),
+      ECRSDSDO = ifelse(
+        toupper(as.character(ECRSDOSD)) == "OTHER",
+        sample(
+          c(
+            "Weather conditions",
+            "Site closure",
+            "Equipment malfunction",
+            "Staff unavailability"
+          ),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        NA_character_
+      ),
       ARSDOSD = ifelse(ECMOOD == "Scheduled", as.character(ECRSDOSD), NA_character_),
+      ARSDSDO = ifelse(ECMOOD == "Scheduled", as.character(ECRSDSDO), NA_character_),
       ADOSDLY = factor(
         sample(
           c("Y", "N", NA_character_),
