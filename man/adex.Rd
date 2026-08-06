@@ -152,7 +152,7 @@ A data frame with 591 rows and 160 variables:
 \item{ECRSDOSD}{ECRSDOSD}
 \item{ECRSDSDO}{ECRSDSDO}
 \item{ARSDOSD}{Analysis Reason for Dose Delayed}
-\item{ARSDSDO}{ARSDSDO}
+\item{ARSDSDO}{Other Analysis Reason for Dose Delayed}
 \item{ADOSDLY}{Analysis Dose Delayed}
 \item{ECAVAMT}{ECAVAMT}
 \item{AVAMT}{Analysis Injection Vol Prescribed}
