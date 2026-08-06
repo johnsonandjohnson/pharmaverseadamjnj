@@ -325,6 +325,30 @@ gen_adex <- function(seed = 123) {
         "FULL DOSE ADMINISTERED WITH INTERRUPTION"
       )
     ),
+    ATPTN = dplyr::case_when(
+      VISIT == "Baseline" ~ 0,
+      VISIT == "Week 2"   ~ 1,
+      VISIT == "Week 4"   ~ 2,
+      VISIT == "Week 6"   ~ 3,
+      VISIT == "Week 8"   ~ 4,
+      VISIT == "Week 12"  ~ 5,
+      VISIT == "Week 16"  ~ 6,
+      VISIT == "Week 20"  ~ 7,
+      VISIT == "Week 24"  ~ 8,
+      VISIT == "Week 26"  ~ 9
+    ),
+    ATPT = dplyr::case_when(
+      ATPTN == 0 ~ "Pre-dose",
+      ATPTN == 1 ~ "Post-dose Hour 1",
+      ATPTN == 2 ~ "Post-dose Hour 2",
+      ATPTN == 3 ~ "Post-dose Hour 3",
+      ATPTN == 4 ~ "Post-dose Hour 4",
+      ATPTN == 5 ~ "Post-dose Hour 5",
+      ATPTN == 6 ~ "Post-dose Hour 6",
+      ATPTN == 7 ~ "Post-dose Hour 7",
+      ATPTN == 8 ~ "Post-dose Hour 8",
+      ATPTN == 9 ~ "Post-dose Hour 9"
+    ),
     ASCHDOSE = EXDOSE,
     ASCHDOSU = EXDOSU,
     ADOSFRM = EXDOSFRM,
@@ -424,10 +448,11 @@ gen_adex <- function(seed = 123) {
   gen <- gen |>
     dplyr::mutate(
       AREASOC = dplyr::case_when(
-        ABODSYS1 %in% c(
-          "General disorders and administration site conditions",
-          "Gastrointestinal disorders"
-        ) ~ "Adverse Event",
+        ABODSYS1 %in%
+          c(
+            "General disorders and administration site conditions",
+            "Gastrointestinal disorders"
+          ) ~ "Adverse Event",
         .default = AREASOC
       ),
       ABODSYS1 = dplyr::case_when(
@@ -440,8 +465,12 @@ gen_adex <- function(seed = 123) {
       ),
       ANL01FL = dplyr::case_when(
         AROUTE == "Oral" & toupper(AACTPR) == "DOSE REDUCED" & ECMOOD == "Scheduled" ~ "Y",
-        AROUTE == "Injection" & toupper(AACTPR) %in% c("DOSE REDUCED COMPARED TO PRIOR INJECTION", "REDUCED [TARGET/TREATMENT]") & ECMOOD == "Scheduled" ~ "Y",
-        AROUTE == "Infusion" & toupper(AACTPR) %in% c("DOSE REDUCED COMPARED TO PRIOR INFUSION", "REDUCED [TARGET/TREATMENT]") & ECMOOD == "Scheduled" ~ "Y",
+        AROUTE == "Injection" &
+          toupper(AACTPR) %in% c("DOSE REDUCED COMPARED TO PRIOR INJECTION", "REDUCED [TARGET/TREATMENT]") &
+          ECMOOD == "Scheduled" ~ "Y",
+        AROUTE == "Infusion" &
+          toupper(AACTPR) %in% c("DOSE REDUCED COMPARED TO PRIOR INFUSION", "REDUCED [TARGET/TREATMENT]") &
+          ECMOOD == "Scheduled" ~ "Y",
         .default = "N"
       ),
       ANL02FL = dplyr::case_when(
@@ -450,7 +479,8 @@ gen_adex <- function(seed = 123) {
       ),
       ANL03FL = dplyr::case_when(
         AROUTE == "Injection" & toupper(AACTPR) == "FULL DOSE ADMINISTERED WITH INTERRUPTION" ~ "Y",
-        AROUTE == "Infusion" & (toupper(AACTDU) == "INFUSION INTERRUPTED" | toupper(AACTDU3) == "INFUSION INTERRUPTED") ~ "Y",
+        AROUTE == "Infusion" &
+          (toupper(AACTDU) == "INFUSION INTERRUPTED" | toupper(AACTDU3) == "INFUSION INTERRUPTED") ~ "Y",
         .default = "N"
       ),
       ANL04FL = dplyr::case_when(
@@ -550,6 +580,19 @@ gen_adex <- function(seed = 123) {
         levels = c("mL")
       ),
       AVAMTU = ifelse(is.na(ECOCCUR), as.character(ECAVAMTU), NA_character_),
+      ATDPRP = sample(c(100, 150, 200, 250, 300), n(), replace = TRUE),
+      ATDPRPU = EXDOSU,
+      ADURC = case_when(
+        !is.na(AENDT) & !is.na(ASTDT) ~
+          as.character(as.numeric(AENDT - ASTDT) + 1),
+        !is.na(AENDTM) & !is.na(ASTDTM) ~
+          sprintf(
+            "%02d:%02d",
+            as.numeric(difftime(AENDTM, ASTDTM, units = "hours")),
+            as.numeric(difftime(AENDTM, ASTDTM, units = "mins")) %% 60
+          ),
+        TRUE ~ NA_character_
+      )
     )
 
   gen <- gen |>
@@ -666,6 +709,11 @@ gen_adex <- function(seed = 123) {
     ADOSDLY = "Analysis Dose Delayed",
     DLYN = "Number of Dose Delay",
     DLYCAT = "Dose Delay Category",
+    ATPT = "Analysis Timepoint",
+    ATPTN = "Analysis Timepoint (N)",
+    ATDPRP = "Analysis Total Dose Prepared",
+    ATDPRPU = "Analysis Total Dose Prepared Units",
+    ADURC = "Analysis Duration (C)",
     ADOSFRQP = "Analysis Scheduled Dosing Frequency",
     AVAMT = "Analysis Injection Vol Prescribed",
     AVAMTU = "Analysis Injection Vol Prescribed Units"
