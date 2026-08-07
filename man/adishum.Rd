@@ -5,7 +5,7 @@
 \alias{adishum}
 \title{adishum}
 \format{
-A data frame with 25146 rows and 66 variables:
+A data frame with 10922 rows and 66 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{VISITNUM}{Visit Number}
