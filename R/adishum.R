@@ -3,7 +3,7 @@
 #' @description adishum modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 25146 rows and 66 variables:
+#' @format A data frame with 10922 rows and 66 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{VISITNUM}{Visit Number}
