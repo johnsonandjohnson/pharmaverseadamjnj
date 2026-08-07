@@ -20,10 +20,9 @@ add_adishum_col_funcs <- list()
 add_adishum_col_funcs$sample_visits <- function() {
   tibble::tribble(
     ~VISITNUM , ~AVISITN , ~AVISIT , ~VISITDY ,
-     1L       , 1L       , "Day 1" ,      -14 ,
-     2L       , 2L       , "Day 2" ,        1 ,
-     3L       , 3L       , "Day 3" ,        1 ,
-    12L       , 3L       , "Day 4" ,      169
+    1L        , 1L       , "Day 1" ,      -14 ,
+    2L        , 2L       , "Day 2" ,        1 ,
+    3L        , 3L       , "Day 3" ,        2
   )
 }
 
@@ -789,7 +788,7 @@ add_adishum_col_funcs$pp_ensure_anl02fl <- function(main_tbl) {
   return(main_tbl)
 }
 
-# ensure SUADAST rows cover all 9 AVISIT+ATPT combos with min POSITIVE and NEGATIVE per combo
+# ensure SUADAST rows cover AVISIT+ATPT combos with min POSITIVE and NEGATIVE per combo
 add_adishum_col_funcs$pp_ensure_suadast_avalc <- function(
   main_tbl,
   n_day1 = 40,
@@ -801,17 +800,24 @@ add_adishum_col_funcs$pp_ensure_suadast_avalc <- function(
   main_tbl$AVALC <- as.character(main_tbl$AVALC)
   atpt_choices <- c("Pre-dose", "Dose", "8h Post-dose")
 
+  # get avisit labels and avisitn values from sample_visits()
+  visit_map <- add_adishum_col_funcs$sample_visits()
+  avisit_day1 <- visit_map$AVISIT[visit_map$AVISITN == min(visit_map$AVISITN)][1]
+  avisitn_day1 <- min(visit_map$AVISITN)
+  avisit_day3 <- visit_map$AVISIT[visit_map$AVISITN == max(visit_map$AVISITN)][1]
+  avisitn_day3 <- max(visit_map$AVISITN)
+
   suadast_idx <- which(main_tbl$PARAMCD == "SUADAST")
 
-  # step 1: pick ~n_day1 existing SUADAST rows, update AVISIT to Day 1; ~n_day3 to Day 3
+  # step 1: pick ~n_day1 existing SUADAST rows, update AVISIT to first visit; ~n_day3 to last visit
   day1_idx <- sample(suadast_idx, min(n_day1, length(suadast_idx)))
   remaining <- setdiff(suadast_idx, day1_idx)
   day3_idx <- sample(remaining, min(n_day3, length(remaining)))
 
-  main_tbl$AVISIT[day1_idx] <- "Day 1"
-  main_tbl$AVISITN[day1_idx] <- 1L
-  main_tbl$AVISIT[day3_idx] <- "Day 3"
-  main_tbl$AVISITN[day3_idx] <- 3L
+  main_tbl$AVISIT[day1_idx] <- avisit_day1
+  main_tbl$AVISITN[day1_idx] <- avisitn_day1
+  main_tbl$AVISIT[day3_idx] <- avisit_day3
+  main_tbl$AVISITN[day3_idx] <- avisitn_day3
 
   # step 2: assign ATPT within day1 and day3 rows so each choice gets ~n_per_atpt rows
   for (idx in list(day1_idx, day3_idx)) {
