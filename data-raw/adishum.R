@@ -19,56 +19,48 @@ add_adishum_col_funcs <- list()
 # function for adding sample visits
 add_adishum_col_funcs$sample_visits <- function() {
   tibble::tribble(
-    ~VISITNUM, ~AVISITN, ~AVISIT, ~VISITDY,
-    1L, 1L, "Day 1", -14,
-    2L, 2L, "Day 2", 1,
-    3L, 3L, "Day 3", 1,
-    4L, 1L, "Day 1", 15,
-    5L, 2L, "Day 2", 29,
-    6L, 3L, "Day 3", 43,
-    7L, 1L, "Day 1", 57,
-    8L, 2L, "Day 2", 71,
-    12L, 3L, "Day 3", 169
+    ~VISITNUM , ~AVISITN , ~AVISIT , ~VISITDY ,
+     1L       , 1L       , "Day 1" ,      -14 ,
+     2L       , 2L       , "Day 2" ,        1 ,
+     3L       , 3L       , "Day 3" ,        1 ,
+    12L       , 3L       , "Day 4" ,      169
   )
 }
 
 # function for adding sample paramcd
 add_adishum_col_funcs$sample_paramcd <- function() {
   # tribble of PARAMCD, PARAM, ISTESTCD
+  # VISITNUM removed - collection rows now use sample_visits() for visitnums
   sample_param_tbl <- tibble::tribble(
-    ~VISITNUM, ~ISTESTCD, ~PARCAT1, ~PARAMCD, ~PARAM,
-    1, "ADA_BAB", "Collection", "SCRRSLT", "Screening Result",
-    2, "ADA_BAB", "Collection", "CNRRSLT", "Confirmatory Result",
-    3, "ADA_BAB", "Collection", "TITER", "Titer",
-    4, "ADA_BAB", "Collection", "SUADAPT", "Subject Peak Titer",
-    5, "ADA_BAB", "Collection", "SUADAST", "Subject ADA Status",
-    6, "ADA_NAB", "Collection", "NABSCR", "Neutralizing Screening Result",
-    7, "ADA_NAB", "Collection", "NABCNR", "Neutralizing Confirmatory Result",
-    8, "ADA_NAB", "Collection", "SUNABST", "Subject NAB Status",
-    0, NA_character_, "Subject Summary", "ADABL", "Baseline ADA Positive",
-    0, NA_character_, "Subject Summary", "ADABLT", "Baseline ADA Positive Titers",
-    0, NA_character_, "Subject Summary", "ADATRB", "Treatment-boosted ADA Positive",
-    0, NA_character_, "Subject Summary", "ADATRBT", "Treatment-boosted ADA Positive Titers",
-    0, NA_character_, "Subject Summary", "ADANTRB", "Not Treatment-boosted ADA Positive",
-    0, NA_character_, "Subject Summary", "ADANTRBT", "Not Treatment-boosted ADA Positive Titers",
-    0, NA_character_, "Subject Summary", "ADATRI", "Treatment-induced ADA Positive",
-    0, NA_character_, "Subject Summary", "ADATRIPT", "Treatment-induced ADA Positive Peak Titers",
-    0, NA_character_, "Subject Summary", "ADATRE", "Treatment-emergent ADA Positive",
-    0, NA_character_, "Subject Summary", "ADATREPT", "Treatment-emergent ADA Positive Peak Titers",
-    0, NA_character_, "Subject Summary", "ADANTRE", "Treatment-emergent ADA Negative",
-    0, NA_character_, "Subject Summary", "ADAPSP", "Persistent ADA Response",
-    0, NA_character_, "Subject Summary", "ADATSP", "Transient ADA Response",
-    0, NA_character_, "Subject Summary", "ADAUND", "Undetermined ADA Response",
-    0, NA_character_, "Subject Summary", "TMOSADAW", "Time to onset of treatment-induced ADA (weeks)",
-    0, NA_character_, "Subject Summary", "ADADURW", "Duration of treatment-induced ADA (weeks)",
-    0, NA_character_, "Subject Summary", "PSPDURW", "Duration of persistent treatment-induced ADA (weeks)",
-    0, NA_character_, "Subject Summary", "NABPOS", "NAB Positive",
-    0, NA_character_, "Subject Summary", "NABNEG", "NAB Negative",
-  ) |>
-    arrange(
-      VISITNUM,
-      PARAMCD
-    )
+    ~ISTESTCD     , ~PARCAT1          , ~PARAMCD   , ~PARAM                                                 ,
+    "ADA_BAB"     , "Collection"      , "SCRRSLT"  , "Screening Result"                                     ,
+    "ADA_BAB"     , "Collection"      , "CNRRSLT"  , "Confirmatory Result"                                  ,
+    "ADA_BAB"     , "Collection"      , "TITER"    , "Titer"                                                ,
+    "ADA_BAB"     , "Collection"      , "SUADAPT"  , "Subject Peak Titer"                                   ,
+    "ADA_BAB"     , "Collection"      , "SUADAST"  , "Subject ADA Status"                                   ,
+    "ADA_NAB"     , "Collection"      , "NABSCR"   , "Neutralizing Screening Result"                        ,
+    "ADA_NAB"     , "Collection"      , "NABCNR"   , "Neutralizing Confirmatory Result"                     ,
+    "ADA_NAB"     , "Collection"      , "SUNABST"  , "Subject NAB Status"                                   ,
+    NA_character_ , "Subject Summary" , "ADABL"    , "Baseline ADA Positive"                                ,
+    NA_character_ , "Subject Summary" , "ADABLT"   , "Baseline ADA Positive Titers"                         ,
+    NA_character_ , "Subject Summary" , "ADATRB"   , "Treatment-boosted ADA Positive"                       ,
+    NA_character_ , "Subject Summary" , "ADATRBT"  , "Treatment-boosted ADA Positive Titers"                ,
+    NA_character_ , "Subject Summary" , "ADANTRB"  , "Not Treatment-boosted ADA Positive"                   ,
+    NA_character_ , "Subject Summary" , "ADANTRBT" , "Not Treatment-boosted ADA Positive Titers"            ,
+    NA_character_ , "Subject Summary" , "ADATRI"   , "Treatment-induced ADA Positive"                       ,
+    NA_character_ , "Subject Summary" , "ADATRIPT" , "Treatment-induced ADA Positive Peak Titers"           ,
+    NA_character_ , "Subject Summary" , "ADATRE"   , "Treatment-emergent ADA Positive"                      ,
+    NA_character_ , "Subject Summary" , "ADATREPT" , "Treatment-emergent ADA Positive Peak Titers"          ,
+    NA_character_ , "Subject Summary" , "ADANTRE"  , "Treatment-emergent ADA Negative"                      ,
+    NA_character_ , "Subject Summary" , "ADAPSP"   , "Persistent ADA Response"                              ,
+    NA_character_ , "Subject Summary" , "ADATSP"   , "Transient ADA Response"                               ,
+    NA_character_ , "Subject Summary" , "ADAUND"   , "Undetermined ADA Response"                            ,
+    NA_character_ , "Subject Summary" , "TMOSADAW" , "Time to onset of treatment-induced ADA (weeks)"       ,
+    NA_character_ , "Subject Summary" , "ADADURW"  , "Duration of treatment-induced ADA (weeks)"            ,
+    NA_character_ , "Subject Summary" , "PSPDURW"  , "Duration of persistent treatment-induced ADA (weeks)" ,
+    NA_character_ , "Subject Summary" , "NABPOS"   , "NAB Positive"                                         ,
+    NA_character_ , "Subject Summary" , "NABNEG"   , "NAB Negative"                                         ,
+  )
 
   return(sample_param_tbl)
 }
@@ -109,7 +101,8 @@ add_adishum_col_funcs$parqual <- function(main_tbl) {
 # function for adding PARAM and PARAMCD col
 add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
   sample_paramcd <- add_adishum_col_funcs$sample_paramcd()
-  valid_visitnums <- c(1:9, 12)
+  valid_visitnums <- add_adishum_col_funcs$sample_visits() |>
+    dplyr::pull(VISITNUM)
 
   # subject-level cols: same value for all rows of a subject
   subj_level_cols <- c(
@@ -174,7 +167,7 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
     dplyr::filter(stringi::stri_trans_tolower(PARCAT1) == "subject summary") |>
     dplyr::select(ISTESTCD, PARCAT1, PARAMCD, PARAM)
 
-  # subject summary has no visit context - visitnum set to 0 (consistent with sample_paramcd)
+  # subject summary has no visit context - visitnum set to 0
   ss_rows <- tidyr::crossing(
     USUBJID = unique(main_tbl$USUBJID),
     VISITNUM = 0L,
@@ -863,9 +856,8 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
     dplyr::filter(tolower(PARCAT1) == "subject summary") |>
     dplyr::distinct(PARAMCD) |>
     dplyr::pull(PARAMCD)
-  collec_visitnums <- main_tbl |>
-    dplyr::filter(tolower(PARCAT1) == "collection") |>
-    dplyr::distinct(VISITNUM) |>
+
+  collec_visitnums <- add_adishum_col_funcs$sample_visits() |>
     dplyr::pull(VISITNUM)
 
   # rule01: every collection paramcd must appear for every subject x visitnum
