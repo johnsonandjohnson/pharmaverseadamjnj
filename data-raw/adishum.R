@@ -868,25 +868,32 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
     dplyr::distinct(VISITNUM) |>
     dplyr::pull(VISITNUM)
 
-  # rule1: every collection paramcd must appear for every subject x visitnum
-  rule1 <- tidyr::crossing(USUBJID = subj, VISITNUM = collec_visitnums, PARAMCD = collec_paramcds) |>
+  # rule01: every collection paramcd must appear for every subject x visitnum
+  rule01 <- tidyr::crossing(
+    USUBJID = subj,
+    VISITNUM = collec_visitnums,
+    PARAMCD = collec_paramcds
+  ) |>
     dplyr::anti_join(main_tbl, by = c("USUBJID", "VISITNUM", "PARAMCD"))
-  if (nrow(rule1) != 0) {
+  if (nrow(rule01) != 0) {
     message(paste(rep("-", 80)))
-    message("FALSE -- rule1: missing collection PARAMCD for some USUBJID x VISITNUM")
+    message("FALSE -- rule01: missing collection PARAMCD for some USUBJID x VISITNUM")
     message(paste(rep("-", 80)))
   }
 
-  # rule2: every subject summary paramcd must appear once per subject
-  rule2 <- tidyr::crossing(USUBJID = subj, PARAMCD = subj_summ_paramcds) |>
+  # rule02: every subject summary paramcd must appear once per subject
+  rule02 <- tidyr::crossing(
+    USUBJID = subj,
+    PARAMCD = subj_summ_paramcds
+  ) |>
     dplyr::anti_join(main_tbl, by = c("USUBJID", "PARAMCD"))
-  if (nrow(rule2) != 0) {
+  if (nrow(rule02) != 0) {
     message(paste(rep("-", 80)))
-    message("FALSE -- rule2: missing subject summary PARAMCD for some USUBJID")
+    message("FALSE -- rule02: missing subject summary PARAMCD for some USUBJID")
     message(paste(rep("-", 80)))
   }
 
-  rule3 <- main_tbl |>
+  rule03 <- main_tbl |>
     count(
       USUBJID,
       VISITNUM,
@@ -896,25 +903,25 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
       n > 1
     )
 
-  if (nrow(rule3) != 0) {
+  if (nrow(rule03) != 0) {
     message(paste(rep("-", 80)))
-    message("FALSE -- rule3: Each USUBJID should have 1 row per VISITNUM per PARAMCD")
+    message("FALSE -- rule03: Each USUBJID should have 1 row per VISITNUM per PARAMCD")
     message(paste(rep("-", 80)))
   }
 
-  rule4 <- main_tbl |>
+  rule04 <- main_tbl |>
     dplyr::select(
       dplyr::starts_with("ANL")
     ) |>
     lapply(\(x) any(x == "Y", na.rm = TRUE))
 
-  if (!all(unlist(rule4))) {
+  if (!all(unlist(rule04))) {
     message(paste(rep("-", 80)))
-    message('FALSE -- rule4: No "Y" value in one or more ANL__FL columns')
+    message('FALSE -- rule04: No "Y" value in one or more ANL__FL columns')
     message(paste(rep("-", 80)))
   }
 
-  rule5 <- main_tbl |>
+  rule05 <- main_tbl |>
     filter(
       PARAMCD == "ADATREPT"
     ) |>
@@ -925,26 +932,26 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
   avalcat_values <- c("<10", "10 to <100", "100 to <1000", ">=1000")
 
   if (
-    !all(rule5$AVALCAT1 %in% avalcat_values) &&
-      any(rule5$n != 0)
+    !all(rule05$AVALCAT1 %in% avalcat_values) &&
+      any(rule05$n != 0)
   ) {
     message(paste(rep("-", 80)))
-    message(r"{FALSE -- rule5: AVALCAT1 has some values when PARAMCD == "ADATREPT"}")
+    message(r"{FALSE -- rule05: AVALCAT1 has some values when PARAMCD == "ADATREPT"}")
     message(paste(rep("-", 80)))
   }
 
-  rule6 <- main_tbl |>
+  rule06 <- main_tbl |>
     dplyr::distinct(TRT01A, TRT01AN)
 
-  if (any(duplicated(rule6$TRT01A))) {
+  if (any(duplicated(rule06$TRT01A))) {
     message(paste(rep("-", 80)))
-    message("FALSE -- rule6: Treatment columns have different values")
+    message("FALSE -- rule06: Treatment columns have different values")
     message(paste(rep("-", 80)))
   }
 
   anl_flags <- paste0("ANL", sprintf("%02d", 3:12), "FL")
 
-  rule7 <- main_tbl |>
+  rule07 <- main_tbl |>
     dplyr::count(
       USUBJID,
       dplyr::across(dplyr::all_of(anl_flags))
@@ -952,23 +959,23 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
     dplyr::count(USUBJID) |>
     dplyr::filter(n > 1)
 
-  if (nrow(rule7) != 0) {
+  if (nrow(rule07) != 0) {
     message(paste(rep("-", 80)))
-    message("FALSE -- rule7: ANL03FL to ANL12FL are not consistent at subject level")
+    message("FALSE -- rule07: ANL03FL to ANL12FL are not consistent at subject level")
     message(paste(rep("-", 80)))
   }
 
-  rule8 <- main_tbl |>
+  rule08 <- main_tbl |>
     dplyr::filter(TRT01A == "Placebo") |>
     dplyr::filter(IMFL == "Y")
 
-  if (nrow(rule8) != 0) {
+  if (nrow(rule08) != 0) {
     message(paste(rep("-", 80)))
-    message("FALSE -- rule8: Placebo subjects should have IMFL = N")
+    message("FALSE -- rule08: Placebo subjects should have IMFL = N")
     message(paste(rep("-", 80)))
   }
 
-  rule9 <- main_tbl |>
+  rule09 <- main_tbl |>
     dplyr::filter(PARAMCD %in% c("ADATRE", "ADANTRE")) |>
     dplyr::distinct(USUBJID, PARAMCD, AVALC) |>
     tidyr::pivot_wider(names_from = PARAMCD, values_from = AVALC) |>
@@ -977,9 +984,9 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
         (ADATRE == "N" & ADANTRE == "N")
     )
 
-  if (nrow(rule9) != 0) {
+  if (nrow(rule09) != 0) {
     message(paste(rep("-", 80)))
-    message("FALSE -- rule9: ADATRE and ADANTRE must have opposite AVALC values per subject")
+    message("FALSE -- rule09: ADATRE and ADANTRE must have opposite AVALC values per subject")
     message(paste(rep("-", 80)))
   }
 
