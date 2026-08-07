@@ -131,7 +131,8 @@ add_adishum_col_funcs$param_n_paramcd <- function(main_tbl) {
   )
 
   # record-level cols: vary per visit/record - sampled randomly to avoid duplicates
-  key_cols <- c("USUBJID", "VISITNUM", "VISIT", "ISTESTCD", "PARCAT1", "PARAMCD", "PARAM")
+  # VISIT is IS source text - included in record_level_cols so sample_record_cols() fills it
+  key_cols <- c("USUBJID", "VISITNUM", "ISTESTCD", "PARCAT1", "PARAMCD", "PARAM")
   record_level_cols <- setdiff(names(main_tbl), c(key_cols, subj_level_cols))
 
   # one donor row per subject for subject-level cols
