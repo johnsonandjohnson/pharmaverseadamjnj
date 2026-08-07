@@ -800,13 +800,6 @@ add_adishum_col_funcs$pp_ensure_suadast_avalc <- function(
   main_tbl$AVALC <- as.character(main_tbl$AVALC)
   atpt_choices <- c("Pre-dose", "Dose", "8h Post-dose")
 
-  # get avisit labels and avisitn values from sample_visits()
-  visit_map <- add_adishum_col_funcs$sample_visits()
-  avisit_day1 <- visit_map$AVISIT[visit_map$AVISITN == min(visit_map$AVISITN)][1]
-  avisitn_day1 <- min(visit_map$AVISITN)
-  avisit_day3 <- visit_map$AVISIT[visit_map$AVISITN == max(visit_map$AVISITN)][1]
-  avisitn_day3 <- max(visit_map$AVISITN)
-
   suadast_idx <- which(main_tbl$PARAMCD == "SUADAST")
 
   # step 1: pick ~n_day1 existing SUADAST rows, update AVISIT to first visit; ~n_day3 to last visit
@@ -814,10 +807,10 @@ add_adishum_col_funcs$pp_ensure_suadast_avalc <- function(
   remaining <- setdiff(suadast_idx, day1_idx)
   day3_idx <- sample(remaining, min(n_day3, length(remaining)))
 
-  main_tbl$AVISIT[day1_idx] <- avisit_day1
-  main_tbl$AVISITN[day1_idx] <- avisitn_day1
-  main_tbl$AVISIT[day3_idx] <- avisit_day3
-  main_tbl$AVISITN[day3_idx] <- avisitn_day3
+  main_tbl$AVISIT[day1_idx] <- "Day 1"
+  main_tbl$AVISITN[day1_idx] <- 1L
+  main_tbl$AVISIT[day3_idx] <- "Day 3"
+  main_tbl$AVISITN[day3_idx] <- 3L
 
   # step 2: assign ATPT within day1 and day3 rows so each choice gets ~n_per_atpt rows
   for (idx in list(day1_idx, day3_idx)) {
