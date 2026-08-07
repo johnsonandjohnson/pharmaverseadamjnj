@@ -19,16 +19,16 @@ add_adishum_col_funcs <- list()
 # function for adding sample visits
 add_adishum_col_funcs$sample_visits <- function() {
   tibble::tribble(
-    ~VISITNUM, ~AVISITN, ~AVISIT, ~VISITDY,
-    1L, 1L, "Day 1", -14,
-    2L, 2L, "Day 2", 1,
-    3L, 3L, "Day 3", 1,
-    4L, 1L, "Day 1", 15,
-    5L, 2L, "Day 2", 29,
-    6L, 3L, "Day 3", 43,
-    7L, 1L, "Day 1", 57,
-    8L, 2L, "Day 2", 71,
-    12L, 3L, "Day 3", 169
+    ~VISITNUM , ~AVISITN , ~AVISIT , ~VISITDY ,
+     1L       , 1L       , "Day 1" ,      -14 ,
+     2L       , 2L       , "Day 2" ,        1 ,
+     3L       , 3L       , "Day 3" ,        1 ,
+     4L       , 1L       , "Day 1" ,       15 ,
+     5L       , 2L       , "Day 2" ,       29 ,
+     6L       , 3L       , "Day 3" ,       43 ,
+     7L       , 1L       , "Day 1" ,       57 ,
+     8L       , 2L       , "Day 2" ,       71 ,
+    12L       , 3L       , "Day 3" ,      169
   )
 }
 
@@ -36,34 +36,34 @@ add_adishum_col_funcs$sample_visits <- function() {
 add_adishum_col_funcs$sample_paramcd <- function() {
   # tribble of PARAMCD, PARAM, ISTESTCD
   sample_param_tbl <- tibble::tribble(
-    ~VISITNUM, ~ISTESTCD, ~PARCAT1, ~PARAMCD, ~PARAM,
-    1, "ADA_BAB", "Collection", "SCRRSLT", "Screening Result",
-    2, "ADA_BAB", "Collection", "CNRRSLT", "Confirmatory Result",
-    3, "ADA_BAB", "Collection", "TITER", "Titer",
-    4, "ADA_BAB", "Collection", "SUADAPT", "Subject Peak Titer",
-    5, "ADA_BAB", "Collection", "SUADAST", "Subject ADA Status",
-    6, "ADA_NAB", "Collection", "NABSCR", "Neutralizing Screening Result",
-    7, "ADA_NAB", "Collection", "NABCNR", "Neutralizing Confirmatory Result",
-    8, "ADA_NAB", "Collection", "SUNABST", "Subject NAB Status",
-    0, NA_character_, "Subject Summary", "ADABL", "Baseline ADA Positive",
-    0, NA_character_, "Subject Summary", "ADABLT", "Baseline ADA Positive Titers",
-    0, NA_character_, "Subject Summary", "ADATRB", "Treatment-boosted ADA Positive",
-    0, NA_character_, "Subject Summary", "ADATRBT", "Treatment-boosted ADA Positive Titers",
-    0, NA_character_, "Subject Summary", "ADANTRB", "Not Treatment-boosted ADA Positive",
-    0, NA_character_, "Subject Summary", "ADANTRBT", "Not Treatment-boosted ADA Positive Titers",
-    0, NA_character_, "Subject Summary", "ADATRI", "Treatment-induced ADA Positive",
-    0, NA_character_, "Subject Summary", "ADATRIPT", "Treatment-induced ADA Positive Peak Titers",
-    0, NA_character_, "Subject Summary", "ADATRE", "Treatment-emergent ADA Positive",
-    0, NA_character_, "Subject Summary", "ADATREPT", "Treatment-emergent ADA Positive Peak Titers",
-    0, NA_character_, "Subject Summary", "ADANTRE", "Treatment-emergent ADA Negative",
-    0, NA_character_, "Subject Summary", "ADAPSP", "Persistent ADA Response",
-    0, NA_character_, "Subject Summary", "ADATSP", "Transient ADA Response",
-    0, NA_character_, "Subject Summary", "ADAUND", "Undetermined ADA Response",
-    0, NA_character_, "Subject Summary", "TMOSADAW", "Time to onset of treatment-induced ADA (weeks)",
-    0, NA_character_, "Subject Summary", "ADADURW", "Duration of treatment-induced ADA (weeks)",
-    0, NA_character_, "Subject Summary", "PSPDURW", "Duration of persistent treatment-induced ADA (weeks)",
-    0, NA_character_, "Subject Summary", "NABPOS", "NAB Positive",
-    0, NA_character_, "Subject Summary", "NABNEG", "NAB Negative",
+    ~VISITNUM , ~ISTESTCD     , ~PARCAT1          , ~PARAMCD   , ~PARAM                                                 ,
+            1 , "ADA_BAB"     , "Collection"      , "SCRRSLT"  , "Screening Result"                                     ,
+            2 , "ADA_BAB"     , "Collection"      , "CNRRSLT"  , "Confirmatory Result"                                  ,
+            3 , "ADA_BAB"     , "Collection"      , "TITER"    , "Titer"                                                ,
+            4 , "ADA_BAB"     , "Collection"      , "SUADAPT"  , "Subject Peak Titer"                                   ,
+            5 , "ADA_BAB"     , "Collection"      , "SUADAST"  , "Subject ADA Status"                                   ,
+            6 , "ADA_NAB"     , "Collection"      , "NABSCR"   , "Neutralizing Screening Result"                        ,
+            7 , "ADA_NAB"     , "Collection"      , "NABCNR"   , "Neutralizing Confirmatory Result"                     ,
+            8 , "ADA_NAB"     , "Collection"      , "SUNABST"  , "Subject NAB Status"                                   ,
+            0 , NA_character_ , "Subject Summary" , "ADABL"    , "Baseline ADA Positive"                                ,
+            0 , NA_character_ , "Subject Summary" , "ADABLT"   , "Baseline ADA Positive Titers"                         ,
+            0 , NA_character_ , "Subject Summary" , "ADATRB"   , "Treatment-boosted ADA Positive"                       ,
+            0 , NA_character_ , "Subject Summary" , "ADATRBT"  , "Treatment-boosted ADA Positive Titers"                ,
+            0 , NA_character_ , "Subject Summary" , "ADANTRB"  , "Not Treatment-boosted ADA Positive"                   ,
+            0 , NA_character_ , "Subject Summary" , "ADANTRBT" , "Not Treatment-boosted ADA Positive Titers"            ,
+            0 , NA_character_ , "Subject Summary" , "ADATRI"   , "Treatment-induced ADA Positive"                       ,
+            0 , NA_character_ , "Subject Summary" , "ADATRIPT" , "Treatment-induced ADA Positive Peak Titers"           ,
+            0 , NA_character_ , "Subject Summary" , "ADATRE"   , "Treatment-emergent ADA Positive"                      ,
+            0 , NA_character_ , "Subject Summary" , "ADATREPT" , "Treatment-emergent ADA Positive Peak Titers"          ,
+            0 , NA_character_ , "Subject Summary" , "ADANTRE"  , "Treatment-emergent ADA Negative"                      ,
+            0 , NA_character_ , "Subject Summary" , "ADAPSP"   , "Persistent ADA Response"                              ,
+            0 , NA_character_ , "Subject Summary" , "ADATSP"   , "Transient ADA Response"                               ,
+            0 , NA_character_ , "Subject Summary" , "ADAUND"   , "Undetermined ADA Response"                            ,
+            0 , NA_character_ , "Subject Summary" , "TMOSADAW" , "Time to onset of treatment-induced ADA (weeks)"       ,
+            0 , NA_character_ , "Subject Summary" , "ADADURW"  , "Duration of treatment-induced ADA (weeks)"            ,
+            0 , NA_character_ , "Subject Summary" , "PSPDURW"  , "Duration of persistent treatment-induced ADA (weeks)" ,
+            0 , NA_character_ , "Subject Summary" , "NABPOS"   , "NAB Positive"                                         ,
+            0 , NA_character_ , "Subject Summary" , "NABNEG"   , "NAB Negative"                                         ,
   ) |>
     arrange(
       VISITNUM,
@@ -854,7 +854,39 @@ add_adishum_col_funcs$pp_ensure_suadast_avalc <- function(
 
 # add tests to my dataset
 add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
-  rule1 <- main_tbl |>
+  subj <- unique(main_tbl$USUBJID)
+  collec_paramcds <- main_tbl |>
+    dplyr::filter(tolower(PARCAT1) == "collection") |>
+    dplyr::distinct(PARAMCD) |>
+    dplyr::pull(PARAMCD)
+  subj_summ_paramcds <- main_tbl |>
+    dplyr::filter(tolower(PARCAT1) == "subject summary") |>
+    dplyr::distinct(PARAMCD) |>
+    dplyr::pull(PARAMCD)
+  collec_visitnums <- main_tbl |>
+    dplyr::filter(tolower(PARCAT1) == "collection") |>
+    dplyr::distinct(VISITNUM) |>
+    dplyr::pull(VISITNUM)
+
+  # rule1: every collection paramcd must appear for every subject x visitnum
+  rule1 <- tidyr::crossing(USUBJID = subj, VISITNUM = collec_visitnums, PARAMCD = collec_paramcds) |>
+    dplyr::anti_join(main_tbl, by = c("USUBJID", "VISITNUM", "PARAMCD"))
+  if (nrow(rule1) != 0) {
+    message(paste(rep("-", 80)))
+    message("FALSE -- rule1: missing collection PARAMCD for some USUBJID x VISITNUM")
+    message(paste(rep("-", 80)))
+  }
+
+  # rule2: every subject summary paramcd must appear once per subject
+  rule2 <- tidyr::crossing(USUBJID = subj, PARAMCD = subj_summ_paramcds) |>
+    dplyr::anti_join(main_tbl, by = c("USUBJID", "PARAMCD"))
+  if (nrow(rule2) != 0) {
+    message(paste(rep("-", 80)))
+    message("FALSE -- rule2: missing subject summary PARAMCD for some USUBJID")
+    message(paste(rep("-", 80)))
+  }
+
+  rule3 <- main_tbl |>
     count(
       USUBJID,
       VISITNUM,
@@ -864,25 +896,25 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
       n > 1
     )
 
-  if (nrow(rule1) != 0) {
+  if (nrow(rule3) != 0) {
     message(paste(rep("-", 80)))
-    message("FALSE -- Each USUBJID should have 1 row per VISITNUM per PARAMCD")
+    message("FALSE -- rule3: Each USUBJID should have 1 row per VISITNUM per PARAMCD")
     message(paste(rep("-", 80)))
   }
 
-  rule2 <- main_tbl |>
+  rule4 <- main_tbl |>
     dplyr::select(
       dplyr::starts_with("ANL")
     ) |>
     lapply(\(x) any(x == "Y", na.rm = TRUE))
 
-  if (!all(unlist(rule2))) {
+  if (!all(unlist(rule4))) {
     message(paste(rep("-", 80)))
-    message('FALSE -- No "Y" value in one or more ANL__FL columns')
+    message('FALSE -- rule4: No "Y" value in one or more ANL__FL columns')
     message(paste(rep("-", 80)))
   }
 
-  rule3 <- main_tbl |>
+  rule5 <- main_tbl |>
     filter(
       PARAMCD == "ADATREPT"
     ) |>
@@ -893,26 +925,26 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
   avalcat_values <- c("<10", "10 to <100", "100 to <1000", ">=1000")
 
   if (
-    !all(rule3$AVALCAT1 %in% avalcat_values) &&
-      any(rule3$n != 0)
+    !all(rule5$AVALCAT1 %in% avalcat_values) &&
+      any(rule5$n != 0)
   ) {
     message(paste(rep("-", 80)))
-    message(r"{FALSE -- AVALCAT1 has some values when PARAMCD == "ADATREPT"}")
+    message(r"{FALSE -- rule5: AVALCAT1 has some values when PARAMCD == "ADATREPT"}")
     message(paste(rep("-", 80)))
   }
 
-  rule4 <- main_tbl |>
+  rule6 <- main_tbl |>
     dplyr::distinct(TRT01A, TRT01AN)
 
-  if (any(duplicated(rule4$TRT01A))) {
+  if (any(duplicated(rule6$TRT01A))) {
     message(paste(rep("-", 80)))
-    message("FALSE -- Treatment columns have different values")
+    message("FALSE -- rule6: Treatment columns have different values")
     message(paste(rep("-", 80)))
   }
 
   anl_flags <- paste0("ANL", sprintf("%02d", 3:12), "FL")
 
-  rule5 <- main_tbl |>
+  rule7 <- main_tbl |>
     dplyr::count(
       USUBJID,
       dplyr::across(dplyr::all_of(anl_flags))
@@ -920,23 +952,23 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
     dplyr::count(USUBJID) |>
     dplyr::filter(n > 1)
 
-  if (nrow(rule5) != 0) {
+  if (nrow(rule7) != 0) {
     message(paste(rep("-", 80)))
-    message("FALSE -- ANL03FL to ANL12FL are not consistent at subject level")
+    message("FALSE -- rule7: ANL03FL to ANL12FL are not consistent at subject level")
     message(paste(rep("-", 80)))
   }
 
-  rule6 <- main_tbl |>
+  rule8 <- main_tbl |>
     dplyr::filter(TRT01A == "Placebo") |>
     dplyr::filter(IMFL == "Y")
 
-  if (nrow(rule6) != 0) {
+  if (nrow(rule8) != 0) {
     message(paste(rep("-", 80)))
-    message("FALSE -- Placebo subjects should have IMFL = N")
+    message("FALSE -- rule8: Placebo subjects should have IMFL = N")
     message(paste(rep("-", 80)))
   }
 
-  rule7 <- main_tbl |>
+  rule9 <- main_tbl |>
     dplyr::filter(PARAMCD %in% c("ADATRE", "ADANTRE")) |>
     dplyr::distinct(USUBJID, PARAMCD, AVALC) |>
     tidyr::pivot_wider(names_from = PARAMCD, values_from = AVALC) |>
@@ -945,13 +977,13 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
         (ADATRE == "N" & ADANTRE == "N")
     )
 
-  if (nrow(rule7) != 0) {
+  if (nrow(rule9) != 0) {
     message(paste(rep("-", 80)))
-    message("FALSE -- ADATRE and ADANTRE must have opposite AVALC values per subject")
+    message("FALSE -- rule9: ADATRE and ADANTRE must have opposite AVALC values per subject")
     message(paste(rep("-", 80)))
   }
 
-  rule8 <- main_tbl |>
+  rule10 <- main_tbl |>
     dplyr::filter(PARAMCD %in% c("NABPOS", "NABNEG")) |>
     dplyr::distinct(USUBJID, PARAMCD, AVALC) |>
     tidyr::pivot_wider(names_from = PARAMCD, values_from = AVALC) |>
@@ -960,9 +992,9 @@ add_adishum_col_funcs$dataset_tests <- function(main_tbl) {
         (NABPOS == "N" & NABNEG == "N")
     )
 
-  if (nrow(rule8) != 0) {
+  if (nrow(rule10) != 0) {
     message(paste(rep("-", 80)))
-    message("FALSE -- NABPOS and NABNEG must have opposite AVALC values per subject")
+    message("FALSE -- rule10: NABPOS and NABNEG must have opposite AVALC values per subject")
     message(paste(rep("-", 80)))
   }
 
