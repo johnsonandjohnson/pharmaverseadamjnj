@@ -5,23 +5,23 @@
 \alias{adishum}
 \title{adishum}
 \format{
-A data frame with 6436 rows and 66 variables:
+A data frame with 25146 rows and 66 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
+\item{VISITNUM}{Visit Number}
+\item{PARAMCD}{Parameter Code}
+\item{ISTESTCD}{Immunogenicity Test/Exam Short Name}
+\item{PARCAT1}{Parameter Category 1}
+\item{PARAM}{Parameter Description}
 \item{ISSEQ}{Sequence Number}
 \item{ISBDAGNT}{Binding Agent}
 \item{ISSTRESC}{Character Result/Finding in Std Format}
 \item{ISSTRESN}{Numeric Results/Findings in Std. Units}
 \item{ISNAM}{Vendor Name}
-\item{VISITNUM}{Visit Number}
 \item{VISIT}{Visit Name}
 \item{ISDTC}{Date/Time of Collection}
 \item{ADTM}{Analysis Datetime}
 \item{PARQUAL}{Parameter Qualifier}
-\item{ISTESTCD}{Immunogenicity Test/Exam Short Name}
-\item{PARCAT1}{Parameter Category 1}
-\item{PARAMCD}{Parameter Code}
-\item{PARAM}{Parameter Description}
 \item{AVAL}{Analysis Value}
 \item{AVALC}{Analysis Value (C)}
 \item{AVALCAT1}{Analysis Value Category 1}
