@@ -338,16 +338,16 @@ gen_adex <- function(seed = 123) {
       toupper(VISIT) == "WEEK 26" ~ 9,
     ),
     ATPT = dplyr::case_when(
-      ATPTN == 0 ~ "Pre-dose",
-      ATPTN == 1 ~ "Post-dose Hour 1",
-      ATPTN == 2 ~ "Post-dose Hour 2",
-      ATPTN == 3 ~ "Post-dose Hour 3",
-      ATPTN == 4 ~ "Post-dose Hour 4",
-      ATPTN == 5 ~ "Post-dose Hour 5",
-      ATPTN == 6 ~ "Post-dose Hour 6",
-      ATPTN == 7 ~ "Post-dose Hour 7",
-      ATPTN == 8 ~ "Post-dose Hour 8",
-      ATPTN == 9 ~ "Post-dose Hour 9"
+      ATPTN == 0 ~ "Morning dose",
+      ATPTN == 1 ~ "Evening dose 1",
+      ATPTN == 2 ~ "Evening dose 2",
+      ATPTN == 3 ~ "Evening dose 3",
+      ATPTN == 4 ~ "Evening dose 4",
+      ATPTN == 5 ~ "Evening dose 5",
+      ATPTN == 6 ~ "Evening dose 6",
+      ATPTN == 7 ~ "Evening dose 7",
+      ATPTN == 8 ~ "Evening dose 8",
+      ATPTN == 9 ~ "Evening dose 9"
     ),
     ASCHDOSE = EXDOSE,
     ASCHDOSU = EXDOSU,
@@ -391,6 +391,19 @@ gen_adex <- function(seed = 123) {
       paste(date_parts, random_times, "UTC")
     }
   )
+
+  # Derive APERIOD and APERIODC using overall (all subjects) min/max date midpoint
+  .overall_min <- min(as.Date(sub(" .*", "", gen$ASTDTM)), na.rm = TRUE)
+  .overall_max <- max(as.Date(sub(" .*", "", gen$ASTDTM)), na.rm = TRUE)
+  .midpoint <- .overall_min + floor(as.numeric(.overall_max - .overall_min) / 2)
+
+  gen <- gen |>
+    dplyr::mutate(
+      APERIOD = dplyr::if_else(
+        as.Date(sub(" .*", "", ASTDTM)) <= .midpoint, 1L, 2L
+      ),
+      APERIODC = dplyr::if_else(APERIOD == 1L, "Period 1", "Period 2")
+    )
 
 
   # Derive ABODSYSy and ADECODy
@@ -732,7 +745,9 @@ gen_adex <- function(seed = 123) {
     ADURC = "Analysis Duration (C)",
     ADOSFRQP = "Analysis Scheduled Dosing Frequency",
     AVAMT = "Analysis Injection Vol Prescribed",
-    AVAMTU = "Analysis Injection Vol Prescribed Units"
+    AVAMTU = "Analysis Injection Vol Prescribed Units",
+    APERIOD = "Analysis Period",
+    APERIODC = "Analysis Period (C)"
   )
 
   # Handle NA values and convert characters to factors

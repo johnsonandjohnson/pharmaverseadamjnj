@@ -38,6 +38,9 @@
 - Modified ADDISP to update labels for SxSDY and SxEDY variables.
 - Fix adeg CRIT1FL and CRIT2FL factor order
 - Modified ADEX to add ATPT, ATPTN, ADURC, ARSDSDO, ATDPRP, and  ATDPRPU variables
+- Modified ADEX for APERIOD and updated ATPT values
+- Modified ADEX to add AVAMT, AVAMTU, ADOSFRQP, ADOSDLY, ARSDOSD, ACDOSE, ACDOSU, ASTDY,
+  ALL ANL flags ex. ANL01FL, ANL02FL, ANL03FL, ANL04FL, INTCAT, SKPCAT, DLYCAT variables.
 
 ## [0.0.5] - 2026-05-25
 ### Added
