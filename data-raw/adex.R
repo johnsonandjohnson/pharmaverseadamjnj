@@ -585,11 +585,11 @@ gen_adex <- function(seed = 123) {
       ACDOSE = ifelse(!is.na(ECOCCUR), ECDOSE, NA_real_),
       ACDOSU = factor(
         sample(
-          c("mL"),
+          c("mg"),
           dplyr::n(),
           replace = TRUE
         ),
-        levels = c("mL")
+        levels = c("mg")
       ),
       ECRSDOSD = factor(
         sample(
