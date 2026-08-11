@@ -35,15 +35,11 @@ gen_adex <- function(seed = 123) {
       .default = EXDOSE
     ),
     ECOCCUR = factor(
-      sample(
-        c("Y", "N", NA_character_),
-        dplyr::n(),
-        replace = TRUE
+      dplyr::case_when(
+        !is.na(ECDOSE) ~ "Y",
+        .default = NA_character_
       ),
-      levels = c(
-        "Y",
-        "N"
-      )
+      levels = c("Y", "N")
     ),
     EXDOSE = dplyr::case_when(
       EXDOSE == 54 ~ 7.5,
@@ -148,7 +144,13 @@ gen_adex <- function(seed = 123) {
         ">=75"
       )
     ),
-    AOCCUR = as.factor(sample(c("N", "Y"), dplyr::n(), replace = TRUE)),
+    AOCCUR = factor(
+      dplyr::case_when(
+        !is.na(EXDOSE) ~ "Y",
+        .default = NA_character_
+      ),
+      levels = c("Y", "N")
+    ),
     SEX = factor(
       dplyr::case_when(
         SEX == "F" ~ "Female",
