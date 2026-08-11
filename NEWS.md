@@ -38,6 +38,8 @@
 - Modified ADDISP to update labels for SxSDY and SxEDY variables.
 - Fix adeg CRIT1FL and CRIT2FL factor order
 - Updated PARAMN values in ADVS domain
+- Added CRIT6, CRIT6FL, CRIT7 & CRIT7FL on ADILLI for [AST or ALT] PARCAT
+- Added CRIT2, CRIT2FL, CRIT3, CRIT3FL on ADILLI for TBILI & ALP PARCAT
 
 
 ## [0.0.5] - 2026-05-25
