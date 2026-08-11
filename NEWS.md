@@ -18,6 +18,7 @@
 - Added ADAECOMP and ADSLCOMP datasets
 - Added ADDISP dataset
 - Added RACE variable from ADSL to ADEG dataset
+- Added PKRFL variable to ADPC dataset
 
 ### Changed
 - Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX
@@ -37,6 +38,7 @@
 - Modified ADAGOCMQ for AEDECOD merge logic, ACAT1, and used conversion factor GLUC, HBA1C for standard units to conventional units.
 - Modified ADDISP to update labels for SxSDY and SxEDY variables.
 - Fix adeg CRIT1FL and CRIT2FL factor order
+- Modified ADPC for CRIT1 variable
 - Modified ADEX to add ATPT, ATPTN, ADURC, ARSDSDO, ATDPRP, and  ATDPRPU variables
 - Modified ADEX for APERIOD and updated ATPT values
 - Modified ADEX to add AVAMT, AVAMTU, ADOSFRQP, ADOSDLY, ARSDOSD, ACDOSE, ACDOSU, ASTDY,
