@@ -41,12 +41,12 @@ gen_adeg <- function(seed = 123) {
     )),
     PARAM = as.factor(dplyr::case_when(
       PARAMCD == "EGHRMN" ~ "ECG Mean Heart Rate (beats/min)",
-      PARAMCD == "PRAG" ~ "PR Interval, Aggregate (msec)",
-      PARAMCD == "QRSAG" ~ "QRS Duration, Aggregate (msec)",
-      PARAMCD == "QTC" ~ "QT Interval, Corrected (msec)",
-      PARAMCD == "QTCBAG" ~ "QTcB Interval, Aggregate (msec)",
-      PARAMCD == "QTCFAG" ~ "QTcF Interval, Aggregate (msec)",
-      PARAMCD == "RRAG" ~ "RR Interval, Aggregate (msec)",
+      PARAMCD == "PRAG" ~ "PR Interval, Aggregate (ms)",
+      PARAMCD == "QRSAG" ~ "QRS Duration, Aggregate (ms)",
+      PARAMCD == "QTC" ~ "QT Interval, Corrected (ms)",
+      PARAMCD == "QTCBAG" ~ "QTcB Interval, Aggregate (ms)",
+      PARAMCD == "QTCFAG" ~ "QTcF Interval, Aggregate (ms)",
+      PARAMCD == "RRAG" ~ "RR Interval, Aggregate (ms)",
       PARAMCD == "INTP" ~ "Interpretation"
     )),
     AVISIT = forcats::fct_reorder(
