@@ -97,6 +97,8 @@
 #'  \item{PARAM}{Parameter}
 #'  \item{PARAMN}{Parameter (N)}
 #'  \item{AVALCAT1}{Analysis Value Category 1}
+#'  \item{ECDOSE}{ECDOSE}
+#'  \item{ECOCCUR}{Occurrence of Exposure}
 #'  \item{ATRT}{Analysis name of Treatment}
 #'  \item{DAEXPDTC}{Date of Exposure}
 #'  \item{EXLOT}{Lot Number}
@@ -109,18 +111,18 @@
 #'  \item{ACAT1}{Analysis Category 1}
 #'  \item{AREASOC}{Analysis Reason for Occur Value}
 #'  \item{AREASOO}{Other Analysis Reason for Occur Value}
-#'  \item{AADJ}{Analysis Reason for Dose Adjustment}
-#'  \item{AADJPOTH}{Other Anal Reason for Dose Adjust Prior}
-#'  \item{AADJP}{Analysis Reason for Prior Dose Adjust}
 #'  \item{AACTDU}{Analysis Action Taken During Study Trt}
 #'  \item{AACTDU1}{Act Takn Dur Infus-Full Dose Admined}
 #'  \item{AACTDU2}{Act Takn Dur Infus-Infusion Aborted}
 #'  \item{AACTDU3}{Act Takn Dur Infus-Infusion Interrupted}
 #'  \item{AACTDU4}{Act Takn Dur Infus-Infusion Rate Decrsed}
 #'  \item{AACTDU5}{Act Takn Dur Infus-Infusion Rate Incrsed}
-#'  \item{AADJOTH}{Other Anal Reason for Dose Adjustment}
 #'  \item{ACAT2}{Analysis Category 2}
 #'  \item{AACTPR}{Action Taken Prior to Infusion Start}
+#'  \item{AADJP}{Analysis Reason for Prior Dose Adjust}
+#'  \item{AADJPOTH}{Other Anal Reason for Dose Adjust Prior}
+#'  \item{AADJ}{Analysis Reason for Dose Adjustment}
+#'  \item{AADJOTH}{Other Anal Reason for Dose Adjustment}
 #'  \item{ATPTN}{Analysis Timepoint (N)}
 #'  \item{ATPT}{Analysis Timepoint}
 #'  \item{ASCHDOSE}{Analysis Scheduled Dose}
@@ -145,15 +147,13 @@
 #'  \item{ANL02FL}{Analysis Flag 02-Dose reductn due to AE}
 #'  \item{ANL03FL}{Analysis Flag 03-Dose interruption}
 #'  \item{ANL04FL}{Analysis Flag 04-Dose skip not made up}
-#'  \item{ECOCCUR}{ECOCCUR}
-#'  \item{ECDOSE}{ECDOSE}
 #'  \item{ACDOSE}{Analysis Dose Collected}
 #'  \item{ACDOSU}{Analysis Dose Collected Units}
 #'  \item{ECRSDOSD}{ECRSDOSD}
 #'  \item{ECRSDSDO}{ECRSDSDO}
+#'  \item{ADOSDLY}{Analysis Dose Delayed}
 #'  \item{ARSDOSD}{Analysis Reason for Dose Delayed}
 #'  \item{ARSDSDO}{Other Analysis Reason for Dose Delayed}
-#'  \item{ADOSDLY}{Analysis Dose Delayed}
 #'  \item{ECAVAMT}{ECAVAMT}
 #'  \item{AVAMT}{Analysis Injection Vol Prescribed}
 #'  \item{ECAVAMTU}{ECAVAMTU}

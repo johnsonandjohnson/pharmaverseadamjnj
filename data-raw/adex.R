@@ -29,6 +29,22 @@ gen_adex <- function(seed = 123) {
 
   gen <- dplyr::mutate(
     gen,
+    ECDOSE = dplyr::case_when(
+      EXDOSE == 54 ~ 7.5,
+      EXDOSE == 81 ~ 15,
+      .default = EXDOSE
+    ),
+    ECOCCUR = factor(
+      sample(
+        c("Y", "N", NA_character_),
+        dplyr::n(),
+        replace = TRUE
+      ),
+      levels = c(
+        "Y",
+        "N"
+      )
+    ),
     EXDOSE = dplyr::case_when(
       EXDOSE == 54 ~ 7.5,
       EXDOSE == 81 ~ 15,
@@ -195,12 +211,6 @@ gen_adex <- function(seed = 123) {
         "Other reason"
       )
     ),
-    AADJ = AREASOC,
-    AADJPOTH = dplyr::case_when(
-      AADJ == "Other" ~ "************",
-      .default = "Reason prior to infusion"
-    ),
-    AADJP = AADJ,
     AACTDU = factor(
       sample(
         c(
@@ -248,39 +258,6 @@ gen_adex <- function(seed = 123) {
       AACTDU == "INFUSION RATE INCREASED" ~ "INFUSION RATE INCREASED",
       TRUE ~ NA_character_ # default case
     ),
-    AADJOTH = ifelse(
-      AREASOC == "Other",
-      sample(
-        c(
-          "CYSTOSCOPI WITH LESION. RTU PENDING",
-          "MULTIPLE TUMORS IDENTIFIED BY CYSTOSCOPY ON WEEK 12.",
-          "DURING WEEK 12, THE CYSTOSCOPY WAS PERFORMED AND SUSPICION OF PROGRESSION WAS OBSERVED.",
-          "BLADDER MAPPING PERFORMED ON 20 NOV 2023",
-          "PROGRESSION",
-          "DRUG WAS NEVER ADMINISTERED BECAUSE THE SUBJECT DROPPED OUT PRIOR TO FIRST DOSE",
-          "PERSONAL REASONS",
-          "TAR200 WAS HALF BLOCKED BY THE EXIT PORT OF THE UPC",
-          "PQC",
-          "THE DEVICE COULD NOT PUSH TAR-200 OUT.",
-          "SHEET COULD NOT INTO THE BLADDER",
-          "PT HAD HIS 24W TURB ON 22TH OF DECEMBER SO TAR WAS REMOVED AT THAT TIME",
-          "THE DOSE DELAYED DUE TO TURB PERFORMED 10-NOV-2023",
-          "TAR-200 DID NOT TAKE THE PRETZEL SHAPE INSIDE THE BLADDER.",
-          "PATIENT'S VACATION",
-          "TAR200 WAS BLOCKED IN THE MIDDLE OF THE UPC HOLE",
-          "PQC WAS REPORTED.",
-          "PQC WAS IDENTIFIED",
-          "URINARY PLACEMENT CATHETER COULD NOT INTO THE BLADDER.",
-          "INSERTION FAILED",
-          "SUSPICION OF DISEASE PROGRESSION",
-          "DUE TO PERSONAL SCHEDULE",
-          "URINE CULTURE NOT DISPONIBLE"
-        ),
-        dplyr::n(),
-        replace = TRUE
-      ),
-      "Reason during infusion"
-    ),
     ACAT2 = factor(
       sample(
         c("Dose not administered", "Dose administered"),
@@ -324,6 +301,72 @@ gen_adex <- function(seed = 123) {
         "REDUCED [TARGET/TREATMENT]",
         "FULL DOSE ADMINISTERED WITH INTERRUPTION"
       )
+    ),
+    AADJP = dplyr::case_when(
+      !is.na(AACTPR) & as.character(AACTPR) != "" ~
+        sample(
+          c(levels(AREASOC), "Physician Decision", "Subject Request", "Administrative Reason", "Medical Reason"),
+          dplyr::n(),
+          replace = TRUE
+        ),
+      TRUE ~ NA_character_
+    ),
+    AADJPOTH = ifelse(
+      !is.na(AADJP) & AADJP == "Other",
+      sample(
+        c(
+          "Personal reasons",
+          "Physician decision",
+          "Subject request",
+          "Administrative reasons",
+          "Other medical reason"
+        ),
+        dplyr::n(),
+        replace = TRUE
+      ),
+      NA_character_
+    ),
+    AADJ = dplyr::case_when(
+      !is.na(AACTDU) & as.character(AACTDU) != "" ~
+        sample(
+          c(levels(AREASOC), "Physician Decision", "Subject Request", "Administrative Reason", "Medical Reason"),
+          dplyr::n(),
+          replace = TRUE
+        ),
+      TRUE ~ NA_character_
+    ),
+    AADJOTH = ifelse(
+      !is.na(AADJ) & AADJ == "Other",
+      sample(
+        c(
+          "Cystoscopy with lesion. RTU pending",
+          "Multiple tumors identified by cystoscopy on week 12.",
+          "During week 12, the cystoscopy was performed and suspicion of progression was observed.",
+          "Bladder mapping performed on 20 Nov 2023",
+          "Progression",
+          "Drug was never administered because the subject dropped out prior to first dose",
+          "Personal reasons",
+          "TAR200 was half blocked by the exit port of the UPC",
+          "PQC",
+          "The device could not push TAR-200 out.",
+          "Sheet could not into the bladder",
+          "Pt had his 24w TURB on 22th of December so TAR was removed at that time",
+          "The dose delayed due to TURB performed 10-Nov-2023",
+          "TAR-200 did not take the pretzel shape inside the bladder.",
+          "Patient's vacation",
+          "TAR200 was blocked in the middle of the UPC hole",
+          "PQC was reported.",
+          "PQC was identified",
+          "Urinary placement catheter could not into the bladder.",
+          "Insertion failed",
+          "Suspicion of disease progression",
+          "Due to personal schedule",
+          "Urine culture not disponible"
+        ),
+        dplyr::n(),
+        replace = TRUE
+      ),
+      NA_character_
     ),
     ATPTN = dplyr::case_when(
       toupper(VISIT) == "BASELINE" ~ 0,
@@ -468,13 +511,51 @@ gen_adex <- function(seed = 123) {
           ) ~ "Adverse Event",
         .default = AREASOC
       ),
-      ABODSYS1 = dplyr::case_when(
-        AADJ == "Adverse Event" ~ "Gastrointestinal disorders",
-        .default = ABODSYS1
-      ),
       ADECOD1 = dplyr::case_when(
-        AADJ == "Adverse Event" ~ "VOMITING",
-        .default = ADECOD1
+        toupper(AADJ) == "ADVERSE EVENT" | toupper(AADJP) == "ADVERSE EVENT" ~
+          sample(
+            c("VOMITING", "NAUSEA", "DIARRHOEA", "FATIGUE", "HEADACHE", "RASH"),
+            dplyr::n(),
+            replace = TRUE
+          ),
+        .default = NA_character_
+      ),
+      ADECOD2 = dplyr::case_when(
+        toupper(AADJ) == "ADVERSE EVENT" | toupper(AADJP) == "ADVERSE EVENT" ~
+          ifelse(
+            sample(c(TRUE, FALSE), dplyr::n(), replace = TRUE, prob = c(0.5, 0.5)),
+            sample(
+              c("ANAEMIA", "NEUTROPENIA", "THROMBOCYTOPENIA", "PYREXIA", "OEDEMA PERIPHERAL"),
+              dplyr::n(),
+              replace = TRUE
+            ),
+            NA_character_
+          ),
+        .default = NA_character_
+      ),
+      ABODSYS1 = dplyr::if_else(
+        !is.na(ADECOD1),
+        sample(
+          c(
+            "Gastrointestinal disorders", "General disorders and administration site conditions",
+            "Nervous system disorders", "Skin and subcutaneous tissue disorders"
+          ),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        NA_character_
+      ),
+      ABODSYS2 = dplyr::if_else(
+        !is.na(ADECOD2),
+        sample(
+          c(
+            "Investigations", "Musculoskeletal and connective tissue disorders",
+            "Respiratory, thoracic and mediastinal disorders", "Vascular disorders"
+          ),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        NA_character_
       ),
       ANL01FL = dplyr::case_when(
         AROUTE == "Oral" & toupper(AACTPR) == "DOSE REDUCED" & ECMOOD == "Scheduled" ~ "Y",
@@ -501,25 +582,6 @@ gen_adex <- function(seed = 123) {
         AROUTE == "Infusion" & toupper(AACTPR) == "INFUSION SKIPPED (AND NOT MADE UP)" ~ "Y",
         .default = "N"
       ),
-      ECOCCUR = factor(
-        sample(
-          c("Y", "N", NA_character_),
-          dplyr::n(),
-          replace = TRUE
-        ),
-        levels = c(
-          "Y",
-          "N"
-        )
-      ),
-      ECDOSE = factor(
-        sample(
-          c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10),
-          dplyr::n(),
-          replace = TRUE
-        ),
-        levels = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)
-      ),
       ACDOSE = ifelse(!is.na(ECOCCUR), ECDOSE, NA_real_),
       ACDOSU = factor(
         sample(
@@ -532,39 +594,39 @@ gen_adex <- function(seed = 123) {
       ECRSDOSD = factor(
         sample(
           c(
-            "ADVERSE EVENT",
-            "LOW NEUTROPHIL COUNT",
-            "THROMBOCYTOPENIA",
-            "ANEMIA",
-            "INFECTION",
-            "NON-HEMATOLOGIC TOXICITY",
-            "RECOVERY FROM TOXICITY",
-            "PENDING LAB RESULTS",
-            "PHYSICIAN DECISION",
-            "SUBJECT REQUEST",
-            "MISSED VISIT",
-            "OTHER"
+            "Adverse Event",
+            "Low Neutrophil Count",
+            "Thrombocytopenia",
+            "Anemia",
+            "Infection",
+            "Non-Hematologic Toxicity",
+            "Recovery From Toxicity",
+            "Pending Lab Results",
+            "Physician Decision",
+            "Subject Request",
+            "Missed Visit",
+            "Other"
           ),
           dplyr::n(),
           replace = TRUE
         ),
         levels = c(
-          "ADVERSE EVENT",
-          "LOW NEUTROPHIL COUNT",
-          "THROMBOCYTOPENIA",
-          "ANEMIA",
-          "INFECTION",
-          "NON-HEMATOLOGIC TOXICITY",
-          "RECOVERY FROM TOXICITY",
-          "PENDING LAB RESULTS",
-          "PHYSICIAN DECISION",
-          "SUBJECT REQUEST",
-          "MISSED VISIT",
-          "OTHER"
+          "Adverse Event",
+          "Low Neutrophil Count",
+          "Thrombocytopenia",
+          "Anemia",
+          "Infection",
+          "Non-Hematologic Toxicity",
+          "Recovery From Toxicity",
+          "Pending Lab Results",
+          "Physician Decision",
+          "Subject Request",
+          "Missed Visit",
+          "Other"
         )
       ),
       ECRSDSDO = ifelse(
-        toupper(as.character(ECRSDOSD)) == "OTHER",
+        as.character(ECRSDOSD) == "Other",
         sample(
           c(
             "Weather conditions",
@@ -577,8 +639,6 @@ gen_adex <- function(seed = 123) {
         ),
         NA_character_
       ),
-      ARSDOSD = ifelse(ECMOOD == "Scheduled", as.character(ECRSDOSD), NA_character_),
-      ARSDSDO = ifelse(ECMOOD == "Scheduled", as.character(ECRSDSDO), NA_character_),
       ADOSDLY = factor(
         sample(
           c("Y", "N", NA_character_),
@@ -590,6 +650,8 @@ gen_adex <- function(seed = 123) {
           "N"
         )
       ),
+      ARSDOSD = ifelse(ADOSDLY == "Y" & ECMOOD == "Scheduled", as.character(ECRSDOSD), NA_character_),
+      ARSDSDO = ifelse(ARSDOSD == "Other" & ECMOOD == "Scheduled", as.character(ECRSDSDO), NA_character_),
       ECAVAMT = factor(
         sample(
           c(1, 1.5, 1.7, 2.0, 5.0, 3.0, 4.0),
@@ -742,6 +804,7 @@ gen_adex <- function(seed = 123) {
     ATPTN = "Analysis Timepoint (N)",
     ATDPRP = "Analysis Total Dose Prepared",
     ATDPRPU = "Analysis Total Dose Prepared Units",
+    ECOCCUR = "Occurrence of Exposure",
     ADURC = "Analysis Duration (C)",
     ADOSFRQP = "Analysis Scheduled Dosing Frequency",
     AVAMT = "Analysis Injection Vol Prescribed",
