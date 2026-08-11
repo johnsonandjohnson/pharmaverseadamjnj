@@ -70,7 +70,7 @@ gen_adex <- function(seed = 123) {
       TRUE ~ "XXX-YYY-ZZZ-006" # Default value for all other dates
     ),
     ADOSE = case_when(
-      is.na(DOSEO) ~ NA_real_,
+      is.na(EXDOSE) ~ NA_real_,
       DOSEO == 0 ~ 60,
       DOSEO < 60 ~ 60,
       DOSEO >= 60 & DOSEO < 180 ~ 120,
@@ -394,8 +394,8 @@ gen_adex <- function(seed = 123) {
       ATPTN == 8 ~ "Evening dose 8",
       ATPTN == 9 ~ "Evening dose 9"
     ),
-    ASCHDOSE = EXDOSE,
-    ASCHDOSU = EXDOSU,
+    ASCHDOSE = ifelse(is.na(ECOCCUR), EXDOSE, NA_real_),
+    ASCHDOSU = ifelse(is.na(ASCHDOSE), EXDOSU, NA_character_),
     ADOSFRM = EXDOSFRM,
     ADOSU = EXDOSU,
     ADOSFRQ = EXDOSFRQ,
@@ -436,6 +436,11 @@ gen_adex <- function(seed = 123) {
       paste(date_parts, random_times, "UTC")
     }
   )
+
+  gen <- gen |>
+    dplyr::mutate(
+      ADOSU = ifelse(!is.na(ADOSE), EXDOSU, NA_character_)
+    )
 
   # Derive APERIOD and APERIODC using overall (all subjects) min/max date midpoint
   .overall_min <- min(as.Date(sub(" .*", "", gen$ASTDTM)), na.rm = TRUE)
@@ -586,11 +591,7 @@ gen_adex <- function(seed = 123) {
       ),
       ACDOSE = ifelse(!is.na(ECOCCUR), ECDOSE, NA_real_),
       ACDOSU = factor(
-        sample(
-          c("mL"),
-          dplyr::n(),
-          replace = TRUE
-        ),
+        ifelse(!is.na(ACDOSE), "mL", NA_character_),
         levels = c("mL")
       ),
       ECRSDOSD = factor(
