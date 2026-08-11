@@ -39,6 +39,13 @@
 - Modified ADDISP to update labels for SxSDY and SxEDY variables.
 - Fix adeg CRIT1FL and CRIT2FL factor order
 - Modified ADPC for CRIT1 variable
+- Modified ADEX to add ATPT, ATPTN, ADURC, ARSDSDO, ATDPRP, and  ATDPRPU variables
+- Modified ADEX for APERIOD and updated ATPT values
+- Modified ADEX to add AVAMT, AVAMTU, ADOSFRQP, ADOSDLY, ARSDOSD, ACDOSE, ACDOSU, ASTDY,
+  ALL ANL flags ex. ANL01FL, ANL02FL, ANL03FL, ANL04FL, INTCAT, SKPCAT, DLYCAT variables.
+- Updated PARAMN values in ADVS domain
+- Added CRIT6, CRIT6FL, CRIT7 & CRIT7FL on ADILLI for [AST or ALT] PARCAT
+- Added CRIT2, CRIT2FL, CRIT3, CRIT3FL on ADILLI for TBILI & ALP PARCAT
 
 
 ## [0.0.5] - 2026-05-25
