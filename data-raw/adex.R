@@ -37,7 +37,7 @@ gen_adex <- function(seed = 123) {
     ECOCCUR = factor(
       dplyr::case_when(
         !is.na(ECDOSE) ~ "Y",
-        .default = NA_character_
+        .default = "N"
       ),
       levels = c("Y", "N")
     ),
@@ -71,17 +71,9 @@ gen_adex <- function(seed = 123) {
     ),
     ADOSE = case_when(
       is.na(EXDOSE) ~ NA_real_,
-      DOSEO == 0 ~ 60,
-      DOSEO < 60 ~ 60,
-      DOSEO >= 60 & DOSEO < 180 ~ 120,
-      DOSEO >= 180 & DOSEO < 240 ~ 180,
-      DOSEO >= 240 & DOSEO < 300 ~ 240,
-      DOSEO >= 300 & DOSEO < 480 ~ 300,
-      DOSEO >= 480 & DOSEO < 720 ~ 480,
-      DOSEO >= 720 & DOSEO < 1000 ~ 720,
-      DOSEO >= 1000 & DOSEO < 5000 ~ 960,
-      DOSEO >= 5000 & DOSEO < 10000 ~ 1800,
-      DOSEO >= 10000 ~ 3600
+      EXDOSE == 54 ~ 7.5,
+      EXDOSE == 81 ~ 15,
+      .default = EXDOSE
     ),
     TRT01P = droplevels(dplyr::case_when(
       TRT01P == "Screen Failure" ~ NA,
@@ -394,8 +386,8 @@ gen_adex <- function(seed = 123) {
       ATPTN == 8 ~ "Evening dose 8",
       ATPTN == 9 ~ "Evening dose 9"
     ),
-    ASCHDOSE = ifelse(is.na(ECOCCUR), EXDOSE, NA_real_),
-    ASCHDOSU = ifelse(is.na(ASCHDOSE), EXDOSU, NA_character_),
+    ASCHDOSE = ifelse(!is.na(ECOCCUR), EXDOSE, NA_real_),
+    ASCHDOSU = ifelse(!is.na(ASCHDOSE), EXDOSU, NA_character_),
     ADOSFRM = EXDOSFRM,
     ADOSU = EXDOSU,
     ADOSFRQ = EXDOSFRQ,
@@ -663,7 +655,7 @@ gen_adex <- function(seed = 123) {
         ),
         levels = c(1, 1.5, 1.7, 2.0, 5.0, 3.0, 4.0)
       ),
-      AVAMT = ifelse(is.na(ECOCCUR), ECAVAMT, NA_real_),
+      AVAMT = ifelse(!is.na(ECOCCUR), ECAVAMT, NA_real_),
       ECAVAMTU = factor(
         sample(
           c("mL"),
@@ -672,7 +664,7 @@ gen_adex <- function(seed = 123) {
         ),
         levels = c("mL")
       ),
-      AVAMTU = ifelse(is.na(ECOCCUR), as.character(ECAVAMTU), NA_character_),
+      AVAMTU = ifelse(!is.na(ECOCCUR), as.character(ECAVAMTU), NA_character_),
       ATDPRP = sample(c(100, 150, 200, 250, 300), n(), replace = TRUE),
       ATDPRPU = EXDOSU,
       ADURC = case_when(
