@@ -35,15 +35,11 @@ gen_adex <- function(seed = 123) {
       .default = EXDOSE
     ),
     ECOCCUR = factor(
-      sample(
-        c("Y", "N", NA_character_),
-        dplyr::n(),
-        replace = TRUE
+      dplyr::case_when(
+        !is.na(ECDOSE) ~ "Y",
+        .default = "N"
       ),
-      levels = c(
-        "Y",
-        "N"
-      )
+      levels = c("Y", "N")
     ),
     EXDOSE = dplyr::case_when(
       EXDOSE == 54 ~ 7.5,
@@ -74,18 +70,10 @@ gen_adex <- function(seed = 123) {
       TRUE ~ "XXX-YYY-ZZZ-006" # Default value for all other dates
     ),
     ADOSE = case_when(
-      is.na(DOSEO) ~ NA_real_,
-      DOSEO == 0 ~ 60,
-      DOSEO < 60 ~ 60,
-      DOSEO >= 60 & DOSEO < 180 ~ 120,
-      DOSEO >= 180 & DOSEO < 240 ~ 180,
-      DOSEO >= 240 & DOSEO < 300 ~ 240,
-      DOSEO >= 300 & DOSEO < 480 ~ 300,
-      DOSEO >= 480 & DOSEO < 720 ~ 480,
-      DOSEO >= 720 & DOSEO < 1000 ~ 720,
-      DOSEO >= 1000 & DOSEO < 5000 ~ 960,
-      DOSEO >= 5000 & DOSEO < 10000 ~ 1800,
-      DOSEO >= 10000 ~ 3600
+      is.na(EXDOSE) ~ NA_real_,
+      EXDOSE == 54 ~ 7.5,
+      EXDOSE == 81 ~ 15,
+      .default = EXDOSE
     ),
     TRT01P = droplevels(dplyr::case_when(
       TRT01P == "Screen Failure" ~ NA,
@@ -148,7 +136,13 @@ gen_adex <- function(seed = 123) {
         ">=75"
       )
     ),
-    AOCCUR = as.factor(sample(c("N", "Y"), dplyr::n(), replace = TRUE)),
+    AOCCUR = factor(
+      dplyr::case_when(
+        !is.na(EXDOSE) ~ "Y",
+        .default = NA_character_
+      ),
+      levels = c("Y", "N")
+    ),
     SEX = factor(
       dplyr::case_when(
         SEX == "F" ~ "Female",
@@ -392,8 +386,8 @@ gen_adex <- function(seed = 123) {
       ATPTN == 8 ~ "Evening dose 8",
       ATPTN == 9 ~ "Evening dose 9"
     ),
-    ASCHDOSE = EXDOSE,
-    ASCHDOSU = EXDOSU,
+    ASCHDOSE = ifelse(!is.na(ECOCCUR), EXDOSE, NA_real_),
+    ASCHDOSU = ifelse(!is.na(ASCHDOSE), EXDOSU, NA_character_),
     ADOSFRM = EXDOSFRM,
     ADOSU = EXDOSU,
     ADOSFRQ = EXDOSFRQ,
@@ -434,6 +428,11 @@ gen_adex <- function(seed = 123) {
       paste(date_parts, random_times, "UTC")
     }
   )
+
+  gen <- gen |>
+    dplyr::mutate(
+      ADOSU = ifelse(!is.na(ADOSE), EXDOSU, NA_character_)
+    )
 
   # Derive APERIOD and APERIODC using overall (all subjects) min/max date midpoint
   .overall_min <- min(as.Date(sub(" .*", "", gen$ASTDTM)), na.rm = TRUE)
@@ -584,11 +583,7 @@ gen_adex <- function(seed = 123) {
       ),
       ACDOSE = ifelse(!is.na(ECOCCUR), ECDOSE, NA_real_),
       ACDOSU = factor(
-        sample(
-          c("mL"),
-          dplyr::n(),
-          replace = TRUE
-        ),
+        ifelse(!is.na(ACDOSE), "mL", NA_character_),
         levels = c("mL")
       ),
       ECRSDOSD = factor(
@@ -660,7 +655,7 @@ gen_adex <- function(seed = 123) {
         ),
         levels = c(1, 1.5, 1.7, 2.0, 5.0, 3.0, 4.0)
       ),
-      AVAMT = ifelse(is.na(ECOCCUR), ECAVAMT, NA_real_),
+      AVAMT = ifelse(!is.na(ECOCCUR), ECAVAMT, NA_real_),
       ECAVAMTU = factor(
         sample(
           c("mL"),
@@ -669,7 +664,7 @@ gen_adex <- function(seed = 123) {
         ),
         levels = c("mL")
       ),
-      AVAMTU = ifelse(is.na(ECOCCUR), as.character(ECAVAMTU), NA_character_),
+      AVAMTU = ifelse(!is.na(ECOCCUR), as.character(ECAVAMTU), NA_character_),
       ATDPRP = sample(c(100, 150, 200, 250, 300), n(), replace = TRUE),
       ATDPRPU = EXDOSU,
       ADURC = case_when(
