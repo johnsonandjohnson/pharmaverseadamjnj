@@ -87,7 +87,7 @@ gen_adexsum <- function(seed = 123) {
   gen <- dplyr::bind_rows(records)
 
   # Adding Duration of treatment days and years
-  trtdur <- gen %>%
+  trtdur <- gen |>
     dplyr::filter(PARAMCD == "TRTDURM") %>%
     dplyr::bind_rows(
       dplyr::mutate(., PARAM = "Duration of treatment (days)", PARAMCD = "TRTDURD", AVAL = AVAL * 30.4375),
