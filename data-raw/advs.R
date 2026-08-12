@@ -17,6 +17,27 @@ gen_advs <- function(seed = 123) {
   set.seed(seed)
   raw <- pharmaverseadam::advs
 
+  # Assign PARAMCD, PARAM, and PARAMN
+  nw_param_lookup <- tibble::tribble(
+    ~PARAMCD, ~PARAM, ~PARAMN,
+    "SYSBP", "Systolic Blood Pressure (mmHg)", 1,
+    "DIABP", "Diastolic Blood Pressure (mmHg)", 2,
+    "PULSE", "Pulse Rate (beats/min)", 3,
+    "RESP", "Respiratory Rate (breaths/min)", 4,
+    "WEIGHT", "Weight (kg)", 5,
+    "HEIGHT", "Height (cm)", 6,
+    "TEMP", "Temperature (C)", 7,
+    "MAP", "Mean Arterial Pressure (mmHg)", 8,
+    "BMI", "Body Mass Index(kg/m^2)", 9,
+    "BSA", "Body Surface Area(m^2)", 10,
+    "SYSBPO", "Systolic Blood Pressure Orthostatic (mmHg)", 11,
+    "DIABPO", "Diastolic Blood Pressure Orthostatic (mmHg)", 12,
+    "PULSEO", "Pulse Rate Orthostatic (beats/min)", 13,
+    "ORTHYP", "Orthostatic Hypotension", 14,
+    "ORTHYPS", "SBP (STD-SUP) <-20", 15,
+    "ORTHYPD", "DBP (STD-SUP) <-10", 16,
+  )
+
   gen <- raw |>
     # nolint start
     dplyr::filter(
@@ -478,6 +499,14 @@ gen_advs <- function(seed = 123) {
     ) |>
     dplyr::mutate(
       AVISIT = case_when(ABLFL == "Y" ~ "Baseline", TRUE ~ AVISIT)
+    )
+
+  gen <- gen %>%
+    select(-PARAMN) %>%
+    admiral::derive_vars_merged_lookup(
+      dataset_add = nw_param_lookup,
+      by_vars = exprs(PARAMCD),
+      new_vars = exprs(PARAMN)
     )
 
   source(file.path("data-raw", "adsl.R"))
