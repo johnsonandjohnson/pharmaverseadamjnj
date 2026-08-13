@@ -88,16 +88,16 @@ gen_adex <- function(seed = 123) {
       .default = TRT01A
     )),
     AVISITN = case_when(
-      VISIT == "Baseline" ~ 1,
-      VISIT == "Week 2" ~ 2,
-      VISIT == "Week 4" ~ 3,
-      VISIT == "Week 6" ~ 4,
-      VISIT == "Week 8" ~ 5,
-      VISIT == "Week 12" ~ 6,
-      VISIT == "Week 16" ~ 7,
-      VISIT == "Week 20" ~ 8,
-      VISIT == "Week 24" ~ 9,
-      VISIT == "Week 26" ~ 10,
+      toupper(VISIT) == toupper("Baseline") ~ 1,
+      toupper(VISIT) == toupper("Week 2") ~ 2,
+      toupper(VISIT) == toupper("Week 4") ~ 3,
+      toupper(VISIT) == toupper("Week 6") ~ 4,
+      toupper(VISIT) == toupper("Week 8") ~ 5,
+      toupper(VISIT) == toupper("Week 12") ~ 6,
+      toupper(VISIT) == toupper("Week 16") ~ 7,
+      toupper(VISIT) == toupper("Week 20") ~ 8,
+      toupper(VISIT) == toupper("Week 24") ~ 9,
+      toupper(VISIT) == toupper("Week 26") ~ 10
     ),
     AVISIT = fct_reorder(
       as.factor(case_when(
@@ -342,6 +342,39 @@ gen_adex <- function(seed = 123) {
       paste(date_parts, random_times, "UTC")
     }
   )
+
+  # TODO: Delete ------------
+  # Start -------------------
+  # Temporary Changes for ADISHUM Listings
+
+  gen <- gen |>
+    mutate(
+      AVISITN = if_else(
+        AVISITN == 9,
+        3,
+        AVISITN
+      )
+    )
+
+  gen <- gen |>
+    mutate(
+      AVISIT = dplyr::case_when(
+        AVISIT == "BASELINE" ~ "Day 1",
+        AVISIT == "WEEK 2" ~ "Day 2",
+        AVISIT == "WEEK 24" ~ "Day 3",
+      )
+    )
+
+  gen <- gen |>
+    mutate(
+      AOCCUR = if_else(
+        !is.na(EXSTDT),
+        "Y",
+        "N"
+      )
+    )
+
+  # End -------------------
 
   # Derive ABODSYSy and ADECODy
   #  - ABODSYSy: AE System Organ Class (AE.AEBODSYS)
