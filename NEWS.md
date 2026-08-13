@@ -38,6 +38,8 @@
 - Modified ADAGOCMQ for AEDECOD merge logic, ACAT1, and used conversion factor GLUC, HBA1C for standard units to conventional units.
 - Modified ADDISP to update labels for SxSDY and SxEDY variables.
 - Fix adeg CRIT1FL and CRIT2FL factor order
+- Modified ADEG for AVAL variableto include "ABNORMAL, CS", "ABNORMAL, NCS", "NORMAL"
+- Modifed ADEG for PARAMCD convered 'msec' to 'ms'
 - Modified ADPC for CRIT1 variable
 - Modified ADEX to add ATPT, ATPTN, ADURC, ARSDSDO, ATDPRP, and  ATDPRPU variables
 - Modified ADEX for APERIOD and updated ATPT values

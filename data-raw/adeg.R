@@ -41,12 +41,12 @@ gen_adeg <- function(seed = 123) {
     )),
     PARAM = as.factor(dplyr::case_when(
       PARAMCD == "EGHRMN" ~ "ECG Mean Heart Rate (beats/min)",
-      PARAMCD == "PRAG" ~ "PR Interval, Aggregate (msec)",
-      PARAMCD == "QRSAG" ~ "QRS Duration, Aggregate (msec)",
-      PARAMCD == "QTC" ~ "QT Interval, Corrected (msec)",
-      PARAMCD == "QTCBAG" ~ "QTcB Interval, Aggregate (msec)",
-      PARAMCD == "QTCFAG" ~ "QTcF Interval, Aggregate (msec)",
-      PARAMCD == "RRAG" ~ "RR Interval, Aggregate (msec)",
+      PARAMCD == "PRAG" ~ "PR Interval, Aggregate (ms)",
+      PARAMCD == "QRSAG" ~ "QRS Duration, Aggregate (ms)",
+      PARAMCD == "QTC" ~ "QT Interval, Corrected (ms)",
+      PARAMCD == "QTCBAG" ~ "QTcB Interval, Aggregate (ms)",
+      PARAMCD == "QTCFAG" ~ "QTcF Interval, Aggregate (ms)",
+      PARAMCD == "RRAG" ~ "RR Interval, Aggregate (ms)",
       PARAMCD == "INTP" ~ "Interpretation"
     )),
     AVISIT = forcats::fct_reorder(
@@ -145,11 +145,12 @@ gen_adeg <- function(seed = 123) {
   # and set EGCLSIG accordingly
   intp_rows <- which(gen$PARAMCD == "INTP")
   # Randomly assign NORMAL or ABNORMAL to AVALC for INTP rows
-  gen$AVALC[intp_rows] <- sample(c("NORMAL", "ABNORMAL"), length(intp_rows), replace = TRUE, prob = c(0.5, 0.5))
+  gen$AVALC[intp_rows] <- sample(c("ABNORMAL, CS", "ABNORMAL, NCS", "NORMAL"),
+                                 length(intp_rows), replace = TRUE, prob = c(0.5, 0.5, 0.5))
 
   # Set EGCLSIG based on AVALC
   normal_rows <- intp_rows[gen$AVALC[intp_rows] == "NORMAL"]
-  abnormal_rows <- intp_rows[gen$AVALC[intp_rows] == "ABNORMAL"]
+  abnormal_rows <- intp_rows[gen$AVALC[intp_rows] == "ABNORMAL, CS"]
 
   # Set EGCLSIG to NA for NORMAL rows
   gen$EGCLSIG[normal_rows] <- NA
