@@ -50,7 +50,7 @@
 - Added CRIT2, CRIT2FL, CRIT3, CRIT3FL on ADILLI for TBILI & ALP PARCAT
 - Modified ADEXSUM to add TRTDURD parameter
 - Modified ECOCCUR, ADOSE, ACDOSE, ASCHDOSE, AVAMT, ADOSU, ACDOSU. ASCHDOSU and AVAMTU variables
-- Modifies PARAM unit to 'mg' in ADEXSM dataset 
+- Modifies PARAM unit to 'mg' in ADEXSUM dataset 
 
 
 ## [0.0.5] - 2026-05-25
