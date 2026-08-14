@@ -36,7 +36,7 @@ gen_adexsum <- function(seed = 123) {
       "TRTDURM"
     ),
     PARAM = c(
-      "Cumulative dose ([mg])",
+      "Cumulative dose (mg)",
       "Total dosing days of treatment (excluding days off treatment)",
       "Final daily dose ([unit]/day)",
       "Average daily dose ([unit]/day) (excluding days off treatment)",
