@@ -710,8 +710,8 @@ gen_adex <- function(seed = 123) {
         !is.na(AENDTM) & !is.na(ASTDTM) ~
           sprintf(
             "%02d:%02d",
-            as.numeric(difftime(AENDTM, ASTDTM, units = "hours")),
-            as.numeric(difftime(AENDTM, ASTDTM, units = "mins")) %% 60
+            as.integer(floor(as.numeric(difftime(AENDTM, ASTDTM, units = "hours")))),
+            as.integer(floor(as.numeric(difftime(AENDTM, ASTDTM, units = "mins")) %% 60))
           ),
         TRUE ~ NA_character_
       )
