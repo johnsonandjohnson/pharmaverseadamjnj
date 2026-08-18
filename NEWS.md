@@ -1,11 +1,7 @@
-# pharmaverseadamjnj 0.0.6.1
+# pharmaverseadamjnj 0.0.6
 
 ### Added
 - Added ADISHUM Dataset
-
-## [0.0.6] - 2026-06-16
-
-### Added
 - Added vars to ADSL: LASTCTDT, UNBLNDDT, IMFL, SAFEXRS, FASEXRS, PPREXRS, PKEXRES, and IMEXRES
 - Added restord labels to xpt
 - Change ONTRFl for ADVS to first dose within 30 days
@@ -21,6 +17,8 @@
 - Added AOCT01FL, AOCT02FL, AOCT03FL, AOCS01FL, AOCS02FL, AOCS03FL to ADAE
 - Added ADAECOMP and ADSLCOMP datasets
 - Added ADDISP dataset
+- Added RACE variable from ADSL to ADEG dataset
+- Added PKRFL variable to ADPC dataset
 
 ### Changed
 - Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX
@@ -39,6 +37,20 @@
 - Modified ADAEOCMQ to update derivation rule for OCMQNAM and AEDECOD
 - Modified ADAGOCMQ for AEDECOD merge logic, ACAT1, and used conversion factor GLUC, HBA1C for standard units to conventional units.
 - Modified ADDISP to update labels for SxSDY and SxEDY variables.
+- Fix adeg CRIT1FL and CRIT2FL factor order
+- Modified ADEG for AVAL variableto include "ABNORMAL, CS", "ABNORMAL, NCS", "NORMAL"
+- Modifed ADEG for PARAMCD convered 'msec' to 'ms'
+- Modified ADPC for CRIT1 variable
+- Modified ADEX to add ATPT, ATPTN, ADURC, ARSDSDO, ATDPRP, and  ATDPRPU variables
+- Modified ADEX for APERIOD and updated ATPT values
+- Modified ADEX to add AVAMT, AVAMTU, ADOSFRQP, ADOSDLY, ARSDOSD, ACDOSE, ACDOSU, ASTDY,
+  ALL ANL flags ex. ANL01FL, ANL02FL, ANL03FL, ANL04FL, INTCAT, SKPCAT, DLYCAT variables.
+- Updated PARAMN values in ADVS domain
+- Added CRIT6, CRIT6FL, CRIT7 & CRIT7FL on ADILLI for [AST or ALT] PARCAT
+- Added CRIT2, CRIT2FL, CRIT3, CRIT3FL on ADILLI for TBILI & ALP PARCAT
+- Modified ADEXSUM to add TRTDURD parameter
+- Modified ECOCCUR, ADOSE, ACDOSE, ASCHDOSE, AVAMT, ADOSU, ACDOSU. ASCHDOSU and AVAMTU variables
+
 
 ## [0.0.5] - 2026-05-25
 ### Added

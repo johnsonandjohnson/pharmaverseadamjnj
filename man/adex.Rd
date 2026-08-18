@@ -5,7 +5,11 @@
 \alias{adex}
 \title{adex}
 \format{
+<<<<<<< HEAD
 A data frame with 591 rows and 133 variables:
+=======
+A data frame with 591 rows and 162 variables:
+>>>>>>> dev
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{USUBJID}{Unique Subject Identifier}
@@ -88,7 +92,7 @@ A data frame with 591 rows and 133 variables:
 \item{AENDTM}{Analysis End Datetime}
 \item{AENDTF}{Analysis End Date Imputation Flag}
 \item{AENTMF}{Analysis End Time Imputation Flag}
-\item{ASTDY}{Analysis Start Relative Day}
+\item{ASTDY}{Analysis Study Day}
 \item{AENDY}{Analysis End Relative Day}
 \item{DOSEO}{Dose O}
 \item{PDOSEO}{PDose O}
@@ -99,6 +103,8 @@ A data frame with 591 rows and 133 variables:
 \item{PARAM}{Parameter}
 \item{PARAMN}{Parameter (N)}
 \item{AVALCAT1}{Analysis Value Category 1}
+\item{ECDOSE}{ECDOSE}
+\item{ECOCCUR}{Occurrence of Exposure}
 \item{ATRT}{Analysis name of Treatment}
 \item{DAEXPDTC}{Date of Exposure}
 \item{EXLOT}{Lot Number}
@@ -111,35 +117,71 @@ A data frame with 591 rows and 133 variables:
 \item{ACAT1}{Analysis Category 1}
 \item{AREASOC}{Analysis Reason for Occur Value}
 \item{AREASOO}{Other Analysis Reason for Occur Value}
-\item{AADJ}{Analysis Reason for Dose Adjustment}
-\item{AADJPOTH}{Other Anal Reason for Dose Adjust Prior}
-\item{AADJP}{Analysis Reason for Prior Dose Adjust}
 \item{AACTDU}{Analysis Action Taken During Study Trt}
 \item{AACTDU1}{Act Takn Dur Infus-Full Dose Admined}
 \item{AACTDU2}{Act Takn Dur Infus-Infusion Aborted}
 \item{AACTDU3}{Act Takn Dur Infus-Infusion Interrupted}
 \item{AACTDU4}{Act Takn Dur Infus-Infusion Rate Decrsed}
 \item{AACTDU5}{Act Takn Dur Infus-Infusion Rate Incrsed}
-\item{AADJOTH}{Other Anal Reason for Dose Adjustment}
 \item{ACAT2}{Analysis Category 2}
 \item{AACTPR}{Action Taken Prior to Infusion Start}
+\item{AADJP}{Analysis Reason for Prior Dose Adjust}
+\item{AADJPOTH}{Other Anal Reason for Dose Adjust Prior}
+\item{AADJ}{Analysis Reason for Dose Adjustment}
+\item{AADJOTH}{Other Anal Reason for Dose Adjustment}
+\item{ATPTN}{Analysis Timepoint (N)}
+\item{ATPT}{Analysis Timepoint}
 \item{ASCHDOSE}{Analysis Scheduled Dose}
 \item{ASCHDOSU}{Analysis Scheduled Dose Units}
 \item{ADOSFRM}{Analysis Dose Form}
 \item{ADOSU}{Analysis Dose Units}
 \item{ADOSFRQ}{Analysis Dosing Frequency per Interval}
+\item{ADOSFRQP}{Analysis Scheduled Dosing Frequency}
+\item{ECMOOD}{ECMOOD}
 \item{AROUTE}{Analysis Route of Administration}
 \item{ATVINF}{Analysis Total Volume Infused}
 \item{ATVINFU}{Analysis Total Volume Infused Units}
 \item{AINFRAT}{Analysis Infusion Rate}
 \item{AINFRAU}{Analysis Infusion Rate Unit}
+<<<<<<< HEAD
 \item{EXSTDT}{Exposure Start Date}
+=======
+\item{APERIOD}{Analysis Period}
+\item{APERIODC}{Analysis Period (C)}
+>>>>>>> dev
 \item{ABODSYS1}{AE SOC Driving Study Drug Action (1)}
 \item{ABODSYS2}{AE SOC Driving Study Drug Action (2)}
 \item{ADECOD1}{AE PT Driving Study Drug Action (1)}
 \item{ADECOD2}{AE PT Driving Study Drug Action (2)}
+<<<<<<< HEAD
 \item{ADATRES}{Treatment-emergent ADA Subject Status}
 \item{NABSTAT}{NAB Status}
+=======
+\item{ANL01FL}{Analysis Flag 01-Dose reduction}
+\item{ANL02FL}{Analysis Flag 02-Dose reductn due to AE}
+\item{ANL03FL}{Analysis Flag 03-Dose interruption}
+\item{ANL04FL}{Analysis Flag 04-Dose skip not made up}
+\item{ACDOSE}{Analysis Dose Collected}
+\item{ACDOSU}{Analysis Dose Collected Units}
+\item{ECRSDOSD}{ECRSDOSD}
+\item{ECRSDSDO}{ECRSDSDO}
+\item{ADOSDLY}{Analysis Dose Delayed}
+\item{ARSDOSD}{Analysis Reason for Dose Delayed}
+\item{ARSDSDO}{Other Analysis Reason for Dose Delayed}
+\item{ECAVAMT}{ECAVAMT}
+\item{AVAMT}{Analysis Injection Vol Prescribed}
+\item{ECAVAMTU}{ECAVAMTU}
+\item{AVAMTU}{Analysis Injection Vol Prescribed Units}
+\item{ATDPRP}{Analysis Total Dose Prepared}
+\item{ATDPRPU}{Analysis Total Dose Prepared Units}
+\item{ADURC}{Analysis Duration (C)}
+\item{INTN}{Number of Dose Interruptions}
+\item{INTCAT}{Dose Interruption Category}
+\item{SKPN}{Number of Dose Skipped}
+\item{SKPCAT}{Dose Skipped Category}
+\item{DLYN}{Number of Dose Delay}
+\item{DLYCAT}{Dose Delay Category}
+>>>>>>> dev
 }
 }
 \source{

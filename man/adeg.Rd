@@ -5,7 +5,7 @@
 \alias{adeg}
 \title{adeg}
 \format{
-A data frame with 13536 rows and 70 variables:
+A data frame with 13536 rows and 71 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{DOMAIN}{Domain Abbreviation}
@@ -77,6 +77,7 @@ A data frame with 13536 rows and 70 variables:
 \item{STUDYID}{Study Identifier}
 \item{AGE}{Age}
 \item{SEX}{Sex}
+\item{RACE}{Race}
 }
 }
 \source{
@@ -92,7 +93,7 @@ adeg modified from pharmaverseadam
  head(data("adeg"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 }
 \keyword{adeg}
 \keyword{datasets}

@@ -5,7 +5,11 @@
 \alias{adexsum}
 \title{adexsum}
 \format{
+<<<<<<< HEAD
 A data frame with 2794 rows and 27 variables:
+=======
+A data frame with 3048 rows and 25 variables:
+>>>>>>> dev
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{PARAMCD}{Parameter Code}

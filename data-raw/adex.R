@@ -31,6 +31,18 @@ gen_adex <- function(seed = 123) {
 
   gen <- dplyr::mutate(
     gen,
+    ECDOSE = dplyr::case_when(
+      EXDOSE == 54 ~ 7.5,
+      EXDOSE == 81 ~ 15,
+      .default = EXDOSE
+    ),
+    ECOCCUR = factor(
+      dplyr::case_when(
+        !is.na(ECDOSE) ~ "Y",
+        .default = "N"
+      ),
+      levels = c("Y", "N")
+    ),
     EXDOSE = dplyr::case_when(
       EXDOSE == 54 ~ 7.5,
       EXDOSE == 81 ~ 15,
@@ -60,18 +72,10 @@ gen_adex <- function(seed = 123) {
       TRUE ~ "XXX-YYY-ZZZ-006" # Default value for all other dates
     ),
     ADOSE = case_when(
-      is.na(DOSEO) ~ NA_real_,
-      DOSEO == 0 ~ 60,
-      DOSEO < 60 ~ 60,
-      DOSEO >= 60 & DOSEO < 180 ~ 120,
-      DOSEO >= 180 & DOSEO < 240 ~ 180,
-      DOSEO >= 240 & DOSEO < 300 ~ 240,
-      DOSEO >= 300 & DOSEO < 480 ~ 300,
-      DOSEO >= 480 & DOSEO < 720 ~ 480,
-      DOSEO >= 720 & DOSEO < 1000 ~ 720,
-      DOSEO >= 1000 & DOSEO < 5000 ~ 960,
-      DOSEO >= 5000 & DOSEO < 10000 ~ 1800,
-      DOSEO >= 10000 ~ 3600
+      is.na(EXDOSE) ~ NA_real_,
+      EXDOSE == 54 ~ 7.5,
+      EXDOSE == 81 ~ 15,
+      .default = EXDOSE
     ),
     TRT01P = droplevels(dplyr::case_when(
       TRT01P == "Screen Failure" ~ NA,
@@ -88,29 +92,29 @@ gen_adex <- function(seed = 123) {
       .default = TRT01A
     )),
     AVISITN = case_when(
-      toupper(VISIT) == toupper("Baseline") ~ 1,
-      toupper(VISIT) == toupper("Week 2") ~ 2,
-      toupper(VISIT) == toupper("Week 4") ~ 3,
-      toupper(VISIT) == toupper("Week 6") ~ 4,
-      toupper(VISIT) == toupper("Week 8") ~ 5,
-      toupper(VISIT) == toupper("Week 12") ~ 6,
-      toupper(VISIT) == toupper("Week 16") ~ 7,
-      toupper(VISIT) == toupper("Week 20") ~ 8,
-      toupper(VISIT) == toupper("Week 24") ~ 9,
-      toupper(VISIT) == toupper("Week 26") ~ 10
+      toupper(VISIT) == "BASELINE" ~ 1,
+      toupper(VISIT) == "WEEK 2" ~ 2,
+      toupper(VISIT) == "WEEK 4" ~ 3,
+      toupper(VISIT) == "WEEK 6" ~ 4,
+      toupper(VISIT) == "WEEK 8" ~ 5,
+      toupper(VISIT) == "WEEK 12" ~ 6,
+      toupper(VISIT) == "WEEK 16" ~ 7,
+      toupper(VISIT) == "WEEK 20" ~ 8,
+      toupper(VISIT) == "WEEK 24" ~ 9,
+      toupper(VISIT) == "WEEK 26" ~ 10,
     ),
     AVISIT = fct_reorder(
       as.factor(case_when(
-        VISIT == "Baseline" ~ "Screening",
-        VISIT == "Week 2" ~ "Cycle 02",
-        VISIT == "Week 4" ~ "Cycle 03",
-        VISIT == "Week 6" ~ "Cycle 04",
-        VISIT == "Week 8" ~ "Cycle 05",
-        VISIT == "Week 12" ~ "Cycle 06",
-        VISIT == "Week 16" ~ "Cycle 07",
-        VISIT == "Week 20" ~ "Cycle 08",
-        VISIT == "Week 24" ~ "Cycle 09",
-        VISIT == "Week 26" ~ "End Of Treatment",
+        toupper(VISIT) == "BASELINE" ~ "Screening",
+        toupper(VISIT) == "WEEK 2" ~ "Cycle 02",
+        toupper(VISIT) == "WEEK 4" ~ "Cycle 03",
+        toupper(VISIT) == "WEEK 6" ~ "Cycle 04",
+        toupper(VISIT) == "WEEK 8" ~ "Cycle 05",
+        toupper(VISIT) == "WEEK 12" ~ "Cycle 06",
+        toupper(VISIT) == "WEEK 16" ~ "Cycle 07",
+        toupper(VISIT) == "WEEK 20" ~ "Cycle 08",
+        toupper(VISIT) == "WEEK 24" ~ "Cycle 09",
+        toupper(VISIT) == "WEEK 26" ~ "End Of Treatment",
         TRUE ~ as.character(VISIT) # Other values remain unchanged
       )),
       AVISITN,
@@ -134,7 +138,13 @@ gen_adex <- function(seed = 123) {
         ">=75"
       )
     ),
-    AOCCUR = as.factor(sample(c("N", "Y"), dplyr::n(), replace = TRUE)),
+    AOCCUR = factor(
+      dplyr::case_when(
+        !is.na(EXDOSE) ~ "Y",
+        .default = NA_character_
+      ),
+      levels = c("Y", "N")
+    ),
     SEX = factor(
       dplyr::case_when(
         SEX == "F" ~ "Female",
@@ -197,12 +207,6 @@ gen_adex <- function(seed = 123) {
         "Other reason"
       )
     ),
-    AADJ = AREASOC,
-    AADJPOTH = dplyr::case_when(
-      AADJ == "Other" ~ "************",
-      .default = "Reason prior to infusion"
-    ),
-    AADJP = AADJ,
     AACTDU = factor(
       sample(
         c(
@@ -250,39 +254,6 @@ gen_adex <- function(seed = 123) {
       AACTDU == "INFUSION RATE INCREASED" ~ "INFUSION RATE INCREASED",
       TRUE ~ NA_character_ # default case
     ),
-    AADJOTH = ifelse(
-      AREASOC == "Other",
-      sample(
-        c(
-          "CYSTOSCOPI WITH LESION. RTU PENDING",
-          "MULTIPLE TUMORS IDENTIFIED BY CYSTOSCOPY ON WEEK 12.",
-          "DURING WEEK 12, THE CYSTOSCOPY WAS PERFORMED AND SUSPICION OF PROGRESSION WAS OBSERVED.",
-          "BLADDER MAPPING PERFORMED ON 20 NOV 2023",
-          "PROGRESSION",
-          "DRUG WAS NEVER ADMINISTERED BECAUSE THE SUBJECT DROPPED OUT PRIOR TO FIRST DOSE",
-          "PERSONAL REASONS",
-          "TAR200 WAS HALF BLOCKED BY THE EXIT PORT OF THE UPC",
-          "PQC",
-          "THE DEVICE COULD NOT PUSH TAR-200 OUT.",
-          "SHEET COULD NOT INTO THE BLADDER",
-          "PT HAD HIS 24W TURB ON 22TH OF DECEMBER SO TAR WAS REMOVED AT THAT TIME",
-          "THE DOSE DELAYED DUE TO TURB PERFORMED 10-NOV-2023",
-          "TAR-200 DID NOT TAKE THE PRETZEL SHAPE INSIDE THE BLADDER.",
-          "PATIENT'S VACATION",
-          "TAR200 WAS BLOCKED IN THE MIDDLE OF THE UPC HOLE",
-          "PQC WAS REPORTED.",
-          "PQC WAS IDENTIFIED",
-          "URINARY PLACEMENT CATHETER COULD NOT INTO THE BLADDER.",
-          "INSERTION FAILED",
-          "SUSPICION OF DISEASE PROGRESSION",
-          "DUE TO PERSONAL SCHEDULE",
-          "URINE CULTURE NOT DISPONIBLE"
-        ),
-        dplyr::n(),
-        replace = TRUE
-      ),
-      "Reason during infusion"
-    ),
     ACAT2 = factor(
       sample(
         c("Dose not administered", "Dose administered"),
@@ -304,7 +275,11 @@ gen_adex <- function(seed = 123) {
           "INFUSION DELAYED WITHIN THE CYCLE",
           "DOSE REDUCED COMPARED TO PRIOR INFUSION",
           "SAME DOSE AS PRIOR INFUSION",
-          "STUDY DRUG PERMANENTLY DISCONTINUED"
+          "STUDY DRUG PERMANENTLY DISCONTINUED",
+          "DOSE REDUCED",
+          "DOSE REDUCED COMPARED TO PRIOR INJECTION",
+          "REDUCED [TARGET/TREATMENT]",
+          "FULL DOSE ADMINISTERED WITH INTERRUPTION"
         ),
         dplyr::n(),
         replace = TRUE
@@ -316,15 +291,129 @@ gen_adex <- function(seed = 123) {
         "INFUSION DELAYED WITHIN THE CYCLE",
         "DOSE REDUCED COMPARED TO PRIOR INFUSION",
         "SAME DOSE AS PRIOR INFUSION",
-        "STUDY DRUG PERMANENTLY DISCONTINUED"
+        "STUDY DRUG PERMANENTLY DISCONTINUED",
+        "DOSE REDUCED",
+        "DOSE REDUCED COMPARED TO PRIOR INJECTION",
+        "REDUCED [TARGET/TREATMENT]",
+        "FULL DOSE ADMINISTERED WITH INTERRUPTION"
       )
     ),
-    ASCHDOSE = EXDOSE,
-    ASCHDOSU = EXDOSU,
+    AADJP = dplyr::case_when(
+      !is.na(AACTPR) & as.character(AACTPR) != "" ~
+        sample(
+          c(levels(AREASOC), "Physician Decision", "Subject Request", "Administrative Reason", "Medical Reason"),
+          dplyr::n(),
+          replace = TRUE
+        ),
+      TRUE ~ NA_character_
+    ),
+    AADJPOTH = ifelse(
+      !is.na(AADJP) & AADJP == "Other",
+      sample(
+        c(
+          "Personal reasons",
+          "Physician decision",
+          "Subject request",
+          "Administrative reasons",
+          "Other medical reason"
+        ),
+        dplyr::n(),
+        replace = TRUE
+      ),
+      NA_character_
+    ),
+    AADJ = dplyr::case_when(
+      !is.na(AACTDU) & as.character(AACTDU) != "" ~
+        sample(
+          c(levels(AREASOC), "Physician Decision", "Subject Request", "Administrative Reason", "Medical Reason"),
+          dplyr::n(),
+          replace = TRUE
+        ),
+      TRUE ~ NA_character_
+    ),
+    AADJOTH = ifelse(
+      !is.na(AADJ) & AADJ == "Other",
+      sample(
+        c(
+          "Cystoscopy with lesion. RTU pending",
+          "Multiple tumors identified by cystoscopy on week 12.",
+          "During week 12, the cystoscopy was performed and suspicion of progression was observed.",
+          "Bladder mapping performed on 20 Nov 2023",
+          "Progression",
+          "Drug was never administered because the subject dropped out prior to first dose",
+          "Personal reasons",
+          "TAR200 was half blocked by the exit port of the UPC",
+          "PQC",
+          "The device could not push TAR-200 out.",
+          "Sheet could not into the bladder",
+          "Pt had his 24w TURB on 22th of December so TAR was removed at that time",
+          "The dose delayed due to TURB performed 10-Nov-2023",
+          "TAR-200 did not take the pretzel shape inside the bladder.",
+          "Patient's vacation",
+          "TAR200 was blocked in the middle of the UPC hole",
+          "PQC was reported.",
+          "PQC was identified",
+          "Urinary placement catheter could not into the bladder.",
+          "Insertion failed",
+          "Suspicion of disease progression",
+          "Due to personal schedule",
+          "Urine culture not disponible"
+        ),
+        dplyr::n(),
+        replace = TRUE
+      ),
+      NA_character_
+    ),
+    ATPTN = dplyr::case_when(
+      toupper(VISIT) == "BASELINE" ~ 0,
+      toupper(VISIT) == "WEEK 2" ~ 1,
+      toupper(VISIT) == "WEEK 4" ~ 2,
+      toupper(VISIT) == "WEEK 6" ~ 3,
+      toupper(VISIT) == "WEEK 8" ~ 4,
+      toupper(VISIT) == "WEEK 12" ~ 5,
+      toupper(VISIT) == "WEEK 16" ~ 6,
+      toupper(VISIT) == "WEEK 20" ~ 7,
+      toupper(VISIT) == "WEEK 24" ~ 8,
+      toupper(VISIT) == "WEEK 26" ~ 9,
+    ),
+    ATPT = dplyr::case_when(
+      ATPTN == 0 ~ "Morning dose",
+      ATPTN == 1 ~ "Evening dose 1",
+      ATPTN == 2 ~ "Evening dose 2",
+      ATPTN == 3 ~ "Evening dose 3",
+      ATPTN == 4 ~ "Evening dose 4",
+      ATPTN == 5 ~ "Evening dose 5",
+      ATPTN == 6 ~ "Evening dose 6",
+      ATPTN == 7 ~ "Evening dose 7",
+      ATPTN == 8 ~ "Evening dose 8",
+      ATPTN == 9 ~ "Evening dose 9"
+    ),
+    ASCHDOSE = ifelse(!is.na(ECOCCUR), EXDOSE, NA_real_),
+    ASCHDOSU = ifelse(!is.na(ASCHDOSE), EXDOSU, NA_character_),
     ADOSFRM = EXDOSFRM,
     ADOSU = EXDOSU,
     ADOSFRQ = EXDOSFRQ,
-    AROUTE = EXROUTE,
+    ADOSFRQP = EXDOSFRQ,
+    ASTDY = ASTDY,
+    ECMOOD = "Scheduled",
+    AROUTE = factor(
+      sample(
+        c(
+          unique(na.omit(EXROUTE)),
+          "Oral",
+          "Injection",
+          "Infusion"
+        ),
+        dplyr::n(),
+        replace = TRUE
+      ),
+      levels = c(
+        unique(na.omit(EXROUTE)),
+        "Oral",
+        "Injection",
+        "Infusion"
+      )
+    ),
     ATVINF = ADOSE,
     ATVINFU = ADOSU,
     AINFRAT = ADOSE,
@@ -342,6 +431,46 @@ gen_adex <- function(seed = 123) {
       paste(date_parts, random_times, "UTC")
     }
   )
+
+  gen <- gen |>
+    dplyr::mutate(
+      ADOSU = ifelse(!is.na(ADOSE), EXDOSU, NA_character_)
+    )
+
+  # Derive APERIOD and APERIODC using overall (all subjects) min/max date midpoint
+  .overall_min <- min(as.Date(sub(" .*", "", gen$ASTDTM)), na.rm = TRUE)
+  .overall_max <- max(as.Date(sub(" .*", "", gen$ASTDTM)), na.rm = TRUE)
+  .midpoint <- .overall_min + floor(as.numeric(.overall_max - .overall_min) / 2)
+
+  gen <- gen |>
+    dplyr::mutate(
+      APERIOD = dplyr::if_else(
+        as.Date(sub(" .*", "", ASTDTM)) <= .midpoint,
+        1L,
+        2L
+      ),
+      APERIODC = dplyr::if_else(APERIOD == 1L, "Period 1", "Period 2")
+    )
+
+  gen <- gen |>
+    dplyr::mutate(
+      ADOSU = ifelse(!is.na(ADOSE), EXDOSU, NA_character_)
+    )
+
+  # Derive APERIOD and APERIODC using overall (all subjects) min/max date midpoint
+  .overall_min <- min(as.Date(sub(" .*", "", gen$ASTDTM)), na.rm = TRUE)
+  .overall_max <- max(as.Date(sub(" .*", "", gen$ASTDTM)), na.rm = TRUE)
+  .midpoint <- .overall_min + floor(as.numeric(.overall_max - .overall_min) / 2)
+
+  gen <- gen |>
+    dplyr::mutate(
+      APERIOD = dplyr::if_else(
+        as.Date(sub(" .*", "", ASTDTM)) <= .midpoint,
+        1L,
+        2L
+      ),
+      APERIODC = dplyr::if_else(APERIOD == 1L, "Period 1", "Period 2")
+    )
 
   # TODO: Delete ------------
   # Start -------------------
@@ -432,15 +561,229 @@ gen_adex <- function(seed = 123) {
             "General disorders and administration site conditions",
             "Gastrointestinal disorders"
           ) ~ "Adverse Event",
+        ABODSYS1 %in%
+          c(
+            "General disorders and administration site conditions",
+            "Gastrointestinal disorders"
+          ) ~ "Adverse Event",
         .default = AREASOC
       ),
-      ABODSYS1 = dplyr::case_when(
-        AADJ == "Adverse Event" ~ "Gastrointestinal disorders",
-        .default = ABODSYS1
-      ),
       ADECOD1 = dplyr::case_when(
-        AADJ == "Adverse Event" ~ "VOMITING",
-        .default = ADECOD1
+        toupper(AADJ) == "ADVERSE EVENT" | toupper(AADJP) == "ADVERSE EVENT" ~
+          sample(
+            c("VOMITING", "NAUSEA", "DIARRHOEA", "FATIGUE", "HEADACHE", "RASH"),
+            dplyr::n(),
+            replace = TRUE
+          ),
+        .default = NA_character_
+      ),
+      ADECOD2 = dplyr::case_when(
+        toupper(AADJ) == "ADVERSE EVENT" | toupper(AADJP) == "ADVERSE EVENT" ~
+          ifelse(
+            sample(c(TRUE, FALSE), dplyr::n(), replace = TRUE, prob = c(0.5, 0.5)),
+            sample(
+              c("ANAEMIA", "NEUTROPENIA", "THROMBOCYTOPENIA", "PYREXIA", "OEDEMA PERIPHERAL"),
+              dplyr::n(),
+              replace = TRUE
+            ),
+            NA_character_
+          ),
+        .default = NA_character_
+      ),
+      ABODSYS1 = dplyr::if_else(
+        !is.na(ADECOD1),
+        sample(
+          c(
+            "Gastrointestinal disorders",
+            "General disorders and administration site conditions",
+            "Nervous system disorders",
+            "Skin and subcutaneous tissue disorders"
+          ),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        NA_character_
+      ),
+      ABODSYS2 = dplyr::if_else(
+        !is.na(ADECOD2),
+        sample(
+          c(
+            "Investigations",
+            "Musculoskeletal and connective tissue disorders",
+            "Respiratory, thoracic and mediastinal disorders",
+            "Vascular disorders"
+          ),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        NA_character_
+      ),
+      ANL01FL = dplyr::case_when(
+        AROUTE == "Oral" & toupper(AACTPR) == "DOSE REDUCED" & ECMOOD == "Scheduled" ~ "Y",
+        AROUTE == "Injection" &
+          toupper(AACTPR) %in% c("DOSE REDUCED COMPARED TO PRIOR INJECTION", "REDUCED [TARGET/TREATMENT]") &
+          ECMOOD == "Scheduled" ~ "Y",
+        AROUTE == "Infusion" &
+          toupper(AACTPR) %in% c("DOSE REDUCED COMPARED TO PRIOR INFUSION", "REDUCED [TARGET/TREATMENT]") &
+          ECMOOD == "Scheduled" ~ "Y",
+        .default = "N"
+      ),
+      ANL02FL = dplyr::case_when(
+        ANL01FL == "Y" & AADJ == "Adverse Event" & ECMOOD == "Scheduled" ~ "Y",
+        .default = "N"
+      ),
+      ANL03FL = dplyr::case_when(
+        AROUTE == "Injection" & toupper(AACTPR) == "FULL DOSE ADMINISTERED WITH INTERRUPTION" ~ "Y",
+        AROUTE == "Infusion" &
+          (toupper(AACTDU) == "INFUSION INTERRUPTED" | toupper(AACTDU3) == "INFUSION INTERRUPTED") ~ "Y",
+        .default = "N"
+      ),
+      ANL04FL = dplyr::case_when(
+        AROUTE == "Injection" & toupper(AACTPR) == "INJECTION SKIPPED (AND NOT MADE UP)" ~ "Y",
+        AROUTE == "Infusion" & toupper(AACTPR) == "INFUSION SKIPPED (AND NOT MADE UP)" ~ "Y",
+        .default = "N"
+      ),
+      ACDOSE = ifelse(!is.na(ECOCCUR), ECDOSE, NA_real_),
+      ACDOSU = factor(
+        ifelse(!is.na(ACDOSE), "mL", NA_character_),
+        levels = c("mL")
+      ),
+      ECRSDOSD = factor(
+        sample(
+          c(
+            "Adverse Event",
+            "Low Neutrophil Count",
+            "Thrombocytopenia",
+            "Anemia",
+            "Infection",
+            "Non-Hematologic Toxicity",
+            "Recovery From Toxicity",
+            "Pending Lab Results",
+            "Physician Decision",
+            "Subject Request",
+            "Missed Visit",
+            "Other"
+          ),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        levels = c(
+          "Adverse Event",
+          "Low Neutrophil Count",
+          "Thrombocytopenia",
+          "Anemia",
+          "Infection",
+          "Non-Hematologic Toxicity",
+          "Recovery From Toxicity",
+          "Pending Lab Results",
+          "Physician Decision",
+          "Subject Request",
+          "Missed Visit",
+          "Other"
+        )
+      ),
+      ECRSDSDO = ifelse(
+        as.character(ECRSDOSD) == "Other",
+        sample(
+          c(
+            "Weather conditions",
+            "Site closure",
+            "Equipment malfunction",
+            "Staff unavailability"
+          ),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        NA_character_
+      ),
+      ADOSDLY = factor(
+        sample(
+          c("Y", "N", NA_character_),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        levels = c(
+          "Y",
+          "N"
+        )
+      ),
+      ARSDOSD = ifelse(ADOSDLY == "Y" & ECMOOD == "Scheduled", as.character(ECRSDOSD), NA_character_),
+      ARSDSDO = ifelse(ARSDOSD == "Other" & ECMOOD == "Scheduled", as.character(ECRSDSDO), NA_character_),
+      ECAVAMT = factor(
+        sample(
+          c(1, 1.5, 1.7, 2.0, 5.0, 3.0, 4.0),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        levels = c(1, 1.5, 1.7, 2.0, 5.0, 3.0, 4.0)
+      ),
+      AVAMT = ifelse(!is.na(ECOCCUR), ECAVAMT, NA_real_),
+      ECAVAMTU = factor(
+        sample(
+          c("mL"),
+          dplyr::n(),
+          replace = TRUE
+        ),
+        levels = c("mL")
+      ),
+      AVAMTU = ifelse(!is.na(ECOCCUR), as.character(ECAVAMTU), NA_character_),
+      ATDPRP = sample(c(100, 150, 200, 250, 300), n(), replace = TRUE),
+      ATDPRPU = EXDOSU,
+      ADURC = case_when(
+        !is.na(AENDT) & !is.na(ASTDT) ~
+          as.character(as.numeric(AENDT - ASTDT) + 1),
+        !is.na(AENDTM) & !is.na(ASTDTM) ~
+          sprintf(
+            "%02d:%02d",
+            as.numeric(difftime(AENDTM, ASTDTM, units = "hours")),
+            as.numeric(difftime(AENDTM, ASTDTM, units = "mins")) %% 60
+          ),
+        TRUE ~ NA_character_
+      )
+    )
+
+  gen <- gen |>
+    dplyr::group_by(USUBJID, ATRT) |>
+    dplyr::mutate(
+      INTN = sum(ANL03FL == "Y", na.rm = TRUE)
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(
+      INTCAT = dplyr::case_when(
+        INTN == 1 ~ "1",
+        INTN == 2 ~ "2",
+        INTN >= 3 ~ ">=3",
+        .default = NA_character_
+      )
+    )
+
+  gen <- gen |>
+    dplyr::group_by(USUBJID, ATRT) |>
+    dplyr::mutate(
+      SKPN = sum(ANL04FL == "Y", na.rm = TRUE)
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(
+      SKPCAT = dplyr::case_when(
+        SKPN == 1 ~ "1",
+        SKPN == 2 ~ "2",
+        SKPN >= 3 ~ ">=3",
+        .default = NA_character_
+      )
+    )
+
+  gen <- gen |>
+    dplyr::group_by(USUBJID, ATRT) |>
+    dplyr::mutate(
+      DLYN = sum(ADOSDLY == "Y", na.rm = TRUE)
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(
+      DLYCAT = dplyr::case_when(
+        DLYN == 1 ~ "1",
+        DLYN == 2 ~ "2",
+        DLYN >= 3 ~ ">=3",
+        .default = NA_character_
       )
     )
 
@@ -515,6 +858,14 @@ gen_adex <- function(seed = 123) {
     AADJOTH = "Other Anal Reason for Dose Adjustment",
     ACAT2 = "Analysis Category 2",
     AACTPR = "Action Taken Prior to Infusion Start",
+    ANL01FL = "Analysis Flag 01-Dose reduction",
+    ANL02FL = "Analysis Flag 02-Dose reductn due to AE",
+    ANL03FL = "Analysis Flag 03-Dose interruption",
+    ANL04FL = "Analysis Flag 04-Dose skip not made up",
+    INTN = "Number of Dose Interruptions",
+    INTCAT = "Dose Interruption Category",
+    SKPN = "Number of Dose Skipped",
+    SKPCAT = "Dose Skipped Category",
     AREASOC = "Analysis Reason for Occur Value",
     AADJ = "Analysis Reason for Dose Adjustment",
     AADJP = "Analysis Reason for Prior Dose Adjust",
@@ -538,7 +889,6 @@ gen_adex <- function(seed = 123) {
     ADOSE = "Analysis Dose",
     AVISITN = "Visit Number",
     AVISIT = "Visit Label",
-    ADOSE = "Analysis Dose",
     AGEGR1 = "Age Group",
     AOCCUR = "Analysis Occurrence",
     SEX = "Sex",
@@ -561,6 +911,25 @@ gen_adex <- function(seed = 123) {
     ABODSYS2 = "AE SOC Driving Study Drug Action (2)",
     ADECOD1 = "AE PT Driving Study Drug Action (1)",
     ADECOD2 = "AE PT Driving Study Drug Action (2)",
+    ASTDY = "Analysis Study Day",
+    ARSDOSD = "Analysis Reason for Dose Delayed",
+    ARSDSDO = "Other Analysis Reason for Dose Delayed",
+    ACDOSE = "Analysis Dose Collected",
+    ACDOSU = "Analysis Dose Collected Units",
+    ADOSDLY = "Analysis Dose Delayed",
+    DLYN = "Number of Dose Delay",
+    DLYCAT = "Dose Delay Category",
+    ATPT = "Analysis Timepoint",
+    ATPTN = "Analysis Timepoint (N)",
+    ATDPRP = "Analysis Total Dose Prepared",
+    ATDPRPU = "Analysis Total Dose Prepared Units",
+    ECOCCUR = "Occurrence of Exposure",
+    ADURC = "Analysis Duration (C)",
+    ADOSFRQP = "Analysis Scheduled Dosing Frequency",
+    AVAMT = "Analysis Injection Vol Prescribed",
+    AVAMTU = "Analysis Injection Vol Prescribed Units",
+    APERIOD = "Analysis Period",
+    APERIODC = "Analysis Period (C)",
     ADATRES = "Treatment-emergent ADA Subject Status",
     NABSTAT = "NAB Status",
     EXSTDT = "Exposure Start Date"

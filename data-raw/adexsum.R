@@ -36,8 +36,7 @@ gen_adexsum <- function(seed = 123) {
       "NUMCYC",
       "TNUMDOS",
       "TRTCOMP",
-      "TRTDURM",
-      "TRTDURY"
+      "TRTDURM"
     ),
     PARAM = c(
       "Cumulative dose ([unit])",
@@ -49,8 +48,7 @@ gen_adexsum <- function(seed = 123) {
       "Total number of cycles received",
       "Total number of administrations",
       "Compliance (%)",
-      "Duration of treatment, months",
-      "Duration of treatment, years"
+      "Duration of treatment (months)"
     ),
     stringsAsFactors = FALSE
   )
@@ -71,7 +69,6 @@ gen_adexsum <- function(seed = 123) {
       # Generate appropriate AVAL based on parameter type
       record$AVAL <- dplyr::case_when(
         record$PARAMCD == "TRTDURM" ~ as.numeric(round(runif(1, 0, 38), 1)),
-        record$PARAMCD == "TRTDURY" ~ as.numeric(round(runif(1, 0, 3.5), 2)),
         record$PARAMCD == "TRTCOMP" ~ as.numeric(round(runif(1, 0, 125), 0)),
         record$PARAMCD == "TNUMDOS" ~ as.numeric(round(runif(1, 0, 30), 0)),
         record$PARAMCD == "NUMCYC" ~ as.numeric(round(runif(1, 0, 24), 0)),
@@ -91,6 +88,17 @@ gen_adexsum <- function(seed = 123) {
 
   # Combine all records
   gen <- dplyr::bind_rows(records)
+
+  # Adding Duration of treatment days and years
+  trtdur <- gen |>
+    dplyr::filter(PARAMCD == "TRTDURM") |>
+    dplyr::bind_rows(
+      dplyr::mutate(., PARAM = "Duration of treatment (days)", PARAMCD = "TRTDURD", AVAL = AVAL * 30.4375),
+      dplyr::mutate(., PARAM = "Duration of treatment (years)", PARAMCD = "TRTDURY", AVAL = round(AVAL / 12, 1))
+    ) |>
+    dplyr::filter(PARAMCD != "TRTDURM")
+
+  gen <- dplyr::bind_rows(gen, trtdur)
 
   # Add additional columns
   gen <- dplyr::mutate(
@@ -271,6 +279,7 @@ gen_adexsum <- function(seed = 123) {
       "RDINTE",
       "TNUMDOS",
       "TRTCOMP",
+      "TRTDURD",
       "TRTDURM",
       "TRTDURY"
     )
