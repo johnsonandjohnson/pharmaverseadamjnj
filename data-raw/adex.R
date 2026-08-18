@@ -452,26 +452,6 @@ gen_adex <- function(seed = 123) {
       APERIODC = dplyr::if_else(APERIOD == 1L, "Period 1", "Period 2")
     )
 
-  gen <- gen |>
-    dplyr::mutate(
-      ADOSU = ifelse(!is.na(ADOSE), EXDOSU, NA_character_)
-    )
-
-  # Derive APERIOD and APERIODC using overall (all subjects) min/max date midpoint
-  .overall_min <- min(as.Date(sub(" .*", "", gen$ASTDTM)), na.rm = TRUE)
-  .overall_max <- max(as.Date(sub(" .*", "", gen$ASTDTM)), na.rm = TRUE)
-  .midpoint <- .overall_min + floor(as.numeric(.overall_max - .overall_min) / 2)
-
-  gen <- gen |>
-    dplyr::mutate(
-      APERIOD = dplyr::if_else(
-        as.Date(sub(" .*", "", ASTDTM)) <= .midpoint,
-        1L,
-        2L
-      ),
-      APERIODC = dplyr::if_else(APERIOD == 1L, "Period 1", "Period 2")
-    )
-
   # TODO: Delete ------------
   # Start -------------------
   # Temporary Changes for ADISHUM Listings
