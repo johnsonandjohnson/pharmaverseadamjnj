@@ -541,11 +541,6 @@ gen_adex <- function(seed = 123) {
             "General disorders and administration site conditions",
             "Gastrointestinal disorders"
           ) ~ "Adverse Event",
-        ABODSYS1 %in%
-          c(
-            "General disorders and administration site conditions",
-            "Gastrointestinal disorders"
-          ) ~ "Adverse Event",
         .default = AREASOC
       ),
       ADECOD1 = dplyr::case_when(
