@@ -11,7 +11,6 @@ library(stringr)
 source(file.path("data-raw", "helpers.R"))
 # Ensure ADAE is available for cross-domain derivations
 source(file.path("data-raw", "adae.R"))
-
 # Source ADISHUM to get ADATRES
 source(file.path("data-raw", "adishum.R"))
 
