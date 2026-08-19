@@ -23,64 +23,64 @@ gen_adlb <- function(seed = 123) {
 
   # Added Toxicity grade lookup table as per latest version
   toxterm_lookup <- tibble::tribble(
-    ~PARAMCD,    ~ATOXDSCL,                   ~ATOXDSCH,                                          ~ATOXDIR,
-    "ALB",       "Albumin, low",               NA,                                                 "LOW",
-    "ALP",       NA,                           "Alkaline Phosphatase, high",                       "HIGH",
-    "ALT",       NA,                           "Alanine Aminotransferase, high",                   "HIGH",
-    "AMYLASE",   NA,                           "Amylase, high",                                    "HIGH",
-    "APTT",      NA,                           "Activated Partial Thromboplastin Time, high",      "HIGH",
-    "AST",       NA,                           "Aspartate Aminotransferase, high",                 "HIGH",
-    "BILI",      NA,                           "Bilirubin, high",                                  "HIGH",
-    "CACRALB",   NA,                           "Calcium Corrected, high",                          "HIGH",
-    "CACRALB",   "Calcium Corrected, low",     NA,                                                 "LOW",
-    "CACR",      NA,                           "Calcium Corrected, high",                          "HIGH",
-    "CACR",      "Calcium Corrected, low",     NA,                                                 "LOW",
-    "CAION",     NA,                           "Calcium, Ionized, high",                           "HIGH",
-    "CAION",     "Calcium, Ionized, low",      NA,                                                 "LOW",
-    "CD4",       "CD4, low",                   NA,                                                 "LOW",
-    "CHOL",      NA,                           "Cholesterol, high",                                "HIGH",
-    "CK",        NA,                           "Creatine Kinase, high",                            "HIGH",
-    "CREAT",     NA,                           "Creatinine, high",                                 "HIGH",
-    "FIBRINO",   "Fibrinogen, decreased",      NA,                                                 "LOW",
-    "GGT",       NA,                           "Gamma Glutamyl Transferase, high",                 "HIGH",
-    "GLUC",      "Glucose, low",               NA,                                                 "LOW",
-    "HAPTOG",    "Haptoglobin, low",           NA,                                                 "LOW",
-    "HGB",       NA,                           "Hemoglobin, high",                                 "HIGH",
-    "HGB",       "Hemoglobin, low",            NA,                                                 "LOW",
-    "INR",       NA,                           "Prothrombin Intl. Normalized Ratio, high",         "HIGH",
-    "K",         NA,                           "Potassium, high",                                  "HIGH",
-    "K",         "Potassium, low",             NA,                                                 "LOW",
-    "LIPASET",   NA,                           "Lipase, high",                                     "HIGH",
-    "LYM",       NA,                           "Lymphocytes, high",                                "HIGH",
-    "LYM",       "Lymphocytes, low",           NA,                                                 "LOW",
-    "MG",        NA,                           "Magnesium, high",                                  "HIGH",
-    "MG",        "Magnesium, low",             NA,                                                 "LOW",
-    "NEUT",      "Neutrophils, low",           NA,                                                 "LOW",
-    "NEUTSG",    "Neutrophils, low",           NA,                                                 "LOW",
-    "NEUTSGB",   "Neutrophils, low",           NA,                                                 "LOW",
-    "NEUTSGBP",  "Neutrophils, low",           NA,                                                 "LOW",
-    "PH",        NA,                           "pH, high",                                         "HIGH",
-    "PH",        "pH, low",                    NA,                                                 "LOW",
-    "PLAT",      "Platelets, low",             NA,                                                 "LOW",
-    "PROT",      NA,                           "Urinary Protein, high",                            "HIGH",
-    "PROTCRT",   NA,                           "Urinary Protein, high",                            "HIGH",
-    "SODIUM",    NA,                           "Sodium, high",                                     "HIGH",
-    "SODIUM",    "Sodium, low",                NA,                                                 "LOW",
-    "TRIG",      NA,                           "Triglycerides, high",                              "HIGH",
-    "WBC",       NA,                           "Leukocytes, high",                                 "HIGH",
-    "WBC",       "Leukocytes, low",            NA,                                                 "LOW"
+    ~PARAMCD, ~ATOXDSCL, ~ATOXDSCH, ~ATOXDIR,
+    "ALB", "Albumin, low", NA, "LOW",
+    "ALP", NA, "Alkaline Phosphatase, high", "HIGH",
+    "ALT", NA, "Alanine Aminotransferase, high", "HIGH",
+    "AMYLASE", NA, "Amylase, high", "HIGH",
+    "APTT", NA, "Activated Partial Thromboplastin Time, high", "HIGH",
+    "AST", NA, "Aspartate Aminotransferase, high", "HIGH",
+    "BILI", NA, "Bilirubin, high", "HIGH",
+    "CACRALB", NA, "Calcium Corrected, high", "HIGH",
+    "CACRALB", "Calcium Corrected, low", NA, "LOW",
+    "CACR", NA, "Calcium Corrected, high", "HIGH",
+    "CACR", "Calcium Corrected, low", NA, "LOW",
+    "CAION", NA, "Calcium, Ionized, high", "HIGH",
+    "CAION", "Calcium, Ionized, low", NA, "LOW",
+    "CD4", "CD4, low", NA, "LOW",
+    "CHOL", NA, "Cholesterol, high", "HIGH",
+    "CK", NA, "Creatine Kinase, high", "HIGH",
+    "CREAT", NA, "Creatinine, high", "HIGH",
+    "FIBRINO", "Fibrinogen, decreased", NA, "LOW",
+    "GGT", NA, "Gamma Glutamyl Transferase, high", "HIGH",
+    "GLUC", "Glucose, low", NA, "LOW",
+    "HAPTOG", "Haptoglobin, low", NA, "LOW",
+    "HGB", NA, "Hemoglobin, high", "HIGH",
+    "HGB", "Hemoglobin, low", NA, "LOW",
+    "INR", NA, "Prothrombin Intl. Normalized Ratio, high", "HIGH",
+    "K", NA, "Potassium, high", "HIGH",
+    "K", "Potassium, low", NA, "LOW",
+    "LIPASET", NA, "Lipase, high", "HIGH",
+    "LYM", NA, "Lymphocytes, high", "HIGH",
+    "LYM", "Lymphocytes, low", NA, "LOW",
+    "MG", NA, "Magnesium, high", "HIGH",
+    "MG", "Magnesium, low", NA, "LOW",
+    "NEUT", "Neutrophils, low", NA, "LOW",
+    "NEUTSG", "Neutrophils, low", NA, "LOW",
+    "NEUTSGB", "Neutrophils, low", NA, "LOW",
+    "NEUTSGBP", "Neutrophils, low", NA, "LOW",
+    "PH", NA, "pH, high", "HIGH",
+    "PH", "pH, low", NA, "LOW",
+    "PLAT", "Platelets, low", NA, "LOW",
+    "PROT", NA, "Urinary Protein, high", "HIGH",
+    "PROTCRT", NA, "Urinary Protein, high", "HIGH",
+    "SODIUM", NA, "Sodium, high", "HIGH",
+    "SODIUM", "Sodium, low", NA, "LOW",
+    "TRIG", NA, "Triglycerides, high", "HIGH",
+    "WBC", NA, "Leukocytes, high", "HIGH",
+    "WBC", "Leukocytes, low", NA, "LOW"
   )
 
   # Adding latest ATOXDSCL & ATOXDSCH based on LBTESTCD from toxterm lookup table and removed the existing variables
-  gen <- gen %>%
-    select(-c(ATOXDSCL, ATOXDSCH)) %>%
+  gen <- gen |>
+    select(-c(ATOXDSCL, ATOXDSCH)) |>
     admiral::derive_vars_merged(
-      dataset_add = dplyr::filter(toxterm_lookup, ATOXDIR == "LOW") %>%
+      dataset_add = dplyr::filter(toxterm_lookup, ATOXDIR == "LOW") |>
         dplyr::select(PARAMCD, ATOXDSCL),
       by_vars = exprs(PARAMCD)
-    ) %>%
+    ) |>
     admiral::derive_vars_merged(
-      dataset_add = dplyr::filter(toxterm_lookup, ATOXDIR == "HIGH") %>%
+      dataset_add = dplyr::filter(toxterm_lookup, ATOXDIR == "HIGH") |>
         dplyr::select(PARAMCD, ATOXDSCH),
       by_vars = exprs(PARAMCD)
     )
@@ -124,49 +124,37 @@ gen_adlb <- function(seed = 123) {
     AVALC = as.character(AVAL),
     AVALU = LBSTRESU,
     ANL02FL = "Y",
-
+    AVISIT = case_when(
+      ABLFL == "Y" ~ "Baseline",
+      toupper(AVISIT) == "BASELINE" & (is.na(ABLFL) | ABLFL != "Y") ~ VISIT,
+      TRUE ~ AVISIT
+    ),
     # Visit variables
     AVISITN = case_when(
-      AVISIT == "Baseline" ~ 1,
-      AVISIT == "Week 2" ~ 2,
-      AVISIT == "Week 4" ~ 3,
-      AVISIT == "Week 6" ~ 4,
-      AVISIT == "Week 8" ~ 5,
-      AVISIT == "Unscheduled 5.1" ~ 6,
-      AVISIT == "Week 12" ~ 7,
-      AVISIT == "Unscheduled 6.1" ~ 8,
-      AVISIT == "Week 16" ~ 9,
-      AVISIT == "Unscheduled 7.1" ~ 10,
-      AVISIT == "Week 20" ~ 11,
-      AVISIT == "Unscheduled 8.2" ~ 12,
-      AVISIT == "Week 24" ~ 13,
-      AVISIT == "Unscheduled 9.2" ~ 14,
-      AVISIT == "Unscheduled 9.3" ~ 15,
-      AVISIT == "Unscheduled 12.1" ~ 16,
-      AVISIT == "Unscheduled 13.1" ~ 17,
-      AVISIT == "Week 26" ~ 18
+      toupper(AVISIT) == "BASELINE" ~ 1,
+      toupper(AVISIT) == "WEEK 2" ~ 2,
+      toupper(AVISIT) == "WEEK 4" ~ 3,
+      toupper(AVISIT) == "WEEK 6" ~ 4,
+      toupper(AVISIT) == "WEEK 8" ~ 5,
+      toupper(AVISIT) == "WEEK 12" ~ 6,
+      toupper(AVISIT) == "WEEK 16" ~ 7,
+      toupper(AVISIT) == "WEEK 20" ~ 8,
+      toupper(AVISIT) == "WEEK 24" ~ 9,
+      toupper(AVISIT) == "WEEK 26" ~ 10
     ),
     AVISIT = fct_reorder(
       as.factor(case_when(
-        AVISIT == "Baseline" ~ "Baseline",
-        AVISIT == "Week 2" ~ "Cycle 02",
-        AVISIT == "Week 4" ~ "Cycle 03",
-        AVISIT == "Week 6" ~ "Cycle 04",
-        AVISIT == "Week 8" ~ "Cycle 05",
-        AVISIT == "Unscheduled 5.1" ~ "Cycle 06",
-        AVISIT == "Week 12" ~ "Cycle 07",
-        AVISIT == "Unscheduled 6.1" ~ "Cycle 08",
-        AVISIT == "Week 16" ~ "Cycle 09",
-        AVISIT == "Unscheduled 7.1" ~ "Cycle 10",
-        AVISIT == "Week 20" ~ "Cycle 11",
-        AVISIT == "Unscheduled 8.2" ~ "Cycle 12",
-        AVISIT == "Week 24" ~ "Cycle 13",
-        AVISIT == "Unscheduled 9.2" ~ "Cycle 15",
-        AVISIT == "Unscheduled 9.3" ~ "Cycle 16",
-        AVISIT == "Unscheduled 12.1" ~ "Cycle 17",
-        AVISIT == "Unscheduled 13.1" ~ "Cycle 18",
-        AVISIT == "Week 26" ~ "End Of Treatment",
-        TRUE ~ as.character(AVISIT)
+        toupper(AVISIT) == "BASELINE" ~ "Baseline",
+        toupper(AVISIT) == "WEEK 2" ~ "Cycle 02",
+        toupper(AVISIT) == "WEEK 4" ~ "Cycle 03",
+        toupper(AVISIT) == "WEEK 6" ~ "Cycle 04",
+        toupper(AVISIT) == "WEEK 8" ~ "Cycle 05",
+        toupper(AVISIT) == "WEEK 12" ~ "Cycle 12",
+        toupper(AVISIT) == "WEEK 16" ~ "Cycle 16",
+        toupper(AVISIT) == "WEEK 20" ~ "Cycle 20",
+        toupper(AVISIT) == "WEEK 24" ~ "Cycle 24",
+        toupper(AVISIT) == "WEEK 26" ~ "End Of Treatment",
+        TRUE ~ stringr::str_to_sentence(as.character(AVISIT))
       )),
       AVISITN,
       .na_rm = FALSE
@@ -486,29 +474,25 @@ gen_adlb <- function(seed = 123) {
         sample(c("Sodium, low", NA), n(), replace = TRUE),
       TRUE ~ NA_character_
     ),
-    ATOXGR = case_when(
-      ATOXGR == "0" ~ "0",
-      ATOXGR == "1" ~ "1",
-      ATOXGR == "-1" ~ "1",
-      ATOXGR == "-2" ~ "2",
-      ATOXGR == "-3" ~ "3",
-      ATOXGR == "2" ~ "4",
-      ATOXGR == "3" ~ "5",
-      TRUE ~ NA_character_
-    ),
+    ATOXGR = as.character(sample(
+      c("0", "1", "2", "3", NA_character_),
+      size = n(),
+      replace = TRUE,
+      prob = c(0.5, 0.25, 0.15, 0.07, 0.03)
+    )),
     # Miscellaneous variables
-    APOBLFL = as.factor(sample(c(NA, "Y"), dplyr::n(), replace = TRUE)),
+    APOBLFL = as.factor(dplyr::if_else(
+      (is.na(ABLFL) | ABLFL != "Y") & !is.na(ADT) & !is.na(TRTSDT) & as.Date(ADT) >= as.Date(TRTSDT),
+      "Y",
+      NA_character_
+    )),
     LBSTNRHQ = as.factor(sample(c(NA, "<"), dplyr::n(), replace = TRUE)),
     LBSTNRLQ = as.factor(sample(c(NA, "<"), dplyr::n(), replace = TRUE)),
     ATOXGRN = as.numeric(ATOXGR),
     ADTM = format(paste(ADT, "00:00"), format = "%Y-%m-%d %H:%M"),
     ATPT = "BEFORE TREATMENT",
-    ATOXGRL = as.factor(sample(
-      c(0, 1, 2, 3, 4, NaN),
-      size = n(),
-      replace = TRUE,
-      prob = c(0.618, 0.2, 0.1, 0.05, 0.005, 0.067)
-    )),
+    ATOXGRL = as.factor(dplyr::if_else(!is.na(ATOXDSCL), as.numeric(ATOXGR), NA_real_)),
+    ATOXGRH = as.factor(dplyr::if_else(!is.na(ATOXDSCH), as.numeric(ATOXGR), NA_real_)),
     # Add LBCLSIG variable with values "N" and "Y"
     LBCLSIG = as.factor(sample(c("N", "Y"), size = n(), replace = TRUE, prob = c(0.7, 0.3))),
     TR01SDT = sample(
@@ -538,20 +522,65 @@ gen_adlb <- function(seed = 123) {
     LBNAM = sample(c("CENTRAL", "LOCAL"), n(), replace = TRUE, prob = c(0.85, 0.15))
   )
 
+  # Baseline Toxicity derivation
+  gen <- gen %>%
+    select(-c(BTOXGRH, BTOXGRL, BTOXGR)) |>
+    derive_var_base(
+      by_vars = exprs(STUDYID, USUBJID, PARAMCD),
+      source_var = ATOXGRL,
+      new_var = BTOXGRL
+    ) %>%
+    derive_var_base(
+      by_vars = exprs(STUDYID, USUBJID, PARAMCD),
+      source_var = ATOXGRH,
+      new_var = BTOXGRH
+    ) %>%
+    derive_var_base(
+      by_vars = exprs(STUDYID, USUBJID, PARAMCD),
+      source_var = ATOXGR,
+      new_var = BTOXGR
+    )
+
+  # ANL01FL should be flaged for non missing records that is AVAL or AVALC not missing
+  # Apply admiral::restrict_derivation for ANL01FL
+  gen <- gen |>
+    select(-(ANL01FL)) |>
+    restrict_derivation(
+      derivation = derive_var_extreme_flag,
+      args = params(
+        by_vars = exprs(USUBJID, PARAMCD, AVISIT),
+        order = exprs(ADT, AVAL),
+        new_var = ANL01FL,
+        mode = "last"
+      ),
+      filter = !is.na(AVAL) & !is.na(AVALC)
+    )
+
+  # Derivation of ANL02FL flag for scheduled visits
+  gen <- gen |>
+    mutate(
+      ANL02FL = dplyr::case_when(
+        (grepl("Cycle", AVISIT) |
+          grepl("End Of Treatment", AVISIT) |
+          grepl("Baseline", AVISIT)) &
+          ANL01FL == "Y" & is.na(DTYPE) ~ "Y",
+        TRUE ~ NA_character_
+      )
+    )
 
   # Apply admiral::restrict_derivation for ANL03FL
   gen <- admiral::restrict_derivation(
     gen,
     derivation = admiral::derive_var_extreme_flag,
     args = admiral::params(
-      by_vars = rlang::syms(c("USUBJID", "PARAMCD", "AVISIT")),
-      order = rlang::syms(c("AVAL", "ADT", "ADY")),
+      by_vars = rlang::syms(c("USUBJID", "PARAMCD")),
+      order = rlang::syms(c("AVAL", "AVISIT", "ADT", "ADY")),
       new_var = ANL03FL,
       true_value = "Y",
       false_value = NA,
       mode = "last"
     ),
-    filter = AVISIT != "Screening"
+    filter = ONTRTFL == "Y" & ANL01FL == "Y"
   )
 
   # Apply admiral::restrict_derivation for ANL04FL
@@ -559,14 +588,14 @@ gen_adlb <- function(seed = 123) {
     gen,
     derivation = admiral::derive_var_extreme_flag,
     args = admiral::params(
-      by_vars = rlang::syms(c("USUBJID", "PARAMCD", "AVISIT")),
-      order = rlang::syms(c("AVAL", "ADT", "ADY")),
+      by_vars = rlang::syms(c("USUBJID", "PARAMCD")),
+      order = rlang::syms(c("ATOXGRL", "AVISIT", "ADT", "ADY")),
       new_var = ANL04FL,
       true_value = "Y",
       false_value = NA,
-      mode = "last"
+      mode = "first"
     ),
-    filter = AVISIT != "Screening"
+    filter = ONTRTFL == "Y" & ANL01FL == "Y"
   )
 
   # Apply admiral::restrict_derivation for ANL05FL
@@ -574,14 +603,14 @@ gen_adlb <- function(seed = 123) {
     gen,
     derivation = admiral::derive_var_extreme_flag,
     args = admiral::params(
-      by_vars = rlang::syms(c("USUBJID", "PARAMCD", "AVISIT")),
-      order = rlang::syms(c("AVAL", "ADT", "ADY")),
+      by_vars = rlang::syms(c("USUBJID", "PARAMCD")),
+      order = rlang::syms(c("ATOXGRL", "AVISIT", "ADT", "ADY")),
       new_var = ANL05FL,
       true_value = "Y",
       false_value = NA,
       mode = "last"
     ),
-    filter = AVISIT != "Screening"
+    filter = ONTRTFL == "Y" & ANL01FL == "Y"
   ) |>
     mutate(
       ANL06FL = ANL05FL,
@@ -593,6 +622,34 @@ gen_adlb <- function(seed = 123) {
       ANL15FL = ANL05FL,
       ANL16FL = ANL05FL
     )
+
+  # Replace x10 with ^10 in PARAM labels
+  gen <- dplyr::mutate(gen, PARAM = as.factor(gsub("x10", "^10", as.character(PARAM))))
+
+  source(file.path("data-raw", "adsl.R"))
+
+  # Drop any variables shared by gen and ADSL (except key)
+  shared <- setdiff(intersect(names(gen), names(adsl)), "USUBJID")
+
+  # Variables to keep exclusively from ADSL
+  to_keep_from_adsl <- c(
+    "TRT01A",
+    "SAFFL",
+    "STUDYID",
+    "AGE",
+    "SEX",
+    "RACE"
+  )
+
+  # Select only the key and the 'to_keep' variables from ADSL
+  adsl_subset <- adsl |>
+    dplyr::select(USUBJID, dplyr::all_of(to_keep_from_adsl))
+
+  if (length(shared) > 0) {
+    gen <- dplyr::select(gen, -dplyr::any_of(shared))
+  }
+
+  gen <- dplyr::left_join(gen, adsl_subset, by = "USUBJID")
 
   # Additional labels for new variables not in the source dataset
   additional_labels <- list(
@@ -647,6 +704,7 @@ gen_adlb <- function(seed = 123) {
     TRTEMFL = "Treatment Emergent Analysis Flag",
     ATOXGRN = "Analysis Toxicity Grade (Numeric)",
     ATOXGRL = "Analysis Toxicity Grade Low",
+    ATOXGRH = "Analysis Toxicity Grade High",
     ADTM = "Analysis Date/Time",
     TRT01SDT = "Start Date of Planned Treatment for Period 01",
     TRT01EDT = "End Date of Planned Treatment for Period 01",

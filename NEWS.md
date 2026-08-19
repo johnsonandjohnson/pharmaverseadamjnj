@@ -18,6 +18,8 @@
 - Added ADAECOMP and ADSLCOMP datasets
 - Added ADDISP dataset
 - Added RACE variable from ADSL to ADEG dataset
+- Updated ATOXDSCL & ATOXDSCH variables as per latest lbtoxgrade file on ADLB dataset
+- Updated AVISIT for baseline on ADLB dataset
 
 ### Changed
 - Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX
@@ -37,6 +39,8 @@
 - Modified ADAGOCMQ for AEDECOD merge logic, ACAT1, and used conversion factor GLUC, HBA1C for standard units to conventional units.
 - Modified ADDISP to update labels for SxSDY and SxEDY variables.
 - Fix adeg CRIT1FL and CRIT2FL factor order
+- Modified ADLB toxicity grade detail ATOXDSCL and ATOXDSCH
+- Modified ADLB.PARAM values to display as per paramlookup file to replace x10 with ^10.
 
 
 ## [0.0.5] - 2026-05-25
