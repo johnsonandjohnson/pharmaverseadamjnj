@@ -25,6 +25,8 @@ gen_adexsum <- function(seed = 123) {
   param_mapping <- data.frame(
     PARAMCD = c(
       "CUMDOSE",
+      "CUMDOSS1",
+      "CUMDOSS2",
       "DOSEDAYS",
       "FINDD",
       "MEANDD",
@@ -37,6 +39,8 @@ gen_adexsum <- function(seed = 123) {
     ),
     PARAM = c(
       "Cumulative dose (mg)",
+      "Cumulative dose Study Agent 1 (mg)",
+      "Cumulative dose Study Agent 2 (gm)",
       "Total dosing days of treatment (excluding days off treatment)",
       "Final daily dose ([unit]/day)",
       "Average daily dose ([unit]/day) (excluding days off treatment)",
@@ -72,6 +76,8 @@ gen_adexsum <- function(seed = 123) {
         record$PARAMCD == "MODEDD" ~ as.numeric(round(runif(1, 10, 50), 0)),
         record$PARAMCD == "FINDD" ~ as.numeric(round(runif(1, 10, 50), 0)),
         record$PARAMCD == "CUMDOSE" ~ as.numeric(round(runif(1, 100, 5000), 0)),
+        record$PARAMCD == "CUMDOSS1" ~ as.numeric(round(runif(1, 100, 5000), 0)),
+        record$PARAMCD == "CUMDOSS2" ~ as.numeric(round(runif(1, 100, 5000), 0)),
         record$PARAMCD == "DOSEDAYS" ~ as.numeric(round(runif(1, 1, 200), 0)),
         record$PARAMCD == "MEANDD" ~ as.numeric(round(runif(1, 5, 50), 1)),
         record$PARAMCD == "MEANDDI" ~ as.numeric(round(runif(1, 5, 45), 1))
@@ -268,6 +274,8 @@ gen_adexsum <- function(seed = 123) {
     gen$PARAMCD,
     levels = c(
       "CUMDOSE",
+      "CUMDOSS1",
+      "CUMDOSS2",
       "DINTEN",
       "DOSEDAYS",
       "FINDD",
