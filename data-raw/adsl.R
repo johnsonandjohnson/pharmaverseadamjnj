@@ -545,6 +545,7 @@ gen_adsl <- function(seed = 123) {
     GROUP = "Analysis Group",
     EOTDT = "End-of-Treatment Date",
     BRTHDTC = "Date/Time of Birth",
+    DCTDT = "End of Study Date",
     DDPCDTHC = "Cause of Death as Collected"
   )
 
