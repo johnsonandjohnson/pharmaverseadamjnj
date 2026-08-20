@@ -476,12 +476,12 @@ gen_adsl <- function(seed = 123) {
     )
 
   # NCTXSDT: Start Date of New Anti-Cancer Therapy
-  # Only ~30% of treated subjects receive subsequent anti-cancer therapy
-  # Date must be after EOT and capped at death date
+  # Based on TRTSDT; only ~30% of treated subjects receive subsequent anti-cancer therapy
+  # Date must be after treatment start and capped at death date
   gen <- gen |>
     dplyr::mutate(
       NCTXSDT = dplyr::case_when(
-        !is.na(EOTDT) &
+        !is.na(TRTSDT) &
           sample(
             c(TRUE, FALSE),
             dplyr::n(),
@@ -489,7 +489,7 @@ gen_adsl <- function(seed = 123) {
             prob = c(0.3, 0.7)
           ) ~
           pmin(
-            EOTDT + sample(1:90, dplyr::n(), replace = TRUE),
+            TRTSDT + sample(91:270, dplyr::n(), replace = TRUE),
             dplyr::coalesce(DTHDT, as.Date("2099-12-31"))
           ),
         .default = as.Date(NA)
