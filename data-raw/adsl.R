@@ -475,6 +475,27 @@ gen_adsl <- function(seed = 123) {
       EOTDT = TRTEDT
     )
 
+  # NCTXSDT: Start Date of New Anti-Cancer Therapy
+  # Only ~30% of treated subjects receive subsequent anti-cancer therapy
+  # Date must be after EOT and capped at death date
+  gen <- gen |>
+    dplyr::mutate(
+      NCTXSDT = dplyr::case_when(
+        !is.na(EOTDT) &
+          sample(
+            c(TRUE, FALSE),
+            dplyr::n(),
+            replace = TRUE,
+            prob = c(0.3, 0.7)
+          ) ~
+          pmin(
+            EOTDT + sample(1:90, dplyr::n(), replace = TRUE),
+            dplyr::coalesce(DTHDT, as.Date("2099-12-31"))
+          ),
+        .default = as.Date(NA)
+      )
+    )
+
   # Define additional labels for new variables not in source dataset
   additional_labels <- list(
     TRT01PN = "Planned Treatment for Period 01 (N)",
@@ -546,7 +567,8 @@ gen_adsl <- function(seed = 123) {
     EOTDT = "End-of-Treatment Date",
     BRTHDTC = "Date/Time of Birth",
     DCTDT = "End of Study Date",
-    DDPCDTHC = "Cause of Death as Collected"
+    DDPCDTHC = "Cause of Death as Collected",
+    NCTXSDT = "Start Date of New Anti-Cancer Therapy"
   )
 
   # Handle NA values and convert characters to factors
