@@ -149,7 +149,6 @@ gen_adsl <- function(seed = 123) {
   gen$RFICDTC <- gen$DMDTC
   gen$RFICDT <- as.Date(gen$DMDTC)
 
-
   # Stratification factors
   gen$STRAT1D <- as.factor("Description of Stratification Factor 1")
   gen$STRAT2D <- as.factor("Description of Stratification Factor 2")
@@ -165,13 +164,15 @@ gen_adsl <- function(seed = 123) {
     rep("Stratification Factor 2 Value 1", n_first),
     rep("Stratification Factor 2 Value 2", n_subj - n_first)
   )
-  gen$STRAT1R <- factor(sample(vals1),
+  gen$STRAT1R <- factor(
+    sample(vals1),
     levels = c(
       "Stratification Factor 1 Value 1",
       "Stratification Factor 1 Value 2"
     )
   )
-  gen$STRAT2R <- factor(sample(vals2),
+  gen$STRAT2R <- factor(
+    sample(vals2),
     levels = c(
       "Stratification Factor 2 Value 1",
       "Stratification Factor 2 Value 2"
@@ -358,6 +359,19 @@ gen_adsl <- function(seed = 123) {
   gen$LDOSE <- as.numeric(20)
   gen$LDOSU <- "mg"
   gen$DTHTERM <- gen$DTHCAUS
+  # add DDPCDTHC ------
+  ddpcdthc_choices <- c(
+    "Cardiac arrest",
+    "Pneumonia",
+    "Respiratory failure",
+    "Sepsis",
+    "Stroke",
+    "Unknown"
+  )
+  gen$DDPCDTHC <- NA_character_
+  dth_idx <- !is.na(gen$DTHFL) & gen$DTHFL == "Y"
+  gen$DDPCDTHC[dth_idx] <- sample(ddpcdthc_choices, sum(dth_idx), replace = TRUE)
+  # ---
   gen$LDSTODTH <- as.numeric(gen$DTHDT - gen$TRTEDT + 1)
   gen$DTHDY <- as.numeric(gen$DTHDT - gen$TRTSDT + 1)
   gen$DTHFL <- as.factor(gen$DTHFL)
@@ -428,10 +442,11 @@ gen_adsl <- function(seed = 123) {
       .default = DCSCREEN
     ),
     RESCRNFL = if_else(
-      SCRFFL == "Y" & runif(n()) < 0.5, "Y", NA_character_
+      SCRFFL == "Y" & runif(n()) < 0.5,
+      "Y",
+      NA_character_
     )
   )
-
 
   gen <- gen |>
     dplyr::mutate(
@@ -529,7 +544,8 @@ gen_adsl <- function(seed = 123) {
     COHORT = "Cohort",
     GROUP = "Analysis Group",
     EOTDT = "End-of-Treatment Date",
-    BRTHDTC = "Date/Time of Birth"
+    BRTHDTC = "Date/Time of Birth",
+    DDPCDTHC = "Cause of Death as Collected"
   )
 
   # Handle NA values and convert characters to factors
