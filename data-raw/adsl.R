@@ -68,19 +68,21 @@ gen_adsl <- function(seed = 123) {
       )
     )
   )
-  # --- Force 2 alive subjects to dead with coherent cause of death ---
-  alive_idx <- which(is.na(gen$DTHFL) | gen$DTHFL != "Y")
-  # Pick 2 subjects that have valid TRTSDT and TRTEDT
-  valid_alive <- alive_idx[!is.na(gen$TRTSDT[alive_idx]) & !is.na(gen$TRTEDT[alive_idx])]
-  new_dead <- sample(valid_alive, 2)
-  # Subject 1: death after 30 days of treatment end (DTHAFTFL = "Y")
-  gen$DTHFL[new_dead[1]] <- "Y"
+  # --- Add 2 additional deaths (total target: 5 dead subjects) ---
+  alive_with_trt <- which(
+    (is.na(gen$DTHFL) | gen$DTHFL != "Y") &
+      !is.na(gen$TRTSDT) &
+      !is.na(gen$TRTEDT)
+  )
+  new_dead <- sample(alive_with_trt, 2)
+
+  gen[new_dead, c("DTHFL", "DTHCAUS")] <- data.frame(
+    DTHFL = "Y",
+    DTHCAUS = c("TREATMENT FAILURE", "DISEASE PROGRESSION")
+  )
+  # DTHDT: first subject dies >30 days after TRTEDT; second dies on treatment
   gen$DTHDT[new_dead[1]] <- gen$TRTEDT[new_dead[1]] + 45
-  gen$DTHCAUS[new_dead[1]] <- "TREATMENT FAILURE"
-  # Subject 2: death on treatment
-  gen$DTHFL[new_dead[2]] <- "Y"
   gen$DTHDT[new_dead[2]] <- gen$TRTSDT[new_dead[2]] + 20
-  gen$DTHCAUS[new_dead[2]] <- "DISEASE PROGRESSION"
   # ---
 
   gen$TRT01P <- as.factor(gen$TRT01P)
