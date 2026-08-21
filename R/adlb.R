@@ -71,8 +71,8 @@
 #'  \item{PARCAT4}{Parameter Category 4}
 #'  \item{PARCAT5}{Parameter Category 5}
 #'  \item{PARCAT6}{Parameter Category 6}
-#'  \item{MCRIT2ML}{Multi-Response Criterion 2 Evaluation}
 #'  \item{MCRIT1ML}{Multi-Response Criterion 1 Evaluation}
+#'  \item{MCRIT2ML}{Multi-Response Criterion 2 Evaluation}
 #'  \item{MCRIT1MN}{Multi-Response Criterion 1 Eval (N)}
 #'  \item{MCRIT2MN}{Multi-Response Criterion 2 Eval (N)}
 #'  \item{MCRIT1}{Analysis Multi-Response Criterion 1}
