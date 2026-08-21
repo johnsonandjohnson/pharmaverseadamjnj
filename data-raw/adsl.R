@@ -337,11 +337,11 @@ gen_adsl <- function(seed = 123) {
     .default = NA
   )
   gen$DTHAFTFL <- dplyr::case_when(
-    gen$DTHDT > gen$TRTEDT ~ "Y",
+    gen$DTHDT > (gen$TRTEDT + 30) ~ "Y",
     .default = NA
   )
   gen$DTHB60FL <- dplyr::case_when(
-    gen$DTHDT <= gen$TRTSDT + 60 ~ "Y",
+    gen$DTHDT <= (gen$TRTSDT + 60) ~ "Y",
     .default = "N"
   )
   gen$UNBLNDDT <- as.Date(dplyr::case_when(
@@ -361,7 +361,7 @@ gen_adsl <- function(seed = 123) {
   gen$DTHTERM <- gen$DTHCAUS
   # add DDPCDTHC ------
   ddpcdthc_choices <- c(
-    "Cardiac arrest",
+    "Progressive D",
     "Pneumonia",
     "Respiratory failure",
     "Sepsis",
