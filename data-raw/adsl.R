@@ -68,6 +68,21 @@ gen_adsl <- function(seed = 123) {
       )
     )
   )
+  # --- Force 2 alive subjects to dead with coherent cause of death ---
+  alive_idx <- which(is.na(gen$DTHFL) | gen$DTHFL != "Y")
+  # Pick 2 subjects that have valid TRTSDT and TRTEDT
+  valid_alive <- alive_idx[!is.na(gen$TRTSDT[alive_idx]) & !is.na(gen$TRTEDT[alive_idx])]
+  new_dead <- sample(valid_alive, 2)
+  # Subject 1: death after 30 days of treatment end (DTHAFTFL = "Y")
+  gen$DTHFL[new_dead[1]] <- "Y"
+  gen$DTHDT[new_dead[1]] <- gen$TRTEDT[new_dead[1]] + 45
+  gen$DTHCAUS[new_dead[1]] <- "TREATMENT FAILURE"
+  # Subject 2: death on treatment
+  gen$DTHFL[new_dead[2]] <- "Y"
+  gen$DTHDT[new_dead[2]] <- gen$TRTSDT[new_dead[2]] + 20
+  gen$DTHCAUS[new_dead[2]] <- "DISEASE PROGRESSION"
+  # ---
+
   gen$TRT01P <- as.factor(gen$TRT01P)
   gen$TRT01P <- droplevels(as.factor(dplyr::case_when(
     gen$TRT01P == "Screen Failure" ~ NA,
@@ -359,18 +374,17 @@ gen_adsl <- function(seed = 123) {
   gen$LDOSE <- as.numeric(20)
   gen$LDOSU <- "mg"
   gen$DTHTERM <- gen$DTHCAUS
-  # add DDPCDTHC ------
-  ddpcdthc_choices <- c(
-    "Progressive D",
-    "Pneumonia",
-    "Respiratory failure",
-    "Sepsis",
-    "Stroke",
-    "Unknown"
-  )
+  # add DDPCDTHC — coherent with DTHCAUS ------
   gen$DDPCDTHC <- NA_character_
-  dth_idx <- !is.na(gen$DTHFL) & gen$DTHFL == "Y"
-  gen$DDPCDTHC[dth_idx] <- sample(ddpcdthc_choices, sum(dth_idx), replace = TRUE)
+  dth_idx <- which(!is.na(gen$DTHFL) & gen$DTHFL == "Y")
+  cause <- gen$DTHCAUS[dth_idx]
+  gen$DDPCDTHC[dth_idx] <- dplyr::case_when(
+    toupper(cause) %in% c("SUDDEN DEATH", "MYOCARDIAL INFARCTION") ~ "Adverse Event",
+    toupper(cause) == "DISEASE PROGRESSION" ~ "Disease progression of trial indication",
+    toupper(cause) == "TREATMENT FAILURE" ~ "Treatment failure/relapse",
+    toupper(cause) %in% c("COMPLETED SUICIDE", "SUICIDE") ~ "Other",
+    .default = "Adverse Event"
+  )
   # ---
   gen$LDSTODTH <- as.numeric(gen$DTHDT - gen$TRTEDT + 1)
   gen$DTHDY <- as.numeric(gen$DTHDT - gen$TRTSDT + 1)
