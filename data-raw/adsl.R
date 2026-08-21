@@ -387,6 +387,15 @@ gen_adsl <- function(seed = 123) {
     toupper(cause) %in% c("COMPLETED SUICIDE", "SUICIDE") ~ "Other",
     .default = "Adverse Event"
   )
+  gen$DDPCDTHC <- gen$DDPCDTHC |>
+    factor(
+      levels = c(
+        "Adverse Event",
+        "Disease progression of trial indication",
+        "Treatment failure/relapse",
+        "Other"
+      )
+    )
   # ---
   gen$LDSTODTH <- as.numeric(gen$DTHDT - gen$TRTEDT + 1)
   gen$DTHDY <- as.numeric(gen$DTHDT - gen$TRTSDT + 1)
