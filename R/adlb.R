@@ -3,7 +3,7 @@
 #' @description adlb modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 83652 rows and 105 variables:
+#' @format A data frame with 83652 rows and 109 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}
@@ -77,6 +77,10 @@
 #'  \item{MCRIT2MN}{Multi-Response Criterion 2 Eval (N)}
 #'  \item{MCRIT1}{Analysis Multi-Response Criterion 1}
 #'  \item{MCRIT2}{Analysis Multi-Response Criterion 2}
+#'  \item{CRIT1}{Analysis Criterion 1}
+#'  \item{CRIT2}{Analysis Criterion 2}
+#'  \item{CRIT1FL}{Criterion 1 Evaluation Flag}
+#'  \item{CRIT2FL}{Criterion 2 Evaluation Flag}
 #'  \item{APOBLFL}{Post-Baseline Record Flag}
 #'  \item{LBSTNRHQ}{Reference Limit Higher}
 #'  \item{LBSTNRLQ}{Reference Limit Lower}

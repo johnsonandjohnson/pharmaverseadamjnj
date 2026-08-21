@@ -495,6 +495,14 @@ gen_adlb <- function(seed = 123) {
         sample(c("Sodium, low", NA), n(), replace = TRUE),
       TRUE ~ NA_character_
     ),
+    # NOTE: CRIT1, CRIT2, CRIT1FL, CRIT2FL are temporarily derived from MCRITy/MCRITyML
+    # as the markedly abnormal criteria definitions file is currently missing.
+    # These should be updated to reflect the actual criterion definitions and flags
+    # from the markedly abnormal file once it is available.
+    CRIT1 = MCRIT1,
+    CRIT2 = MCRIT2,
+    CRIT1FL = MCRIT1ML,
+    CRIT2FL = MCRIT2ML,
     ATOXGR = as.character(sample(
       c("0", "1", "2", "3", NA_character_),
       size = n(),
@@ -708,6 +716,10 @@ gen_adlb <- function(seed = 123) {
     ATOXGR = "Analysis Toxicity Grade",
     MCRIT1 = "Analysis Multi-Response Criterion 1",
     MCRIT2 = "Analysis Multi-Response Criterion 2",
+    CRIT1 = "Analysis Criterion 1",
+    CRIT2 = "Analysis Criterion 2",
+    CRIT1FL = "Criterion 1 Evaluation Flag",
+    CRIT2FL = "Criterion 2 Evaluation Flag",
     MCRIT1ML = "Multi-Response Criterion 1 Evaluation",
     MCRIT2ML = "Multi-Response Criterion 2 Evaluation",
     MCRIT1MN = "Multi-Response Criterion 1 Eval (N)",
