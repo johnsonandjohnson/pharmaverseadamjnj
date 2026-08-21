@@ -76,10 +76,8 @@ gen_adsl <- function(seed = 123) {
   )
   new_dead <- sample(alive_with_trt, 2)
 
-  gen[new_dead, c("DTHFL", "DTHCAUS")] <- data.frame(
-    DTHFL = "Y",
-    DTHCAUS = c("TREATMENT FAILURE", "DISEASE PROGRESSION")
-  )
+  gen$DTHFL[new_dead] <- "Y"
+  # DTHCAUS is NA for Disease progression / Treatment failure deaths
   # DTHDT: first subject dies >30 days after TRTEDT; second dies on treatment
   gen$DTHDT[new_dead[1]] <- gen$TRTEDT[new_dead[1]] + 45
   gen$DTHDT[new_dead[2]] <- gen$TRTSDT[new_dead[2]] + 20
@@ -375,18 +373,24 @@ gen_adsl <- function(seed = 123) {
   )
   gen$LDOSE <- as.numeric(20)
   gen$LDOSU <- "mg"
-  gen$DTHTERM <- gen$DTHCAUS
+  gen$DTHTERM <- gen$DTHCAUS |>
+    stringi::stri_trans_totitle(
+      opts_brkiter = stringi::stri_opts_brkiter(type = "sentence")
+    )
   # add DDPCDTHC — coherent with DTHCAUS ------
   gen$DDPCDTHC <- NA_character_
   dth_idx <- which(!is.na(gen$DTHFL) & gen$DTHFL == "Y")
   cause <- gen$DTHCAUS[dth_idx]
+  # DTHCAUS only applies to Adverse Event and Other; rest get DDPCDTHC directly
   gen$DDPCDTHC[dth_idx] <- dplyr::case_when(
     toupper(cause) %in% c("SUDDEN DEATH", "MYOCARDIAL INFARCTION") ~ "Adverse Event",
-    toupper(cause) == "DISEASE PROGRESSION" ~ "Disease progression of trial indication",
-    toupper(cause) == "TREATMENT FAILURE" ~ "Treatment failure/relapse",
     toupper(cause) %in% c("COMPLETED SUICIDE", "SUICIDE") ~ "Other",
-    .default = "Adverse Event"
+    .default = NA_character_
   )
+  # Subjects with NA DTHCAUS: assign Disease progression and Treatment failure
+  no_cause_idx <- dth_idx[is.na(cause)]
+  gen$DDPCDTHC[no_cause_idx[1]] <- "Disease progression of trial indication"
+  gen$DDPCDTHC[no_cause_idx[2]] <- "Treatment failure/relapse"
   gen$DDPCDTHC <- gen$DDPCDTHC |>
     factor(
       levels = c(
