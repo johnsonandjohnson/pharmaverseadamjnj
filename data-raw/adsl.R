@@ -373,10 +373,8 @@ gen_adsl <- function(seed = 123) {
   )
   gen$LDOSE <- as.numeric(20)
   gen$LDOSU <- "mg"
-  gen$DTHTERM <- gen$DTHCAUS |>
-    stringi::stri_trans_totitle(
-      opts_brkiter = stringi::stri_opts_brkiter(type = "sentence")
-    )
+  gen$DTHTERM <- gen$DTHCAUS
+
   # add DDPCDTHC — coherent with DTHCAUS ------
   gen$DDPCDTHC <- NA_character_
   dth_idx <- which(!is.na(gen$DTHFL) & gen$DTHFL == "Y")
