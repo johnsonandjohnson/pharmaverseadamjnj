@@ -20,6 +20,7 @@
 - Added RACE variable from ADSL to ADEG dataset
 - Updated ATOXDSCL & ATOXDSCH variables as per latest lbtoxgrade file on ADLB dataset
 - Updated AVISIT for baseline on ADLB dataset
+- Added CRITy and CRITyFL on ADLB based on MCRITy and MCRITyML values since details missing on markedlyabnormal file
 
 ### Changed
 - Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX
@@ -40,7 +41,8 @@
 - Modified ADDISP to update labels for SxSDY and SxEDY variables.
 - Fix adeg CRIT1FL and CRIT2FL factor order
 - Modified ADLB toxicity grade detail ATOXDSCL and ATOXDSCH
-- Modified ADLB.PARAM values to display as per paramlookup file to replace x10 with ^10.
+- Modified ADLB.PARAM values to display as per paramlookup file to replace x10E with 10^.
+- Modified MCRITy and MCRITyFL variable values to assign based on PARAM instead of random values.
 
 
 ## [0.0.5] - 2026-05-25
