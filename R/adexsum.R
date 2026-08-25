@@ -3,7 +3,7 @@
 #' @description adex modified from pharmaverseadam
 #' @source data from adex from pharmaverseadam
 #'
-#' @format A data frame with 3556 rows and 25 variables:
+#' @format A data frame with 3810 rows and 27 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{PARAMCD}{Parameter Code}
@@ -30,6 +30,8 @@
 #'  \item{TRT01A}{Actual Treatment for Period 01}
 #'  \item{SAFFL}{Safety Population Flag}
 #'  \item{STUDYID}{Study Identifier}
+#'  \item{ADATRES}{Treatment-emergent ADA Subject Status}
+#'  \item{NABSTAT}{NAB Status}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adexsum

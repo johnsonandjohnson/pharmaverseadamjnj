@@ -20,6 +20,9 @@ gen_adae <- function(seed = 123) {
   # Source ADSL to get treatment duration information
   source(file.path("data-raw", "adsl.R"))
 
+  # Source ADISHUM to get ADATRES
+  source(file.path("data-raw", "adishum.R"))
+
   # Create a mapping of USUBJID to their appropriate ACAT1 category based on TRTEDY
   subject_acat1_map <- adsl |>
     dplyr::mutate(
@@ -41,23 +44,31 @@ gen_adae <- function(seed = 123) {
   gen <- gen |>
     mutate(
       AETERM = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1, "ABNORMAL UTERINE BLEEDING", AETERM),
-      AELLT = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
-        "DYSFUNCTIONAL UTERINE BLEEDING", AELLT
+      AELLT = ifelse(
+        USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
+        "DYSFUNCTIONAL UTERINE BLEEDING",
+        AELLT
       ),
-      AEDECOD = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
-        "ABNORMAL UTERINE BLEEDING", AEDECOD
+      AEDECOD = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1, "ABNORMAL UTERINE BLEEDING", AEDECOD),
+      AEHLT = ifelse(
+        USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
+        "MENSTRUATION AND UTERINE BLEEDING NEC",
+        AEHLT
       ),
-      AEHLT = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
-        "MENSTRUATION AND UTERINE BLEEDING NEC", AEHLT
+      AEHLGT = ifelse(
+        USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
+        "MENSTRUAL CYCLE AND UTERINE BLEEDING DISORDERS",
+        AEHLGT
       ),
-      AEHLGT = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
-        "MENSTRUAL CYCLE AND UTERINE BLEEDING DISORDERS", AEHLGT
+      AEBODSYS = ifelse(
+        USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
+        "REPRODUCTIVE SYSTEM AND BREAST DISORDERS",
+        AEBODSYS
       ),
-      AEBODSYS = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
-        "REPRODUCTIVE SYSTEM AND BREAST DISORDERS", AEBODSYS
-      ),
-      AESOC = ifelse(USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
-        "REPRODUCTIVE SYSTEM AND BREAST DISORDERS", AESOC
+      AESOC = ifelse(
+        USUBJID %in% c("01-701-1015", "01-701-1034") & AESEQ == 1,
+        "REPRODUCTIVE SYSTEM AND BREAST DISORDERS",
+        AESOC
       )
     )
 
@@ -67,17 +78,25 @@ gen_adae <- function(seed = 123) {
       AETERM = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1, "ERECTILE DYSFUNCTION", AETERM),
       AELLT = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1, "ERECTILE DISTURBANCE", AELLT),
       AEDECOD = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1, "ERECTILE DYSFUNCTION", AEDECOD),
-      AEHLT = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1,
-        "ERECTION AND EJACULATION CONDITIONS AND DISORDERS", AEHLT
+      AEHLT = ifelse(
+        USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1,
+        "ERECTION AND EJACULATION CONDITIONS AND DISORDERS",
+        AEHLT
       ),
-      AEHLGT = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1,
-        "SEXUAL FUNCTION AND FERTILITY DISORDERS", AEHLGT
+      AEHLGT = ifelse(
+        USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1,
+        "SEXUAL FUNCTION AND FERTILITY DISORDERS",
+        AEHLGT
       ),
-      AEBODSYS = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1,
-        "REPRODUCTIVE SYSTEM AND BREAST DISORDERS", AEBODSYS
+      AEBODSYS = ifelse(
+        USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1,
+        "REPRODUCTIVE SYSTEM AND BREAST DISORDERS",
+        AEBODSYS
       ),
-      AESOC = ifelse(USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1,
-        "REPRODUCTIVE SYSTEM AND BREAST DISORDERS", AESOC
+      AESOC = ifelse(
+        USUBJID %in% c("01-701-1023", "01-701-1028") & AESEQ == 1,
+        "REPRODUCTIVE SYSTEM AND BREAST DISORDERS",
+        AESOC
       )
     )
 
@@ -85,51 +104,49 @@ gen_adae <- function(seed = 123) {
   gen <- gen |>
     mutate(
       AETERM = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1, "BLEEDING ANOVULATORY", AETERM),
-      AELLT = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
-        "ANOVULAR DYSFUNCTIONAL UTERINE BLEEDING", AELLT
+      AELLT = ifelse(
+        USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
+        "ANOVULAR DYSFUNCTIONAL UTERINE BLEEDING",
+        AELLT
       ),
-      AEDECOD = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
-        "BLEEDING ANOVULATORY", AEDECOD
+      AEDECOD = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1, "BLEEDING ANOVULATORY", AEDECOD),
+      AEHLT = ifelse(
+        USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
+        "FEMALE GONADAL FUNCTION DISORDERS",
+        AEHLT
       ),
-      AEHLT = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
-        "FEMALE GONADAL FUNCTION DISORDERS", AEHLT
+      AEHLGT = ifelse(
+        USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
+        "ENDOCRINE DISORDERS OF GONADAL FUNCTION",
+        AEHLGT
       ),
-      AEHLGT = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
-        "ENDOCRINE DISORDERS OF GONADAL FUNCTION", AEHLGT
-      ),
-      AEBODSYS = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
-        "ENDOCRINE DISORDERS", AEBODSYS
-      ),
-      AESOC = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1,
-        "ENDOCRINE DISORDERS", AESOC
-      ),
+      AEBODSYS = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1, "ENDOCRINE DISORDERS", AEBODSYS),
+      AESOC = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1, "ENDOCRINE DISORDERS", AESOC),
       TRTEMFL = ifelse(USUBJID %in% c("01-701-1363", "01-701-1111") & AESEQ == 1, "Y", TRTEMFL)
     )
 
   # d.  First records Placebo and Treatment for Male Broad
   gen <- gen |>
     mutate(
-      AETERM = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
-        "DISTURBANCE IN SEXUAL AROUSAL", AETERM
+      AETERM = ifelse(
+        USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
+        "DISTURBANCE IN SEXUAL AROUSAL",
+        AETERM
       ),
-      AELLT = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
-        "SEXUAL AROUSAL DECREASED", AELLT
+      AELLT = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1, "SEXUAL AROUSAL DECREASED", AELLT),
+      AEDECOD = ifelse(
+        USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
+        "DISTURBANCE IN SEXUAL AROUSAL",
+        AEDECOD
       ),
-      AEDECOD = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
-        "DISTURBANCE IN SEXUAL AROUSAL", AEDECOD
+      AEHLT = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1, "SEXUAL AROUSAL DISORDERS", AEHLT),
+      AEHLGT = ifelse(
+        USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
+        "SEXUAL DYSFUNCTIONS, DISTURBANCES AND GENDER IDENTITY DISORDERS",
+        AEHLGT
       ),
-      AEHLT = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
-        "SEXUAL AROUSAL DISORDERS", AEHLT
-      ),
-      AEHLGT = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
-        "SEXUAL DYSFUNCTIONS, DISTURBANCES AND GENDER IDENTITY DISORDERS", AEHLGT
-      ),
-      AEBODSYS = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
-        "PSYCHIATRIC DISORDERS", AEBODSYS
-      ),
-      AESOC = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1,
-        "PSYCHIATRIC DISORDERS", AESOC
-      )
+      AEBODSYS = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1, "PSYCHIATRIC DISORDERS", AEBODSYS),
+      AESOC = ifelse(USUBJID %in% c("01-701-1392", "01-701-1097") & AESEQ == 1, "PSYCHIATRIC DISORDERS", AESOC)
     )
 
   gen <- dplyr::mutate(
@@ -188,6 +205,11 @@ gen_adae <- function(seed = 123) {
       dplyr::n(),
       replace = TRUE
     )),
+    AESEVN = dplyr::case_when(
+      AESEV == "MILD" ~ 1L,
+      AESEV == "MODERATE" ~ 2L,
+      AESEV == "SEVERE" ~ 3L
+    ),
     AESEV = dplyr::case_when(
       AESEV == "MILD" ~ "Mild",
       AESEV == "MODERATE" ~ "Moderate",
@@ -283,7 +305,6 @@ gen_adae <- function(seed = 123) {
       filter = TRTEMFL == "Y"
     )
 
-
   te_flags <- gen |>
     dplyr::filter(TRTEMFL == "Y") |>
     derive_var_extreme_flag(
@@ -297,7 +318,6 @@ gen_adae <- function(seed = 123) {
 
   gen <- gen |>
     dplyr::left_join(te_flags, by = c("USUBJID", "AESEQ"))
-
 
   # Drop any variables shared by gen and ADSL (except key)
   shared <- setdiff(intersect(names(gen), names(adsl)), c("USUBJID", "TRTEDY"))
@@ -325,7 +345,8 @@ gen_adae <- function(seed = 123) {
   }
 
   gen <- dplyr::left_join(gen, adsl_subset, by = "USUBJID")
-  gen <- mutate(gen,
+  gen <- mutate(
+    gen,
     months = (TRTEDY + 30) / 30.4375,
     ACAT1 = case_when(
       months <= 3 ~ "Within 3 months",
@@ -335,11 +356,16 @@ gen_adae <- function(seed = 123) {
       months > 12 ~ "Beyond 13 months",
       .default = NA_character_
     ),
-    ACAT1 = factor(ACAT1, levels = c(
-      "Within 3 months", "4 to 6 months",
-      "7 to 9 months", "10 to 12 months",
-      "Beyond 13 months"
-    ))
+    ACAT1 = factor(
+      ACAT1,
+      levels = c(
+        "Within 3 months",
+        "4 to 6 months",
+        "7 to 9 months",
+        "10 to 12 months",
+        "Beyond 13 months"
+      )
+    )
   )
   gen <- select(gen, -months)
 
@@ -359,13 +385,25 @@ gen_adae <- function(seed = 123) {
       AESHOSPR = ifelse(AESHOSP == "Y", "Y", NA_character_)
     )
 
+  # Randomly assign all rows to one of 5 AESCAT categories (~20% each)
+  aescat_labels <- c(
+    "INFUSION RELATED REACTION",
+    "INFUSION SITE REACTION",
+    "INJECTION SITE REACTION",
+    "INJECTION RELATED REACTION",
+    "NONE OF THE ABOVE"
+  )
+  aescat_assigned <- sample(
+    aescat_labels,
+    size = nrow(gen),
+    replace = TRUE,
+    prob = rep(0.2, 5)
+  )
+
   gen <- gen |>
     mutate(
-      AESCAT = case_when(
-        AESOC == "GENERAL DISORDERS AND ADMINISTRATION SITE CONDITIONS" ~ "INFUSION RELATED REACTION",
-        .default = "NONE OF THE ABOVE"
-      ),
-      AESCAT = forcats::fct_relabel(AESCAT, stringr::str_to_sentence), # Convert AESCAT levels to sentence
+      AESCAT = aescat_assigned,
+      AESCAT = forcats::fct_relabel(as.factor(AESCAT), stringr::str_to_sentence),
     )
 
   # Derive CQ01/02/03 and SMQ01/02/03 names per mapping from AEDECOD
@@ -445,6 +483,60 @@ gen_adae <- function(seed = 123) {
     ) |>
     ungroup()
 
+  # Derive DOSEDT: most recent EX dose date prior to or on AE start date (rolling join)
+  ex_lookup <- pharmaverseadam::adex |>
+    dplyr::filter(PARAMCD == "DOSE") |>
+    dplyr::mutate(EXSTDT = as.Date(EXSTDTC)) |>
+    dplyr::select(USUBJID, EXSTDT) |>
+    dplyr::distinct() |>
+    dplyr::arrange(USUBJID, EXSTDT)
+
+  gen <- gen |>
+    dplyr::left_join(
+      ex_lookup,
+      by = dplyr::join_by(USUBJID, closest(ASTDT >= EXSTDT))
+    ) |>
+    dplyr::mutate(DOSEDT = as.integer(EXSTDT))
+
+  # Join ADATRES and NABSTAT from ADISHUM - each collapsed separately, POSITIVE takes priority
+  adatres_map <- adishum |>
+    dplyr::filter(!is.na(ADATRES)) |>
+    dplyr::mutate(priority_flag = dplyr::if_else(ADATRES == "POSITIVE", 1L, 2L)) |>
+    dplyr::arrange(USUBJID, priority_flag) |>
+    dplyr::distinct(USUBJID, .keep_all = TRUE) |>
+    dplyr::select(USUBJID, ADATRES)
+
+  nabstat_map <- adishum |>
+    dplyr::filter(!is.na(NABSTAT)) |>
+    dplyr::mutate(.priority = dplyr::if_else(NABSTAT == "POSITIVE", 1L, 2L)) |>
+    dplyr::arrange(USUBJID, .priority) |>
+    dplyr::distinct(USUBJID, .keep_all = TRUE) |>
+    dplyr::select(USUBJID, NABSTAT)
+
+  gen <- gen |>
+    dplyr::left_join(adatres_map, by = "USUBJID") |>
+    dplyr::left_join(nabstat_map, by = "USUBJID")
+
+  # Force some ADANTRE subjects to have SEVERE IRR for testing
+  neg_subj <- adishum |>
+    dplyr::filter(!is.na(ADATRES), ADATRES == "NEGATIVE") |>
+    dplyr::distinct(USUBJID) |>
+    dplyr::pull(USUBJID)
+
+  force_idx <- c("INFUSION RELATED REACTION", "INJECTION RELATED REACTION") |>
+    lapply(
+      function(cat) {
+        idx <- which(
+          gen$USUBJID %in% neg_subj & toupper(as.character(gen$AESCAT)) == cat
+        )
+        sample(idx, size = min(25L, length(idx)))
+      }
+    ) |>
+    unlist()
+  gen$AESEV <- as.character(gen$AESEV)
+  gen$AESEV[force_idx] <- "Severe"
+  gen$AESEVN[force_idx] <- 3L
+
   # Add labels
   additional_labels <- list(
     SAFFL = "Safety Population Flag",
@@ -452,6 +544,7 @@ gen_adae <- function(seed = 123) {
     ACAT1 = "Analysis Category 1",
     AETOXGR = "Standard Toxicity Grade",
     AETOXGRN = "Standard Toxicity Grade (N)",
+    AESEVN = "Severity/Intensity (N)",
     AOCTIFL = "1st TE Max Toxicity Grade Flag",
     DOSEDY = "Day of Study Drug",
     DOSEU = "Treatment Dose Units",
@@ -489,11 +582,14 @@ gen_adae <- function(seed = 123) {
     DOSS1U = "Trt Dose Units for study Agent 1",
     DOSS2U = "Trt Dose Units for study Agent 2",
     DOSS1ON = "Treatment Dose for study Agent 1",
-    DOSS2ON = "Treatment Dose for study Agent 2"
+    DOSS2ON = "Treatment Dose for study Agent 2",
+    DOSEDT = "Date of Study Drug",
+    EXSTDT = "Exposure Start Date",
+    ADATRES = "Treatment-emergent ADA Subject Status",
+    NABSTAT = "NAB Status"
   )
 
   # Arrange final data
-
   gen <- gen |> arrange(USUBJID, AESEQ)
 
   # Handle NA values and convert characters to factors

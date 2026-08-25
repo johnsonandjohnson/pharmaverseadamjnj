@@ -3,7 +3,7 @@
 #' @description adex modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 591 rows and 162 variables:
+#' @format A data frame with 591 rows and 165 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -137,6 +137,7 @@
 #'  \item{ATVINFU}{Analysis Total Volume Infused Units}
 #'  \item{AINFRAT}{Analysis Infusion Rate}
 #'  \item{AINFRAU}{Analysis Infusion Rate Unit}
+#'  \item{EXSTDT}{Exposure Start Date}
 #'  \item{APERIOD}{Analysis Period}
 #'  \item{APERIODC}{Analysis Period (C)}
 #'  \item{ABODSYS1}{AE SOC Driving Study Drug Action (1)}
@@ -167,6 +168,8 @@
 #'  \item{SKPCAT}{Dose Skipped Category}
 #'  \item{DLYN}{Number of Dose Delay}
 #'  \item{DLYCAT}{Dose Delay Category}
+#'  \item{ADATRES}{Treatment-emergent ADA Subject Status}
+#'  \item{NABSTAT}{NAB Status}
 #' }
 #' @seealso \code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adex

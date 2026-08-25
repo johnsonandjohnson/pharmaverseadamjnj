@@ -68,6 +68,21 @@ gen_adsl <- function(seed = 123) {
       )
     )
   )
+  # --- Add 2 additional deaths (total target: 5 dead subjects) ---
+  alive_with_trt <- which(
+    (is.na(gen$DTHFL) | gen$DTHFL != "Y") &
+      !is.na(gen$TRTSDT) &
+      !is.na(gen$TRTEDT)
+  )
+  new_dead <- sample(alive_with_trt, 2)
+
+  gen$DTHFL[new_dead] <- "Y"
+  # DTHCAUS is NA for Disease progression / Treatment failure deaths
+  # DTHDT: first subject dies >30 days after TRTEDT; second dies on treatment
+  gen$DTHDT[new_dead[1]] <- gen$TRTEDT[new_dead[1]] + 45
+  gen$DTHDT[new_dead[2]] <- gen$TRTSDT[new_dead[2]] + 20
+  # ---
+
   gen$TRT01P <- as.factor(gen$TRT01P)
   gen$TRT01P <- droplevels(as.factor(dplyr::case_when(
     gen$TRT01P == "Screen Failure" ~ NA,
@@ -149,7 +164,6 @@ gen_adsl <- function(seed = 123) {
   gen$RFICDTC <- gen$DMDTC
   gen$RFICDT <- as.Date(gen$DMDTC)
 
-
   # Stratification factors
   gen$STRAT1D <- as.factor("Description of Stratification Factor 1")
   gen$STRAT2D <- as.factor("Description of Stratification Factor 2")
@@ -165,13 +179,15 @@ gen_adsl <- function(seed = 123) {
     rep("Stratification Factor 2 Value 1", n_first),
     rep("Stratification Factor 2 Value 2", n_subj - n_first)
   )
-  gen$STRAT1R <- factor(sample(vals1),
+  gen$STRAT1R <- factor(
+    sample(vals1),
     levels = c(
       "Stratification Factor 1 Value 1",
       "Stratification Factor 1 Value 2"
     )
   )
-  gen$STRAT2R <- factor(sample(vals2),
+  gen$STRAT2R <- factor(
+    sample(vals2),
     levels = c(
       "Stratification Factor 2 Value 1",
       "Stratification Factor 2 Value 2"
@@ -336,11 +352,11 @@ gen_adsl <- function(seed = 123) {
     .default = NA
   )
   gen$DTHAFTFL <- dplyr::case_when(
-    gen$DTHDT > gen$TRTEDT ~ "Y",
+    gen$DTHDT > (gen$TRTEDT + 30) ~ "Y",
     .default = NA
   )
   gen$DTHB60FL <- dplyr::case_when(
-    gen$DTHDT <= gen$TRTSDT + 60 ~ "Y",
+    gen$DTHDT <= (gen$TRTSDT + 60) ~ "Y",
     .default = "N"
   )
   gen$UNBLNDDT <- as.Date(dplyr::case_when(
@@ -358,6 +374,31 @@ gen_adsl <- function(seed = 123) {
   gen$LDOSE <- as.numeric(20)
   gen$LDOSU <- "mg"
   gen$DTHTERM <- gen$DTHCAUS
+
+  # add DDPCDTHC — coherent with DTHCAUS ------
+  gen$DDPCDTHC <- NA_character_
+  dth_idx <- which(!is.na(gen$DTHFL) & gen$DTHFL == "Y")
+  cause <- gen$DTHCAUS[dth_idx]
+  # DTHCAUS only applies to Adverse Event and Other; rest get DDPCDTHC directly
+  gen$DDPCDTHC[dth_idx] <- dplyr::case_when(
+    toupper(cause) %in% c("SUDDEN DEATH", "MYOCARDIAL INFARCTION") ~ "Adverse Event",
+    toupper(cause) %in% c("COMPLETED SUICIDE", "SUICIDE") ~ "Other",
+    .default = NA_character_
+  )
+  # Subjects with NA DTHCAUS: assign Disease progression and Treatment failure
+  no_cause_idx <- dth_idx[is.na(cause)]
+  gen$DDPCDTHC[no_cause_idx[1]] <- "Disease progression of trial indication"
+  gen$DDPCDTHC[no_cause_idx[2]] <- "Treatment failure/relapse"
+  gen$DDPCDTHC <- gen$DDPCDTHC |>
+    factor(
+      levels = c(
+        "Adverse Event",
+        "Disease progression of trial indication",
+        "Treatment failure/relapse",
+        "Other"
+      )
+    )
+  # ---
   gen$LDSTODTH <- as.numeric(gen$DTHDT - gen$TRTEDT + 1)
   gen$DTHDY <- as.numeric(gen$DTHDT - gen$TRTSDT + 1)
   gen$DTHFL <- as.factor(gen$DTHFL)
@@ -428,10 +469,11 @@ gen_adsl <- function(seed = 123) {
       .default = DCSCREEN
     ),
     RESCRNFL = if_else(
-      SCRFFL == "Y" & runif(n()) < 0.5, "Y", NA_character_
+      SCRFFL == "Y" & runif(n()) < 0.5,
+      "Y",
+      NA_character_
     )
   )
-
 
   gen <- gen |>
     dplyr::mutate(
@@ -458,6 +500,27 @@ gen_adsl <- function(seed = 123) {
         levels = c("Group 1", "Group 2", "Group 3")
       ),
       EOTDT = TRTEDT
+    )
+
+  # NCTXSDT: Start Date of New Anti-Cancer Therapy
+  # Based on TRTSDT; only ~30% of treated subjects receive subsequent anti-cancer therapy
+  # Date must be after treatment start and capped at death date
+  gen <- gen |>
+    dplyr::mutate(
+      NCTXSDT = dplyr::case_when(
+        !is.na(TRTSDT) &
+          sample(
+            c(TRUE, FALSE),
+            dplyr::n(),
+            replace = TRUE,
+            prob = c(0.3, 0.7)
+          ) ~
+          pmin(
+            TRTSDT + sample(91:270, dplyr::n(), replace = TRUE),
+            dplyr::coalesce(DTHDT, as.Date("2099-12-31"))
+          ),
+        .default = as.Date(NA)
+      )
     )
 
   # Define additional labels for new variables not in source dataset
@@ -529,7 +592,10 @@ gen_adsl <- function(seed = 123) {
     COHORT = "Cohort",
     GROUP = "Analysis Group",
     EOTDT = "End-of-Treatment Date",
-    BRTHDTC = "Date/Time of Birth"
+    BRTHDTC = "Date/Time of Birth",
+    DCTDT = "End of Study Date",
+    DDPCDTHC = "Cause of Death as Collected",
+    NCTXSDT = "Start Date of New Anti-Cancer Therapy"
   )
 
   # Handle NA values and convert characters to factors

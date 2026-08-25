@@ -5,7 +5,7 @@
 \alias{adexsum}
 \title{adexsum}
 \format{
-A data frame with 3048 rows and 25 variables:
+A data frame with 3810 rows and 27 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{PARAMCD}{Parameter Code}
@@ -32,6 +32,8 @@ A data frame with 3048 rows and 25 variables:
 \item{TRT01A}{Actual Treatment for Period 01}
 \item{SAFFL}{Safety Population Flag}
 \item{STUDYID}{Study Identifier}
+\item{ADATRES}{Treatment-emergent ADA Subject Status}
+\item{NABSTAT}{NAB Status}
 }
 }
 \source{

@@ -11,6 +11,8 @@ library(stringr)
 source(file.path("data-raw", "helpers.R"))
 # Ensure ADAE is available for cross-domain derivations
 source(file.path("data-raw", "adae.R"))
+# Source ADISHUM to get ADATRES
+source(file.path("data-raw", "adishum.R"))
 
 # Generate ADEX dataset
 gen_adex <- function(seed = 123) {
@@ -18,7 +20,6 @@ gen_adex <- function(seed = 123) {
   set.seed(seed)
   # Get source data
   raw <- pharmaverseadam::adex
-
 
   raw <- dplyr::filter(raw, PARAMCD == "DOSE")
 
@@ -416,6 +417,7 @@ gen_adex <- function(seed = 123) {
     ATVINFU = ADOSU,
     AINFRAT = ADOSE,
     AINFRAU = ADOSU,
+    EXSTDT = as.Date(EXSTDTC),
     # Add random hour times to ASTDTM
     ASTDTM = {
       # Extract the date part from ASTDTM
@@ -442,11 +444,12 @@ gen_adex <- function(seed = 123) {
   gen <- gen |>
     dplyr::mutate(
       APERIOD = dplyr::if_else(
-        as.Date(sub(" .*", "", ASTDTM)) <= .midpoint, 1L, 2L
+        as.Date(sub(" .*", "", ASTDTM)) <= .midpoint,
+        1L,
+        2L
       ),
       APERIODC = dplyr::if_else(APERIOD == 1L, "Period 1", "Period 2")
     )
-
 
   # Derive ABODSYSy and ADECODy
   #  - ABODSYSy: AE System Organ Class (AE.AEBODSYS)
@@ -460,7 +463,6 @@ gen_adex <- function(seed = 123) {
     "DOSE RATE REDUCED"
   )
 
-
   ex_key <- gen |>
     dplyr::mutate(
       .row_id = dplyr::row_number(),
@@ -468,14 +470,12 @@ gen_adex <- function(seed = 123) {
     ) |>
     dplyr::select(.row_id, USUBJID, EXASTDT)
 
-
   ae_sub <- adae |>
     dplyr::mutate(
       AEASTDT = as.Date(sub(" .*", "", ASTDTM))
     ) |>
     dplyr::filter(AEACN %in% ae_actions) |>
     dplyr::select(USUBJID, AEASTDT, AEBODSYS, AEDECOD, AESEQ)
-
 
   ex_ae <- dplyr::left_join(
     ex_key,
@@ -493,7 +493,6 @@ gen_adex <- function(seed = 123) {
       ADECOD2 = dplyr::nth(unique(na.omit(AEDECOD)), 2),
       .groups = "drop"
     )
-
 
   gen <- gen |>
     dplyr::mutate(.row_id = dplyr::row_number()) |>
@@ -536,8 +535,10 @@ gen_adex <- function(seed = 123) {
         !is.na(ADECOD1),
         sample(
           c(
-            "Gastrointestinal disorders", "General disorders and administration site conditions",
-            "Nervous system disorders", "Skin and subcutaneous tissue disorders"
+            "Gastrointestinal disorders",
+            "General disorders and administration site conditions",
+            "Nervous system disorders",
+            "Skin and subcutaneous tissue disorders"
           ),
           dplyr::n(),
           replace = TRUE
@@ -548,8 +549,10 @@ gen_adex <- function(seed = 123) {
         !is.na(ADECOD2),
         sample(
           c(
-            "Investigations", "Musculoskeletal and connective tissue disorders",
-            "Respiratory, thoracic and mediastinal disorders", "Vascular disorders"
+            "Investigations",
+            "Musculoskeletal and connective tissue disorders",
+            "Respiratory, thoracic and mediastinal disorders",
+            "Vascular disorders"
           ),
           dplyr::n(),
           replace = TRUE
@@ -673,8 +676,8 @@ gen_adex <- function(seed = 123) {
         !is.na(AENDTM) & !is.na(ASTDTM) ~
           sprintf(
             "%02d:%02d",
-            as.numeric(difftime(AENDTM, ASTDTM, units = "hours")),
-            as.numeric(difftime(AENDTM, ASTDTM, units = "mins")) %% 60
+            as.integer(floor(as.numeric(difftime(AENDTM, ASTDTM, units = "hours")))),
+            as.integer(floor(as.numeric(difftime(AENDTM, ASTDTM, units = "mins")) %% 60))
           ),
         TRUE ~ NA_character_
       )
@@ -725,6 +728,68 @@ gen_adex <- function(seed = 123) {
       )
     )
 
+  # Join ADATRES and NABSTAT from ADISHUM - each collapsed separately, POSITIVE takes priority
+  adatres_map <- adishum |>
+    dplyr::filter(!is.na(ADATRES)) |>
+    dplyr::mutate(.priority = dplyr::if_else(ADATRES == "POSITIVE", 1L, 2L)) |>
+    dplyr::arrange(USUBJID, .priority) |>
+    dplyr::distinct(USUBJID, .keep_all = TRUE) |>
+    dplyr::select(USUBJID, ADATRES)
+
+  nabstat_map <- adishum |>
+    dplyr::filter(!is.na(NABSTAT)) |>
+    dplyr::mutate(.priority = dplyr::if_else(NABSTAT == "POSITIVE", 1L, 2L)) |>
+    dplyr::arrange(USUBJID, .priority) |>
+    dplyr::distinct(USUBJID, .keep_all = TRUE) |>
+    dplyr::select(USUBJID, NABSTAT)
+
+  gen <- gen |>
+    dplyr::left_join(adatres_map, by = "USUBJID") |>
+    dplyr::left_join(nabstat_map, by = "USUBJID")
+
+  # SECTION ---- Need specific value for EXSTDT for a Listing ------------
+  # Get USUBJIDs that pass the ADISHUM filter and also exist in ADAE
+  qualified_usubjids <- adishum |>
+    dplyr::filter(
+      IMFL == "Y",
+      PARAMCD == "ADATRE",
+      AVALC == "Y"
+    ) |>
+    dplyr::distinct(USUBJID) |>
+    dplyr::filter(USUBJID %in% adae$USUBJID) |>
+    dplyr::pull(USUBJID)
+
+  # For each qualified subject, get one DOSEDT from ADAE and convert to Date
+  # DOSEDT in ADAE is stored as integer (SAS date, origin 1960-01-01)
+  # Result: one row per USUBJID with their DOSEDT_date
+  dosedt_per_subj <- adae |>
+    dplyr::filter(
+      USUBJID %in% qualified_usubjids,
+      !is.na(DOSEDT)
+    ) |>
+    dplyr::group_by(USUBJID) |>
+    dplyr::slice_head(n = 1) |>
+    dplyr::ungroup() |>
+    dplyr::transmute(
+      USUBJID,
+      DOSEDT_date = as.Date(DOSEDT, origin = "1960-01-01")
+    ) |>
+    head(30)
+
+  # Join DOSEDT_date onto ADEX by USUBJID, then set EXSTDT = DOSEDT_date
+  # for the FIRST matching row per subject only (1 subject = 1 row updated)
+  gen <- gen |>
+    dplyr::left_join(dosedt_per_subj, by = "USUBJID") |>
+    dplyr::group_by(USUBJID) |>
+    dplyr::mutate(
+      EXSTDT = dplyr::if_else(
+        !is.na(DOSEDT_date) & dplyr::row_number() == 1,
+        DOSEDT_date,
+        EXSTDT
+      )
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::select(-DOSEDT_date)
 
   # Additional labels for all relevant variables
   additional_labels <- list(
@@ -805,7 +870,10 @@ gen_adex <- function(seed = 123) {
     AVAMT = "Analysis Injection Vol Prescribed",
     AVAMTU = "Analysis Injection Vol Prescribed Units",
     APERIOD = "Analysis Period",
-    APERIODC = "Analysis Period (C)"
+    APERIODC = "Analysis Period (C)",
+    ADATRES = "Treatment-emergent ADA Subject Status",
+    NABSTAT = "NAB Status",
+    EXSTDT = "Exposure Start Date"
   )
 
   # Handle NA values and convert characters to factors

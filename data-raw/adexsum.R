@@ -10,6 +10,9 @@ library(labelled)
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
 
+# Source ADISHUM to get ADATRES
+source(file.path("data-raw", "adishum.R"))
+
 # Generate ADEXSUM dataset
 gen_adexsum <- function(seed = 123) {
   # Set seed for reproducibility
@@ -35,7 +38,8 @@ gen_adexsum <- function(seed = 123) {
       "NUMCYC",
       "TNUMDOS",
       "TRTCOMP",
-      "TRTDURM"
+      "TRTDURM",
+      "DURFUPD"
     ),
     PARAM = c(
       "Cumulative dose (mg)",
@@ -49,7 +53,8 @@ gen_adexsum <- function(seed = 123) {
       "Total number of cycles received",
       "Total number of administrations",
       "Compliance (%)",
-      "Duration of treatment (months)"
+      "Duration of treatment (months)",
+      "Duration of follow-up (days)"
     ),
     stringsAsFactors = FALSE
   )
@@ -80,7 +85,8 @@ gen_adexsum <- function(seed = 123) {
         record$PARAMCD == "CUMDOSS2" ~ as.numeric(round(runif(1, 100, 5000), 0)),
         record$PARAMCD == "DOSEDAYS" ~ as.numeric(round(runif(1, 1, 200), 0)),
         record$PARAMCD == "MEANDD" ~ as.numeric(round(runif(1, 5, 50), 1)),
-        record$PARAMCD == "MEANDDI" ~ as.numeric(round(runif(1, 5, 45), 1))
+        record$PARAMCD == "MEANDDI" ~ as.numeric(round(runif(1, 5, 45), 1)),
+        record$PARAMCD == "DURFUPD" ~ as.numeric(round(runif(1, 30, 500), 0))
       )
 
       # Add to records list
@@ -93,15 +99,23 @@ gen_adexsum <- function(seed = 123) {
   gen <- dplyr::bind_rows(records)
 
   # Adding Duration of treatment days and years
-  trtdur <- gen |>
-    dplyr::filter(PARAMCD == "TRTDURM") |>
-    dplyr::bind_rows(
-      dplyr::filter(gen, PARAMCD == "TRTDURM") |>
-        dplyr::mutate(PARAM = "Duration of treatment (days)", PARAMCD = "TRTDURD", AVAL = AVAL * 30.4375),
-      dplyr::filter(gen, PARAMCD == "TRTDURM") |>
-        dplyr::mutate(PARAM = "Duration of treatment (years)", PARAMCD = "TRTDURY", AVAL = round(AVAL / 12, 1))
-    ) |>
-    dplyr::filter(PARAMCD != "TRTDURM")
+  trtdur_base <- gen |>
+    dplyr::filter(PARAMCD == "TRTDURM")
+
+  trtdur <- dplyr::bind_rows(
+    trtdur_base |>
+      dplyr::mutate(
+        PARAM = "Duration of treatment (days)",
+        PARAMCD = "TRTDURD",
+        AVAL = AVAL * 30.4375
+      ),
+    trtdur_base |>
+      dplyr::mutate(
+        PARAM = "Duration of treatment (years)",
+        PARAMCD = "TRTDURY",
+        AVAL = round(AVAL / 12, 1)
+      )
+  )
 
   gen <- dplyr::bind_rows(gen, trtdur)
 
@@ -288,7 +302,8 @@ gen_adexsum <- function(seed = 123) {
       "TRTCOMP",
       "TRTDURD",
       "TRTDURM",
-      "TRTDURY"
+      "TRTDURY",
+      "DURFUPD"
     )
   )
 
@@ -343,7 +358,26 @@ gen_adexsum <- function(seed = 123) {
 
   gen <- dplyr::left_join(gen, adsl_subset, by = "USUBJID")
 
-  # Define additional labels
+  # Join ADATRES and NABSTAT from ADISHUM - each collapsed separately, POSITIVE takes priority
+  adatres_map <- adishum |>
+    dplyr::filter(!is.na(ADATRES)) |>
+    dplyr::mutate(.priority = dplyr::if_else(ADATRES == "POSITIVE", 1L, 2L)) |>
+    dplyr::arrange(USUBJID, .priority) |>
+    dplyr::distinct(USUBJID, .keep_all = TRUE) |>
+    dplyr::select(USUBJID, ADATRES)
+
+  nabstat_map <- adishum |>
+    dplyr::filter(!is.na(NABSTAT)) |>
+    dplyr::mutate(.priority = dplyr::if_else(NABSTAT == "POSITIVE", 1L, 2L)) |>
+    dplyr::arrange(USUBJID, .priority) |>
+    dplyr::distinct(USUBJID, .keep_all = TRUE) |>
+    dplyr::select(USUBJID, NABSTAT)
+
+  gen <- gen |>
+    dplyr::left_join(adatres_map, by = "USUBJID") |>
+    dplyr::left_join(nabstat_map, by = "USUBJID")
+
+  # Additional labels for all relevant variables
   additional_labels <- list(
     AVISIT = "Analysis Visit",
     AVISITN = "Analysis Visit (N)",
@@ -366,7 +400,9 @@ gen_adexsum <- function(seed = 123) {
     CRIT6FL = "Criterion 6 Evaluation Result Flag",
     CRIT7 = "Analysis Criterion 7",
     CRIT7FL = "Criterion 7 Evaluation Result Flag",
-    PARAMCD = "Parameter Code"
+    PARAMCD = "Parameter Code",
+    ADATRES = "Treatment-emergent ADA Subject Status",
+    NABSTAT = "NAB Status"
   )
 
   # Handle NA values and convert characters to factors
