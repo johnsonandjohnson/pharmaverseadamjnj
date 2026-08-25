@@ -3,7 +3,11 @@
 #' @description adex modified from pharmaverseadam
 #' @source data from adex from pharmaverseadam
 #'
+<<<<<<< HEAD
 #' @format A data frame with 3302 rows and 27 variables:
+=======
+#' @format A data frame with 3556 rows and 25 variables:
+>>>>>>> dev
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{PARAMCD}{Parameter Code}
