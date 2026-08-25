@@ -2,6 +2,10 @@
 
 ### Added
 - Added ADISHUM Dataset
+- Added DDPCDTHC and NCTXSDT variables to ADSL
+- Added AESEVN, EXSTDT, DOSEDT, ADATRES, and NABSTAT variables to ADAE
+- Added EXSTDT, ADATRES, and NABSTAT variables to ADEX
+- Added ADATRES and NABSTAT variables to ADEXSUM
 - Added vars to ADSL: LASTCTDT, UNBLNDDT, IMFL, SAFEXRS, FASEXRS, PPREXRS, PKEXRES, and IMEXRES
 - Added restord labels to xpt
 - Change ONTRFl for ADVS to first dose within 30 days
@@ -21,6 +25,9 @@
 - Added PKRFL variable to ADPC dataset
 
 ### Changed
+- Modified ADSL death-related variable derivations (DTHFL, DTHDT, DTHCAUS, DDPCDTHC)
+- Modified ADSL to add DCTDT label
+- Modified ADEXSUM to add DURFUPD parameter
 - Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX
 - Releveled TRT01P and TRT01A (now Xanomeline Low Dose -> Xanomeline High Dose -> Placebo)
 - Modified "General disorders and administration site conditions" to "Gastrointestinal disorders" in ADEX
