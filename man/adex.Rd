@@ -5,11 +5,7 @@
 \alias{adex}
 \title{adex}
 \format{
-<<<<<<< HEAD
-A data frame with 591 rows and 133 variables:
-=======
-A data frame with 591 rows and 162 variables:
->>>>>>> dev
+A data frame with 591 rows and 165 variables:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{USUBJID}{Unique Subject Identifier}
@@ -143,20 +139,13 @@ A data frame with 591 rows and 162 variables:
 \item{ATVINFU}{Analysis Total Volume Infused Units}
 \item{AINFRAT}{Analysis Infusion Rate}
 \item{AINFRAU}{Analysis Infusion Rate Unit}
-<<<<<<< HEAD
 \item{EXSTDT}{Exposure Start Date}
-=======
 \item{APERIOD}{Analysis Period}
 \item{APERIODC}{Analysis Period (C)}
->>>>>>> dev
 \item{ABODSYS1}{AE SOC Driving Study Drug Action (1)}
 \item{ABODSYS2}{AE SOC Driving Study Drug Action (2)}
 \item{ADECOD1}{AE PT Driving Study Drug Action (1)}
 \item{ADECOD2}{AE PT Driving Study Drug Action (2)}
-<<<<<<< HEAD
-\item{ADATRES}{Treatment-emergent ADA Subject Status}
-\item{NABSTAT}{NAB Status}
-=======
 \item{ANL01FL}{Analysis Flag 01-Dose reduction}
 \item{ANL02FL}{Analysis Flag 02-Dose reductn due to AE}
 \item{ANL03FL}{Analysis Flag 03-Dose interruption}
@@ -181,7 +170,8 @@ A data frame with 591 rows and 162 variables:
 \item{SKPCAT}{Dose Skipped Category}
 \item{DLYN}{Number of Dose Delay}
 \item{DLYCAT}{Dose Delay Category}
->>>>>>> dev
+\item{ADATRES}{Treatment-emergent ADA Subject Status}
+\item{NABSTAT}{NAB Status}
 }
 }
 \source{
