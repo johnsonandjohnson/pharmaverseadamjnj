@@ -451,39 +451,6 @@ gen_adex <- function(seed = 123) {
       APERIODC = dplyr::if_else(APERIOD == 1L, "Period 1", "Period 2")
     )
 
-  # TODO: Delete ------------
-  # Start -------------------
-  # Temporary Changes for ADISHUM Listings
-
-  gen <- gen |>
-    mutate(
-      AVISITN = if_else(
-        AVISITN == 9,
-        3,
-        AVISITN
-      )
-    )
-
-  gen <- gen |>
-    mutate(
-      AVISIT = dplyr::case_when(
-        AVISIT == "BASELINE" ~ "Day 1",
-        AVISIT == "WEEK 2" ~ "Day 2",
-        AVISIT == "WEEK 24" ~ "Day 3",
-      )
-    )
-
-  gen <- gen |>
-    mutate(
-      AOCCUR = if_else(
-        !is.na(EXSTDT),
-        "Y",
-        "N"
-      )
-    )
-
-  # End -------------------
-
   # Derive ABODSYSy and ADECODy
   #  - ABODSYSy: AE System Organ Class (AE.AEBODSYS)
   #  - ADECODy:  AE Preferred Term    (AE.AEDECOD)
