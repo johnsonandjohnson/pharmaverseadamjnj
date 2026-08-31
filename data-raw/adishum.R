@@ -11,6 +11,9 @@ library(labelled)
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
 
+# Source ADSL to get the latest generated data
+source(file.path("data-raw", "adsl.R"))
+
 # helper functions ----------------------------
 # functions to keep the code readable and tidy
 
@@ -1032,6 +1035,7 @@ gen_adishum <- function(seed = 123) {
 
   # get available data --------------
   # get source data
+  # adsl is sourced at the top of this script via source(file.path("data-raw", "adsl.R"))
   raw <- pharmaversesdtm::is_ada
 
   # Variables to keep from IS source
@@ -1065,8 +1069,6 @@ gen_adishum <- function(seed = 123) {
     "TRT01A",
     "TRT01AN"
   )
-
-  adsl <- pharmaverseadamjnj::adsl
 
   gen <- raw |>
     dplyr::select(
