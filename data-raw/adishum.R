@@ -11,6 +11,9 @@ library(labelled)
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
 
+# Source ADSL to get the latest generated data
+source(file.path("data-raw", "adsl.R"))
+
 # helper functions ----------------------------
 # functions to keep the code readable and tidy
 
@@ -19,10 +22,10 @@ add_adishum_col_funcs <- list()
 # function for adding sample visits
 add_adishum_col_funcs$sample_visits <- function() {
   tibble::tribble(
-    ~VISITNUM, ~AVISITN, ~AVISIT, ~VISITDY,
-    1L, 1L, "Day 1", -14,
-    2L, 2L, "Day 2", 1,
-    3L, 3L, "Day 3", 2
+    ~VISITNUM , ~AVISITN , ~AVISIT , ~VISITDY ,
+    1L        , 1L       , "Day 1" ,      -14 ,
+    2L        , 2L       , "Day 2" ,        1 ,
+    3L        , 3L       , "Day 3" ,        2
   )
 }
 
@@ -31,34 +34,34 @@ add_adishum_col_funcs$sample_paramcd <- function() {
   # tribble of PARAMCD, PARAM, ISTESTCD
   # VISITNUM removed - collection rows now use sample_visits() for visitnums
   sample_param_tbl <- tibble::tribble(
-    ~ISTESTCD, ~PARCAT1, ~PARAMCD, ~PARAM,
-    "ADA_BAB", "Collection", "SCRRSLT", "Screening Result",
-    "ADA_BAB", "Collection", "CNRRSLT", "Confirmatory Result",
-    "ADA_BAB", "Collection", "TITER", "Titer",
-    "ADA_BAB", "Collection", "SUADAPT", "Subject Peak Titer",
-    "ADA_BAB", "Collection", "SUADAST", "Subject ADA Status",
-    "ADA_NAB", "Collection", "NABSCR", "Neutralizing Screening Result",
-    "ADA_NAB", "Collection", "NABCNR", "Neutralizing Confirmatory Result",
-    "ADA_NAB", "Collection", "SUNABST", "Subject NAB Status",
-    NA_character_, "Subject Summary", "ADABL", "Baseline ADA Positive",
-    NA_character_, "Subject Summary", "ADABLT", "Baseline ADA Positive Titers",
-    NA_character_, "Subject Summary", "ADATRB", "Treatment-boosted ADA Positive",
-    NA_character_, "Subject Summary", "ADATRBT", "Treatment-boosted ADA Positive Titers",
-    NA_character_, "Subject Summary", "ADANTRB", "Not Treatment-boosted ADA Positive",
-    NA_character_, "Subject Summary", "ADANTRBT", "Not Treatment-boosted ADA Positive Titers",
-    NA_character_, "Subject Summary", "ADATRI", "Treatment-induced ADA Positive",
-    NA_character_, "Subject Summary", "ADATRIPT", "Treatment-induced ADA Positive Peak Titers",
-    NA_character_, "Subject Summary", "ADATRE", "Treatment-emergent ADA Positive",
-    NA_character_, "Subject Summary", "ADATREPT", "Treatment-emergent ADA Positive Peak Titers",
-    NA_character_, "Subject Summary", "ADANTRE", "Treatment-emergent ADA Negative",
-    NA_character_, "Subject Summary", "ADAPSP", "Persistent ADA Response",
-    NA_character_, "Subject Summary", "ADATSP", "Transient ADA Response",
-    NA_character_, "Subject Summary", "ADAUND", "Undetermined ADA Response",
-    NA_character_, "Subject Summary", "TMOSADAW", "Time to onset of treatment-induced ADA (weeks)",
-    NA_character_, "Subject Summary", "ADADURW", "Duration of treatment-induced ADA (weeks)",
-    NA_character_, "Subject Summary", "PSPDURW", "Duration of persistent treatment-induced ADA (weeks)",
-    NA_character_, "Subject Summary", "NABPOS", "NAB Positive",
-    NA_character_, "Subject Summary", "NABNEG", "NAB Negative",
+    ~ISTESTCD     , ~PARCAT1          , ~PARAMCD   , ~PARAM                                                 ,
+    "ADA_BAB"     , "Collection"      , "SCRRSLT"  , "Screening Result"                                     ,
+    "ADA_BAB"     , "Collection"      , "CNRRSLT"  , "Confirmatory Result"                                  ,
+    "ADA_BAB"     , "Collection"      , "TITER"    , "Titer"                                                ,
+    "ADA_BAB"     , "Collection"      , "SUADAPT"  , "Subject Peak Titer"                                   ,
+    "ADA_BAB"     , "Collection"      , "SUADAST"  , "Subject ADA Status"                                   ,
+    "ADA_NAB"     , "Collection"      , "NABSCR"   , "Neutralizing Screening Result"                        ,
+    "ADA_NAB"     , "Collection"      , "NABCNR"   , "Neutralizing Confirmatory Result"                     ,
+    "ADA_NAB"     , "Collection"      , "SUNABST"  , "Subject NAB Status"                                   ,
+    NA_character_ , "Subject Summary" , "ADABL"    , "Baseline ADA Positive"                                ,
+    NA_character_ , "Subject Summary" , "ADABLT"   , "Baseline ADA Positive Titers"                         ,
+    NA_character_ , "Subject Summary" , "ADATRB"   , "Treatment-boosted ADA Positive"                       ,
+    NA_character_ , "Subject Summary" , "ADATRBT"  , "Treatment-boosted ADA Positive Titers"                ,
+    NA_character_ , "Subject Summary" , "ADANTRB"  , "Not Treatment-boosted ADA Positive"                   ,
+    NA_character_ , "Subject Summary" , "ADANTRBT" , "Not Treatment-boosted ADA Positive Titers"            ,
+    NA_character_ , "Subject Summary" , "ADATRI"   , "Treatment-induced ADA Positive"                       ,
+    NA_character_ , "Subject Summary" , "ADATRIPT" , "Treatment-induced ADA Positive Peak Titers"           ,
+    NA_character_ , "Subject Summary" , "ADATRE"   , "Treatment-emergent ADA Positive"                      ,
+    NA_character_ , "Subject Summary" , "ADATREPT" , "Treatment-emergent ADA Positive Peak Titers"          ,
+    NA_character_ , "Subject Summary" , "ADANTRE"  , "Treatment-emergent ADA Negative"                      ,
+    NA_character_ , "Subject Summary" , "ADAPSP"   , "Persistent ADA Response"                              ,
+    NA_character_ , "Subject Summary" , "ADATSP"   , "Transient ADA Response"                               ,
+    NA_character_ , "Subject Summary" , "ADAUND"   , "Undetermined ADA Response"                            ,
+    NA_character_ , "Subject Summary" , "TMOSADAW" , "Time to onset of treatment-induced ADA (weeks)"       ,
+    NA_character_ , "Subject Summary" , "ADADURW"  , "Duration of treatment-induced ADA (weeks)"            ,
+    NA_character_ , "Subject Summary" , "PSPDURW"  , "Duration of persistent treatment-induced ADA (weeks)" ,
+    NA_character_ , "Subject Summary" , "NABPOS"   , "NAB Positive"                                         ,
+    NA_character_ , "Subject Summary" , "NABNEG"   , "NAB Negative"                                         ,
   )
 
   return(sample_param_tbl)
@@ -1032,6 +1035,7 @@ gen_adishum <- function(seed = 123) {
 
   # get available data --------------
   # get source data
+  # adsl is sourced at the top of this script via source(file.path("data-raw", "adsl.R"))
   raw <- pharmaversesdtm::is_ada
 
   # Variables to keep from IS source
@@ -1065,8 +1069,6 @@ gen_adishum <- function(seed = 123) {
     "TRT01A",
     "TRT01AN"
   )
-
-  adsl <- pharmaverseadamjnj::adsl
 
   gen <- raw |>
     dplyr::select(
