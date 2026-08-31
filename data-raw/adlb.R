@@ -639,8 +639,8 @@ gen_adlb <- function(seed = 123) {
       ANL02FL = dplyr::case_when(
                                  (grepl("Cycle", AVISIT) |
                                     grepl("End Of Treatment", AVISIT) |
-                                       grepl("Baseline", AVISIT)) &
-                                 ANL01FL == "Y" & is.na(DTYPE) ~ "Y",
+                                    grepl("Baseline", AVISIT)) &
+                                   ANL01FL == "Y" & is.na(DTYPE) ~ "Y",
                                  TRUE ~ NA_character_)
     )
 
