@@ -5,7 +5,7 @@
 \alias{addili}
 \title{addili}
 \format{
-A data frame with 10476 rows and 71 variables:
+A data frame with 10476 rows and 75 variables:
 \describe{
 \item{STUDYID}{Study Identifier}
 \item{USUBJID}{Unique Subject Identifier}
@@ -66,6 +66,10 @@ A data frame with 10476 rows and 71 variables:
 \item{CRIT4FL}{Criterion 4 Evaluation Result Flag}
 \item{CRIT5}{Analysis Criterion 5}
 \item{CRIT5FL}{Criterion 5 Evaluation Result Flag}
+\item{CRIT6}{Analysis Criterion 6}
+\item{CRIT6FL}{Criterion 6 Evaluation Result Flag}
+\item{CRIT7}{Analysis Criterion 7}
+\item{CRIT7FL}{Criterion 7 Evaluation Result Flag}
 \item{ANL04FL}{Analysis 04 Record Flag}
 \item{ANL06FL}{Analysis 06 Record Flag}
 \item{ANL05FL}{Analysis 05 Record Flag}
@@ -93,7 +97,7 @@ addili modified from pharmaverseadam
  head(data("addili"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 }
 \keyword{addili}
 \keyword{datasets}

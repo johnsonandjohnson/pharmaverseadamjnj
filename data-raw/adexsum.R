@@ -10,6 +10,9 @@ library(labelled)
 # Source utility functions
 source(file.path("data-raw", "helpers.R"))
 
+# Source ADISHUM to get ADATRES
+source(file.path("data-raw", "adishum.R"))
+
 # Generate ADEXSUM dataset
 gen_adexsum <- function(seed = 123) {
   # Set seed for reproducibility
@@ -25,6 +28,8 @@ gen_adexsum <- function(seed = 123) {
   param_mapping <- data.frame(
     PARAMCD = c(
       "CUMDOSE",
+      "CUMDOSS1",
+      "CUMDOSS2",
       "DOSEDAYS",
       "FINDD",
       "MEANDD",
@@ -34,10 +39,12 @@ gen_adexsum <- function(seed = 123) {
       "TNUMDOS",
       "TRTCOMP",
       "TRTDURM",
-      "TRTDURY"
+      "DURFUPD"
     ),
     PARAM = c(
-      "Cumulative dose ([unit])",
+      "Cumulative dose (mg)",
+      "Cumulative dose Study Agent 1 (mg)",
+      "Cumulative dose Study Agent 2 (gm)",
       "Total dosing days of treatment (excluding days off treatment)",
       "Final daily dose ([unit]/day)",
       "Average daily dose ([unit]/day) (excluding days off treatment)",
@@ -46,8 +53,8 @@ gen_adexsum <- function(seed = 123) {
       "Total number of cycles received",
       "Total number of administrations",
       "Compliance (%)",
-      "Duration of treatment, months",
-      "Duration of treatment, years"
+      "Duration of treatment (months)",
+      "Duration of follow-up (days)"
     ),
     stringsAsFactors = FALSE
   )
@@ -68,16 +75,18 @@ gen_adexsum <- function(seed = 123) {
       # Generate appropriate AVAL based on parameter type
       record$AVAL <- dplyr::case_when(
         record$PARAMCD == "TRTDURM" ~ as.numeric(round(runif(1, 0, 38), 1)),
-        record$PARAMCD == "TRTDURY" ~ as.numeric(round(runif(1, 0, 3.5), 2)),
         record$PARAMCD == "TRTCOMP" ~ as.numeric(round(runif(1, 0, 125), 0)),
         record$PARAMCD == "TNUMDOS" ~ as.numeric(round(runif(1, 0, 30), 0)),
         record$PARAMCD == "NUMCYC" ~ as.numeric(round(runif(1, 0, 24), 0)),
         record$PARAMCD == "MODEDD" ~ as.numeric(round(runif(1, 10, 50), 0)),
         record$PARAMCD == "FINDD" ~ as.numeric(round(runif(1, 10, 50), 0)),
         record$PARAMCD == "CUMDOSE" ~ as.numeric(round(runif(1, 100, 5000), 0)),
+        record$PARAMCD == "CUMDOSS1" ~ as.numeric(round(runif(1, 100, 5000), 0)),
+        record$PARAMCD == "CUMDOSS2" ~ as.numeric(round(runif(1, 100, 5000), 0)),
         record$PARAMCD == "DOSEDAYS" ~ as.numeric(round(runif(1, 1, 200), 0)),
         record$PARAMCD == "MEANDD" ~ as.numeric(round(runif(1, 5, 50), 1)),
-        record$PARAMCD == "MEANDDI" ~ as.numeric(round(runif(1, 5, 45), 1))
+        record$PARAMCD == "MEANDDI" ~ as.numeric(round(runif(1, 5, 45), 1)),
+        record$PARAMCD == "DURFUPD" ~ as.numeric(round(runif(1, 30, 500), 0))
       )
 
       # Add to records list
@@ -88,6 +97,27 @@ gen_adexsum <- function(seed = 123) {
 
   # Combine all records
   gen <- dplyr::bind_rows(records)
+
+  # Adding Duration of treatment days and years
+  trtdur_base <- gen |>
+    dplyr::filter(PARAMCD == "TRTDURM")
+
+  trtdur <- dplyr::bind_rows(
+    trtdur_base |>
+      dplyr::mutate(
+        PARAM = "Duration of treatment (days)",
+        PARAMCD = "TRTDURD",
+        AVAL = AVAL * 30.4375
+      ),
+    trtdur_base |>
+      dplyr::mutate(
+        PARAM = "Duration of treatment (years)",
+        PARAMCD = "TRTDURY",
+        AVAL = round(AVAL / 12, 1)
+      )
+  )
+
+  gen <- dplyr::bind_rows(gen, trtdur)
 
   # Add additional columns
   gen <- dplyr::mutate(
@@ -258,6 +288,8 @@ gen_adexsum <- function(seed = 123) {
     gen$PARAMCD,
     levels = c(
       "CUMDOSE",
+      "CUMDOSS1",
+      "CUMDOSS2",
       "DINTEN",
       "DOSEDAYS",
       "FINDD",
@@ -268,8 +300,10 @@ gen_adexsum <- function(seed = 123) {
       "RDINTE",
       "TNUMDOS",
       "TRTCOMP",
+      "TRTDURD",
       "TRTDURM",
-      "TRTDURY"
+      "TRTDURY",
+      "DURFUPD"
     )
   )
 
@@ -324,7 +358,26 @@ gen_adexsum <- function(seed = 123) {
 
   gen <- dplyr::left_join(gen, adsl_subset, by = "USUBJID")
 
-  # Define additional labels
+  # Join ADATRES and NABSTAT from ADISHUM - each collapsed separately, POSITIVE takes priority
+  adatres_map <- adishum |>
+    dplyr::filter(!is.na(ADATRES)) |>
+    dplyr::mutate(.priority = dplyr::if_else(ADATRES == "POSITIVE", 1L, 2L)) |>
+    dplyr::arrange(USUBJID, .priority) |>
+    dplyr::distinct(USUBJID, .keep_all = TRUE) |>
+    dplyr::select(USUBJID, ADATRES)
+
+  nabstat_map <- adishum |>
+    dplyr::filter(!is.na(NABSTAT)) |>
+    dplyr::mutate(.priority = dplyr::if_else(NABSTAT == "POSITIVE", 1L, 2L)) |>
+    dplyr::arrange(USUBJID, .priority) |>
+    dplyr::distinct(USUBJID, .keep_all = TRUE) |>
+    dplyr::select(USUBJID, NABSTAT)
+
+  gen <- gen |>
+    dplyr::left_join(adatres_map, by = "USUBJID") |>
+    dplyr::left_join(nabstat_map, by = "USUBJID")
+
+  # Additional labels for all relevant variables
   additional_labels <- list(
     AVISIT = "Analysis Visit",
     AVISITN = "Analysis Visit (N)",
@@ -347,7 +400,9 @@ gen_adexsum <- function(seed = 123) {
     CRIT6FL = "Criterion 6 Evaluation Result Flag",
     CRIT7 = "Analysis Criterion 7",
     CRIT7FL = "Criterion 7 Evaluation Result Flag",
-    PARAMCD = "Parameter Code"
+    PARAMCD = "Parameter Code",
+    ADATRES = "Treatment-emergent ADA Subject Status",
+    NABSTAT = "NAB Status"
   )
 
   # Handle NA values and convert characters to factors

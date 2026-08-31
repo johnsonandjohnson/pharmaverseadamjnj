@@ -107,7 +107,17 @@ convert_rda_to_sas7bdat <- function(rda_path, output_dir = dirname(rda_path)) {
   for (obj_name in objs) {
     df <- get(obj_name, envir = env)
     if (is.data.frame(df)) {
-      out_path <- file.path(output_dir, paste0(obj_name, ".sas7bdat"))
+      df <- df |>
+        dplyr::mutate(
+          dplyr::across(
+            where(is.factor),
+            as.character
+          )
+        )
+      out_path <- file.path(
+        output_dir,
+        paste0(obj_name, ".sas7bdat")
+      )
       haven::write_sas(df, out_path)
       message("Written: ", out_path)
       out_paths <- c(out_paths, out_path)
@@ -115,7 +125,6 @@ convert_rda_to_sas7bdat <- function(rda_path, output_dir = dirname(rda_path)) {
   }
   invisible(out_paths)
 }
-
 
 #' Convert XPT to SAS7BDAT
 #'

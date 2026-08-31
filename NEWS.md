@@ -2,6 +2,10 @@
 
 ### Added
 - Added ADISHUM Dataset
+- Added DDPCDTHC and NCTXSDT variables to ADSL
+- Added AESEVN, EXSTDT, DOSEDT, ADATRES, and NABSTAT variables to ADAE
+- Added EXSTDT, ADATRES, and NABSTAT variables to ADEX
+- Added ADATRES and NABSTAT variables to ADEXSUM
 - Added vars to ADSL: LASTCTDT, UNBLNDDT, IMFL, SAFEXRS, FASEXRS, PPREXRS, PKEXRES, and IMEXRES
 - Added restord labels to xpt
 - Change ONTRFl for ADVS to first dose within 30 days
@@ -21,8 +25,12 @@
 - Updated ATOXDSCL & ATOXDSCH variables as per latest lbtoxgrade file on ADLB dataset
 - Updated AVISIT for baseline on ADLB dataset
 - Added CRITy and CRITyFL on ADLB based on MCRITy and MCRITyML values since details missing on markedlyabnormal file
+- Added PKRFL variable to ADPC dataset
 
 ### Changed
+- Modified ADSL death-related variable derivations (DTHFL, DTHDT, DTHCAUS, DDPCDTHC)
+- Modified ADSL to add DCTDT label
+- Modified ADEXSUM to add DURFUPD parameter
 - Removed *_DECODE vars in ADSL, ADLB, ADVS, ADAE, ADCM, ADEG, ADEX
 - Releveled TRT01P and TRT01A (now Xanomeline Low Dose -> Xanomeline High Dose -> Placebo)
 - Modified "General disorders and administration site conditions" to "Gastrointestinal disorders" in ADEX
@@ -43,6 +51,20 @@
 - Modified ADLB toxicity grade detail ATOXDSCL and ATOXDSCH
 - Modified ADLB.PARAM values to display as per paramlookup file to replace x10E with 10^.
 - Modified MCRITy and MCRITyFL variable values to assign based on PARAM instead of random values.
+- Modified ADEG for AVAL variableto include "ABNORMAL, CS", "ABNORMAL, NCS", "NORMAL"
+- Modifed ADEG for PARAMCD convered 'msec' to 'ms'
+- Modified ADPC for CRIT1 variable
+- Modified ADEX to add ATPT, ATPTN, ADURC, ARSDSDO, ATDPRP, and  ATDPRPU variables
+- Modified ADEX for APERIOD and updated ATPT values
+- Modified ADEX to add AVAMT, AVAMTU, ADOSFRQP, ADOSDLY, ARSDOSD, ACDOSE, ACDOSU, ASTDY,
+  ALL ANL flags ex. ANL01FL, ANL02FL, ANL03FL, ANL04FL, INTCAT, SKPCAT, DLYCAT variables.
+- Updated PARAMN values in ADVS domain
+- Added CRIT6, CRIT6FL, CRIT7 & CRIT7FL on ADILLI for [AST or ALT] PARCAT
+- Added CRIT2, CRIT2FL, CRIT3, CRIT3FL on ADILLI for TBILI & ALP PARCAT
+- Modified ADEXSUM to add TRTDURD parameter
+- Modified ECOCCUR, ADOSE, ACDOSE, ASCHDOSE, AVAMT, ADOSU, ACDOSU. ASCHDOSU and AVAMTU variables
+- Modified PARAM unit to 'mg' in ADEXSUM dataset
+- Modified PARAM and PARAMCD to add CUMDOSS1, CUMDOSS2
 
 
 ## [0.0.5] - 2026-05-25
