@@ -637,11 +637,11 @@ gen_adlb <- function(seed = 123) {
   gen <- gen |>
     mutate(
       ANL02FL = dplyr::case_when(
-        (grepl("Cycle", AVISIT) |
-                                 grepl("End Of Treatment", AVISIT) |
+                                 (grepl("Cycle", AVISIT) |
+           grepl("End Of Treatment", AVISIT) |
            grepl("Baseline", AVISIT)) &
                                    ANL01FL == "Y" & is.na(DTYPE) ~ "Y",
-        TRUE ~ NA_character_)
+                                TRUE ~ NA_character_)
     )
 
   # Apply admiral::restrict_derivation for ANL03FL
