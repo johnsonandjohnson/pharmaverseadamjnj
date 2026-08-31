@@ -385,43 +385,79 @@ gen_adlb <- function(seed = 123) {
     # MCRIT1ML: criterion 1 evaluation level based on PARAM
     MCRIT1ML = as.factor(case_when(
       PARAM == "Alanine Aminotransferase (U/L)" ~
-        sample(c("Level 0", "Level 1 (>1.5x ULN U/L)", "Level 2 (>3.0x ULN U/L)", "Level 3 (>5.0x ULN U/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (>1.5x ULN U/L)",
+          "Level 2 (>3.0x ULN U/L)", "Level 3 (>5.0x ULN U/L)", NA
+        ), n(), replace = TRUE),
       PARAM == "Albumin (g/L)" ~
         sample(c("Level 0", "Level 1 (25-35 g/L)", "Level 2 (<25 g/L)", NA), n(), replace = TRUE),
       PARAM == "Alkaline Phosphatase (U/L)" ~
-        sample(c("Level 0", "Level 1 (>1.5x ULN U/L)", "Level 2 (>3.0x ULN U/L)", "Level 3 (>5.0x ULN U/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (>1.5x ULN U/L)",
+          "Level 2 (>3.0x ULN U/L)", "Level 3 (>5.0x ULN U/L)", NA
+        ), n(), replace = TRUE),
       PARAM == "Aspartate Aminotransferase (U/L)" ~
-        sample(c("Level 0", "Level 1 (>1.5x ULN U/L)", "Level 2 (>3.0x ULN U/L)", "Level 3 (>5.0x ULN U/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (>1.5x ULN U/L)",
+          "Level 2 (>3.0x ULN U/L)", "Level 3 (>5.0x ULN U/L)", NA
+        ), n(), replace = TRUE),
       PARAM == "Bilirubin (umol/L)" ~
         sample(c("Level 0", "Level 1 (>1.5x ULN umol/L)", "Level 2 (>3.0x ULN umol/L)", NA), n(), replace = TRUE),
       PARAM == "Calcium (mmol/L)" ~
-        sample(c("Level 0", "Level 1 (<2.0 mmol/L)", "Level 2 (<1.75 mmol/L)", "Level 3 (<1.5 mmol/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (<2.0 mmol/L)",
+          "Level 2 (<1.75 mmol/L)", "Level 3 (<1.5 mmol/L)", NA
+        ), n(), replace = TRUE),
       PARAM == "Cholesterol (mmol/L)" ~
         sample(c("Level 0", "Level 1 (>5.172 mmol/L)", "Level 2 (>6.206 mmol/L)", NA), n(), replace = TRUE),
       PARAM == "Creatinine (umol/L)" ~
         sample(c("Level 0", "Level 1 (>1.5x ULN umol/L)", "Level 2 (>3.0x ULN umol/L)", NA), n(), replace = TRUE),
       PARAM == "Glucose (mmol/L)" ~
-        sample(c("Level 0", "Level 1 (<3.0 mmol/L)", "Level 2 (fasting >=6.99 mmol/L or random >=11.10 mmol/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (<3.0 mmol/L)",
+          "Level 2 (fasting >=6.99 mmol/L or random >=11.10 mmol/L)", NA
+        ), n(), replace = TRUE),
       PARAM == "HDL Cholesterol (mmol/L)" ~
         sample(c("Level 0", "Level 1 (<1.036 mmol/L)", "Level 2 (<0.777 mmol/L)", NA), n(), replace = TRUE),
       PARAM == "Hemoglobin (g/L)" ~
-        sample(c("Level 0", "Level 1 (100-119 g/L)", "Level 2 (80-99 g/L)", "Level 3 (<80 g/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (100-119 g/L)",
+          "Level 2 (80-99 g/L)", "Level 3 (<80 g/L)", NA
+        ), n(), replace = TRUE),
       PARAM == "LDL Cholesterol (mmol/L)" ~
         sample(c("Level 0", "Level 1 (>3.367 mmol/L)", "Level 2 (>4.137 mmol/L)", NA), n(), replace = TRUE),
       PARAM == "Leukocytes (x10E9/L)" ~
-        sample(c("Level 0", "Level 1 (<3.0 10^9/L)", "Level 2 (<2.0 10^9/L)", "Level 3 (<1.0 10^9/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (<3.0 10^9/L)",
+          "Level 2 (<2.0 10^9/L)", "Level 3 (<1.0 10^9/L)", NA
+        ), n(), replace = TRUE),
       PARAM == "Neutrophils (x10E9/L)" ~
-        sample(c("Level 0", "Level 1 (<1.5 10^9/L)", "Level 2 (<1.0 10^9/L)", "Level 3 (<0.5 10^9/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (<1.5 10^9/L)",
+          "Level 2 (<1.0 10^9/L)", "Level 3 (<0.5 10^9/L)", NA
+        ), n(), replace = TRUE),
       PARAM == "Platelets (x10E9/L)" ~
-        sample(c("Level 0", "Level 1 (<LLN-75.0 10^9/L)", "Level 2 (<75.0-50.0 10^9/L)", "Level 3 (<50.0 10^9/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (<LLN-75.0 10^9/L)",
+          "Level 2 (<75.0-50.0 10^9/L)", "Level 3 (<50.0 10^9/L)", NA
+        ), n(), replace = TRUE),
       PARAM == "Potassium (mmol/L)" ~
-        sample(c("Level 0", "Level 1 (<3.0 mmol/L)", "Level 2 (<2.5 mmol/L)", "Level 3 (<2.0 mmol/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (<3.0 mmol/L)",
+          "Level 2 (<2.5 mmol/L)", "Level 3 (<2.0 mmol/L)", NA
+        ), n(), replace = TRUE),
       PARAM == "Protein (g/L)" ~
         sample(c("Level 0", "Level 1 (1+ g/L)", "Level 2 (2+ g/L)", "Level 3 (3+ g/L)", NA), n(), replace = TRUE),
       PARAM == "Sodium (mmol/L)" ~
-        sample(c("Level 0", "Level 1 (<130 mmol/L)", "Level 2 (<125 mmol/L)", "Level 3 (<120 mmol/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (<130 mmol/L)",
+          "Level 2 (<125 mmol/L)", "Level 3 (<120 mmol/L)", NA
+        ), n(), replace = TRUE),
       PARAM == "Triglycerides (mmol/L)" ~
-        sample(c("Level 0", "Level 1 (>1.694 mmol/L)", "Level 2 (>2.260 mmol/L)", "Level 3 (>5.650 mmol/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (>1.694 mmol/L)",
+          "Level 2 (>2.260 mmol/L)", "Level 3 (>5.650 mmol/L)", NA
+        ), n(), replace = TRUE),
       TRUE ~ NA_character_
     )),
     # MCRIT2ML: criterion 2 evaluation level based on PARAM (only PARAMs with MCRIT2 defined)
@@ -429,13 +465,25 @@ gen_adlb <- function(seed = 123) {
       PARAM == "Calcium (mmol/L)" ~
         sample(c("Level 0", "Level 1 (>2.620 mmol/L)", "Level 2 (>2.745 mmol/L)", NA), n(), replace = TRUE),
       PARAM == "Glucose (mmol/L)" ~
-        sample(c("Level 0", "Level 1 (>5.5 mmol/L)", "Level 2 (>6.0 mmol/L)", "Level 3 (>6.5 mmol/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (>5.5 mmol/L)",
+          "Level 2 (>6.0 mmol/L)", "Level 3 (>6.5 mmol/L)", NA
+        ), n(), replace = TRUE),
       PARAM == "Leukocytes (x10E9/L)" ~
-        sample(c("Level 0", "Level 1 (>10.8 10^9/L)", "Level 2 (>13.0 10^9/L)", "Level 3 (>15.0 10^9/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (>10.8 10^9/L)",
+          "Level 2 (>13.0 10^9/L)", "Level 3 (>15.0 10^9/L)", NA
+        ), n(), replace = TRUE),
       PARAM == "Potassium (mmol/L)" ~
-        sample(c("Level 0", "Level 1 (>5.0 mmol/L)", "Level 2 (>5.5 mmol/L)", "Level 3 (>6.0 mmol/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (>5.0 mmol/L)",
+          "Level 2 (>5.5 mmol/L)", "Level 3 (>6.0 mmol/L)", NA
+        ), n(), replace = TRUE),
       PARAM == "Sodium (mmol/L)" ~
-        sample(c("Level 0", "Level 1 (>145 mmol/L)", "Level 2 (>150 mmol/L)", "Level 3 (>155 mmol/L)", NA), n(), replace = TRUE),
+        sample(c(
+          "Level 0", "Level 1 (>145 mmol/L)",
+          "Level 2 (>150 mmol/L)", "Level 3 (>155 mmol/L)", NA
+        ), n(), replace = TRUE),
       TRUE ~ NA_character_
     )),
     MCRIT1MN = sample(c(0, 1, 2, 3, NaN), size = n(), replace = TRUE),
@@ -552,18 +600,18 @@ gen_adlb <- function(seed = 123) {
   )
 
   # Baseline Toxicity derivation
-  gen <- gen %>%
+  gen <- gen |>
     select(-c(BTOXGRH, BTOXGRL, BTOXGR)) |>
     derive_var_base(
       by_vars = exprs(STUDYID, USUBJID, PARAMCD),
       source_var = ATOXGRL,
       new_var = BTOXGRL
-    ) %>%
+    ) |>
     derive_var_base(
       by_vars = exprs(STUDYID, USUBJID, PARAMCD),
       source_var = ATOXGRH,
       new_var = BTOXGRH
-    ) %>%
+    ) |>
     derive_var_base(
       by_vars = exprs(STUDYID, USUBJID, PARAMCD),
       source_var = ATOXGR,
