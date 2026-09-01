@@ -76,11 +76,14 @@ gen_adsl <- function(seed = 123) {
   )
 
   # split by treatment duration for targeted death timing
-  short_trt <- alive_with_trt[
-    as.numeric(gen$TRTEDT[alive_with_trt] - gen$TRTSDT[alive_with_trt]) < 20
+  # new_dead[1]: High Dose + short treatment → DTHB60FL = "Y"
+  # new_dead[2]: any remaining → DTH30FL = "Y"
+  high_dose_short <- alive_with_trt[
+    toupper(gen$TRT01A[alive_with_trt]) == "XANOMELINE HIGH DOSE" &
+      as.numeric(gen$TRTEDT[alive_with_trt] - gen$TRTSDT[alive_with_trt]) < 20
   ]
-  long_trt <- setdiff(alive_with_trt, short_trt)
-  new_dead <- c(sample(short_trt, 1), sample(long_trt, 1))
+  remaining <- setdiff(alive_with_trt, high_dose_short)
+  new_dead <- c(sample(high_dose_short, 1), sample(remaining, 1))
 
   gen$DTHFL[new_dead] <- "Y"
   # DTHCAUS is NA for Disease progression / Treatment failure deaths
@@ -324,6 +327,8 @@ gen_adsl <- function(seed = 123) {
     !is.na(gen$TRT01P) & sample(c(TRUE, FALSE), nrow(gen), replace = TRUE, prob = c(0.3, 0.7)) ~ "N",
     .default = gen$SAFFL
   )
+  # ensure forced deaths remain in safety population
+  gen$SAFFL[new_dead] <- "Y"
 
   gen$ENRLFL <- factor(
     dplyr::case_when(
