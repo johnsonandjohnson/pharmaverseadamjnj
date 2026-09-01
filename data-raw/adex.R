@@ -672,7 +672,7 @@ gen_adex <- function(seed = 123) {
       ATDPRPU = EXDOSU,
       ADURC = case_when(
         !is.na(AENDT) & !is.na(ASTDT) ~
-          as.character(as.numeric(AENDT - ASTDT) + 1),
+          sprintf("%02d:00", as.integer(as.numeric(AENDT - ASTDT) + 1)),
         !is.na(AENDTM) & !is.na(ASTDTM) ~
           sprintf(
             "%02d:%02d",
