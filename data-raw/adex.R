@@ -420,13 +420,16 @@ gen_adex <- function(seed = 123) {
     EXSTDT = as.Date(EXSTDTC),
     # Add random hour times to ASTDTM
     ASTDTM = {
-      # Extract the date part from ASTDTM
       date_parts <- sub(" UTC", "", ASTDTM)
-      # Generate random hours (0-23) for each row
       random_hours <- sample(0:23, dplyr::n(), replace = TRUE)
-      # Format the random hours as time strings (HH:00:00)
       random_times <- sprintf("%02d:00:00", random_hours)
-      # Combine date with random time and UTC timezone
+      paste(date_parts, random_times, "UTC")
+    },
+    # Add random hour times to AENDTM (same pattern as ASTDTM)
+    AENDTM = {
+      date_parts <- sub(" UTC", "", AENDTM)
+      random_hours <- sample(0:23, dplyr::n(), replace = TRUE)
+      random_times <- sprintf("%02d:00:00", random_hours)
       paste(date_parts, random_times, "UTC")
     }
   )
@@ -670,7 +673,13 @@ gen_adex <- function(seed = 123) {
       AVAMTU = ifelse(!is.na(ECOCCUR), as.character(ECAVAMTU), NA_character_),
       ATDPRP = sample(c(100, 150, 200, 250, 300), n(), replace = TRUE),
       ATDPRPU = EXDOSU,
-      ADURC = case_when(
+      ADURC = dplyr::case_when(
+        !is.na(AENDTM) & !is.na(ASTDTM) ~ {
+          start <- as.POSIXct(ASTDTM, format = "%Y-%m-%d %H:%M:%S", tz = "UTC")
+          end <- as.POSIXct(AENDTM, format = "%Y-%m-%d %H:%M:%S", tz = "UTC")
+          total_mins <- as.integer(difftime(end, start, units = "mins"))
+          sprintf("%02d:%02d", total_mins %/% 60L, total_mins %% 60L)
+        },
         !is.na(AENDT) & !is.na(ASTDT) ~
           sprintf("%02d:00", as.integer(as.numeric(AENDT - ASTDT) + 1) * 24L),
         TRUE ~ NA_character_
