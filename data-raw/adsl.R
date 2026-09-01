@@ -74,12 +74,18 @@ gen_adsl <- function(seed = 123) {
       !is.na(gen$TRTSDT) &
       !is.na(gen$TRTEDT)
   )
-  new_dead <- sample(alive_with_trt, 2)
+
+  # split by treatment duration for targeted death timing
+  short_trt <- alive_with_trt[
+    as.numeric(gen$TRTEDT[alive_with_trt] - gen$TRTSDT[alive_with_trt]) < 20
+  ]
+  long_trt <- setdiff(alive_with_trt, short_trt)
+  new_dead <- c(sample(short_trt, 1), sample(long_trt, 1))
 
   gen$DTHFL[new_dead] <- "Y"
   # DTHCAUS is NA for Disease progression / Treatment failure deaths
-  # first dies >30 days after last dose
-  gen$DTHDT[new_dead[1]] <- gen$TRTEDT[new_dead[1]] + 45
+  # first dies within 60 days of first dose (but after last dose)
+  gen$DTHDT[new_dead[1]] <- gen$TRTSDT[new_dead[1]] - 1 + 50
   # second dies <=30 days after last dose
   gen$DTHDT[new_dead[2]] <- gen$TRTEDT[new_dead[2]] + 5
 
