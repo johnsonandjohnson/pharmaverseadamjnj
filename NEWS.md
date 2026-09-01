@@ -22,6 +22,9 @@
 - Added ADAECOMP and ADSLCOMP datasets
 - Added ADDISP dataset
 - Added RACE variable from ADSL to ADEG dataset
+- Updated ATOXDSCL & ATOXDSCH variables as per latest lbtoxgrade file on ADLB dataset
+- Updated AVISIT for baseline on ADLB dataset
+- Added CRITy and CRITyFL on ADLB based on MCRITy and MCRITyML values since details missing on markedlyabnormal file
 - Added PKRFL variable to ADPC dataset
 
 ### Changed
@@ -45,6 +48,9 @@
 - Modified ADAGOCMQ for AEDECOD merge logic, ACAT1, and used conversion factor GLUC, HBA1C for standard units to conventional units.
 - Modified ADDISP to update labels for SxSDY and SxEDY variables.
 - Fix adeg CRIT1FL and CRIT2FL factor order
+- Modified ADLB toxicity grade detail ATOXDSCL and ATOXDSCH
+- Modified ADLB.PARAM values to display as per paramlookup file to replace x10E with 10^.
+- Modified MCRITy and MCRITyFL variable values to assign based on PARAM instead of random values.
 - Modified ADEG for AVAL variableto include "ABNORMAL, CS", "ABNORMAL, NCS", "NORMAL"
 - Modifed ADEG for PARAMCD convered 'msec' to 'ms'
 - Modified ADPC for CRIT1 variable
