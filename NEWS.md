@@ -26,6 +26,7 @@
 - Updated AVISIT for baseline on ADLB dataset
 - Added CRITy and CRITyFL on ADLB based on MCRITy and MCRITyML values since details missing on markedlyabnormal file
 - Added PKRFL variable to ADPC dataset
+- Added AVALCAT1 for DOSEDAYS parameter in ADEXSUM dataset
 
 ### Changed
 - Modified ADSL death-related variable derivations (DTHFL, DTHDT, DTHCAUS, DDPCDTHC)
@@ -65,6 +66,7 @@
 - Modified ECOCCUR, ADOSE, ACDOSE, ASCHDOSE, AVAMT, ADOSU, ACDOSU. ASCHDOSU and AVAMTU variables
 - Modified PARAM unit to 'mg' in ADEXSUM dataset
 - Modified PARAM and PARAMCD to add CUMDOSS1, CUMDOSS2
+- Modified ADURC values to HH:MM format on ADEX dataset
 
 
 ## [0.0.5] - 2026-05-25
