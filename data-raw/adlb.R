@@ -204,51 +204,25 @@ gen_adlb <- function(seed = 123) {
       TRUE ~ AVAL # Keep the original AVAL for other cases
     ),
     PARCAT1 = as.factor(case_when(
-      PARAM %in%
-        c(
-          "Alanine Aminotransferase (U/L)",
-          "Albumin (g/L)",
-          "Alkaline Phosphatase (U/L)",
-          "Aspartate Aminotransferase (U/L)",
-          "Bilirubin (umol/L)",
-          "Calcium (mmol/L)",
-          "Cholesterol (mmol/L)",
-          "Corrected Calcium (mmol/L)",
-          "Creatinine (umol/L)",
-          "Direct Bilirubin (umol/L)",
-          "HDL Cholesterol (mmol/L)",
-          "Glucose (mmol/L)",
-          "Indirect Bilirubin (umol/L)",
-          "LDL Cholesterol (mmol/L)",
-          "LDL Cholesterol (mmol/L) Calculated",
-          "LDL Cholesterol (mmol/L) Direct",
-          "Lactate Dehydrogenase (U/L)",
-          "Potassium (mmol/L)",
-          "Prostate Specific Antigen (ug/L)",
-          "Protein (g/L)",
-          "Serum Albumin (g/L)",
-          "Sodium (mmol/L)",
-          "Testosterone (nmol/L)",
-          "Testosterone (nmol/L) Ultrasensitive Assay",
-          "Thyrotropin (mIU/L)",
-          "Thyroxine (nmol/L)",
-          "Thyroxine, Free (pmol/L)",
-          "Triglycerides (mmol/L)",
-          "Triiodothyronine (nmol/L)"
-        ) ~
-        "CHEMISTRY",
-      PARAM %in%
-        c(
-          "Blasts (x10E9/L)",
-          "Hemoglobin (g/L)",
-          "Leukocytes (x10E9/L)",
-          "Neutrophils (x10E9/L)",
-          "Neutrophils and Precursors (x10E9/L)",
-          "Neutrophils, Segmented (x10E9/L)",
-          "Platelets (x10E9/L)",
-          "Prothrombin Intl. Normalized Ratio (RATIO)"
-        ) ~
-        "HEMATOLOGY",
+      PARAMCD %in% c(
+        # General Chemistry
+        "ALB", "AMYLASE", "BICARB", "CA", "CL", "CK", "GLUC", "LDH",
+        "LIPASET", "MG", "PHOS", "K", "PROT", "SODIUM", "UREAN",
+        # Kidney Function
+        "CREAT", "GFRCRT", "URATE",
+        # Liver Biochemistry
+        "ALT", "ALP", "AST", "BILI", "DBILI", "IBILI", "GGT", "INR",
+        # Lipids
+        "CHOL", "HDL", "LDL", "TRIG"
+      ) ~ "CHEMISTRY",
+      PARAMCD %in% c(
+        # Complete Blood Count
+        "HGB", "CHGHGB", "WBC", "PLAT", "RBC", "HCT", "MCH", "MCV", "RETI",
+        # WBC Differential
+        "NEUT", "NEUTSG", "NEUTSGB", "NEUTSGBP", "LYM", "EOS", "BASO", "MONO",
+        # Coagulation
+        "PT", "APTT"
+      ) ~ "HEMATOLOGY",
       TRUE ~ NA_character_
     )),
     PARCAT2 = as.factor(case_when(
@@ -290,34 +264,23 @@ gen_adlb <- function(seed = 123) {
       TRUE ~ NA_character_
     )),
     PARCAT3 = as.factor(case_when(
-      PARAM == "Alanine Aminotransferase (U/L)" ~ "Liver biochemistry",
-      PARAM == "Albumin (g/L)" ~ "Liver biochemistry",
-      PARAM == "Alkaline Phosphatase (U/L)" ~ "Liver biochemistry",
-      PARAM == "Aspartate Aminotransferase (U/L)" ~ "Liver biochemistry",
-      PARAM == "Bilirubin (umol/L)" ~ "Liver biochemistry",
-      PARAM == "Blasts (x10E9/L)" ~ "Liver biochemistry",
-      PARAM == "Lactate Dehydrogenase (U/L)" ~ "Liver biochemistry",
-      PARAM == "Protein (g/L)" ~ "Liver biochemistry",
-      PARAM == "Calcium (mmol/L)" ~ "General chemistry",
-      PARAM == "Creatinine (umol/L)" ~ "Kidney function",
-      PARAM == "Creatinine Kinase (U/L)" ~ "Kidney function",
-      PARAM == "Potassium (mmol/L)" ~ "General chemistry",
-      PARAM == "Sodium (mmol/L)" ~ "General chemistry",
-      PARAM == "LDL Cholesterol (mmol/L)" ~ "Lipids",
-      PARAM == "Glucose (mmol/L)" ~ "General chemistry",
-      PARAM == "HDL Cholesterol (mmol/L)" ~ "Lipids",
-      PARAM == "Cholesterol (mmol/L)" ~ "Lipids",
-      PARAM == "Triglycerides (mmol/L)" ~ "Lipids",
-      PARAM == "Hemoglobin (g/L)" ~ "Complete blood count",
-      PARAM == "WBC differential" ~ "Complete blood count",
-      PARAM == "Platelets (x10E9/L)" ~ "Complete blood count",
-      PARAM == "Leukocytes (x10E9/L)" ~ "Complete blood count",
-      PARAM == "Neutrophils (x10E9/L)" ~ "WBC differential",
-      PARAM == "Neutrophils, Segmented (x10E9/L)" ~ "WBC differential",
-      PARAM == "Testosterone (nmol/L)" ~ "Endocrine",
-      PARAM == "Thyroxine (nmol/L)" ~ "Endocrine",
-      PARAM == "Thyrotropin (mIU/L)" ~ "Endocrine",
-      PARAM == "Triiodothyronine (nmol/L)" ~ "Endocrine",
+      # General Chemistry (GC)
+      PARAMCD %in% c(
+        "ALB", "AMYLASE", "BICARB", "CA", "CL", "CK", "GLUC", "LDH",
+        "LIPASET", "MG", "PHOS", "K", "PROT", "SODIUM", "UREAN"
+      ) ~ "General chemistry",
+      # Kidney Function (KF)
+      PARAMCD %in% c("CREAT", "GFRCRT", "URATE") ~ "Kidney function",
+      # Liver Biochemistry (LV)
+      PARAMCD %in% c("ALT", "ALP", "AST", "BILI", "DBILI", "IBILI", "GGT", "INR") ~ "Liver biochemistry",
+      # Lipids (LP)
+      PARAMCD %in% c("CHOL", "HDL", "LDL", "TRIG") ~ "Lipids",
+      # Complete Blood Count
+      PARAMCD %in% c("HGB", "CHGHGB", "WBC", "PLAT", "RBC", "HCT", "MCH", "MCV", "RETI") ~ "Complete blood count",
+      # WBC Differential
+      PARAMCD %in% c("NEUT", "NEUTSG", "NEUTSGB", "NEUTSGBP", "LYM", "EOS", "BASO", "MONO") ~ "WBC differential",
+      # Coagulation Studies
+      PARAMCD %in% c("PT", "APTT") ~ "Coagulation studies",
       TRUE ~ NA_character_
     )),
     PARCAT4 = as.factor(case_when(
@@ -382,167 +345,253 @@ gen_adlb <- function(seed = 123) {
       TRUE ~ NA_character_
     )),
 
-    # MCRIT1ML: criterion 1 evaluation level based on PARAM
+    # MCRIT1ML: criterion 1 evaluation level based on PARAMCD
     MCRIT1ML = as.factor(case_when(
-      PARAM == "Alanine Aminotransferase (U/L)" ~
+      PARAMCD == "SODIUM" ~
         sample(c(
-          "Level 0", "Level 1 (>1.5x ULN U/L)",
-          "Level 2 (>3.0x ULN U/L)", "Level 3 (>5.0x ULN U/L)", NA
+          "Level 0", "Level 1 (<132 mmol/L)",
+          "Level 2 (<130 mmol/L)", "Level 3 (<125 mmol/L)", NA
         ), n(), replace = TRUE),
-      PARAM == "Albumin (g/L)" ~
-        sample(c("Level 0", "Level 1 (25-35 g/L)", "Level 2 (<25 g/L)", NA), n(), replace = TRUE),
-      PARAM == "Alkaline Phosphatase (U/L)" ~
+      PARAMCD == "K" ~
         sample(c(
-          "Level 0", "Level 1 (>1.5x ULN U/L)",
-          "Level 2 (>3.0x ULN U/L)", "Level 3 (>5.0x ULN U/L)", NA
+          "Level 0", "Level 1 (<3.6 mmol/L)",
+          "Level 2 (<3.4 mmol/L)", "Level 3 (<3.0 mmol/L)", NA
         ), n(), replace = TRUE),
-      PARAM == "Aspartate Aminotransferase (U/L)" ~
+      PARAMCD == "CL" ~
         sample(c(
-          "Level 0", "Level 1 (>1.5x ULN U/L)",
-          "Level 2 (>3.0x ULN U/L)", "Level 3 (>5.0x ULN U/L)", NA
+          "Level 0", "Level 1 (<95 mmol/L)",
+          "Level 2 (<88 mmol/L)", "Level 3 (<80 mmol/L)", NA
         ), n(), replace = TRUE),
-      PARAM == "Bilirubin (umol/L)" ~
-        sample(c("Level 0", "Level 1 (>1.5x ULN umol/L)", "Level 2 (>3.0x ULN umol/L)", NA), n(), replace = TRUE),
-      PARAM == "Calcium (mmol/L)" ~
+      PARAMCD == "BICARB" ~
         sample(c(
-          "Level 0", "Level 1 (<2.0 mmol/L)",
-          "Level 2 (<1.75 mmol/L)", "Level 3 (<1.5 mmol/L)", NA
+          "Level 0", "Level 1 (<20 mmol/L)",
+          "Level 2 (<18 mmol/L)", "Level 3 (<15 mmol/L)", NA
         ), n(), replace = TRUE),
-      PARAM == "Cholesterol (mmol/L)" ~
-        sample(c("Level 0", "Level 1 (>5.172 mmol/L)", "Level 2 (>6.206 mmol/L)", NA), n(), replace = TRUE),
-      PARAM == "Creatinine (umol/L)" ~
-        sample(c("Level 0", "Level 1 (>1.5x ULN umol/L)", "Level 2 (>3.0x ULN umol/L)", NA), n(), replace = TRUE),
-      PARAM == "Glucose (mmol/L)" ~
+      PARAMCD == "UREAN" ~
         sample(c(
-          "Level 0", "Level 1 (<3.0 mmol/L)",
-          "Level 2 (fasting >=6.99 mmol/L or random >=11.10 mmol/L)", NA
+          "Level 0", "Level 1 (>8.21 mmol/L)",
+          "Level 2 (>9.64 mmol/L)", "Level 3 (>11.07 mmol/L)", NA
         ), n(), replace = TRUE),
-      PARAM == "HDL Cholesterol (mmol/L)" ~
-        sample(c("Level 0", "Level 1 (<1.036 mmol/L)", "Level 2 (<0.777 mmol/L)", NA), n(), replace = TRUE),
-      PARAM == "Hemoglobin (g/L)" ~
+      PARAMCD == "GLUC" ~
         sample(c(
-          "Level 0", "Level 1 (100-119 g/L)",
-          "Level 2 (80-99 g/L)", "Level 3 (<80 g/L)", NA
+          "Level 0", "Level 1 (<3.89 mmol/L)",
+          "Level 2 (<3.00 mmol/L)", NA
         ), n(), replace = TRUE),
-      PARAM == "LDL Cholesterol (mmol/L)" ~
-        sample(c("Level 0", "Level 1 (>3.367 mmol/L)", "Level 2 (>4.137 mmol/L)", NA), n(), replace = TRUE),
-      PARAM == "Leukocytes (x10E9/L)" ~
+      PARAMCD == "CA" ~
         sample(c(
-          "Level 0", "Level 1 (<3.0 10^9/L)",
-          "Level 2 (<2.0 10^9/L)", "Level 3 (<1.0 10^9/L)", NA
+          "Level 0", "Level 1 (<2.096 mmol/L)",
+          "Level 2 (<1.996 mmol/L)", "Level 3 (<1.871 mmol/L)", NA
         ), n(), replace = TRUE),
-      PARAM == "Neutrophils (x10E9/L)" ~
+      PARAMCD == "MG" ~
         sample(c(
-          "Level 0", "Level 1 (<1.5 10^9/L)",
-          "Level 2 (<1.0 10^9/L)", "Level 3 (<0.5 10^9/L)", NA
+          "Level 0", "Level 1 (<0.617 mmol/L)",
+          "Level 2 (<0.494 mmol/L)", "Level 3 (<0.370 mmol/L)", NA
         ), n(), replace = TRUE),
-      PARAM == "Platelets (x10E9/L)" ~
+      PARAMCD == "PHOS" ~
         sample(c(
-          "Level 0", "Level 1 (<LLN-75.0 10^9/L)",
-          "Level 2 (<75.0-50.0 10^9/L)", "Level 3 (<50.0 10^9/L)", NA
+          "Level 0", "Level 1 (<0.807 mmol/L)",
+          "Level 2 (<0.646 mmol/L)", "Level 3 (<0.452 mmol/L)", NA
         ), n(), replace = TRUE),
-      PARAM == "Potassium (mmol/L)" ~
+      PARAMCD == "PROT" ~
         sample(c(
-          "Level 0", "Level 1 (<3.0 mmol/L)",
-          "Level 2 (<2.5 mmol/L)", "Level 3 (<2.0 mmol/L)", NA
+          "Level 0", "Level 1 (<60.0 g/L)",
+          "Level 2 (<54.0 g/L)", "Level 3 (<50.0 g/L)", NA
         ), n(), replace = TRUE),
-      PARAM == "Protein (g/L)" ~
-        sample(c("Level 0", "Level 1 (1+ g/L)", "Level 2 (2+ g/L)", "Level 3 (3+ g/L)", NA), n(), replace = TRUE),
-      PARAM == "Sodium (mmol/L)" ~
+      PARAMCD == "ALB" ~
         sample(c(
-          "Level 0", "Level 1 (<130 mmol/L)",
-          "Level 2 (<125 mmol/L)", "Level 3 (<120 mmol/L)", NA
+          "Level 0", "Level 1 (<31.0 g/L)",
+          "Level 2 (<25.0 g/L)", "Level 3 (<20.0 g/L)", NA
         ), n(), replace = TRUE),
-      PARAM == "Triglycerides (mmol/L)" ~
+      PARAMCD == "CK" ~
+        sample(c(
+          "Level 0", "Level 1 (>3x ULN Enzyme U/L)",
+          "Level 2 (>5x ULN Enzyme U/L)", "Level 3 (>10x ULN Enzyme U/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "AMYLASE" ~
+        sample(c(
+          "Level 0", "Level 1 (>1.1x ULN Enzyme U/L)",
+          "Level 2 (>1.5x ULN Enzyme U/L)", "Level 3 (>3x ULN Enzyme U/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "LIPASET" ~
+        sample(c(
+          "Level 0", "Level 1 (>1.1x ULN Enzyme U/L)",
+          "Level 2 (>1.5x ULN Enzyme U/L)", "Level 3 (>3x ULN Enzyme U/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "CREAT" ~
+        sample(c(
+          "Level 0", "Level 1 (>=1.5x baseline umol/L)",
+          "Level 2 (>=2x baseline umol/L)", "Level 3 (>=3x baseline umol/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "GFRCRT" ~
+        sample(c(
+          "Level 0", "Level 1 (>=25% decrease from baseline mL/s/m2)",
+          "Level 2 (>=50% decrease from baseline mL/s/m2)", "Level 3 (>=75% decrease from baseline mL/s/m2)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "ALP" ~
+        sample(c(
+          "Level 0", "Level 1 (>1.5x ULN Enzyme U/L)",
+          "Level 2 (>2x ULN Enzyme U/L)", "Level 3 (>3x ULN Enzyme U/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "ALT" ~
+        sample(c(
+          "Level 0", "Level 1 (>3x ULN Enzyme U/L)",
+          "Level 2 (>5x ULN Enzyme U/L)", "Level 3 (>10x ULN Enzyme U/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "AST" ~
+        sample(c(
+          "Level 0", "Level 1 (>3x ULN Enzyme U/L)",
+          "Level 2 (>5x ULN Enzyme U/L)", "Level 3 (>10x ULN Enzyme U/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "BILI" ~
+        sample(c(
+          "Level 0", "Level 1 (>1.5x ULN umol/L)",
+          "Level 2 (>2x ULN umol/L)", "Level 3 (>3x ULN umol/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "CHOL" ~
+        sample(c(
+          "Level 0", "Level 1 (>5.172 mmol/L)",
+          "Level 2 (>6.206 mmol/L)", "Level 3 (>7.758 mmol/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "HDL" & SEX == "Male" ~
+        sample(c(
+          "Level 0", "Level 1 (<1.034 mmol/L)",
+          "Level 2 (<0.776 mmol/L)", "Level 3 (<0.517 mmol/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "LDL" ~
+        sample(c(
+          "Level 0", "Level 1 (>3.362 mmol/L)",
+          "Level 2 (>4.138 mmol/L)", "Level 3 (>4.913 mmol/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "TRIG" ~
         sample(c(
           "Level 0", "Level 1 (>1.694 mmol/L)",
-          "Level 2 (>2.260 mmol/L)", "Level 3 (>5.650 mmol/L)", NA
+          "Level 2 (>3.387 mmol/L)", "Level 3 (>5.645 mmol/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "WBC" ~
+        sample(c(
+          "Level 0", "Level 1 (<3.5 10^9/L)",
+          "Level 2 (<3.0 10^9/L)", "Level 3 (<1.0 10^9/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "CHGHGB" ~
+        sample(c(
+          "Level 0", "Level 2 (>15 g/L decrease from baseline)",
+          "Level 3 (>20 g/L decrease from baseline)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "PLAT" ~
+        sample(c(
+          "Level 0", "Level 1 (<140 10^9/L)",
+          "Level 2 (<125 10^9/L)", "Level 3 (<100 10^9/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "HGB" & SEX == "Male" ~
+        sample(c(
+          "Level 0", "Level 1 (125-135 g/L)",
+          "Level 2 (<125 g/L)", "Level 3 (<105 g/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "LYM" ~
+        sample(c(
+          "Level 0", "Level 1 (<1.0 10^9/L)",
+          "Level 2 (<0.75 10^9/L)", "Level 3 (<0.5 10^9/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "NEUT" ~
+        sample(c(
+          "Level 0", "Level 1 (<2.0 10^9/L)",
+          "Level 2 (<1.0 10^9/L)", "Level 3 (<0.5 10^9/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "EOS" ~
+        sample(c(
+          "Level 0", "Level 1 (>0.65 10^9/L)",
+          "Level 2 (>1.5 10^9/L)", "Level 3 (>5.0 10^9/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "PT" ~
+        sample(c(
+          "Level 0", "Level 1 (>1.1x ULN s)",
+          "Level 2 (>1.3x ULN s)", "Level 3 (>1.5x ULN s)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "APTT" ~
+        sample(c(
+          "Level 0", "Level 1 (>1x ULN s)",
+          "Level 2 (>1.21x ULN s)", "Level 3 (>1.41x ULN s)", NA
         ), n(), replace = TRUE),
       TRUE ~ NA_character_
     )),
-    # MCRIT2ML: criterion 2 evaluation level based on PARAM (only PARAMs with MCRIT2 defined)
+    # MCRIT2ML: criterion 2 evaluation level based on PARAMCD (only PARAMCDs with MCRIT2 defined)
     MCRIT2ML = as.factor(case_when(
-      PARAM == "Calcium (mmol/L)" ~
-        sample(c("Level 0", "Level 1 (>2.620 mmol/L)", "Level 2 (>2.745 mmol/L)", NA), n(), replace = TRUE),
-      PARAM == "Glucose (mmol/L)" ~
+      PARAMCD == "SODIUM" ~
+        sample(c(
+          "Level 0", "Level 1 (>150 mmol/L)",
+          "Level 2 (>155 mmol/L)", "Level 3 (>160 mmol/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "K" ~
         sample(c(
           "Level 0", "Level 1 (>5.5 mmol/L)",
           "Level 2 (>6.0 mmol/L)", "Level 3 (>6.5 mmol/L)", NA
         ), n(), replace = TRUE),
-      PARAM == "Leukocytes (x10E9/L)" ~
+      PARAMCD == "CL" ~
+        sample(c(
+          "Level 0", "Level 1 (>108 mmol/L)",
+          "Level 2 (>112 mmol/L)", "Level 3 (>115 mmol/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "BICARB" ~
+        sample(c("Level 0", "Level 3 (>30 mmol/L)", NA), n(), replace = TRUE),
+      PARAMCD == "GLUC" ~
+        sample(c(
+          "Level 0", "Level 1 (fasting >=5.55 mmol/L)",
+          "Level 2 (fasting >=6.99 mmol/L or random >=11.10 mmol/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "CA" ~
+        sample(c(
+          "Level 0", "Level 1 (>2.620 mmol/L)",
+          "Level 2 (>2.745 mmol/L)", "Level 3 (>2.994 mmol/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "MG" ~
+        sample(c(
+          "Level 0", "Level 1 (>0.946 mmol/L)",
+          "Level 2 (>1.646 mmol/L)", "Level 3 (>2.880 mmol/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "HDL" & SEX == "Female" ~
+        sample(c(
+          "Level 0", "Level 1 (<1.293 mmol/L)",
+          "Level 2 (<1.034 mmol/L)", "Level 3 (<0.517 mmol/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "WBC" ~
         sample(c(
           "Level 0", "Level 1 (>10.8 10^9/L)",
           "Level 2 (>13.0 10^9/L)", "Level 3 (>15.0 10^9/L)", NA
         ), n(), replace = TRUE),
-      PARAM == "Potassium (mmol/L)" ~
+      PARAMCD == "CHGHGB" ~
         sample(c(
-          "Level 0", "Level 1 (>5.0 mmol/L)",
-          "Level 2 (>5.5 mmol/L)", "Level 3 (>6.0 mmol/L)", NA
+          "Level 0", "Level 2 (>20 g/L increase from baseline)",
+          "Level 3 (>30 g/L increase from baseline)", NA
         ), n(), replace = TRUE),
-      PARAM == "Sodium (mmol/L)" ~
+      PARAMCD == "HGB" & SEX == "Female" ~
         sample(c(
-          "Level 0", "Level 1 (>145 mmol/L)",
-          "Level 2 (>150 mmol/L)", "Level 3 (>155 mmol/L)", NA
+          "Level 0", "Level 1 (110-120 g/L)",
+          "Level 2 (<110 g/L)", "Level 3 (<95 g/L)", NA
+        ), n(), replace = TRUE),
+      PARAMCD == "LYM" ~
+        sample(c(
+          "Level 0", "Level 1 (>4.0 10^9/L)",
+          "Level 2 (>10.0 10^9/L)", "Level 3 (>20.0 10^9/L)", NA
         ), n(), replace = TRUE),
       TRUE ~ NA_character_
     )),
-    MCRIT1MN = sample(c(0, 1, 2, 3, NaN), size = n(), replace = TRUE),
-    MCRIT2MN = sample(c(0, 1, 2, 3, NaN), size = n(), replace = TRUE),
+    MCRIT1MN = case_when(
+      grepl("^Level 3", as.character(MCRIT1ML)) ~ 3,
+      grepl("^Level 2", as.character(MCRIT1ML)) ~ 2,
+      grepl("^Level 1", as.character(MCRIT1ML)) ~ 1,
+      grepl("^Level 0", as.character(MCRIT1ML)) ~ 0,
+      TRUE ~ NA_real_
+    ),
+    MCRIT2MN = case_when(
+      grepl("^Level 3", as.character(MCRIT2ML)) ~ 3,
+      grepl("^Level 2", as.character(MCRIT2ML)) ~ 2,
+      grepl("^Level 1", as.character(MCRIT2ML)) ~ 1,
+      grepl("^Level 0", as.character(MCRIT2ML)) ~ 0,
+      TRUE ~ NA_real_
+    ),
     # Multi-criteria variables
-    MCRIT1 = case_when(
-      PARAM == "Alanine Aminotransferase (U/L)" ~
-        sample(c("Alanine Aminotransferase, high", NA), n(), replace = TRUE),
-      PARAM == "Albumin (g/L)" ~
-        sample(c("Albumin, low", NA), n(), replace = TRUE),
-      PARAM == "Alkaline Phosphatase (U/L)" ~
-        sample(c("Alkaline Phosphatase, high", NA), n(), replace = TRUE),
-      PARAM == "Aspartate Aminotransferase (U/L)" ~
-        sample(c("Aspartate Aminotransferase, high", NA), n(), replace = TRUE),
-      PARAM == "Bilirubin (µmol/L)" ~
-        sample(c("Bilirubin, high", NA), n(), replace = TRUE),
-      PARAM == "Calcium (mmol/L)" ~
-        sample(c("Calcium, low", NA), n(), replace = TRUE),
-      PARAM == "Cholesterol (mmol/L)" ~
-        sample(c("Cholesterol, high", NA), n(), replace = TRUE),
-      PARAM == "Creatinine (µmol/L)" ~
-        sample(c("Creatinine, low", NA), n(), replace = TRUE),
-      PARAM == "Glucose (mmol/L)" ~
-        sample(c("Glucose, low", NA), n(), replace = TRUE),
-      PARAM == "HDL Cholesterol (mmol/L)" ~
-        sample(c("HDL Cholesterol, males, low", NA), n(), replace = TRUE),
-      PARAM == "Hemoglobin (g/L)" ~
-        sample(c("Hemoglobin, male", NA), n(), replace = TRUE),
-      PARAM == "LDL Cholesterol (mmol/L)" ~
-        sample(c("LDL Cholesterol, high", NA), n(), replace = TRUE),
-      PARAM == "Leukocytes (x10E9/L)" ~
-        sample(c("Leukocytes, low", NA), n(), replace = TRUE),
-      PARAM == "Neutrophils (x10E9/L)" ~
-        sample(c("Neutrophils, low", NA), n(), replace = TRUE),
-      PARAM == "Platelets (x10E9/L)" ~
-        sample(c("Platelets, low", NA), n(), replace = TRUE),
-      PARAM == "Potassium (mmol/L)" ~
-        sample(c("Potassium, low", NA), n(), replace = TRUE),
-      PARAM == "Protein (g/L)" ~
-        sample(c("Protein, low", NA), n(), replace = TRUE),
-      PARAM == "Sodium (mmol/L)" ~
-        sample(c("Sodium, low", NA), n(), replace = TRUE),
-      PARAM == "Triglycerides (mmol/L)" ~
-        sample(c("Triglycerides, high"), n(), replace = TRUE),
-      TRUE ~ NA_character_
-    ),
-    MCRIT2 = case_when(
-      PARAM == "Calcium (mmol/L)" ~
-        sample(c("Calcium, low", NA), n(), replace = TRUE),
-      PARAM == "Glucose (mmol/L)" ~
-        sample(c("Glucose, low", NA), n(), replace = TRUE),
-      PARAM == "Leukocytes (x10E9/L)" ~
-        sample(c("Leukocytes, low", NA), n(), replace = TRUE),
-      PARAM == "Potassium (mmol/L)" ~
-        sample(c("Potassium, low", NA), n(), replace = TRUE),
-      PARAM == "Sodium (mmol/L)" ~
-        sample(c("Sodium, low", NA), n(), replace = TRUE),
-      TRUE ~ NA_character_
-    ),
+    MCRIT1 = dplyr::if_else(!is.na(MCRIT1ML), as.character(ATOXDSCL), NA_character_),
+    MCRIT2 = dplyr::if_else(!is.na(MCRIT2ML), as.character(ATOXDSCH), NA_character_),
     # NOTE: CRIT1, CRIT2, CRIT1FL, CRIT2FL are temporarily derived from MCRITy/MCRITyML
     # as the markedly abnormal criteria definitions file is currently missing.
     # These should be updated to reflect the actual criterion definitions and flags
@@ -637,11 +686,12 @@ gen_adlb <- function(seed = 123) {
   gen <- gen |>
     mutate(
       ANL02FL = dplyr::case_when(
-                                 (grepl("Cycle", AVISIT) |
-                                    grepl("End Of Treatment", AVISIT) |
-                                    grepl("Baseline", AVISIT)) &
-                                   ANL01FL == "Y" & is.na(DTYPE) ~ "Y",
-                                 TRUE ~ NA_character_)
+        (grepl("Cycle", AVISIT) |
+          grepl("End Of Treatment", AVISIT) |
+          grepl("Baseline", AVISIT)) &
+          ANL01FL == "Y" & is.na(DTYPE) ~ "Y",
+        TRUE ~ NA_character_
+      )
     )
 
   # Apply admiral::restrict_derivation for ANL03FL

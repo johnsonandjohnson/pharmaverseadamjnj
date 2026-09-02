@@ -65,6 +65,8 @@
 - Modified ECOCCUR, ADOSE, ACDOSE, ASCHDOSE, AVAMT, ADOSU, ACDOSU. ASCHDOSU and AVAMTU variables
 - Modified PARAM unit to 'mg' in ADEXSUM dataset
 - Modified PARAM and PARAMCD to add CUMDOSS1, CUMDOSS2
+- Modified PARCAT1, PARCAT3 categories tests on ADLB
+- Modified MCRITyML, MCRITyMN and MCRITy variables as per standards
 
 
 ## [0.0.5] - 2026-05-25
