@@ -645,10 +645,18 @@ gen_adlb <- function(seed = 123) {
     # as the markedly abnormal criteria definitions file is currently missing.
     # These should be updated to reflect the actual criterion definitions and flags
     # from the markedly abnormal file once it is available.
-    CRIT1 = MCRIT1,
-    CRIT2 = MCRIT2,
-    CRIT1FL = MCRIT1ML,
-    CRIT2FL = MCRIT2ML,
+    CRIT1 = dplyr::if_else(
+      PARCAT1 %in% c("CHEMISTRY", "HEMATOLOGY") & !is.na(ATOXDSCH),
+      sample(c(">2xULN", NA_character_), n(), replace = TRUE, prob = c(0.3, 0.7)),
+      NA_character_
+    ),
+    CRIT1FL = dplyr::if_else(!is.na(CRIT1), "Y", NA_character_),
+    CRIT2 = dplyr::if_else(
+      PARCAT1 %in% c("CHEMISTRY", "HEMATOLOGY") & !is.na(ATOXDSCH),
+      sample(c(">3xULN", NA_character_), n(), replace = TRUE, prob = c(0.3, 0.7)),
+      NA_character_
+    ),
+    CRIT2FL = dplyr::if_else(!is.na(CRIT2), "Y", NA_character_),
     ATOXGR = as.character(sample(
       c("0", "1", "2", "3", NA_character_),
       size = n(),
