@@ -66,7 +66,8 @@
 - Modified PARAM unit to 'mg' in ADEXSUM dataset
 - Modified PARAM and PARAMCD to add CUMDOSS1, CUMDOSS2
 - Modified PARCAT1, PARCAT3 categories tests on ADLB
-- Modified MCRITyML, MCRITyMN and MCRITy variables as per standards
+- Modified MCRITyML, MCRITyMN and MCRITy variables as per standards in ADLB
+- Modified CRITy and CRITYFL variables on ADLB
 
 
 ## [0.0.5] - 2026-05-25
