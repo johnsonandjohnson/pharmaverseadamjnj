@@ -2,6 +2,7 @@
 
 # Load necessary libraries
 library(dplyr)
+library(purrr)
 library(pharmaverseadam)
 library(formatters)
 library(forcats)
@@ -645,65 +646,100 @@ gen_adlb <- function(seed = 123) {
     # as the markedly abnormal criteria definitions file is currently missing.
     # These should be updated to reflect the actual criterion definitions and flags
     # from the markedly abnormal file once it is available.
-    CRIT1 = dplyr::if_else(
-      PARCAT1 %in% c("CHEMISTRY", "HEMATOLOGY") & !is.na(ATOXDSCH),
-      sample(c(">2xULN", NA_character_), n(), replace = TRUE, prob = c(0.3, 0.7)),
-      NA_character_
-    ),
-    CRIT1FL = dplyr::if_else(!is.na(CRIT1), "Y", NA_character_),
+    # Hierarchy: >3xULN (CRIT2) takes priority; >2xULN (CRIT1) only assigned when >3xULN not met.
     CRIT2 = dplyr::if_else(
       PARCAT1 %in% c("CHEMISTRY", "HEMATOLOGY") & !is.na(ATOXDSCH),
       sample(c(">3xULN", NA_character_), n(), replace = TRUE, prob = c(0.3, 0.7)),
       NA_character_
     ),
     CRIT2FL = dplyr::if_else(!is.na(CRIT2), "Y", NA_character_),
-    ATOXGR = as.character(sample(
-      c("0", "1", "2", "3", NA_character_),
-      size = n(),
-      replace = TRUE,
-      prob = c(0.5, 0.25, 0.15, 0.07, 0.03)
-    )),
-    # Miscellaneous variables
-    APOBLFL = as.factor(dplyr::if_else(
-      (is.na(ABLFL) | ABLFL != "Y") & !is.na(ADT) & !is.na(TRTSDT) & as.Date(ADT) >= as.Date(TRTSDT),
-      "Y",
+    CRIT1 = dplyr::if_else(
+      PARCAT1 %in% c("CHEMISTRY", "HEMATOLOGY") & !is.na(ATOXDSCH) & is.na(CRIT2),
+      sample(c(">2xULN", NA_character_), n(), replace = TRUE, prob = c(0.3, 0.7)),
       NA_character_
-    )),
-    LBSTNRHQ = as.factor(sample(c(NA, "<"), dplyr::n(), replace = TRUE)),
-    LBSTNRLQ = as.factor(sample(c(NA, "<"), dplyr::n(), replace = TRUE)),
-    ATOXGRN = as.numeric(ATOXGR),
-    ADTM = format(paste(ADT, "00:00"), format = "%Y-%m-%d %H:%M"),
-    ATPT = "BEFORE TREATMENT",
-    ATOXGRL = as.factor(dplyr::if_else(!is.na(ATOXDSCL), as.numeric(ATOXGR), NA_real_)),
-    ATOXGRH = as.factor(dplyr::if_else(!is.na(ATOXDSCH), as.numeric(ATOXGR), NA_real_)),
-    # Add LBCLSIG variable with values "N" and "Y"
-    LBCLSIG = as.factor(sample(c("N", "Y"), size = n(), replace = TRUE, prob = c(0.7, 0.3))),
-    TR01SDT = sample(
-      seq(
-        min(as.Date(TRTSDT), na.rm = TRUE),
-        max(as.Date(TRTSDT), na.rm = TRUE),
-        by = "day"
-      ),
-      length(TRTEDT),
-      replace = TRUE
     ),
-    TR01EDT = sample(
-      seq(
-        min(as.Date(TRTEDT), na.rm = TRUE),
-        max(as.Date(TRTEDT), na.rm = TRUE),
-        by = "day"
-      ),
-      length(TRTEDT),
-      replace = TRUE
-    ),
-    LBSPEC = dplyr::case_when(
-      PARAMCD == "GLUC" ~ "PLASMA"
-    ),
-    LBFAST = dplyr::case_when(
-      PARAMCD == "GLUC" ~ "Y"
-    ),
-    LBNAM = sample(c("CENTRAL", "LOCAL"), n(), replace = TRUE, prob = c(0.85, 0.15))
+    CRIT1FL = dplyr::if_else(!is.na(CRIT1), "Y", NA_character_)
   )
+
+  # Randomly blank CRIT1/CRIT2 for some PARAMCD x TRTEMFL combinations
+  # Covers: on-treatment (Y), off-treatment (NA), and both
+  paramcd_vals <- unique(gen$PARAMCD[gen$PARCAT1 %in% c("CHEMISTRY", "HEMATOLOGY") & !is.na(gen$ATOXDSCH)])
+  trtemfl_vals <- c("Y", NA_character_)
+
+  combos <- expand.grid(PARAMCD = paramcd_vals, TRTEMFL = trtemfl_vals, stringsAsFactors = FALSE)
+  n_combos <- nrow(combos)
+
+  blank_crit2_idx <- sample(n_combos, size = max(1, round(n_combos * 0.15)))
+  blank_crit1_idx <- sample(setdiff(seq_len(n_combos), blank_crit2_idx), size = max(1, round(n_combos * 0.15)))
+  blank_both_idx <- sample(setdiff(seq_len(n_combos), c(blank_crit2_idx, blank_crit1_idx)), size = max(1, round(n_combos * 0.10)))
+
+  blank_crit2_combos <- combos[c(blank_crit2_idx, blank_both_idx), ]
+  blank_crit1_combos <- combos[c(blank_crit1_idx, blank_both_idx), ]
+
+  gen <- gen |>
+    dplyr::mutate(
+      .blank_crit2 = purrr::map2_lgl(
+        as.character(PARAMCD), as.character(TRTEMFL),
+        ~ any(.x == blank_crit2_combos$PARAMCD & (is.na(.y) == is.na(blank_crit2_combos$TRTEMFL) | (!is.na(.y) & !is.na(blank_crit2_combos$TRTEMFL) & .y == blank_crit2_combos$TRTEMFL)))
+      ),
+      .blank_crit1 = purrr::map2_lgl(
+        as.character(PARAMCD), as.character(TRTEMFL),
+        ~ any(.x == blank_crit1_combos$PARAMCD & (is.na(.y) == is.na(blank_crit1_combos$TRTEMFL) | (!is.na(.y) & !is.na(blank_crit1_combos$TRTEMFL) & .y == blank_crit1_combos$TRTEMFL)))
+      ),
+      CRIT2 = dplyr::if_else(.blank_crit2, NA_character_, as.character(CRIT2)),
+      CRIT2FL = dplyr::if_else(.blank_crit2, NA_character_, as.character(CRIT2FL)),
+      CRIT1 = dplyr::if_else(.blank_crit1, NA_character_, as.character(CRIT1)),
+      CRIT1FL = dplyr::if_else(.blank_crit1, NA_character_, as.character(CRIT1FL))
+    ) |>
+    dplyr::select(-.blank_crit2, -.blank_crit1) |>
+    dplyr::mutate(
+      ATOXGR = as.character(sample(
+        c("0", "1", "2", "3", NA_character_),
+        size = n(),
+        replace = TRUE,
+        prob = c(0.5, 0.25, 0.15, 0.07, 0.03)
+      )),
+      # Miscellaneous variables
+      APOBLFL = as.factor(dplyr::if_else(
+        (is.na(ABLFL) | ABLFL != "Y") & !is.na(ADT) & !is.na(TRTSDT) & as.Date(ADT) >= as.Date(TRTSDT),
+        "Y",
+        NA_character_
+      )),
+      LBSTNRHQ = as.factor(sample(c(NA, "<"), dplyr::n(), replace = TRUE)),
+      LBSTNRLQ = as.factor(sample(c(NA, "<"), dplyr::n(), replace = TRUE)),
+      ATOXGRN = as.numeric(ATOXGR),
+      ADTM = format(paste(ADT, "00:00"), format = "%Y-%m-%d %H:%M"),
+      ATPT = "BEFORE TREATMENT",
+      ATOXGRL = as.factor(dplyr::if_else(!is.na(ATOXDSCL), as.numeric(ATOXGR), NA_real_)),
+      ATOXGRH = as.factor(dplyr::if_else(!is.na(ATOXDSCH), as.numeric(ATOXGR), NA_real_)),
+      # Add LBCLSIG variable with values "N" and "Y"
+      LBCLSIG = as.factor(sample(c("N", "Y"), size = n(), replace = TRUE, prob = c(0.7, 0.3))),
+      TR01SDT = sample(
+        seq(
+          min(as.Date(TRTSDT), na.rm = TRUE),
+          max(as.Date(TRTSDT), na.rm = TRUE),
+          by = "day"
+        ),
+        length(TRTEDT),
+        replace = TRUE
+      ),
+      TR01EDT = sample(
+        seq(
+          min(as.Date(TRTEDT), na.rm = TRUE),
+          max(as.Date(TRTEDT), na.rm = TRUE),
+          by = "day"
+        ),
+        length(TRTEDT),
+        replace = TRUE
+      ),
+      LBSPEC = dplyr::case_when(
+        PARAMCD == "GLUC" ~ "PLASMA"
+      ),
+      LBFAST = dplyr::case_when(
+        PARAMCD == "GLUC" ~ "Y"
+      ),
+      LBNAM = sample(c("CENTRAL", "LOCAL"), n(), replace = TRUE, prob = c(0.85, 0.15))
+    )
 
   # Baseline Toxicity derivation
   gen <- gen |>
