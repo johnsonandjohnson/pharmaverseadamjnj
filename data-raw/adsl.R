@@ -68,20 +68,49 @@ gen_adsl <- function(seed = 123) {
       )
     )
   )
-  # --- Add 2 additional deaths (total target: 5 dead subjects) ---
+  # --- Add 2 additional deaths (total target: 5 dead subjects) ---------------
   alive_with_trt <- which(
     (is.na(gen$DTHFL) | gen$DTHFL != "Y") &
       !is.na(gen$TRTSDT) &
       !is.na(gen$TRTEDT)
   )
-  new_dead <- sample(alive_with_trt, 2)
+
+  # split by treatment duration for targeted death timing
+  # new_dead[1]: High Dose + short treatment → DTHB60FL = "Y"
+  # new_dead[2]: any remaining → DTH30FL = "Y"
+  high_dose_short <- alive_with_trt[
+    toupper(gen$TRT01A[alive_with_trt]) == "XANOMELINE HIGH DOSE" &
+      as.numeric(gen$TRTEDT[alive_with_trt] - gen$TRTSDT[alive_with_trt]) < 20
+  ]
+  remaining <- setdiff(alive_with_trt, high_dose_short)
+  new_dead <- c(sample(high_dose_short, 1), sample(remaining, 1))
 
   gen$DTHFL[new_dead] <- "Y"
   # DTHCAUS is NA for Disease progression / Treatment failure deaths
-  # DTHDT: first subject dies >30 days after TRTEDT; second dies on treatment
-  gen$DTHDT[new_dead[1]] <- gen$TRTEDT[new_dead[1]] + 45
-  gen$DTHDT[new_dead[2]] <- gen$TRTSDT[new_dead[2]] + 20
-  # ---
+  # first dies within 60 days of first dose (but after last dose)
+  gen$DTHDT[new_dead[1]] <- gen$TRTSDT[new_dead[1]] - 1 + 50
+  # second dies <=30 days after last dose
+  gen$DTHDT[new_dead[2]] <- gen$TRTEDT[new_dead[2]] + 5
+
+  # populate death detail variables for forced deaths
+  gen$DTHDTC <- as.character(gen$DTHDTC)
+  gen$DTHDTC[new_dead] <- format(gen$DTHDT[new_dead], "%Y-%m-%d")
+  gen$DTHADY[new_dead] <- as.numeric(
+    gen$DTHDT[new_dead] - gen$TRTSDT[new_dead] + 1
+  )
+  gen$LDDTHELD[new_dead] <- as.numeric(
+    gen$DTHDT[new_dead] - gen$TRTEDT[new_dead]
+  )
+  gen$LDDTHGR1 <- as.character(gen$LDDTHGR1)
+  gen$LDDTHGR1[new_dead] <- ifelse(
+    gen$LDDTHELD[new_dead] <= 30,
+    "<= 30",
+    "> 30"
+  )
+  gen$LSTALVDT[new_dead] <- gen$DTHDT[new_dead]
+  gen$DTH30FL <- as.character(gen$DTH30FL)
+  gen$DTH30FL[new_dead] <- ifelse(gen$LDDTHELD[new_dead] <= 30, "Y", NA_character_)
+  # --- end forced deaths -----------------------------------------------------
 
   gen$TRT01P <- as.factor(gen$TRT01P)
   gen$TRT01P <- droplevels(as.factor(dplyr::case_when(
@@ -298,6 +327,8 @@ gen_adsl <- function(seed = 123) {
     !is.na(gen$TRT01P) & sample(c(TRUE, FALSE), nrow(gen), replace = TRUE, prob = c(0.3, 0.7)) ~ "N",
     .default = gen$SAFFL
   )
+  # ensure forced deaths remain in safety population
+  gen$SAFFL[new_dead] <- "Y"
 
   gen$ENRLFL <- factor(
     dplyr::case_when(
@@ -355,8 +386,9 @@ gen_adsl <- function(seed = 123) {
     gen$DTHDT > (gen$TRTEDT + 30) ~ "Y",
     .default = NA
   )
+  # study day = DTHDT - TRTSDT + 1; within 60 days means study day <= 60
   gen$DTHB60FL <- dplyr::case_when(
-    gen$DTHDT <= (gen$TRTSDT + 60) ~ "Y",
+    gen$DTHDT <= (gen$TRTSDT - 1 + 60) ~ "Y",
     .default = "N"
   )
   gen$UNBLNDDT <- as.Date(dplyr::case_when(
