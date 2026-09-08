@@ -26,6 +26,7 @@
 - Updated AVISIT for baseline on ADLB dataset
 - Added CRITy and CRITyFL on ADLB based on MCRITy and MCRITyML values since details missing on markedlyabnormal file
 - Added PKRFL variable to ADPC dataset
+- Added PARCAT3N to ADLB dataset
 
 ### Changed
 - Modified ADSL death-related variable derivations (DTHFL, DTHDT, DTHCAUS, DDPCDTHC)
