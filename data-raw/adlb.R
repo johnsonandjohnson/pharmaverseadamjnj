@@ -356,7 +356,7 @@ gen_adlb <- function(seed = 123) {
       PARCAT3 == "WBC differential" ~ 6,
       # Coagulation Studies
       PARCAT3 == "Coagulation studies" ~ 7,
-      TRUE ~ NA_character_
+      TRUE ~ NA_real_
     )),
     PARCAT4 = as.factor(case_when(
       PARAM %in%

@@ -3,7 +3,7 @@
 #' @description adlb modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 83652 rows and 109 variables:
+#' @format A data frame with 83652 rows and 110 variables:
 #' \describe{
 #'  \item{USUBJID}{Unique Subject Identifier}
 #'  \item{DOMAIN}{Domain Abbreviation}
@@ -68,6 +68,7 @@
 #'  \item{TRTEMFL}{Treatment Emergent Analysis Flag}
 #'  \item{PARCAT2}{Parameter Category 2}
 #'  \item{PARCAT3}{Parameter Category 3}
+#'  \item{PARCAT3N}{Parameter Category 3 (N)}
 #'  \item{PARCAT4}{Parameter Category 4}
 #'  \item{PARCAT5}{Parameter Category 5}
 #'  \item{PARCAT6}{Parameter Category 6}
