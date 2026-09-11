@@ -102,14 +102,14 @@ gen_addili <- function(seed = 123) {
       CRIT2 = case_when(
         PARCAT1 == "ALT or AST" ~ ">= 5x ULN",
         PARCAT1 == "ALP" ~ ">= 1.5x ULN",
-        PARCAT1 == "BILI" ~ ">= 3x ULN",
+        PARCAT1 == "TBILI" ~ ">= 3x ULN",
         TRUE ~ NA_character_
       ),
       CRIT2FL = case_when(
         PARCAT1 == "ALT or AST" & R2ANRHI >= 5 ~ "Y",
         PARCAT1 == "ALT or AST" & !is.na(R2ANRHI) ~ "N",
         PARCAT1 == "ALP" & R2ANRHI >= 1.5 ~ "Y",
-        PARCAT1 == "BILI" & R2ANRHI >= 3 ~ "Y",
+        PARCAT1 == "TBILI" & R2ANRHI >= 3 ~ "Y",
         !is.na(R2ANRHI) & !is.na(CRIT2) ~ "N",
         TRUE ~ NA_character_
       ),
