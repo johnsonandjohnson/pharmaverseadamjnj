@@ -346,6 +346,15 @@ gen_addili <- function(seed = 123) {
     ) |>
     arrange(STUDYID, USUBJID, PARAMCD, AVISITN, ADT)
 
+  # Adding ONTRTFL as Y if analysis visit not miising
+  gen <- gen |>
+    # Keeping required AVISIT on data
+    filter(!is.na(AVISITN)) |>
+    mutate(ONTRTFL = case_when(
+      !is.na(AVISIT) ~ "Y",
+      TRUE ~ ONTRTFL
+    ))
+
 
   additional_labels <- list(
     STUDYID = "Study Identifier",
