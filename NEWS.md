@@ -67,6 +67,8 @@
 - Modified PARAM unit to 'mg' in ADEXSUM dataset
 - Modified PARAM and PARAMCD to add CUMDOSS1, CUMDOSS2
 - Modified ADURC values to HH:MM format on ADEX dataset
+- Modified ONTRTFL values to consider all non misisng visit records on ADDILI dataset
+- Modified CRIT2FL and CRIT2 on ADDILI dataset
 
 
 ## [0.0.5] - 2026-05-25
