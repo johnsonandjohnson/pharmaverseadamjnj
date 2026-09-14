@@ -152,6 +152,10 @@ gen_adexsum <- function(seed = 123) {
       PARAMCD == "TRTDURM" & AVAL >= 30 & AVAL < 33 ~ "30 to <33 months",
       PARAMCD == "TRTDURM" & AVAL >= 33 & AVAL < 36 ~ "33 to <36 months",
       PARAMCD == "TRTDURM" & AVAL >= 36 & AVAL < 39 ~ "36 to <39 months",
+      PARAMCD == "DOSEDAYS" & AVAL >= 1 & AVAL < 30 ~ "1 to <30 days",
+      PARAMCD == "DOSEDAYS" & AVAL >= 30 & AVAL < 60 ~ "30 to <60 days",
+      PARAMCD == "DOSEDAYS" & AVAL >= 60 & AVAL < 90 ~ "60 to <90 days",
+      PARAMCD == "DOSEDAYS" & AVAL >= 90 ~ ">=90 days",
       .default = NA
     )),
     AVALCA1N = dplyr::case_when(
@@ -184,6 +188,10 @@ gen_adexsum <- function(seed = 123) {
       PARAMCD == "TRTDURM" & AVAL >= 30 & AVAL < 33 ~ 11,
       PARAMCD == "TRTDURM" & AVAL >= 33 & AVAL < 36 ~ 12,
       PARAMCD == "TRTDURM" & AVAL >= 36 & AVAL < 39 ~ 13,
+      PARAMCD == "DOSEDAYS" & AVAL >= 1 & AVAL < 30 ~ 1,
+      PARAMCD == "DOSEDAYS" & AVAL >= 30 & AVAL < 60 ~ 2,
+      PARAMCD == "DOSEDAYS" & AVAL >= 60 & AVAL < 90 ~ 3,
+      PARAMCD == "DOSEDAYS" & AVAL >= 90 ~ 4,
       .default = NA
     ),
     CRIT1 = as.factor(dplyr::case_when(

@@ -27,6 +27,7 @@
 - Added CRITy and CRITyFL on ADLB based on MCRITy and MCRITyML values since details missing on markedlyabnormal file
 - Added PKRFL variable to ADPC dataset
 - Added PARCAT3N to ADLB dataset
+- Added AVALCAT1 for DOSEDAYS parameter in ADEXSUM dataset
 
 ### Changed
 - Modified ADSL death-related variable derivations (DTHFL, DTHDT, DTHCAUS, DDPCDTHC)
@@ -69,6 +70,7 @@
 - Modified PARCAT1, PARCAT3 categories tests on ADLB
 - Modified MCRITyML, MCRITyMN and MCRITy variables as per standards in ADLB
 - Modified CRITy and CRITYFL variables on ADLB
+- Modified ADURC values to HH:MM format on ADEX dataset
 
 
 ## [0.0.5] - 2026-05-25
