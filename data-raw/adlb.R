@@ -122,7 +122,7 @@ gen_adlb <- function(seed = 123) {
 
     # Analysis values
     AVAL = round(AVAL, 4),
-    AVALC = as.character(AVAL),
+    AVALC = AVALC,
     AVALU = LBSTRESU,
     ANL02FL = "Y",
     AVISIT = case_when(
@@ -1049,7 +1049,9 @@ gen_adlb <- function(seed = 123) {
 
   blank_crit2_idx <- sample(n_combos, size = max(1, round(n_combos * 0.15)))
   blank_crit1_idx <- sample(setdiff(seq_len(n_combos), blank_crit2_idx), size = max(1, round(n_combos * 0.15)))
-  blank_both_idx <- sample(setdiff(seq_len(n_combos), c(blank_crit2_idx, blank_crit1_idx)), size = max(1, round(n_combos * 0.10)))
+  blank_both_idx <- sample(setdiff(seq_len(n_combos), c(blank_crit2_idx, blank_crit1_idx)),
+    size = max(1, round(n_combos * 0.10))
+  )
 
   blank_crit2_combos <- combos[c(blank_crit2_idx, blank_both_idx), ]
   blank_crit1_combos <- combos[c(blank_crit1_idx, blank_both_idx), ]
@@ -1058,11 +1060,13 @@ gen_adlb <- function(seed = 123) {
     dplyr::mutate(
       .blank_crit2 = purrr::map2_lgl(
         as.character(PARAMCD), as.character(TRTEMFL),
-        ~ any(.x == blank_crit2_combos$PARAMCD & (is.na(.y) == is.na(blank_crit2_combos$TRTEMFL) | (!is.na(.y) & !is.na(blank_crit2_combos$TRTEMFL) & .y == blank_crit2_combos$TRTEMFL)))
+        ~ any(.x == blank_crit2_combos$PARAMCD & (is.na(.y) == is.na(blank_crit2_combos$TRTEMFL) |
+          (!is.na(.y) & !is.na(blank_crit2_combos$TRTEMFL) & .y == blank_crit2_combos$TRTEMFL)))
       ),
       .blank_crit1 = purrr::map2_lgl(
         as.character(PARAMCD), as.character(TRTEMFL),
-        ~ any(.x == blank_crit1_combos$PARAMCD & (is.na(.y) == is.na(blank_crit1_combos$TRTEMFL) | (!is.na(.y) & !is.na(blank_crit1_combos$TRTEMFL) & .y == blank_crit1_combos$TRTEMFL)))
+        ~ any(.x == blank_crit1_combos$PARAMCD & (is.na(.y) == is.na(blank_crit1_combos$TRTEMFL) |
+          (!is.na(.y) & !is.na(blank_crit1_combos$TRTEMFL) & .y == blank_crit1_combos$TRTEMFL)))
       ),
       CRIT2 = dplyr::if_else(.blank_crit2, NA_character_, as.character(CRIT2)),
       CRIT2FL = dplyr::if_else(.blank_crit2, NA_character_, as.character(CRIT2FL)),
@@ -1087,7 +1091,11 @@ gen_adlb <- function(seed = 123) {
       LBSTNRLQ = as.factor(sample(c(NA, "<"), dplyr::n(), replace = TRUE)),
       ATOXGRN = as.numeric(ATOXGR),
       ADTM = format(paste(ADT, "00:00"), format = "%Y-%m-%d %H:%M"),
-      ATPT = "BEFORE TREATMENT",
+      ATPT = dplyr::case_when(
+        ABLFL == "Y" ~ "BASELINE",
+        !is.na(ADT) & !is.na(TRTSDT) & as.Date(ADT) <= as.Date(TRTSDT) ~ "BEFORE TREATMENT",
+        TRUE ~ "AFTER TREATMENT"
+      ),
       ATOXGRL = as.factor(dplyr::if_else(!is.na(ATOXDSCL), as.numeric(ATOXGR), NA_real_)),
       ATOXGRH = as.factor(dplyr::if_else(!is.na(ATOXDSCH), as.numeric(ATOXGR), NA_real_)),
       # Add LBCLSIG variable with values "N" and "Y"
@@ -1117,6 +1125,24 @@ gen_adlb <- function(seed = 123) {
         PARAMCD == "GLUC" ~ "Y"
       ),
       LBNAM = sample(c("CENTRAL", "LOCAL"), n(), replace = TRUE, prob = c(0.85, 0.15))
+    )
+
+  # Re-derive BASE, CHG, PCHG for PARAMCDs with randomised AVAL
+  gen <- gen |>
+    dplyr::group_by(STUDYID, USUBJID, PARAMCD) |>
+    dplyr::mutate(
+      BASE = dplyr::if_else(
+        PARAMCD %in% c("LDL", "HDL", "NEUT", "TRIG"),
+        AVAL[ABLFL == "Y" & !is.na(AVAL)][1],
+        BASE
+      )
+    ) |>
+    dplyr::ungroup() |>
+    dplyr::mutate(
+      CHG = dplyr::if_else(PARAMCD %in% c("LDL", "HDL", "NEUT", "TRIG"), AVAL - BASE, CHG),
+      PCHG = dplyr::if_else(PARAMCD %in% c("LDL", "HDL", "NEUT", "TRIG") & BASE != 0,
+        (AVAL - BASE) / BASE * 100, PCHG
+      )
     )
 
   # Baseline Toxicity derivation
