@@ -1057,7 +1057,7 @@ gen_adlb <- function(seed = 123) {
   blank_crit1_combos <- combos[c(blank_crit1_idx, blank_both_idx), ]
 
   gen <- gen |>
-  dplyr::mutate(
+    dplyr::mutate(
     .blank_crit2 = purrr::map2_lgl(
       as.character(PARAMCD), as.character(TRTEMFL),
       ~ any(.x == blank_crit2_combos$PARAMCD & (is.na(.y) == is.na(blank_crit2_combos$TRTEMFL)
