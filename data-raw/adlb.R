@@ -1188,7 +1188,7 @@ gen_adlb <- function(seed = 123) {
         (grepl("Cycle", AVISIT) |
            grepl("End Of Treatment", AVISIT) |
            grepl("Baseline", AVISIT)) &
-           ANL01FL == "Y" & is.na(DTYPE) ~ "Y",
+          ANL01FL == "Y" & is.na(DTYPE) ~ "Y",
         TRUE ~ NA_character_
       )
     )
