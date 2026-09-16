@@ -1060,8 +1060,9 @@ gen_adlb <- function(seed = 123) {
     dplyr::mutate(
       .blank_crit2 = purrr::map2_lgl(
                                      as.character(PARAMCD), as.character(TRTEMFL),
-                                     ~ any(.x == blank_crit2_combos$PARAMCD & (is.na(.y) == is.na(blank_crit2_combos$TRTEMFL)
-                                     | (!is.na(.y) & !is.na(blank_crit2_combos$TRTEMFL) & .y == blank_crit2_combos$TRTEMFL)))),
+                                     ~ any(.x == blank_crit2_combos$PARAMCD & 
+                                       (is.na(.y) == is.na(blank_crit2_combos$TRTEMFL) |
+                                         (!is.na(.y) & !is.na(blank_crit2_combos$TRTEMFL) & .y == blank_crit2_combos$TRTEMFL)))),
       .blank_crit1 = purrr::map2_lgl(
                                      as.character(PARAMCD), as.character(TRTEMFL),
                                      ~ any(.x == blank_crit1_combos$PARAMCD & (is.na(.y) == is.na(blank_crit1_combos$TRTEMFL)
