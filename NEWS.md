@@ -26,6 +26,7 @@
 - Updated AVISIT for baseline on ADLB dataset
 - Added CRITy and CRITyFL on ADLB based on MCRITy and MCRITyML values since details missing on markedlyabnormal file
 - Added PKRFL variable to ADPC dataset
+- Added PARCAT3N to ADLB dataset
 - Added AVALCAT1 for DOSEDAYS parameter in ADEXSUM dataset
 
 ### Changed
@@ -66,7 +67,11 @@
 - Modified ECOCCUR, ADOSE, ACDOSE, ASCHDOSE, AVAMT, ADOSU, ACDOSU. ASCHDOSU and AVAMTU variables
 - Modified PARAM unit to 'mg' in ADEXSUM dataset
 - Modified PARAM and PARAMCD to add CUMDOSS1, CUMDOSS2
+- Modified PARCAT1, PARCAT3 categories tests on ADLB
+- Modified MCRITyML, MCRITyMN and MCRITy variables as per standards in ADLB
+- Modified CRITy and CRITYFL variables on ADLB
 - Modified ADURC values to HH:MM format on ADEX dataset
+- Modified AVALC, BASE, CHG, PCHG and ATPT on ADLB dataset
 - Modified ONTRTFL values to consider all non misisng visit records on ADDILI dataset
 - Modified CRIT2FL and CRIT2 on ADDILI dataset
 
