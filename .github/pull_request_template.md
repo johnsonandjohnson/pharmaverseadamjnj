@@ -8,4 +8,4 @@ Fixes #nnn
 ## Checks
 
 - [ ] (Have you updated the NEWS.md ?)
-- [ ] (Have you run document() on new data ?)
+- [ ] (Have you run document() on new functions ?)

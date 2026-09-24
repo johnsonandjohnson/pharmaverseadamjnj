@@ -15,3 +15,4 @@
 ^.*\.xpt$
 ^revdep$
 ^dev$
+^.revdeprefs\.yaml$

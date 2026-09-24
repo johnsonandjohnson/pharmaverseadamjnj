@@ -110,7 +110,7 @@ run_script <- function(script_path) {
 
 # Run all other data creation scripts
 walk(data_scripts, run_script)
-
+styler::style_pkg(".")
 message("All datasets have been created and documented.")
 
 # Get all rda
