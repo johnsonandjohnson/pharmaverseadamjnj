@@ -53,8 +53,8 @@
 - Modified ADLB toxicity grade detail ATOXDSCL and ATOXDSCH
 - Modified ADLB.PARAM values to display as per paramlookup file to replace x10E with 10^.
 - Modified MCRITy and MCRITyFL variable values to assign based on PARAM instead of random values.
-- Modified ADEG for AVAL variableto include "ABNORMAL, CS", "ABNORMAL, NCS", "NORMAL"
-- Modifed ADEG for PARAMCD convered 'msec' to 'ms'
+- Modified ADEG for AVAL variable to include "ABNORMAL, CS", "ABNORMAL, NCS", "NORMAL"
+- Modified ADEG for PARAMCD converted 'msec' to 'ms'
 - Modified ADPC for CRIT1 variable
 - Modified ADEX to add ATPT, ATPTN, ADURC, ARSDSDO, ATDPRP, and  ATDPRPU variables
 - Modified ADEX for APERIOD and updated ATPT values
@@ -72,7 +72,7 @@
 - Modified CRITy and CRITYFL variables on ADLB
 - Modified ADURC values to HH:MM format on ADEX dataset
 - Modified AVALC, BASE, CHG, PCHG and ATPT on ADLB dataset
-- Modified ONTRTFL values to consider all non misisng visit records on ADDILI dataset
+- Modified ONTRTFL values to consider all non missing visit records on ADDILI dataset
 - Modified CRIT2FL and CRIT2 on ADDILI dataset
 
 
