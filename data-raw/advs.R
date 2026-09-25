@@ -501,8 +501,8 @@ gen_advs <- function(seed = 123) {
       AVISIT = case_when(ABLFL == "Y" ~ "Baseline", TRUE ~ AVISIT)
     )
 
-  gen <- gen %>%
-    select(-PARAMN) %>%
+  gen <- gen |>
+    select(-PARAMN) |>
     admiral::derive_vars_merged_lookup(
       dataset_add = nw_param_lookup,
       by_vars = exprs(PARAMCD),
