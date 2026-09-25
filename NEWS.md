@@ -1,4 +1,49 @@
-# pharmaverseadamjnj 0.0.6
+# pharmaverseadamjnj 0.0.7
+
+### Added
+
+- Added DDPCDTHC and NCTXSDT variables to ADSL
+- Added AESEVN, EXSTDT, DOSEDT, ADATRES, and NABSTAT variables to ADAE
+- Added EXSTDT, ADATRES, and NABSTAT variables to ADEX
+- Added ADATRES and NABSTAT variables to ADEXSUM
+- Updated ATOXDSCL & ATOXDSCH variables as per latest lbtoxgrade file on ADLB dataset
+- Updated AVISIT for baseline on ADLB dataset
+- Added CRITy and CRITyFL on ADLB based on MCRITy and MCRITyML values since details missing on markedlyabnormal file
+- Added PKRFL variable to ADPC dataset
+- Added PARCAT3N to ADLB dataset
+- Added AVALCAT1 for DOSEDAYS parameter in ADEXSUM dataset
+
+### Changed
+- Modified ADSL death-related variable derivations (DTHFL, DTHDT, DTHCAUS, DDPCDTHC)
+- Modified ADSL to add DCTDT label
+- Modified ADEXSUM to add DURFUPD parameter
+- Modified ADLB toxicity grade detail ATOXDSCL and ATOXDSCH
+- Modified ADLB.PARAM values to display as per paramlookup file to replace x10E with 10^.
+- Modified MCRITy and MCRITyFL variable values to assign based on PARAM instead of random values.
+- Modified ADEG for AVAL variable to include "ABNORMAL, CS", "ABNORMAL, NCS", "NORMAL"
+- Modified ADEG for PARAMCD converted 'msec' to 'ms'
+- Modified ADPC for CRIT1 variable
+- Modified ADEX to add ATPT, ATPTN, ADURC, ARSDSDO, ATDPRP, and  ATDPRPU variables
+- Modified ADEX for APERIOD and updated ATPT values
+- Modified ADEX to add AVAMT, AVAMTU, ADOSFRQP, ADOSDLY, ARSDOSD, ACDOSE, ACDOSU, ASTDY,
+  ALL ANL flags ex. ANL01FL, ANL02FL, ANL03FL, ANL04FL, INTCAT, SKPCAT, DLYCAT variables.
+- Updated PARAMN values in ADVS domain
+- Added CRIT6, CRIT6FL, CRIT7 & CRIT7FL on ADILLI for [AST or ALT] PARCAT
+- Added CRIT2, CRIT2FL, CRIT3, CRIT3FL on ADILLI for TBILI & ALP PARCAT
+- Modified ADEXSUM to add TRTDURD parameter
+- Modified ECOCCUR, ADOSE, ACDOSE, ASCHDOSE, AVAMT, ADOSU, ACDOSU. ASCHDOSU and AVAMTU variables
+- Modified PARAM unit to 'mg' in ADEXSUM dataset
+- Modified PARAM and PARAMCD to add CUMDOSS1, CUMDOSS2
+- Modified PARCAT1, PARCAT3 categories tests on ADLB
+- Modified MCRITyML, MCRITyMN and MCRITy variables as per standards in ADLB
+- Modified CRITy and CRITYFL variables on ADLB
+- Modified ADURC values to HH:MM format on ADEX dataset
+- Modified AVALC, BASE, CHG, PCHG and ATPT on ADLB dataset
+- Modified ONTRTFL values to consider all non missing visit records on ADDILI dataset
+- Modified CRIT2FL and CRIT2 on ADDILI dataset
+
+
+## [0.0.6] - 2026-09-24
 
 ### Added
 - Added ADISHUM Dataset
@@ -78,7 +123,6 @@
 
 ## [0.0.5] - 2026-05-25
 ### Added
-# pharmaverseadamjnj 0.0.5
 
 ### Added
 - Add DCTADY to ADSL #32
