@@ -3,7 +3,7 @@
 #' @description adpc modified from pharmaverseadam
 #' @source data from pharmaverseadam.
 #'
-#' @format A data frame with 4479 rows and 130 variables:
+#' @format A data frame with 4479 rows and 131 variables:
 #' \describe{
 #'  \item{STUDYID}{Study Identifier}
 #'  \item{USUBJID}{Unique Subject Identifier}
@@ -133,12 +133,13 @@
 #'  \item{WTBLU}{Standard Units}
 #'  \item{BMIBL}{Baseline Body Mass Index (kg/m2)}
 #'  \item{BMIBLU}{BMI at Baseline (Unit)}
-#'  \item{CRIT1}{Concentrations Below the Lowest Quantification Level Criterion}
-#'  \item{CRIT1FL}{Concentrations Below the Lowest Quantification Level Flag}
+#'  \item{CRIT1}{Lowest Quantification Level Criterion}
+#'  \item{CRIT1FL}{Lowest Quantification Level Flag}
+#'  \item{PKRFL}{PK Analysis Record-Level Flag}
 #' }
-#' @seealso \code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+#' @seealso \code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 #' @keywords datasets adpc
 #' @name adpc
 #' @examples
-#' head(data("adpc"))
+#'  head(data("adpc"))
 "adpc"

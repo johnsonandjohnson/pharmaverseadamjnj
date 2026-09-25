@@ -28,6 +28,14 @@ jobs:
     if: github.event_name != 'push'
     name: Linter 🦸‍♀️
     uses: johnsonandjohnson/actions/.github/workflows/lint.yaml@dev
+  roxygen:
+    name: Roxygen 🅾
+    uses: insightsengineering/r.pkg.template/.github/workflows/roxygen.yaml@main
+    secrets:
+      REPO_GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
+    with:
+      deps-installation-method: setup-r-dependencies
+      auto-update: true
 
   gitleaks:
     name: gitleaks 💧

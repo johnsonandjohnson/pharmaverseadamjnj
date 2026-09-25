@@ -11,5 +11,8 @@
 ^CHANGELOG\.md$
 ^_pkgdown\.yml$
 ^air\.toml$
-^.revdeprefs\.yaml$
+^.gitattributes$
+^.*\.xpt$
 ^revdep$
+^dev$
+^.revdeprefs\.yaml$
