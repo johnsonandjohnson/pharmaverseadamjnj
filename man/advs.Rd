@@ -19,7 +19,6 @@ A data frame with 43075 rows and 90 variables:
 \item{ATPTN}{Analysis Timepoint (N)}
 \item{PARAM}{Parameter}
 \item{PARAMCD}{Parameter Code}
-\item{PARAMN}{Parameter (N)}
 \item{AVAL}{Analysis Value}
 \item{AVALCAT1}{Analysis Value Category 1}
 \item{AVALCA1N}{Analysis Value Category 1 (N)}
@@ -91,6 +90,7 @@ A data frame with 43075 rows and 90 variables:
 \item{ANL03FL}{Analysis Flag 03-Maximum Value}
 \item{TRTEMFL}{Treatment Emergent Analysis Flag}
 \item{ADY}{Analysis Relative Day}
+\item{PARAMN}{Parameter (N)}
 \item{TRT01A}{Actual Treatment for Period 01}
 \item{SAFFL}{Safety Population Flag}
 \item{STUDYID}{Study Identifier}
@@ -112,7 +112,7 @@ advs modified from pharmaverseadam
  head(data("advs"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 }
 \keyword{advs}
 \keyword{datasets}
