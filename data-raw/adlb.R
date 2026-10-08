@@ -1061,16 +1061,16 @@ gen_adlb <- function(seed = 123) {
       .blank_crit2 = purrr::map2_lgl(
         as.character(PARAMCD), as.character(TRTEMFL),
         ~ any(.x == blank_crit2_combos$PARAMCD &
-          (is.na(.y) == is.na(blank_crit2_combos$TRTEMFL) |
-            (!is.na(.y) & !is.na(blank_crit2_combos$TRTEMFL) &
-              .y == blank_crit2_combos$TRTEMFL)))
+                (is.na(.y) == is.na(blank_crit2_combos$TRTEMFL) |
+                   (!is.na(.y) & !is.na(blank_crit2_combos$TRTEMFL) &
+                      .y == blank_crit2_combos$TRTEMFL)))
       ),
       .blank_crit1 = purrr::map2_lgl(
         as.character(PARAMCD), as.character(TRTEMFL),
         ~ any(.x == blank_crit1_combos$PARAMCD &
-          (is.na(.y) == is.na(blank_crit1_combos$TRTEMFL) |
-            (!is.na(.y) & !is.na(blank_crit1_combos$TRTEMFL) &
-              .y == blank_crit1_combos$TRTEMFL)))
+                (is.na(.y) == is.na(blank_crit1_combos$TRTEMFL) |
+                   (!is.na(.y) & !is.na(blank_crit1_combos$TRTEMFL) &
+                      .y == blank_crit1_combos$TRTEMFL)))
       ),
       CRIT2 = dplyr::if_else(.blank_crit2, NA_character_, as.character(CRIT2)),
       CRIT2FL = dplyr::if_else(.blank_crit2, NA_character_, as.character(CRIT2FL)),
@@ -1088,7 +1088,7 @@ gen_adlb <- function(seed = 123) {
       # Miscellaneous variables
       APOBLFL = as.factor(dplyr::if_else(
         (is.na(ABLFL) | ABLFL != "Y") & !is.na(ADT) & !is.na(TRTSDT) & as.Date(ADT) >= as.Date(TRTSDT),
-        "Y",
+         "Y",
         NA_character_
       )),
       LBSTNRHQ = as.factor(sample(c(NA, "<"), dplyr::n(), replace = TRUE)),
