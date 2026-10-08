@@ -1088,7 +1088,7 @@ gen_adlb <- function(seed = 123) {
       # Miscellaneous variables
       APOBLFL = as.factor(dplyr::if_else(
         (is.na(ABLFL) | ABLFL != "Y") & !is.na(ADT) & !is.na(TRTSDT) & as.Date(ADT) >= as.Date(TRTSDT),
-         "Y",
+        "Y",
         NA_character_
       )),
       LBSTNRHQ = as.factor(sample(c(NA, "<"), dplyr::n(), replace = TRUE)),
@@ -1188,9 +1188,9 @@ gen_adlb <- function(seed = 123) {
     mutate(
       ANL02FL = dplyr::case_when(
         (grepl("Cycle", AVISIT) |
-          grepl("End Of Treatment", AVISIT) |
-          grepl("Baseline", AVISIT)) &
-          ANL01FL == "Y" & is.na(DTYPE) ~ "Y",
+           grepl("End Of Treatment", AVISIT) |
+           grepl("Baseline", AVISIT)) &
+           ANL01FL == "Y" & is.na(DTYPE) ~ "Y",
         TRUE ~ NA_character_
       )
     )
