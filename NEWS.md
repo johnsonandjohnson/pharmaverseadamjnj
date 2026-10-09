@@ -1,4 +1,10 @@
-# pharmaverseadamjnj 0.0.7
+# pharmaverseadamjnj 0.0.8
+
+### Changed
+- updated adlb code for ANL01FL related to AVALC values
+
+## [0.0.7] - 2026-09-30
+
 
 ### Added
 

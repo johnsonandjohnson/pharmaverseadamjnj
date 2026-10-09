@@ -1,6 +1,6 @@
 Package: pharmaverseadamjnj
 Title: J&J Innovative Medicine ADaM Test Data
-Version: 0.0.7
+Version: 0.0.8
 Authors@R: 
     c(
       person(given = "David",
@@ -19,6 +19,10 @@ Authors@R:
            family = "Divakaran", ,
            role = "ctb",
            email = "mdivaka2@its.jnj.com"),
+      person(given = "Selvaraj",
+           family = "Shanmugam", ,
+           role = "ctb",
+           email = "sshanm46@its.jnj.com"),
       person("Renfei", "Mao", , "rmao6@its.jnj.com", role = c("ctb")),
       person(given = "J&J Innovative Medicine",
             role = c("cph", "fnd"))
