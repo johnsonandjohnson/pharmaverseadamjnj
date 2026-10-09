@@ -1,6 +1,8 @@
+.Renviron
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
 .idea
 docs/
+revdep/

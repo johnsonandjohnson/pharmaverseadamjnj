@@ -55,7 +55,7 @@ gen_adagocmq <- function() {
     file.path("source_data", "OCMQs_v3.0.xlsm") |>
     readxl::read_excel(sheet = "Hypersensitivity") |>
     dplyr::mutate(
-      AEDECOD = toupper(Term),
+      AEDECOD = Term,
       HYPSCAT = substr(`Algorithmic Category`, 1, 1)
     ) |>
     dplyr::select(AEDECOD, HYPSCAT)
@@ -122,7 +122,35 @@ gen_adagocmq <- function() {
   # Create records related to ADLB --------------------------------------------
 
   # Get source data
-  raw_adlb <- adlb
+  raw_adlb <- adlb |>
+    rename(
+      PARAM_ = PARAM,
+      AVAL_ = AVAL,
+      BASE_ = BASE,
+      CHG_ = CHG
+    ) |>
+    mutate(
+      PARAM_C = case_when(
+        LBTESTCD == "GLUC" & LBORRESU == "mg/dL" & PARAM_ == "Glucose (mmol/L)" ~ paste0(LBTEST, " (", LBORRESU, ")"),
+        LBTESTCD == "HBA1C" ~ paste0(LBTEST, " (", LBORRESU, ")")
+      ),
+      AVAL_C = case_when(
+        LBTESTCD == "GLUC" & LBORRESU == "mg/dL" & PARAM_ == "Glucose (mmol/L)" ~ AVAL_ * 18.02,
+        LBTESTCD == "HBA1C" ~ AVAL_ * 1
+      ),
+      BASE_C = case_when(
+        LBTESTCD == "GLUC" & LBORRESU == "mg/dL" & PARAM_ == "Glucose (mmol/L)" ~ BASE_ * 18.02,
+        LBTESTCD == "HBA1C" ~ BASE_ * 1
+      ),
+      CHG_C = ifelse(AVISIT != "Baseline", AVAL_C - BASE_C, NA)
+    ) |>
+    mutate(
+      PARAM = ifelse(!is.na(PARAM_C), PARAM_C, as.character(PARAM_)),
+      AVAL = ifelse(!is.na(AVAL_C), AVAL_C, AVAL_),
+      BASE = ifelse(!is.na(BASE_C), BASE_C, BASE_),
+      CHG = ifelse(!is.na(CHG_C), CHG_C, CHG_)
+    ) |>
+    select(-c(PARAM_C, PARAM_, AVAL_C, AVAL_, BASE_C, BASE_, CHG_C, CHG_))
 
   # Derive `ATERMN`
   records_adlb <- dplyr::bind_rows(
@@ -347,7 +375,7 @@ gen_adagocmq <- function() {
       ACAT1N == 1 ~ "Hypersensitivity",
       ACAT1N == 2 ~ "Hyperglycemia",
       ACAT1N == 3 ~ "Hypoglycemia",
-      ACAT1N == 4 ~ "Muscle injury"
+      ACAT1N == 4 ~ "Rhabdomyolysis"
     )) |>
     # Derive `ANL01FL`
     dplyr::mutate(ANL01FL = dplyr::if_else(nchar(ATERMN) == 2, "Y", NA)) |>
