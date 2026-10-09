@@ -131,5 +131,5 @@
 #' @keywords datasets adslcomp
 #' @name adslcomp
 #' @examples
-#'  head(data("adslcomp"))
+#' head(data("adslcomp"))
 "adslcomp"

@@ -52,5 +52,5 @@
 #' @keywords datasets addisp
 #' @name addisp
 #' @examples
-#'  head(data("addisp"))
+#' head(data("addisp"))
 "addisp"

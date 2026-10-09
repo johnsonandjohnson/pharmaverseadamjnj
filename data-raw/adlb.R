@@ -1061,16 +1061,16 @@ gen_adlb <- function(seed = 123) {
       .blank_crit2 = purrr::map2_lgl(
         as.character(PARAMCD), as.character(TRTEMFL),
         ~ any(.x == blank_crit2_combos$PARAMCD &
-                (is.na(.y) == is.na(blank_crit2_combos$TRTEMFL) |
-                   (!is.na(.y) & !is.na(blank_crit2_combos$TRTEMFL) &
-                      .y == blank_crit2_combos$TRTEMFL)))
+          (is.na(.y) == is.na(blank_crit2_combos$TRTEMFL) |
+            (!is.na(.y) & !is.na(blank_crit2_combos$TRTEMFL) &
+              .y == blank_crit2_combos$TRTEMFL)))
       ),
       .blank_crit1 = purrr::map2_lgl(
         as.character(PARAMCD), as.character(TRTEMFL),
         ~ any(.x == blank_crit1_combos$PARAMCD &
-                (is.na(.y) == is.na(blank_crit1_combos$TRTEMFL) |
-                   (!is.na(.y) & !is.na(blank_crit1_combos$TRTEMFL) &
-                      .y == blank_crit1_combos$TRTEMFL)))
+          (is.na(.y) == is.na(blank_crit1_combos$TRTEMFL) |
+            (!is.na(.y) & !is.na(blank_crit1_combos$TRTEMFL) &
+              .y == blank_crit1_combos$TRTEMFL)))
       ),
       CRIT2 = dplyr::if_else(.blank_crit2, NA_character_, as.character(CRIT2)),
       CRIT2FL = dplyr::if_else(.blank_crit2, NA_character_, as.character(CRIT2FL)),
@@ -1188,8 +1188,8 @@ gen_adlb <- function(seed = 123) {
     mutate(
       ANL02FL = dplyr::case_when(
         (grepl("Cycle", AVISIT) |
-           grepl("End Of Treatment", AVISIT) |
-           grepl("Baseline", AVISIT)) &
+          grepl("End Of Treatment", AVISIT) |
+          grepl("Baseline", AVISIT)) &
           ANL01FL == "Y" & is.na(DTYPE) ~ "Y",
         TRUE ~ NA_character_
       )

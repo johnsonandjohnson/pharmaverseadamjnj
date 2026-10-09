@@ -75,5 +75,5 @@
 #' @keywords datasets adcm
 #' @name adcm
 #' @examples
-#'  head(data("adcm"))
+#' head(data("adcm"))
 "adcm"

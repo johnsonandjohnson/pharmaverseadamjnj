@@ -117,5 +117,5 @@
 #' @keywords datasets adae
 #' @name adae
 #' @examples
-#'  head(data("adae"))
+#' head(data("adae"))
 "adae"

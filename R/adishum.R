@@ -76,5 +76,5 @@
 #' @keywords datasets adishum
 #' @name adishum
 #' @examples
-#'  head(data("adishum"))
+#' head(data("adishum"))
 "adishum"
