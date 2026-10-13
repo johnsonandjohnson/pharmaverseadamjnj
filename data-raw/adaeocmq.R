@@ -93,7 +93,7 @@ gen_adaeocmq <- function() {
       across(starts_with("ocmq_"), as.character), # Ensure character type
       across(starts_with("soc_"), as.character),
       across(starts_with("scope_"), as.character),
-      Term = toupper(Term)
+      Term = forcats::fct_relabel(Term, stringr::str_to_sentence)
     ) |>
     rename(AEDECOD = Term)
 
@@ -132,7 +132,8 @@ gen_adaeocmq <- function() {
       GENSPFFL = ifelse(OCMQNAM %in% c(
         "Abnormal Uterine Bleeding", "Amenorrhea", "Bacterial Vaginosis",
         "Decreased Menstrual Bleeding", "Excessive Menstrual Bleeding"
-      ), "Y", NA_character_)
+      ), "Y", NA_character_),
+      OCMQNAM = forcats::fct_relabel(OCMQNAM, stringr::str_to_sentence)
     )
 
   # Additional labels for new variables not in the source dataset

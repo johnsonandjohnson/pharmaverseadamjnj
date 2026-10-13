@@ -5,7 +5,7 @@
 \alias{adae}
 \title{adae}
 \format{
-A data frame with 1191 rows and 81 variables:
+A data frame with 1191 rows and 107 variables:
 \describe{
 \item{USUBJID}{Unique Subject Identifier}
 \item{DOMAIN}{Domain Abbreviation}
@@ -63,31 +63,57 @@ A data frame with 1191 rows and 81 variables:
 \item{DOSEU}{Treatment Dose Units}
 \item{AETOXGR}{Standard Toxicity Grade}
 \item{AETOXGRN}{Standard Toxicity Grade (N)}
-\item{AEACN_DECODE}{Action Taken with Study Treatment}
+\item{AEACNS1}{Action Taken - Sponsor Study Treatment 1}
+\item{AEACNS2}{Action Taken - Sponsor Study Treatment 2}
+\item{AESEVN}{Severity/Intensity (N)}
 \item{DOSEDY}{Day of Study Drug}
+\item{DOSS1DY}{Day of Study Drug of study Agent 1}
+\item{DOSS2DY}{Day of Study Drug of study Agent 2}
+\item{DOSS1U}{Trt Dose Units for study Agent 1}
+\item{DOSS2U}{Trt Dose Units for study Agent 2}
+\item{DOSS1ON}{Treatment Dose for study Agent 1}
+\item{DOSS2ON}{Treatment Dose for study Agent 2}
 \item{AECONTRT}{Concomitant or Additional Trtmnt Given}
 \item{CQ01NAM}{Customized Query 01 Name}
 \item{CQ02NAM}{Customized Query 02 Name}
 \item{CQ03NAM}{Customized Query 03 Name}
 \item{AESMIE}{Other Medically Important Serious Event}
-\item{AESER_DECODE}{Serious Event}
-\item{AEREL_DECODE}{Causality}
-\item{AEOUT_DECODE}{Outcome of Adverse Event}
+\item{AERELS1}{Causality - Sponsor Study Treatment 1}
+\item{AERELS2}{Causality - Sponsor Study Treatment 2}
+\item{RELGR1}{Pooled Causality Group 1}
+\item{AEDRGS1}{Sponsor Study Treatment 1}
+\item{AEDRGS2}{Sponsor Study Treatment 2}
 \item{ACAT1}{Analysis Category 1}
 \item{AOCCFL}{1st Occurrence within Subject Flag}
-\item{AOCCPFL}{1st Occurrence within Preferred Term Flag}
+\item{AOCCPFL}{1st Occurrence within Pref Term Flag}
 \item{AOCCSFL}{1st Occurrence of SOC Flag}
+\item{AOCTIFL}{1st TE Max Toxicity Grade Flag}
 \item{TRT01A}{Actual Treatment for Period 01}
 \item{SAFFL}{Safety Population Flag}
 \item{AGE}{Age}
 \item{SEX}{Sex}
 \item{RACE}{Race}
-\item{RACE_DECODE}{Race}
 \item{STUDYID}{Study Identifier}
 \item{AGEGR1}{Pooled Age Group 1}
 \item{TRTEDY}{Treatment Relative End Day}
 \item{TRT01P}{Planned Treatment for Period 01}
 \item{TRDISCFL}{Treatment Discontinued Flag}
+\item{AESHOSPP}{Prolongs Hospitalization}
+\item{AESHOSPR}{Requires Hospitalization}
+\item{AESCAT}{Adverse Event Category}
+\item{SMQ01NAM}{Standardized MedDRA Query 01 Name}
+\item{SMQ02NAM}{Standardized MedDRA Query 02 Name}
+\item{SMQ03NAM}{Standardized MedDRA Query 03 Name}
+\item{AOCT01FL}{1st AESI Max Tox. Grade 01 Occur Flag}
+\item{AOCT02FL}{1st AESI Max Tox. Grade 02 Occur Flag}
+\item{AOCT03FL}{1st AESI Max Tox. Grade 03 Occur Flag}
+\item{AOCS01FL}{1st AESI Max Sev./Int. 01 Occur. Flag}
+\item{AOCS02FL}{1st AESI Max Sev./Int. 02 Occur. Flag}
+\item{AOCS03FL}{1st AESI Max Sev./Int. 03 Occur. Flag}
+\item{EXSTDT}{Exposure Start Date}
+\item{DOSEDT}{Date of Study Drug}
+\item{ADATRES}{Treatment-emergent ADA Subject Status}
+\item{NABSTAT}{NAB Status}
 }
 }
 \source{
@@ -100,10 +126,10 @@ adae
 adae modified from pharmaverseadam
 }
 \examples{
-head(data("adae"))
+ head(data("adae"))
 }
 \seealso{
-\code{\link{adae}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
+\code{\link{adae}} \code{\link{adaecomp}} \code{\link{adaeocmq}} \code{\link{adagocmq}} \code{\link{adcm}} \code{\link{addili}} \code{\link{addisp}} \code{\link{adeg}} \code{\link{adex}} \code{\link{adexsum}} \code{\link{adishum}} \code{\link{adlb}} \code{\link{adpc}} \code{\link{adsl}} \code{\link{adslcomp}} \code{\link{adttesaf}} \code{\link{advs}}# nolint
 }
 \keyword{adae}
 \keyword{datasets}
