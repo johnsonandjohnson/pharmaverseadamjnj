@@ -10,7 +10,7 @@ adpc
 
 ## Format
 
-A data frame with 4479 rows and 130 variables:
+A data frame with 4479 rows and 131 variables:
 
 - STUDYID:
 
@@ -526,11 +526,15 @@ A data frame with 4479 rows and 130 variables:
 
 - CRIT1:
 
-  Concentrations Below the Lowest Quantification Level Criterion
+  Lowest Quantification Level Criterion
 
 - CRIT1FL:
 
-  Concentrations Below the Lowest Quantification Level Flag
+  Lowest Quantification Level Flag
+
+- PKRFL:
+
+  PK Analysis Record-Level Flag
 
 ## Source
 
@@ -539,16 +543,20 @@ data from pharmaverseadam.
 ## See also
 
 [`adae`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adae.md)
+[`adaecomp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaecomp.md)
 [`adaeocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaeocmq.md)
 [`adagocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adagocmq.md)
 [`adcm`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adcm.md)
 [`addili`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addili.md)
+[`addisp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addisp.md)
 [`adeg`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adeg.md)
 [`adex`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adex.md)
 [`adexsum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adexsum.md)
+[`adishum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adishum.md)
 [`adlb`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adlb.md)
 `adpc`
 [`adsl`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adsl.md)
+[`adslcomp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adslcomp.md)
 [`adttesaf`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adttesaf.md)
 [`advs`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/advs.md)\#
 nolint
@@ -556,6 +564,6 @@ nolint
 ## Examples
 
 ``` r
-head(data("adpc"))
+ head(data("adpc"))
 #> [1] "adpc"
 ```

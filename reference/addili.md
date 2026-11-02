@@ -10,7 +10,7 @@ addili
 
 ## Format
 
-A data frame with 10476 rows and 71 variables:
+A data frame with 10476 rows and 75 variables:
 
 - STUDYID:
 
@@ -248,6 +248,22 @@ A data frame with 10476 rows and 71 variables:
 
   Criterion 5 Evaluation Result Flag
 
+- CRIT6:
+
+  Analysis Criterion 6
+
+- CRIT6FL:
+
+  Criterion 6 Evaluation Result Flag
+
+- CRIT7:
+
+  Analysis Criterion 7
+
+- CRIT7FL:
+
+  Criterion 7 Evaluation Result Flag
+
 - ANL04FL:
 
   Analysis 04 Record Flag
@@ -303,16 +319,20 @@ data from pharmaverseadam.
 ## See also
 
 [`adae`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adae.md)
+[`adaecomp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaecomp.md)
 [`adaeocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaeocmq.md)
 [`adagocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adagocmq.md)
 [`adcm`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adcm.md)
 `addili`
+[`addisp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addisp.md)
 [`adeg`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adeg.md)
 [`adex`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adex.md)
 [`adexsum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adexsum.md)
+[`adishum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adishum.md)
 [`adlb`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adlb.md)
 [`adpc`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adpc.md)
 [`adsl`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adsl.md)
+[`adslcomp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adslcomp.md)
 [`adttesaf`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adttesaf.md)
 [`advs`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/advs.md)\#
 nolint
@@ -320,6 +340,6 @@ nolint
 ## Examples
 
 ``` r
-head(data("addili"))
+ head(data("addili"))
 #> [1] "addili"
 ```

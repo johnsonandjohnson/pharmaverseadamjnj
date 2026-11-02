@@ -10,155 +10,19 @@ adlb
 
 ## Format
 
-A data frame with 83640 rows and 156 variables:
-
-- STUDYID:
-
-  Study Identifier
+A data frame with 83652 rows and 110 variables:
 
 - USUBJID:
 
   Unique Subject Identifier
 
-- SUBJID:
-
-  Subject Identifier for the Study
-
-- SITEID:
-
-  Study Site Identifier
-
-- COUNTRY:
-
-  Country
-
 - DOMAIN:
 
   Domain Abbreviation
 
-- RFSTDTC:
-
-  Subject Reference Start Date/Time
-
-- RFENDTC:
-
-  Subject Reference End Date/Time
-
-- RFXSTDTC:
-
-  Date/Time of First Study Treatment
-
-- RFXENDTC:
-
-  Date/Time of Last Study Treatment
-
-- RFPENDTC:
-
-  Date/Time of End of Participation
-
-- SCRFDT:
-
-  Screen Failure Date
-
-- FRVDT:
-
-  Final Retrieval Visit Date
-
-- DTHDTC:
-
-  Date/Time of Death
-
-- DTHADY:
-
-  Relative Day of Death
-
-- DTHFL:
-
-  Subject Death Flag
-
-- LDDTHELD:
-
-  Elapsed Days from Last Dose to Death
-
-- LDDTHGR1:
-
-  Last Dose to Death - Days Elapsed Grp 1
-
-- DTH30FL:
-
-  Death Within 30 Days of Last Trt Flag
-
-- DTHA30FL:
-
-  Death After 30 Days from Last Trt Flag
-
-- DTHDOM:
-
-  Domain for Date of Death Collection
-
-- DTHB30FL:
-
-  Death Within 30 Days of First Trt Flag
-
 - ASEQ:
 
   Analysis Sequence Number
-
-- REGION1:
-
-  Geographic Region 1
-
-- DMDTC:
-
-  Date/Time of Collection
-
-- DMDY:
-
-  Study Day of Collection
-
-- AGE:
-
-  Age
-
-- AGEU:
-
-  Age Units
-
-- SEX:
-
-  Sex
-
-- RACE:
-
-  Race
-
-- RACEGR1:
-
-  Pooled Race Group 1
-
-- ETHNIC:
-
-  Ethnicity
-
-- SAFFL:
-
-  Safety Population Flag
-
-- ARM:
-
-  Description of Planned Arm
-
-- ARMCD:
-
-  Planned Arm Code
-
-- ACTARM:
-
-  Description of Actual Arm
-
-- ACTARMCD:
-
-  Actual Arm Code
 
 - TRTP:
 
@@ -167,78 +31,6 @@ A data frame with 83640 rows and 156 variables:
 - TRTA:
 
   Actual Treatment
-
-- TRT01P:
-
-  Planned Treatment for Period 01
-
-- TRT01A:
-
-  Actual Treatment for Period 01
-
-- TRTSDT:
-
-  Date of First Exposure to Treatment
-
-- TRTSDTM:
-
-  Datetime of First Exposure to Treatment
-
-- TRTSTMF:
-
-  Time of First Exposure Imput. Flag
-
-- TRTEDT:
-
-  Date of Last Exposure to Treatment
-
-- TRTEDTM:
-
-  Datetime of Last Exposure to Treatment
-
-- TRTETMF:
-
-  Time of Last Exposure Imput. Flag
-
-- EOSSTT:
-
-  End of Study Status
-
-- EOSDT:
-
-  End of Study Date
-
-- RFICDTC:
-
-  Date/Time of Informed Consent
-
-- RANDDT:
-
-  Date of Randomization
-
-- LSTALVDT:
-
-  Date Last Known Alive
-
-- TRTDURD:
-
-  Total Treatment Duration (Days)
-
-- DTHDT:
-
-  Date of Death
-
-- DTHDTF:
-
-  Date of Death Imputation Flag
-
-- DTHCAUS:
-
-  Cause of Death
-
-- DTHCGR1:
-
-  Cause of Death Reason 1
 
 - ADT:
 
@@ -328,10 +120,6 @@ A data frame with 83640 rows and 156 variables:
 
   Analysis Toxicity Grade
 
-- BTOXGR:
-
-  Baseline Toxicity Grade
-
 - ANRIND:
 
   Analysis Reference Range Indicator
@@ -356,29 +144,9 @@ A data frame with 83640 rows and 156 variables:
 
   Analysis Toxicity Grade High
 
-- BTOXGRL:
-
-  Baseline Toxicity Grade Low
-
-- BTOXGRH:
-
-  Baseline Toxicity Grade High
-
-- ATOXDSCL:
-
-  Analysis Toxicity Description Low
-
-- ATOXDSCH:
-
-  Analysis Toxicity Description High
-
 - ABLFL:
 
   Baseline Record Flag
-
-- ANL01FL:
-
-  Analysis Flag 01
 
 - ONTRTFL:
 
@@ -468,13 +236,13 @@ A data frame with 83640 rows and 156 variables:
 
   Study Day of Specimen Collection
 
-- TRT01PN:
+- ATOXDSCL:
 
-  Planned Treatment for Period 01 (N)
+  Analysis Toxicity Description Low
 
-- TRT01AN:
+- ATOXDSCH:
 
-  Actual Treatment for Period 01 (N)
+  Analysis Toxicity Description High
 
 - AVALU:
 
@@ -488,18 +256,6 @@ A data frame with 83640 rows and 156 variables:
 
   Treatment Emergent Analysis Flag
 
-- COUNTRY_DECODE:
-
-  Country
-
-- RACE_DECODE:
-
-  Race Description
-
-- ETHNIC_DECODE:
-
-  Ethnicity Description
-
 - PARCAT2:
 
   Parameter Category 2
@@ -507,6 +263,10 @@ A data frame with 83640 rows and 156 variables:
 - PARCAT3:
 
   Parameter Category 3
+
+- PARCAT3N:
+
+  Parameter Category 3 (N)
 
 - PARCAT4:
 
@@ -520,13 +280,13 @@ A data frame with 83640 rows and 156 variables:
 
   Parameter Category 6
 
-- MCRIT2ML:
-
-  Multi-Response Criterion 2 Evaluation
-
 - MCRIT1ML:
 
   Multi-Response Criterion 1 Evaluation
+
+- MCRIT2ML:
+
+  Multi-Response Criterion 2 Evaluation
 
 - MCRIT1MN:
 
@@ -543,6 +303,22 @@ A data frame with 83640 rows and 156 variables:
 - MCRIT2:
 
   Analysis Multi-Response Criterion 2
+
+- CRIT2:
+
+  Analysis Criterion 2
+
+- CRIT2FL:
+
+  Criterion 2 Evaluation Flag
+
+- CRIT1:
+
+  Analysis Criterion 1
+
+- CRIT1FL:
+
+  Criterion 1 Evaluation Flag
 
 - APOBLFL:
 
@@ -592,6 +368,22 @@ A data frame with 83640 rows and 156 variables:
 
   Laboratory Name
 
+- BTOXGRL:
+
+  Baseline Toxicity Grade Low
+
+- BTOXGRH:
+
+  Baseline Toxicity Grade High
+
+- BTOXGR:
+
+  Baseline Toxicity Grade
+
+- ANL01FL:
+
+  Analysis Flag 01
+
 - ANL03FL:
 
   Analysis Record Flag 03 - Protocol Visit
@@ -636,6 +428,30 @@ A data frame with 83640 rows and 156 variables:
 
   Analysis Flag 16
 
+- TRT01A:
+
+  Actual Treatment for Period 01
+
+- SAFFL:
+
+  Safety Population Flag
+
+- STUDYID:
+
+  Study Identifier
+
+- AGE:
+
+  Age
+
+- SEX:
+
+  Sex
+
+- RACE:
+
+  Race
+
 ## Source
 
 data from pharmaverseadam.
@@ -643,16 +459,20 @@ data from pharmaverseadam.
 ## See also
 
 [`adae`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adae.md)
+[`adaecomp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaecomp.md)
 [`adaeocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaeocmq.md)
 [`adagocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adagocmq.md)
 [`adcm`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adcm.md)
 [`addili`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addili.md)
+[`addisp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addisp.md)
 [`adeg`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adeg.md)
 [`adex`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adex.md)
 [`adexsum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adexsum.md)
+[`adishum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adishum.md)
 `adlb`
 [`adpc`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adpc.md)
 [`adsl`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adsl.md)
+[`adslcomp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adslcomp.md)
 [`adttesaf`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adttesaf.md)
 [`advs`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/advs.md)\#
 nolint

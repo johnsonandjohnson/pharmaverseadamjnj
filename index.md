@@ -52,6 +52,7 @@ Statistical Programming standards.
 - ADAEOCMQ (Adverse Events Analysis Dataset OC Medical Query)
 - ADAGOCMQ (Adverse Events Analysis Dataset OC Medical Query Grouped)
 - ADPC (Pharmacokinetic Analysis Dataset)
+- ADDISP (Disposition Analysis Dataset)
 
 ## Installation
 

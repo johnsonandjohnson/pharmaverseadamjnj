@@ -10,7 +10,7 @@ adex
 
 ## Format
 
-A data frame with 591 rows and 128 variables:
+A data frame with 591 rows and 165 variables:
 
 - STUDYID:
 
@@ -338,7 +338,7 @@ A data frame with 591 rows and 128 variables:
 
 - ASTDY:
 
-  Analysis Start Relative Day
+  Analysis Study Day
 
 - AENDY:
 
@@ -380,6 +380,14 @@ A data frame with 591 rows and 128 variables:
 
   Analysis Value Category 1
 
+- ECDOSE:
+
+  ECDOSE
+
+- ECOCCUR:
+
+  Occurrence of Exposure
+
 - ATRT:
 
   Analysis name of Treatment
@@ -416,10 +424,6 @@ A data frame with 591 rows and 128 variables:
 
   Analysis Occurrence
 
-- RACE_DECODE:
-
-  Race
-
 - ACAT1:
 
   Analysis Category 1
@@ -431,18 +435,6 @@ A data frame with 591 rows and 128 variables:
 - AREASOO:
 
   Other Analysis Reason for Occur Value
-
-- AADJ:
-
-  Analysis Reason for Dose Adjustment
-
-- AADJPOTH:
-
-  Other Anal Reason for Dose Adjust Prior
-
-- AADJP:
-
-  Analysis Reason for Dose Adjustment Prior
 
 - AACTDU:
 
@@ -468,10 +460,6 @@ A data frame with 591 rows and 128 variables:
 
   Act Takn Dur Infus-Infusion Rate Incrsed
 
-- AADJOTH:
-
-  Other Anal Reason for Dose Adjustment
-
 - ACAT2:
 
   Analysis Category 2
@@ -480,9 +468,29 @@ A data frame with 591 rows and 128 variables:
 
   Action Taken Prior to Infusion Start
 
-- AACTPR_DECODE:
+- AADJP:
 
-  Action Taken Prior to Infusion Start
+  Analysis Reason for Prior Dose Adjust
+
+- AADJPOTH:
+
+  Other Anal Reason for Dose Adjust Prior
+
+- AADJ:
+
+  Analysis Reason for Dose Adjustment
+
+- AADJOTH:
+
+  Other Anal Reason for Dose Adjustment
+
+- ATPTN:
+
+  Analysis Timepoint (N)
+
+- ATPT:
+
+  Analysis Timepoint
 
 - ASCHDOSE:
 
@@ -504,6 +512,14 @@ A data frame with 591 rows and 128 variables:
 
   Analysis Dosing Frequency per Interval
 
+- ADOSFRQP:
+
+  Analysis Scheduled Dosing Frequency
+
+- ECMOOD:
+
+  ECMOOD
+
 - AROUTE:
 
   Analysis Route of Administration
@@ -524,6 +540,138 @@ A data frame with 591 rows and 128 variables:
 
   Analysis Infusion Rate Unit
 
+- EXSTDT:
+
+  Exposure Start Date
+
+- APERIOD:
+
+  Analysis Period
+
+- APERIODC:
+
+  Analysis Period (C)
+
+- ABODSYS1:
+
+  AE SOC Driving Study Drug Action (1)
+
+- ABODSYS2:
+
+  AE SOC Driving Study Drug Action (2)
+
+- ADECOD1:
+
+  AE PT Driving Study Drug Action (1)
+
+- ADECOD2:
+
+  AE PT Driving Study Drug Action (2)
+
+- ANL01FL:
+
+  Analysis Flag 01-Dose reduction
+
+- ANL02FL:
+
+  Analysis Flag 02-Dose reductn due to AE
+
+- ANL03FL:
+
+  Analysis Flag 03-Dose interruption
+
+- ANL04FL:
+
+  Analysis Flag 04-Dose skip not made up
+
+- ACDOSE:
+
+  Analysis Dose Collected
+
+- ACDOSU:
+
+  Analysis Dose Collected Units
+
+- ECRSDOSD:
+
+  ECRSDOSD
+
+- ECRSDSDO:
+
+  ECRSDSDO
+
+- ADOSDLY:
+
+  Analysis Dose Delayed
+
+- ARSDOSD:
+
+  Analysis Reason for Dose Delayed
+
+- ARSDSDO:
+
+  Other Analysis Reason for Dose Delayed
+
+- ECAVAMT:
+
+  ECAVAMT
+
+- AVAMT:
+
+  Analysis Injection Vol Prescribed
+
+- ECAVAMTU:
+
+  ECAVAMTU
+
+- AVAMTU:
+
+  Analysis Injection Vol Prescribed Units
+
+- ATDPRP:
+
+  Analysis Total Dose Prepared
+
+- ATDPRPU:
+
+  Analysis Total Dose Prepared Units
+
+- ADURC:
+
+  Analysis Duration (C)
+
+- INTN:
+
+  Number of Dose Interruptions
+
+- INTCAT:
+
+  Dose Interruption Category
+
+- SKPN:
+
+  Number of Dose Skipped
+
+- SKPCAT:
+
+  Dose Skipped Category
+
+- DLYN:
+
+  Number of Dose Delay
+
+- DLYCAT:
+
+  Dose Delay Category
+
+- ADATRES:
+
+  Treatment-emergent ADA Subject Status
+
+- NABSTAT:
+
+  NAB Status
+
 ## Source
 
 data from pharmaverseadam.
@@ -531,16 +679,20 @@ data from pharmaverseadam.
 ## See also
 
 [`adae`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adae.md)
+[`adaecomp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaecomp.md)
 [`adaeocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaeocmq.md)
 [`adagocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adagocmq.md)
 [`adcm`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adcm.md)
 [`addili`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addili.md)
+[`addisp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addisp.md)
 [`adeg`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adeg.md)
 `adex`
 [`adexsum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adexsum.md)
+[`adishum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adishum.md)
 [`adlb`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adlb.md)
 [`adpc`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adpc.md)
 [`adsl`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adsl.md)
+[`adslcomp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adslcomp.md)
 [`adttesaf`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adttesaf.md)
 [`advs`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/advs.md)\#
 nolint
@@ -548,6 +700,6 @@ nolint
 ## Examples
 
 ``` r
-head(data("adex"))
+ head(data("adex"))
 #> [1] "adex"
 ```

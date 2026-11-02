@@ -15,16 +15,20 @@ Page](https://johnsonandjohnson.github.io/junco/).
 
 - **Mahesh Divakaran**. Contributor.
 
+- **Selvaraj Shanmugam**. Contributor.
+
+- **Renfei Mao**. Contributor.
+
 - **J&J Innovative Medicine**. Copyright holder, funder.
 
 ## Citation
 
 Munoz Tord D, Masel N, Kovach J (2026). *pharmaverseadamjnj: J&J
-Innovative Medicine ADaM Test Data*. R package version 0.0.5.
+Innovative Medicine ADaM Test Data*. R package version 0.0.8.
 
     @Manual{,
       title = {pharmaverseadamjnj: J&J Innovative Medicine ADaM Test Data},
       author = {David {Munoz Tord} and Nicholas Masel and Joe Kovach},
       year = {2026},
-      note = {R package version 0.0.5},
+      note = {R package version 0.0.8},
     }

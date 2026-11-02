@@ -10,7 +10,7 @@ advs
 
 ## Format
 
-A data frame with 40702 rows and 78 variables:
+A data frame with 43075 rows and 90 variables:
 
 - USUBJID:
 
@@ -36,10 +36,6 @@ A data frame with 40702 rows and 78 variables:
 
   Analysis Date
 
-- ADY:
-
-  Analysis Relative Day
-
 - AVISIT:
 
   Analysis Visit
@@ -63,10 +59,6 @@ A data frame with 40702 rows and 78 variables:
 - PARAMCD:
 
   Parameter Code
-
-- PARAMN:
-
-  Parameter (N)
 
 - AVAL:
 
@@ -216,6 +208,10 @@ A data frame with 40702 rows and 78 variables:
 
   Analysis Value (C)
 
+- ASTDT:
+
+  ASTDT
+
 - ANL02FL:
 
   Analysis Flag 02-By Visit Value
@@ -260,6 +256,50 @@ A data frame with 40702 rows and 78 variables:
 
   Criterion 3 Evaluation Result Flag
 
+- CRIT4:
+
+  CRIT4
+
+- CRIT4FL:
+
+  CRIT4FL
+
+- CRIT5:
+
+  CRIT5
+
+- CRIT5FL:
+
+  CRIT5FL
+
+- CRIT6:
+
+  CRIT6
+
+- CRIT6FL:
+
+  CRIT6FL
+
+- CRIT7:
+
+  CRIT7
+
+- CRIT7FL:
+
+  CRIT7FL
+
+- CRIT8:
+
+  CRIT8
+
+- CRIT8FL:
+
+  CRIT8FL
+
+- VSCLSIG:
+
+  VSCLSIG
+
 - ATOXDSCL:
 
   Analysis Toxicity Description Low
@@ -300,6 +340,14 @@ A data frame with 40702 rows and 78 variables:
 
   Treatment Emergent Analysis Flag
 
+- ADY:
+
+  Analysis Relative Day
+
+- PARAMN:
+
+  Parameter (N)
+
 - TRT01A:
 
   Actual Treatment for Period 01
@@ -320,7 +368,7 @@ A data frame with 40702 rows and 78 variables:
 
   Sex
 
-- RACE_DECODE:
+- RACE:
 
   Race
 
@@ -331,22 +379,26 @@ data from pharmaverseadam.
 ## See also
 
 [`adae`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adae.md)
+[`adaecomp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaecomp.md)
 [`adaeocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaeocmq.md)
 [`adagocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adagocmq.md)
 [`adcm`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adcm.md)
 [`addili`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addili.md)
+[`addisp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addisp.md)
 [`adeg`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adeg.md)
 [`adex`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adex.md)
 [`adexsum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adexsum.md)
+[`adishum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adishum.md)
 [`adlb`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adlb.md)
 [`adpc`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adpc.md)
 [`adsl`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adsl.md)
+[`adslcomp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adslcomp.md)
 [`adttesaf`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adttesaf.md)
 `advs`\# nolint
 
 ## Examples
 
 ``` r
-head(data("advs"))
+ head(data("advs"))
 #> [1] "advs"
 ```

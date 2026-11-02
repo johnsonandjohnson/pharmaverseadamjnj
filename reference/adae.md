@@ -10,7 +10,7 @@ adae
 
 ## Format
 
-A data frame with 1191 rows and 81 variables:
+A data frame with 1191 rows and 107 variables:
 
 - USUBJID:
 
@@ -236,13 +236,45 @@ A data frame with 1191 rows and 81 variables:
 
   Standard Toxicity Grade (N)
 
-- AEACN_DECODE:
+- AEACNS1:
 
-  Action Taken with Study Treatment
+  Action Taken - Sponsor Study Treatment 1
+
+- AEACNS2:
+
+  Action Taken - Sponsor Study Treatment 2
+
+- AESEVN:
+
+  Severity/Intensity (N)
 
 - DOSEDY:
 
   Day of Study Drug
+
+- DOSS1DY:
+
+  Day of Study Drug of study Agent 1
+
+- DOSS2DY:
+
+  Day of Study Drug of study Agent 2
+
+- DOSS1U:
+
+  Trt Dose Units for study Agent 1
+
+- DOSS2U:
+
+  Trt Dose Units for study Agent 2
+
+- DOSS1ON:
+
+  Treatment Dose for study Agent 1
+
+- DOSS2ON:
+
+  Treatment Dose for study Agent 2
 
 - AECONTRT:
 
@@ -264,17 +296,25 @@ A data frame with 1191 rows and 81 variables:
 
   Other Medically Important Serious Event
 
-- AESER_DECODE:
+- AERELS1:
 
-  Serious Event
+  Causality - Sponsor Study Treatment 1
 
-- AEREL_DECODE:
+- AERELS2:
 
-  Causality
+  Causality - Sponsor Study Treatment 2
 
-- AEOUT_DECODE:
+- RELGR1:
 
-  Outcome of Adverse Event
+  Pooled Causality Group 1
+
+- AEDRGS1:
+
+  Sponsor Study Treatment 1
+
+- AEDRGS2:
+
+  Sponsor Study Treatment 2
 
 - ACAT1:
 
@@ -286,11 +326,15 @@ A data frame with 1191 rows and 81 variables:
 
 - AOCCPFL:
 
-  1st Occurrence within Preferred Term Flag
+  1st Occurrence within Pref Term Flag
 
 - AOCCSFL:
 
   1st Occurrence of SOC Flag
+
+- AOCTIFL:
+
+  1st TE Max Toxicity Grade Flag
 
 - TRT01A:
 
@@ -309,10 +353,6 @@ A data frame with 1191 rows and 81 variables:
   Sex
 
 - RACE:
-
-  Race
-
-- RACE_DECODE:
 
   Race
 
@@ -336,6 +376,70 @@ A data frame with 1191 rows and 81 variables:
 
   Treatment Discontinued Flag
 
+- AESHOSPP:
+
+  Prolongs Hospitalization
+
+- AESHOSPR:
+
+  Requires Hospitalization
+
+- AESCAT:
+
+  Adverse Event Category
+
+- SMQ01NAM:
+
+  Standardized MedDRA Query 01 Name
+
+- SMQ02NAM:
+
+  Standardized MedDRA Query 02 Name
+
+- SMQ03NAM:
+
+  Standardized MedDRA Query 03 Name
+
+- AOCT01FL:
+
+  1st AESI Max Tox. Grade 01 Occur Flag
+
+- AOCT02FL:
+
+  1st AESI Max Tox. Grade 02 Occur Flag
+
+- AOCT03FL:
+
+  1st AESI Max Tox. Grade 03 Occur Flag
+
+- AOCS01FL:
+
+  1st AESI Max Sev./Int. 01 Occur. Flag
+
+- AOCS02FL:
+
+  1st AESI Max Sev./Int. 02 Occur. Flag
+
+- AOCS03FL:
+
+  1st AESI Max Sev./Int. 03 Occur. Flag
+
+- EXSTDT:
+
+  Exposure Start Date
+
+- DOSEDT:
+
+  Date of Study Drug
+
+- ADATRES:
+
+  Treatment-emergent ADA Subject Status
+
+- NABSTAT:
+
+  NAB Status
+
 ## Source
 
 data from pharmaverseadam.
@@ -343,16 +447,20 @@ data from pharmaverseadam.
 ## See also
 
 `adae`
+[`adaecomp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaecomp.md)
 [`adaeocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaeocmq.md)
 [`adagocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adagocmq.md)
 [`adcm`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adcm.md)
 [`addili`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addili.md)
+[`addisp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addisp.md)
 [`adeg`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adeg.md)
 [`adex`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adex.md)
 [`adexsum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adexsum.md)
+[`adishum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adishum.md)
 [`adlb`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adlb.md)
 [`adpc`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adpc.md)
 [`adsl`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adsl.md)
+[`adslcomp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adslcomp.md)
 [`adttesaf`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adttesaf.md)
 [`advs`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/advs.md)\#
 nolint
@@ -360,6 +468,6 @@ nolint
 ## Examples
 
 ``` r
-head(data("adae"))
+ head(data("adae"))
 #> [1] "adae"
 ```

@@ -10,7 +10,7 @@ adagocmq
 
 ## Format
 
-A data frame with 1301 rows and 27 variables:
+A data frame with 1298 rows and 27 variables:
 
 - STUDYID:
 
@@ -131,6 +131,7 @@ data from pharmaverseadam.
 `adagocmq`
 [`adcm`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adcm.md)
 [`addili`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addili.md)
+[`addisp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addisp.md)
 [`adeg`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adeg.md)
 [`adex`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adex.md)
 [`adexsum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adexsum.md)
@@ -144,6 +145,6 @@ nolint
 ## Examples
 
 ``` r
-head(data("adagocmq"))
+ head(data("adagocmq"))
 #> [1] "adagocmq"
 ```

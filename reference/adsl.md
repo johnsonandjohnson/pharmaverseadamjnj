@@ -10,7 +10,7 @@ adsl
 
 ## Format
 
-A data frame with 306 rows and 110 variables:
+A data frame with 306 rows and 121 variables:
 
 - STUDYID:
 
@@ -244,10 +244,6 @@ A data frame with 306 rows and 110 variables:
 
   Pooled Age Group 1 (N)
 
-- SEX_DECODE:
-
-  Sex
-
 - WEIGHTBL:
 
   Weight (kg)
@@ -280,21 +276,17 @@ A data frame with 306 rows and 110 variables:
 
   BMI at Baseline Group 1
 
-- COUNTRY_DECODE:
-
-  Country
-
-- RACE_DECODE:
-
-  Race
-
 - RFICDT:
 
   Date of Informed Consent
 
-- ETHNIC_DECODE:
+- STRAT1D:
 
-  Ethnicity
+  Description of Stratification Factor 1
+
+- STRAT2D:
+
+  Description of Stratification Factor 2
 
 - STRAT1R:
 
@@ -384,6 +376,10 @@ A data frame with 306 rows and 110 variables:
 
   Last Subject Visit (SV) Date
 
+- LASTCTDT:
+
+  Last Contact Date
+
 - EOSDY:
 
   Study Day of Study Termination
@@ -412,6 +408,10 @@ A data frame with 306 rows and 110 variables:
 
   Death Within 60 Days of First Treatment
 
+- UNBLNDDT:
+
+  Date of Unblinding
+
 - UNBLNDDY:
 
   Study Day of Unblinding
@@ -432,6 +432,10 @@ A data frame with 306 rows and 110 variables:
 
   Reported Cause of Death
 
+- DDPCDTHC:
+
+  Cause of Death as Collected
+
 - LDSTODTH:
 
   Days from Last Dose to Death
@@ -448,9 +452,49 @@ A data frame with 306 rows and 110 variables:
 
   History of Diabetes
 
+- IMFL:
+
+  Immunogenicity Population Flag
+
 - DCTADY:
 
   Study Day of Treatment Discontinuation
+
+- SAFEXRS:
+
+  Reason for Excl from Safety Population
+
+- FASEXRS:
+
+  Reason for Excl from Full Analysis Set
+
+- PPREXRS:
+
+  Reason for Excl from Per-Prot Population
+
+- PKEXRES:
+
+  Reason for Excl from Pharmacokin Pop
+
+- IMEXRES:
+
+  Reason for Excl from Immunogen Pop
+
+- COHORT:
+
+  Cohort
+
+- GROUP:
+
+  Analysis Group
+
+- EOTDT:
+
+  End-of-Treatment Date
+
+- NCTXSDT:
+
+  Start Date of New Anti-Cancer Therapy
 
 ## Source
 
@@ -459,16 +503,20 @@ data from pharmaverseadam.
 ## See also
 
 [`adae`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adae.md)
+[`adaecomp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaecomp.md)
 [`adaeocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adaeocmq.md)
 [`adagocmq`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adagocmq.md)
 [`adcm`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adcm.md)
 [`addili`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addili.md)
+[`addisp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/addisp.md)
 [`adeg`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adeg.md)
 [`adex`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adex.md)
 [`adexsum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adexsum.md)
+[`adishum`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adishum.md)
 [`adlb`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adlb.md)
 [`adpc`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adpc.md)
 `adsl`
+[`adslcomp`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adslcomp.md)
 [`adttesaf`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/adttesaf.md)
 [`advs`](https://johnsonandjohnson.github.io/pharmaverseadamjnj/reference/advs.md)\#
 nolint
@@ -476,6 +524,6 @@ nolint
 ## Examples
 
 ``` r
-head(data("adsl"))
+ head(data("adsl"))
 #> [1] "adsl"
 ```
