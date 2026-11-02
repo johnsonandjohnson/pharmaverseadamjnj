@@ -5,7 +5,6 @@ title: "[Release]: <version>"
 labels: ["release"]
 assignees:
   - munoztd0
-  - gmbecker
 body:
   - type: markdown
     attributes:
