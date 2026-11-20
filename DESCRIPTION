@@ -3,9 +3,13 @@ Title: J&J Innovative Medicine ADaM Test Data
 Version: 0.0.8
 Authors@R: 
     c(
+      person(given = "Yogesh",
+            family = "Runthla",
+            role = c("aut", "cre"),
+            email = "yrunthla@gmail.com"),
       person(given = "David",
             family = "Munoz Tord",
-            role = c("aut", "cre"),
+            role = "aut",
             email = "david.munoztord@mailbox.org"),
       person(given = "Nicholas",
            family = "Masel",

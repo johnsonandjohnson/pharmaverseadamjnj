@@ -4,4 +4,7 @@ R CMD check results
 
 ### Comments
 
+This submission changes the package maintainer from David Munoz Tord
+(david.munoztord@mailbox.org) to Yogesh Runthla (yrunthla@gmail.com).
+
 Sorry for the close submission but we decided to change the release scope last minute
