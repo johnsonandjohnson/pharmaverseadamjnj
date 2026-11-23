@@ -9,7 +9,7 @@ Authors@R:
             email = "yrunthla@gmail.com"),
       person(given = "David",
             family = "Munoz Tord",
-            role = "aut",
+            role = "aut", comment = "Original creator of the package",
             email = "david.munoztord@mailbox.org"),
       person(given = "Nicholas",
            family = "Masel",
