@@ -9,11 +9,12 @@
 A set of Analysis Data Model (ADaM) datasets constructed by modifying the ADaM datasets in the 'pharmaverseadam' package to meet J&J Innovative Medicine's standard data structure for Clinical and Statistical Programming.
 }
 \author{
-\strong{Maintainer}: David Munoz Tord \email{david.munoztord@mailbox.org}
+\strong{Maintainer}: Yogesh Runthla \email{yrunthla@gmail.com}
 
 Authors:
 \itemize{
-  \item David Munoz Tord \email{david.munoztord@mailbox.org}
+  \item Yogesh Runthla \email{yrunthla@gmail.com}
+  \item David Munoz Tord \email{david.munoztord@mailbox.org} (Original creator of the package)
   \item Nicholas Masel \email{nmasel@its.jnj.com}
   \item Joe Kovach \email{jkovach2@its.jnj.com}
 }
@@ -21,6 +22,7 @@ Authors:
 Other contributors:
 \itemize{
   \item Mahesh Divakaran \email{mdivaka2@its.jnj.com} [contributor]
+  \item Selvaraj Shanmugam \email{sshanm46@its.jnj.com} [contributor]
   \item Renfei Mao \email{rmao6@its.jnj.com} [contributor]
   \item J&J Innovative Medicine [copyright holder, funder]
 }
