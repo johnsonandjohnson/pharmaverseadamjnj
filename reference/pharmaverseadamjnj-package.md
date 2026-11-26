@@ -7,11 +7,14 @@ Statistical Programming.
 
 ## Author
 
-**Maintainer**: David Munoz Tord <david.munoztord@mailbox.org>
+**Maintainer**: Yogesh Runthla <yrunthla@gmail.com>
 
 Authors:
 
-- David Munoz Tord <david.munoztord@mailbox.org>
+- Yogesh Runthla <yrunthla@gmail.com>
+
+- David Munoz Tord <david.munoztord@mailbox.org> (Original creator of
+  the package)
 
 - Nicholas Masel <nmasel@its.jnj.com>
 
@@ -20,6 +23,8 @@ Authors:
 Other contributors:
 
 - Mahesh Divakaran <mdivaka2@its.jnj.com> \[contributor\]
+
+- Selvaraj Shanmugam <sshanm46@its.jnj.com> \[contributor\]
 
 - Renfei Mao <rmao6@its.jnj.com> \[contributor\]
 

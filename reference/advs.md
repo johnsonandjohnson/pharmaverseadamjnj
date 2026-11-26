@@ -399,6 +399,6 @@ data from pharmaverseadam.
 ## Examples
 
 ``` r
- head(data("advs"))
+head(data("advs"))
 #> [1] "advs"
 ```

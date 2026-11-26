@@ -324,6 +324,6 @@ nolint
 ## Examples
 
 ``` r
- head(data("adeg"))
+head(data("adeg"))
 #> [1] "adeg"
 ```

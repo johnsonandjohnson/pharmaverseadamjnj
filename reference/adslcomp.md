@@ -524,6 +524,6 @@ nolint
 ## Examples
 
 ``` r
- head(data("adslcomp"))
+head(data("adslcomp"))
 #> [1] "adslcomp"
 ```

@@ -468,6 +468,6 @@ nolint
 ## Examples
 
 ``` r
- head(data("adae"))
+head(data("adae"))
 #> [1] "adae"
 ```

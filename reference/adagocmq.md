@@ -145,6 +145,6 @@ nolint
 ## Examples
 
 ``` r
- head(data("adagocmq"))
+head(data("adagocmq"))
 #> [1] "adagocmq"
 ```

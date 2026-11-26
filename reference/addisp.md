@@ -208,6 +208,6 @@ nolint
 ## Examples
 
 ``` r
- head(data("addisp"))
+head(data("addisp"))
 #> [1] "addisp"
 ```

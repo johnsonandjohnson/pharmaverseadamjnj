@@ -700,6 +700,6 @@ nolint
 ## Examples
 
 ``` r
- head(data("adex"))
+head(data("adex"))
 #> [1] "adex"
 ```

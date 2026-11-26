@@ -76,6 +76,6 @@ nolint
 ## Examples
 
 ``` r
- head(data("adttesaf"))
+head(data("adttesaf"))
 #> [1] "adttesaf"
 ```

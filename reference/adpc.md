@@ -564,6 +564,6 @@ nolint
 ## Examples
 
 ``` r
- head(data("adpc"))
+head(data("adpc"))
 #> [1] "adpc"
 ```

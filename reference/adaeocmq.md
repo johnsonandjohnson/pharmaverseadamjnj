@@ -490,6 +490,6 @@ nolint
 ## Examples
 
 ``` r
- head(data("adaeocmq"))
+head(data("adaeocmq"))
 #> [1] "adaeocmq"
 ```

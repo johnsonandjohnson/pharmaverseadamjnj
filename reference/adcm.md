@@ -300,6 +300,6 @@ nolint
 ## Examples
 
 ``` r
- head(data("adcm"))
+head(data("adcm"))
 #> [1] "adcm"
 ```

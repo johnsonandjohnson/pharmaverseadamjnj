@@ -148,6 +148,6 @@ nolint
 ## Examples
 
 ``` r
- head(data("adexsum"))
+head(data("adexsum"))
 #> [1] "adexsum"
 ```
